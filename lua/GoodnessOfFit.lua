@@ -1,6 +1,6 @@
 
 
-pixelBypixel = function(cs1, cs2, attribute1, attribute2)
+pixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	-- cs1 tem attribute1 cs1.cells[1][attribute1] ~= nil
 	-- attributes string
 	-- cs2 tem attribute2
