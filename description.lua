@@ -1,0 +1,5 @@
+version = "0.0"
+package = "calibration"
+authors = "Antonio G. Oliveira Jr., Pedro R. Andrade, Raian V. Maretto"
+contact = "pedro.andrade@inpe.br"
+content = "Implements metrics and a calibration based on genetic altorithms."
