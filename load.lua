@@ -1,4 +1,4 @@
-load = {
+files = {
 	"Calibration.lua",
 	"GoodnessOfFit.lua"
 }
