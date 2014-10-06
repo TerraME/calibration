@@ -15,14 +15,39 @@ return{
 		unitTest:assert_error(error_func, "#4 is not a valid cell attribute of #2.")
 		-- TODO: completar com outros testes
 	end,
+	pixelBypixelString = function(unitTest)
+		
+		local error_func = function()
+			pixelByPixelString()
+		end
+
+		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
+		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#1' expected CellularSpace, got nil.")
+		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#2' expected CellularSpace, got nil.")
+		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#3' expected String, got nil.")
+		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#4' expected String, got nil.")
+		unitTest:assert_error(error_func, "#3 is not a valid cell attribute of #1.")
+		unitTest:assert_error(error_func, "#4 is not a valid cell attribute of #2.")
+		-- TODO: completar com outros testes
+	end,
 	multiLevel = function(unitTest)
+		
+		local error_func = function()
+			multiLevel()
+		end
+		
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#1' expected CellularSpace, got nil.")
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#2' expected CellularSpace, got nil.")
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#3' expected String, got nil.")
 		-- TODO: completar com outros testes
 
-	end
-	multiLevelDemand = function(unitTest)			
+	end,
+	multiLevelDemand = function(unitTest)	
+		
+		local error_func = function()
+			multiLevelDemand()
+		end
+		
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#1' expected CellularSpace, got nil.")
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#2' expected CellularSpace, got nil.")
 		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#3' expected String, got nil.")
