@@ -7,7 +7,7 @@ return{
 
 		local result = pixelByPixel(cs, cs, "a", "b")
 
-		unitTest:assert_equal(result, 0.1)
+		unitTest:assert_equal(result, 0.1, 0.0001)
 	end,
 	pixelBypixelString = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
