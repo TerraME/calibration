@@ -14,7 +14,7 @@ return{
 
 
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory."))
+		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
 		
 		local error_func = function()
 			pixelByPixel(cs)
@@ -54,7 +54,7 @@ return{
 		end
 
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory."))
+		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
 		
 		local error_func = function()
 			pixelByPixelString(cs)
