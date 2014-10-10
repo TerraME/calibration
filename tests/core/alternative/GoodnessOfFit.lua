@@ -1,4 +1,3 @@
-
 return{
 	pixelBypixel = function(unitTest)
 
@@ -14,23 +13,23 @@ return{
 
 
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 		
 		local error_func = function()
 			pixelByPixel(cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter cs2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
 			pixelByPixel(cs, cs)
 		end
-		unitTest:assert_error(error_func, "Parameter attribute1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 
 		error_func = function()
 			pixelByPixel(cs,cs,"a")
 		end
-		unitTest:assert_error(error_func, "Parameter attribute2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#4' is mandatory.")
 
 		error_func = function()
 			pixelByPixel(cs,cs,"c","b")
@@ -54,23 +53,23 @@ return{
 		end
 
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 		
 		local error_func = function()
 			pixelByPixelString(cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter cs2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
 			pixelByPixelString(cs, cs)
 		end
-		unitTest:assert_error(error_func, "Parameter attribute1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 
 		error_func = function()
 			pixelByPixelString(cs,cs,"a")
 		end
-		unitTest:assert_error(error_func, "Parameter attribute2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#4' is mandatory.")
 
 
 		error_func = function()
@@ -94,19 +93,19 @@ return{
 			multiLevel()
 		end
 		
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 
 		error_func = function()
 			multiLevel(cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter cs2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
 			multiLevel(cs,cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter attribute is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 		-- TODO: completar com outros testes
 
 	end,
@@ -120,19 +119,19 @@ return{
 			multiLevelDemand()
 		end
 		
-		unitTest:assert_error(error_func, "Parameter cs1 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 
 		error_func = function()
 			multiLevelDemand(cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter cs2 is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
 			multiLevelDemand(cs,cs)
 		end
 
-		unitTest:assert_error(error_func, "Parameter attribute is mandatory.")
+		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 
 		error_func = function()
 			multiLevelDemand(cs,cs, 0)
