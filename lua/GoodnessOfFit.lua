@@ -1,4 +1,7 @@
 
+--Documentation for TERRAME 130 was used as reference.
+
+
 
 
 --Documentation for TERRAME 130 was used as reference.
@@ -7,6 +10,22 @@ pixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	-- cs1 tem attribute1 cs1.cells[1][attribute1] ~= nil
 	-- attributes string
 	-- cs2 tem attribute2
+
+	if type(cs1) == nil then
+		 mandatoryArgumentError("cs1")
+	end
+	
+	if type(cs2) == nil then
+		 mandatoryArgumentError("cs2")
+	end
+	
+	if type(attribute1) == nil then
+		 mandatoryArgumentError("attribute1")
+	end
+	
+	if type(attribute2) == nil then
+		 mandatoryArgumentError("attribute2")
+	end
 
 
 	if type(cs1) ~= "CellularSpace" then
@@ -29,7 +48,7 @@ pixelByPixel = function(cs1, cs2, attribute1, attribute2)
 		customError("#3 is not a valid cell attribute of #1.")
 	
 	end
-	if cs1.cells[1][attribute1] == nil then
+	if cs2.cells[1][attribute1] == nil then
 		customError("#4 is not a valid cell attribute of #2.")
 	
 	end
@@ -57,6 +76,22 @@ pixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	-- attributes string
 	-- cs2 tem attribute2
 
+	
+	if type(cs1) == nil then
+		 mandatoryArgumentError("cs1")
+	end
+	
+	if type(cs2) == nil then
+		 mandatoryArgumentError("cs2")
+	end
+	
+	if type(attribute1) == nil then
+		 mandatoryArgumentError("attribute1")
+	end
+	
+	if type(attribute2) == nil then
+		 mandatoryArgumentError("attribute2")
+	end
 
 	if type(cs1) ~= "CellularSpace" then
 		incompatibleTypeError("#1", "CellularSpace", cs1)
@@ -78,7 +113,7 @@ pixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 		customError("#3 is not a valid cell attribute of #1.")
 	
 	end
-	if cs1.cells[1][attribute1] == nil then
+	if cs2.cells[1][attribute1] == nil then
 		customError("#4 is not a valid cell attribute of #2.")
 	
 	end
@@ -97,6 +132,20 @@ pixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 end
 
 multiLevel = function(cs1, cs2, attribute)
+
+	
+	if type(cs1) == nil then
+		 mandatoryArgumentError("cs1")
+	end
+	
+	if type(cs2) == nil then
+		 mandatoryArgumentError("cs2")
+	end
+	
+	if type(attribute) == nil then
+		 mandatoryArgumentError("attribute")
+	end
+
 	
 	if type(cs1) ~= "CellularSpace" then
 		incompatibleTypeError("#1", "CellularSpace", cs1)
@@ -119,6 +168,19 @@ multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs1 tem attribute1
 	-- cs2 tem attribute2
 	-- demand > 0
+
+	if type(cs1) == nil then
+		 mandatoryArgumentError("cs1")
+	end
+	
+	if type(cs2) == nil then
+		 mandatoryArgumentError("cs2")
+	end
+	
+	if type(attribute) == nil then
+		 mandatoryArgumentError("attribute")
+	end
+
 	if type(cs1) ~= "CellularSpace" then
 		incompatibleTypeError("#1", "CellularSpace", cs1)
 	end
