@@ -1,5 +1,6 @@
 .DS_Store
 *.swp
+*.*~
 .gitignore.swp
 bin/
 __/
@@ -11,17 +12,3 @@ CMakeScripts/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
-protocol.pb.cc
-protocol.pb.h
-qrc_observerResource.cxx
-TerraME.build/
-TerraME.xcodeproj
-ui_imageGUI.h
-ui_legendGUI.h
-ui_modelConsoleGUI.h
-ui_playerGUI.h
-ui_plogPropertiesGUI.h
-ui_receiverGUI.h
-ui_senderGUI.h
-ui_spatialObserverGUI.h
-ui_plotPropertiesGUI.h
