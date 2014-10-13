@@ -1,5 +1,5 @@
 return{
-	pixelBypixel = function(unitTest)
+	pixelByPixel = function(unitTest)
 
 		local cell = Cell{a = 0.8, b = 0.7}
 
