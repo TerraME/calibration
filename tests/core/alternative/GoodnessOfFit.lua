@@ -34,12 +34,12 @@ return{
 		error_func = function()
 			pixelByPixel(cs,cs,"c","b")
 		end
-		unitTest:assert_error(error_func, "#3 is not a valid cell attribute of #1.")
+		unitTest:assert_error(error_func, "Error: #3 is not a valid cell attribute of #1.")
 
 		local error_func = function()
 			pixelByPixel(cs,cs,"a","c")
 		end
-		unitTest:assert_error(error_func, "#4 is not a valid cell attribute of #2.")
+		unitTest:assert_error(error_func, "Error: #4 is not a valid cell attribute of #2.")
 		-- TODO: completar com outros testes
 	end,
 	pixelByPixelString = function(unitTest)
@@ -75,12 +75,12 @@ return{
 		error_func = function()
 			pixelByPixelString(cs,cs,"c","b")
 		end
-		unitTest:assert_error(error_func, "#3 is not a valid cell attribute of #1.")
+		unitTest:assert_error(error_func, "Error: #3 is not a valid cell attribute of #1.")
 
 		local error_func = function()
 			pixelByPixelString(cs,cs,"a","c")
 		end
-		unitTest:assert_error(error_func, "#4 is not a valid cell attribute of #2.")
+		unitTest:assert_error(error_func, "Error: #4 is not a valid cell attribute of #2.")
 		-- TODO: completar com outros testes
 	end,
 	multiLevel = function(unitTest)
@@ -136,8 +136,22 @@ return{
 		error_func = function()
 			multiLevelDemand(cs,cs, 0)
 		end
+		
+		unitTest:assert_error(error_func, "Error: Incompatible types. Parameter '#3' expected string, got nil.")
 
-		unitTest:assert_error(error_func, "Demand should be bigger than 0.")
+
+		error_func = function()
+			multiLevelDemand(cs,cs, "a")
+		end
+	
+		unitTest:assert_error(error_func, "Error: Parameter '#4' is mandatory.")
+
+
+		error_func = function()
+			multiLevelDemand(cs,cs, "a", 0)
+		end
+
+		unitTest:assert_error(error_func, "Error: Demand should be bigger than 0.")
 
 	end
 	-- colocar o multiLevelDemand

@@ -1,6 +1,6 @@
 
 return{
-	pixelBypixel = function(unitTest)
+	pixelByPixel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
@@ -9,7 +9,7 @@ return{
 
 		unitTest:assert_equal(result, 0.1, 0.0001)
 	end,
-	pixelBypixelString = function(unitTest)
+	pixelByPixelString = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
