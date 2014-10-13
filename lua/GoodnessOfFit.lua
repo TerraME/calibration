@@ -33,11 +33,11 @@ pixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	end
 
 	if cs1.cells[1][attribute1] == nil then
-		customError("#3 is not a valid cell attribute of #1.")
+		customError("Error:#3 is not a valid cell attribute of #1.")
 	
 	end
 	if cs2.cells[1][attribute2] == nil then
-		customError("#4 is not a valid cell attribute of #2.")
+		customError("Error:#4 is not a valid cell attribute of #2.")
 	
 	end
 	

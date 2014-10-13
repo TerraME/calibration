@@ -42,7 +42,7 @@ return{
 		unitTest:assert_error(error_func, "#4 is not a valid cell attribute of #2.")
 		-- TODO: completar com outros testes
 	end,
-	pixelBypixelString = function(unitTest)
+	pixelByPixelString = function(unitTest)
 	
 		local cell = Cell{a = 0.8, b = 0.7}
 
