@@ -34,12 +34,12 @@ return{
 		error_func = function()
 			pixelByPixel(cs,cs,"c","b")
 		end
-		unitTest:assert_error(error_func, "Error: #3 is not a valid cell attribute of #1.")
+		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 
 		local error_func = function()
 			pixelByPixel(cs,cs,"a","c")
 		end
-		unitTest:assert_error(error_func, "Error: #4 is not a valid cell attribute of #2.")
+		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 		-- TODO: completar com outros testes
 	end,
 	pixelByPixelString = function(unitTest)
@@ -75,12 +75,12 @@ return{
 		error_func = function()
 			pixelByPixelString(cs,cs,"c","b")
 		end
-		unitTest:assert_error(error_func, "Error: #3 is not a valid cell attribute of #1.")
+		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 
 		local error_func = function()
 			pixelByPixelString(cs,cs,"a","c")
 		end
-		unitTest:assert_error(error_func, "Error: #4 is not a valid cell attribute of #2.")
+		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 		-- TODO: completar com outros testes
 	end,
 	multiLevel = function(unitTest)
