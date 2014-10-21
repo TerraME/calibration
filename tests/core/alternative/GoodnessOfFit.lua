@@ -1,5 +1,5 @@
 return{
-	pixelByPixel = function(unitTest)
+	continuousPixelByPixel = function(unitTest)
 
 		local cell = Cell{a = 0.8, b = 0.7}
 
@@ -42,7 +42,7 @@ return{
 		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 		-- TODO: completar com outros testes
 	end,
-	pixelByPixelString = function(unitTest)
+	discretePixelByPixelString = function(unitTest)
 	
 		local cell = Cell{a = 0.8, b = 0.7}
 
