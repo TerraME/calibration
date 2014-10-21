@@ -1,4 +1,5 @@
 
+
 return{
 	continuousPixelByPixel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
@@ -27,7 +28,35 @@ return{
 	end,
 
 
-	multiLevel = function(unitTest)
+	discreteCostanzaMultiLevel = function(unitTest)
 
-	end
-}
+		cs = CellularSpace{
+        	 database = "Costanza.map"
+		}
+ 
+		-- print(#cs)
+
+		cs2 = CellularSpace{
+     	    database = "Costanza2.map"
+		}
+		local result = discreteCostanzaMultiLevel = function(cs1, cs2, "unknown attribute name")
+		unitTest:assert_equal(result, 0.84) -- 0.84 is the Total Fitness in Costanza Paper Example.
+
+		end, 
+
+	continuousCostanzaMultiLeve = function(unitTest)
+
+		cs = CellularSpace{
+        	 database = "Costanza.map"
+		}
+ 
+		-- print(#cs)
+
+		cs2 = CellularSpace{
+     	    database = "Costanza2.map"
+		}
+		local result = discreteCostanzaMultiLevel = function(cs1, cs2, "unknown attribute name")
+		-- unitTest:assert_equal(result, "unknown value" )
+
+		end
+	}
