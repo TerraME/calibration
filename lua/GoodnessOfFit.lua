@@ -176,7 +176,7 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
 	fitnessSum = discretePixelByPixelString(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
-	x = cs1:getXDim()
+	x = cs1.xdim
 	y = x
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
@@ -243,7 +243,7 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
 	fitnessSum = continuousPixelByPixel(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
-	x = cs1:getXDim()
+	x= cs1.xdim
 	y = x
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
