@@ -33,12 +33,14 @@ return{
 
 		local cs = CellularSpace{
         	 database = file("Costanza.map", "calibration"),
+        	 attrname = "Costanza"
 		}
  
 		-- print(#cs)
 
 		local cs2 = CellularSpace{
      	    database = file("Costanza2.map", "calibration"),
+     	    attrname = "Costanza"
 		}
 
 		local result = discreteCostanzaMultiLevel(cs1, cs2, "Costanza")
