@@ -8,7 +8,7 @@ return{
 		
 		
 		local error_func = function()
-			pixelByPixel()
+			continuousPixelByPixel()
 		end
 
 
@@ -16,28 +16,28 @@ return{
 		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 		
 		local error_func = function()
-			pixelByPixel(cs)
+			continuousPixelByPixel(cs)
 		end
 
 		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
-			pixelByPixel(cs, cs)
+			continuousPixelByPixel(cs, cs)
 		end
 		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 
 		error_func = function()
-			pixelByPixel(cs,cs,"a")
+			continuousPixelByPixel(cs,cs,"a")
 		end
 		unitTest:assert_error(error_func, "Error: Parameter '#4' is mandatory.")
 
 		error_func = function()
-			pixelByPixel(cs,cs,"c","b")
+			continuousPixelByPixel(cs,cs,"c","b")
 		end
 		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 
 		local error_func = function()
-			pixelByPixel(cs,cs,"a","c")
+			continuousPixelByPixel(cs,cs,"a","c")
 		end
 		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 		-- TODO: completar com outros testes
@@ -49,60 +49,60 @@ return{
 		local cs = CellularSpace{xdim = 10, instance = cell}
 		
 		local error_func = function()
-			pixelByPixelString()
+			discretePixelByPixelString()
 		end
 
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
 		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 		
 		local error_func = function()
-			pixelByPixelString(cs)
+			discretePixelByPixelString(cs)
 		end
 
 		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
-			pixelByPixelString(cs, cs)
+			discretePixelByPixelString(cs, cs)
 		end
 		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")
 
 		error_func = function()
-			pixelByPixelString(cs,cs,"a")
+			discretePixelByPixelString(cs,cs,"a")
 		end
 		unitTest:assert_error(error_func, "Error: Parameter '#4' is mandatory.")
 
 
 		error_func = function()
-			pixelByPixelString(cs,cs,"c","b")
+			discretePixelByPixelString(cs,cs,"c","b")
 		end
 		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 
 		local error_func = function()
-			pixelByPixelString(cs,cs,"a","c")
+			discretePixelByPixelString(cs,cs,"a","c")
 		end
 		unitTest:assert_error(error_func, "Error: Attribute c was not found in the CellularSpace.")
 		-- TODO: completar com outros testes
 	end,
-	multiLevel = function(unitTest)
+	discreteCostanzaMultiLevel = function(unitTest)
 
 		local cell = Cell{a = 0.8, b = 0.7}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
 		
 		local error_func = function()
-			multiLevel()
+			discreteCostanzaMultiLevel()
 		end
 		
 		unitTest:assert_error(error_func, "Error: Parameter '#1' is mandatory.")
 
 		error_func = function()
-			multiLevel(cs)
+			discreteCostanzaMultiLevel(cs)
 		end
 
 		unitTest:assert_error(error_func, "Error: Parameter '#2' is mandatory.")
 
 		error_func = function()
-			multiLevel(cs,cs)
+			discreteCostanzaMultiLevel(cs,cs)
 		end
 
 		unitTest:assert_error(error_func, "Error: Parameter '#3' is mandatory.")

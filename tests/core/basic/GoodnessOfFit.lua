@@ -6,23 +6,24 @@ return{
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
 
-		local result = pixelByPixel(cs, cs, "a", "b")
+		local result = continuousPixelByPixel(cs, cs, "a", "b")
 
 		unitTest:assert_equal(result, 0.1, 0.0001)
 	end,
+
 	discretePixelByPixelString = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
 
-		t = Trajectory{
+		local t = Trajectory{
 			target = cs,
 			select = function(cell) return cell.x > 4 end
 		}
 
 		forEachCell(t, function(cell) cell.b = "deforested" end)
 
-		local result = pixelByPixelString(cs, cs, "a", "b")
+		local result = discretePixelByPixelString(cs, cs, "a", "b")
 
 		unitTest:assert_equal(result, 0.5)
 	end,
@@ -30,33 +31,36 @@ return{
 
 	discreteCostanzaMultiLevel = function(unitTest)
 
-		cs = CellularSpace{
-        	 database = "Costanza.map"
+		local cs = CellularSpace{
+        	 database = file("Costanza.map", "calibration"),
 		}
  
 		-- print(#cs)
 
-		cs2 = CellularSpace{
-     	    database = "Costanza2.map"
+		local cs2 = CellularSpace{
+     	    database = file("Costanza2.map", "calibration"),
 		}
-		local result = discreteCostanzaMultiLevel = function(cs1, cs2, "unknown attribute name")
+
+		local result = discreteCostanzaMultiLevel(cs1, cs2, "Costanza")
 		unitTest:assert_equal(result, 0.84) -- 0.84 is the Total Fitness in Costanza Paper Example.
 
-		end, 
+	end, 
 
-	continuousCostanzaMultiLeve = function(unitTest)
+	continuousCostanzaMultiLevel = function(unitTest)
 
-		cs = CellularSpace{
-        	 database = "Costanza.map"
+		local cs = CellularSpace{
+        	 database = file("Costanza.map", "calibration"),
+        	 attrname = "Costanza"
 		}
  
 		-- print(#cs)
 
-		cs2 = CellularSpace{
-     	    database = "Costanza2.map"
+		local cs2 = CellularSpace{
+     	    database = file("Costanza2.map", "calibration"),
+     	    attrname = "Costanza"
 		}
-		local result = discreteCostanzaMultiLevel = function(cs1, cs2, "unknown attribute name")
+		local result = continuousCostanzaMultiLevel(cs, cs2, "Costanza")
 		-- unitTest:assert_equal(result, "unknown value" )
 
-		end
+	end
 	}
