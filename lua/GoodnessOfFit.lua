@@ -89,8 +89,8 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	local equal = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
     		if cell1[attribute1] == cell2[attribute2] then
-			equal = equal + 1		
-		end
+				equal = equal + 1		
+			end
 		counter = counter + 1
 	end)
 	
@@ -104,15 +104,15 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 
-	for i=1, ((x-dim)+1) do -- for each line
-		for j=1, ((y-dim)+1) do -- for each column
+	for i = 1, ((x - dim) + 1) do -- for each line
+		for j=1, ((y - dim) + 1) do -- for each column
 			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
+				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
 			}
 			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
+				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
 			}
 			local ones1 = 0 
 			local ones2 = 0
@@ -183,7 +183,7 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
-	fitnessSum = discretePixelByPixelString(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
+	fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
 	local x = cs1.xdim
 	local y = x
 
@@ -208,20 +208,20 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 		for j=1, ((y-dim)+1) do -- for each column
 			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
+				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
 			}
 			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
+				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
 			}
 			local counter1 = 0
 			local counter2 = 0
 
-			forEachCell(t1,function(cell1) 
+			forEachCell(t1, function(cell1) 
 				counter1 = counter1 + cell1[attribute]
 			end)
 
-			forEachCell(t2,function(cell2) 
+			forEachCell(t2, function(cell2) 
 				counter2 = counter2 + cell2[attribute]
 			end)
 			
@@ -258,7 +258,7 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
-	fitnessSum = continuousPixelByPixel(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
+	fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
 	local x= cs1.xdim
 	local y = x
 	
