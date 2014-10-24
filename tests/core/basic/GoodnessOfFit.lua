@@ -10,7 +10,6 @@ return{
 
 		unitTest:assert_equal(result, 0.1, 0.0001)
 	end,
-
 	discretePixelByPixelString = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
 
@@ -27,10 +26,7 @@ return{
 
 		unitTest:assert_equal(result, 0.5)
 	end,
-
-
 	discreteCostanzaMultiLevel = function(unitTest)
-
 		local cs = CellularSpace{
         		database = file("Costanza.map", "calibration"),
         		attrname = "Costanza"
@@ -45,11 +41,8 @@ return{
 
 		local result = discreteCostanzaMultiLevel(cs, cs2, "Costanza")
 		unitTest:assert_equal(result, 0.84) -- 0.84 is the Total Fitness in Costanza Paper Example.
-
 	end, 
-
 	continuousCostanzaMultiLevel = function(unitTest)
-
 		local cs = CellularSpace{
         		database = file("Costanza.map", "calibration"),
         		attrname = "Costanza"

@@ -145,12 +145,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 					end
 			end)
 
-
-			
-			
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
-				dif = math.abs(value, counter2[idx]) + dif
+				dif = math.abs(value - counter2[idx]) + dif
 			end)
 
 			squareDif = dif/(dim*dim*2)
@@ -191,6 +188,9 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
 		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)
+	print("------------------------")
+	print(discreteSquareBySquare(i, cs1, cs2, x, y, attribute))
+
 	end
 
 	local fitness = fitnessSum/(x*y)
