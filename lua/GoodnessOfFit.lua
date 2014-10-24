@@ -97,7 +97,10 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	return equal/counter
 end
 
-local discreteSquareBySquare = function(dim, cs1, cs2, x, y) -- function that returns the fitness of a particular dimxdim Costanza square.
+local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+	local squareTotalFit = 0
+	local squareDif = 0
+	local squareFit = 0
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 
@@ -116,7 +119,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y) -- function that re
 			local counter1 = {}
 			local counter2 = {}
 
-			forEachCellPair(t1, t2, function(cell1, cell2) 
+			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
@@ -127,7 +130,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y) -- function that re
 					if counter2[value1] == nil then
 						counter2[value1] = 0
 					end
+			end)
 
+			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
 		    		if counter2[value2] == nil then
 							counter2[value2] = 1
@@ -139,6 +144,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y) -- function that re
 						counter1[value2] = 0
 					end
 			end)
+
+
+			
 			
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
@@ -182,14 +190,17 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local fitnessSum = 0
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y)
+		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)
 	end
 
 	local fitness = fitnessSum/(x*y)
 	return fitness
 end
 
-local continuousSquareBySquare = function(dim, cs1, cs2, x, y) -- function that returns the fitness of a particular dimxdim Costanza square.
+local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+	local squareTotalFit = 0
+	local squareDif = 0
+	local squareFit = 0
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 
@@ -206,8 +217,11 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y) -- function that 
 			local counter1 = 0
 			local counter2 = 0
 
-			forEachCellPair(t1, t2, function(cell1, cell2) 
+			forEachCell(t1,function(cell1) 
 				counter1 = counter1 + cell1[attribute]
+			end)
+
+			forEachCell(t2,function(cell2) 
 				counter2 = counter2 + cell2[attribute]
 			end)
 			
@@ -249,7 +263,7 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local y = x
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y)
+		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute)
 	end
 
 	local fitness = fitnessSum/(x*y)
