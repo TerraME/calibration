@@ -103,16 +103,16 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	local squareFit = 0
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
-
+	-- TODO use minCol and minRow
 	for i = 1, ((x - dim) + 1) do -- for each line
 		for j=1, ((y - dim) + 1) do -- for each column
 			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
+				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
 			}
 			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
+				select = function(cell) return (cell.x < ((dim * i) ) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
 			}
 			local ones1 = 0 
 			local ones2 = 0
@@ -149,6 +149,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
 			end)
+			print(dif)
 
 			squareDif = dif/(dim*dim*2)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
@@ -190,7 +191,6 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)
 	print("------------------------")
 	print(discreteSquareBySquare(i, cs1, cs2, x, y, attribute))
-
 	end
 
 	local fitness = fitnessSum/(x*y)
@@ -208,11 +208,11 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 		for j=1, ((y-dim)+1) do -- for each column
 			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
+				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
 			}
 			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < ((dim * i) + i) and cell.y < ((dim * j) + j) and cell.x >= i and cell.y >= j) end
+				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
 			}
 			local counter1 = 0
 			local counter2 = 0
