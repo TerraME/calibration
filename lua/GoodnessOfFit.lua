@@ -97,17 +97,17 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	return equal/counter
 end
 
-local discreteSquareBySquare = function(dim) -- function that returns the fitness of a particular dimxdim Costanza square.
+local discreteSquareBySquare = function(dim, cs1, cs2, x, y) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 
 	for i=1, ((x-dim)+1) do -- for each line
 		for j=1, ((y-dim)+1) do -- for each column
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
 			}
-			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
+			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
 			}
@@ -176,28 +176,30 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
 	fitnessSum = discretePixelByPixelString(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
-	x = cs1.xdim
-	y = x
+	local x = cs1.xdim
+	local y = x
+
+	local fitnessSum = 0
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + discreteSquareBySquare(i)
+		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y)
 	end
 
-	fitness = fitnessSum/(x*y)
+	local fitness = fitnessSum/(x*y)
 	return fitness
 end
 
-local continuousSquareBySquare = function(dim) -- function that returns the fitness of a particular dimxdim Costanza square.
+local continuousSquareBySquare = function(dim, cs1, cs2, x, y) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 
 	for i=1, ((x-dim)+1) do -- for each line
 		for j=1, ((y-dim)+1) do -- for each column
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
 			}
-			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
+			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <((dim*i)+i) and cell.y<((dim*j)+j) and cell.x>=i and cell.y>=j) end
 			}
@@ -243,14 +245,14 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
 	fitnessSum = continuousPixelByPixel(cs1,cs2,attribute,attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
-	x= cs1.xdim
-	y = x
+	local x= cs1.xdim
+	local y = x
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + continuousSquareBySquare(i)
+		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y)
 	end
 
-	fitness = fitnessSum/(x*y)
+	local fitness = fitnessSum/(x*y)
 	return fitness
 end
 
