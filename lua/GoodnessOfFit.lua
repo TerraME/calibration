@@ -104,23 +104,32 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	local squareTotalFit = 0
 	-- TODO: i = cs1.xmin ate xmax
 	-- TODO use minCol and minRow
-	for i = 1, ((x - dim) + 1) do -- for each line
-		for j=1, ((y - dim) + 1) do -- for each column
-			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
-				target = cs1,
-				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
-			}
-			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
-				target = cs2,
-				select = function(cell) return (cell.x < ((dim * i) ) and cell.y < ((dim * j)) and cell.x >= (i-1) and cell.y >= (j-1)) end
-			}
+	local t1, t2
+	for j = 1, ((x - dim) + 1) do -- for each line
+		for i=1, ((y - dim) + 1) do -- for each column
+			if j == 1 and i == 1 then
+				t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+					target = cs1,
+					select = function(cell) return ((cell.x < ((dim)+(i-1))) and (cell.y < ((dim)+(i-1))) and cell.x >= (i-1) and cell.y >= (j-1)) end
+				}
+				t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+					target = cs2,
+					select = function(cell) return ((cell.x < ((dim)+(i-1))) and (cell.y < ((dim)+(i-1))) and cell.x >= (i-1) and cell.y >= (j-1)) end
+				}
+				t1:rebuild()
+				t2:rebuild()
+			end
 			local ones1 = 0 
 			local ones2 = 0
 			local counter1 = {}
 			local counter2 = {}
 
+			print("size: "..#t1)
+			print("dim: "..dim)
+
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
+					print("x: "..cell1.x.." - y:"..cell1.y)
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
 					else
@@ -134,6 +143,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
+					print("x2: "..cell2.x.." - y2:"..cell2.y)
 		    		if counter2[value2] == nil then
 							counter2[value2] = 1
 					else
@@ -152,6 +162,8 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			print(dif)
 
 			squareDif = dif/(dim*dim*2)
+
+			print(squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
@@ -179,16 +191,17 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	elseif type(attribute) ~= "string" then
 		incompatibleTypeError("#3", "string", attribute1)
 	end
+	k = 0.1 -- value that determinate weigth for each square calibration
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
-	fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
+	fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
 	local x = cs1.xdim
 	local y = x
 
 	local fitnessSum = 0
 	
 	for i=2,x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)
+	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)/math.exp(-k*(i-1)) -- fitness for each square is being weighted by dividing the fitness for e⁽-k*(w-1)) with w being the current square size
 	print("------------------------")
 	print(discreteSquareBySquare(i, cs1, cs2, x, y, attribute))
 	end
