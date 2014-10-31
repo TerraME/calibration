@@ -199,8 +199,9 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	-- print("------------------------")
 	-- print("DiscreteSquarebySquare: "..discreteSquareBySquare(i, cs1, cs2, x, y, attribute))
 	end
-
+	
 	local fitness = fitnessSum/(x*y)
+	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
 
