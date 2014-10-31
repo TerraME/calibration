@@ -105,20 +105,16 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	-- TODO: i = cs1.xmin ate xmax
 	-- TODO use minCol and minRow
 	local t1, t2
-	for j = 1, ((x - dim) + 1) do -- for each line
-		for i=1, ((y - dim) + 1) do -- for each column
-			if j == 1 and i == 1 then
-				t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
-					target = cs1,
-					select = function(cell) return ((cell.x < ((dim)+(i-1))) and (cell.y < ((dim)+(i-1))) and cell.x >= (i-1) and cell.y >= (j-1)) end
-				}
-				t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
-					target = cs2,
-					select = function(cell) return ((cell.x < ((dim)+(i-1))) and (cell.y < ((dim)+(i-1))) and cell.x >= (i-1) and cell.y >= (j-1)) end
-				}
-				t1:rebuild()
-				t2:rebuild()
-			end
+	for j = 1, ((y - dim) + 1) do -- for each line
+		for i = 1, ((x - dim) + 1) do -- for each column
+			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+				target = cs1,
+				select = function(cell) return (cell.x < dim + i - 1) and (cell.y < dim + j - 1) and (cell.x >= i - 1) and (cell.y >=  j - 1) end
+			}
+			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+				target = cs2,
+				select = function(cell) return ((cell.x < ((dim)+(i-1))) and (cell.y < ((dim)+(j-1))) and cell.x >= (i-1) and cell.y >= (j-1)) end
+			}
 			local ones1 = 0 
 			local ones2 = 0
 			local counter1 = {}
