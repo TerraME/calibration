@@ -298,11 +298,11 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	return fitness
 end
 
---- Function which purpose is still unknown.
+--- Function under development.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute An attribute present in both cellular space, which values should be compared
--- @param demand parameter which purpose is still unknown
+-- @param demand parameter under development.
 -- @usage multiLevelDemand(cs1, cs2, "attribute", 5)
 multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs1 tem attribute1
