@@ -97,35 +97,32 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	return equal/counter
 end
 
+
 local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
 	local squareTotalFit = 0
+	local forCounter = 0
 	-- TODO: i = cs1.xmin ate xmax
 	-- TODO use minCol and minRow
 	local t1, t2
-	for j = 1, ((y - dim) + 1) do -- for each line
-		for i = 1, ((x - dim) + 1) do -- for each column
+	for i = 0, ((y - dim) + 1) do -- for each line
+		for j = 0, ((x - dim) + 1) do -- for each column
+			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + i - 1) and (cell.y < dim + j - 1) and (cell.x >= i - 1) and (cell.y >=  j - 1) end
+				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
 			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + i - 1) and (cell.y < dim + j - 1) and (cell.x >= i - 1) and (cell.y >=  j - 1) end
+				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
-			local ones1 = 0 
-			local ones2 = 0
 			local counter1 = {}
 			local counter2 = {}
-
-			-- print("size: "..#t1)
-			-- print("dim: "..dim)
-
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
-
+					-- print(cell1.x..","..cell1.y)
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
 					else
@@ -150,21 +147,23 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 						counter1[value2] = 0
 					end
 			end)
-
+			-- print ("separator")
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
+				-- print("dif: "..dif)
 			end)
 			-- print("Dif: "..dif)
 
 			squareDif = dif/(dim*dim*2)
+			--print("SquareDif: "..squareDif.."size: "..dim)
 
 			-- print("SquareDif"..squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
 	end
-	return squareTotalFit/(((x-dim)+1)+((y-dim)+1)) -- returns the fitness of all the squares divided by the number of squares.
+	return squareTotalFit/forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
 discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
@@ -193,13 +192,12 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
 	local x = cs1.xdim
 	local y = x
+	--print (x)
 	
-	for i=2,x do -- increase the square size and calculate fitness for each square.
+	for i=2,(x+1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)/math.exp(-k*(i-1)) -- fitness for each square is being weighted by dividing the fitness for e⁽-k*(w-1)) with w being the current square size
-	-- print("------------------------")
-	-- print("DiscreteSquarebySquare: "..discreteSquareBySquare(i, cs1, cs2, x, y, attribute))
 	end
-	
+
 	local fitness = fitnessSum/(x*y)
 	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
