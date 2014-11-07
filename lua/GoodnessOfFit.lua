@@ -195,7 +195,8 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	--print (x)
 	
 	for i=2,(x+1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) -- fitness for each square is being weighted by dividing the fitness for e⁽-k*(w-1)) with w being the current square size
+	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) 
+	-- fitnessSum = fitnessSum/math.exp(-k*(1 - i))
 	end
 
 	local fitness = fitnessSum/((x+1)*(y+1))
