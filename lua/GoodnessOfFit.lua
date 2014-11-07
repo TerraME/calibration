@@ -189,15 +189,16 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 
 	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
+	local exp = 1
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
 	local x = cs1.xdim
 	local y = x
 	for i=2,(x+1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) 
-	-- fitnessSum = fitnessSum/math.exp(-k*(1 - i))
+	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp(-k*(i - 1 ))
+	exp = exp + math.exp(-k*(i - 1))
 	end
 
-	local fitness = fitnessSum/((x+1)*(y+1))
+	local fitness = fitnessSum/exp
 	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
