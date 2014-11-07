@@ -1,19 +1,15 @@
 return{
 	continuousPixelByPixel = function(unitTest)
-
 		local cell = Cell{a = 0.8, b = 0.7}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
 
-		
-		
 		local error_func = function()
 			continuousPixelByPixel()
 		end
 
-
 		-- TODO: para mensagens de erro, ver terrame/base/lua/Package.lua
-		unitTest:assert_error(error_func, mandatoryArgumentMsg("#1"))
+		unitTest:assert_error(error_func, mandatoryArgumentMsg(1))
 		
 		local error_func = function()
 			continuousPixelByPixel(cs)
@@ -27,7 +23,7 @@ return{
 		unitTest:assert_error(error_func, "Parameter '#3' is mandatory.")
 
 		error_func = function()
-			continuousPixelByPixel(cs,cs,"a")
+			continuousPixelByPixel(cs, cs, "a")
 		end
 		unitTest:assert_error(error_func, "Parameter '#4' is mandatory.")
 
@@ -43,7 +39,6 @@ return{
 		-- TODO: completar com outros testes
 	end,
 	discretePixelByPixelString = function(unitTest)
-	
 		local cell = Cell{a = 0.8, b = 0.7}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
@@ -138,7 +133,6 @@ return{
 		end
 		
 		unitTest:assert_error(error_func, "Incompatible types. Parameter '#3' expected string, got nil.")
-
 
 		error_func = function()
 			multiLevelDemand(cs,cs, "a")

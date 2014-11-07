@@ -1,8 +1,10 @@
 version = "0.1"
 date = "07 November 2014"
 package = "calibration"
-title = "Goodness of Fit"
-content = "A package containing functions useful for calibrating spatial models that were created using TerraME"
-url = "http://www.terrame.org"
-authors = "Antonio Oliveira Jr, Pedro Andrade, Raian Maretto"
+title = "Calibration metrics and algorithms"
+content = [[A package with functions for calibrating spatial models. 
+It contains goodness-of-fit metrics as well as an automatic calibration
+feature using genetic algorithm.]]
+url = "https://github.com/pedro-andrade-inpe/calibration"
+authors = "Antonio Oliveira Jr, Pedro R. Andrade, Raian Maretto"
 contact = "junior092006@hotmail.com, pedro.andrade@inpe.br, raian@dpi.inpe.br"
