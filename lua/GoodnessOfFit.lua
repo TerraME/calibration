@@ -195,10 +195,10 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	--print (x)
 	
 	for i=2,(x+1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute)/math.exp(-k*(i-1)) -- fitness for each square is being weighted by dividing the fitness for e⁽-k*(w-1)) with w being the current square size
+	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) -- fitness for each square is being weighted by dividing the fitness for e⁽-k*(w-1)) with w being the current square size
 	end
 
-	local fitness = fitnessSum/(x*y)
+	local fitness = fitnessSum/((x+1)*(y+1))
 	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
