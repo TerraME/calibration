@@ -1,5 +1,12 @@
 
---Documentation for TERRAME 130 was used as referssence.
+--Documentation for TERRAME 130 was used as reference.
+
+--- Compare two continuous cellular spaces pixel by pixel
+-- @param cs1 First Cellular Space.
+-- @param cs2 Second Cellular Space.
+-- @param attribute1 attribute from the first cellular space that should be compared
+-- @param attribute2 attribute from the second cellular space that should be compared
+-- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	-- cs1 tem attribute1 cs1.cells[1][attribute1] ~= nil
@@ -48,6 +55,12 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	return dif/counter
 end
 
+--- Compare two discrete cellular spaces pixel by pixel
+-- @param cs1 First Cellular Space.
+-- @param cs2 Second Cellular Space.
+-- @param attribute1 attribute from the first cellular space that should be compared
+-- @param attribute2 attribute from the second cellular space that should be compared
+-- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	-- TODO: pode ser numerico ou string
 
@@ -96,7 +109,6 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	
 	return equal/counter
 end
-
 
 local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
@@ -166,6 +178,11 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	return squareTotalFit/forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
+--- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+-- @param cs1 First Cellular Space.
+-- @param cs2 Second Cellular Space.
+-- @param attribute An attribute present in both cellular space, which values should be compared
+-- @usage discreteCostanzaMultiLevel(cs1, cs2, "attribute")
 discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	-- supposes numeric attributes (1 or different than 1)
 
@@ -242,6 +259,11 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 	return squareTotalFit/(((x-dim)+1)+((y-dim)+1)) -- returns the fitness of all the squares divided by the number of squares.
 end
 
+--- Compare two continuous cellular spaces according to the calibration method described in Costanza's paper
+-- @param cs1 First Cellular Space.
+-- @param cs2 Second Cellular Space.
+-- @param attribute An attribute present in both cellular space, which values should be compared
+-- @usage continuousCostanzaMultiLevel(cs1, cs2, "attribute")
 continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	-- supposes numeric attributes (1 or different than 1)
 
@@ -276,6 +298,12 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	return fitness
 end
 
+--- Function which purpose is still unknown.
+-- @param cs1 First Cellular Space.
+-- @param cs2 Second Cellular Space.
+-- @param attribute An attribute present in both cellular space, which values should be compared
+-- @param demand parameter which purpose is still unknown
+-- @usage multiLevelDemand(cs1, cs2, "attribute", 5)
 multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs1 tem attribute1
 	-- cs2 tem attribute2
