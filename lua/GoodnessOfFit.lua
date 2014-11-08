@@ -45,7 +45,7 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	local counter = 0
 	local dif = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
-    	dif = dif + (cell1[attribute1] - cell2[attribute2])
+    	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
 		counter = counter + 1
 	end)
 	return dif / counter
@@ -220,37 +220,49 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 	local squareDif = 0
 	local squareFit = 0
 	local squareTotalFit = 0
+	local forCounter = 0
 	-- TODO: i = cs1.xmin ate xmax
-
-	for i = 1, ((x - dim) + 1) do -- for each line
-		for j = 1, ((y - dim) + 1) do -- for each column
-			local t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+	-- TODO use minCol and minRow
+	local t1, t2
+	for i = 0, ((y - dim) + 1) do -- for each line
+		for j = 0, ((x - dim) + 1) do -- for each column
+			forCounter = forCounter + 1
+			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i - 1) and cell.y >= (j - 1)) end
+				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
-			local t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs2,  starting from the element in colum j and line x.
+			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < ((dim * i)) and cell.y < ((dim * j)) and cell.x >= (i - 1) and cell.y >= (j - 1)) end
+				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = 0
 			local counter2 = 0
 			forEachCell(t1, function(cell1) 
-				counter1 = counter1 + cell1[attribute]
+					local value1 = cell1[attribute]
+					-- print(cell1.x..","..cell1.y)
+		    		counter1 = counter1 + value1
 			end)
 
 			forEachCell(t2, function(cell2) 
-				counter2 = counter2 + cell2[attribute]
+					local value2 = cell2[attribute]
+					-- print(cell1.x..","..cell1.y)
+		    		counter2 = counter2 + value2
 			end)
-			
+			-- print ("separator")
 			local dif = 0
-			dif = math.abs(counter1, counter2)
+			dif = math.abs(counter1 - counter2)
+			-- print("dif: "..dif)
+			-- print("Dif: "..dif)
 			squareDif = dif / (dim * dim)
+			--print("SquareDif: "..squareDif.."size: "..dim)
+
+			-- print("SquareDif"..squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
 	end
 
-	return squareTotalFit / (((x - dim) + 1) + ((y - dim) + 1)) -- returns the fitness of all the squares divided by the number of squares.
+	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
 --- Compare two continuous cellular spaces according to the calibration method described in Costanza's paper.
@@ -279,15 +291,19 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 		incompatibleTypeError("#3", "string", attribute1)
 	end
 
-	-- attribute value can be 0 or 1 and celluarSpaces xdDim = yDim;
-	fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square
+	local k = 0.1 -- value that determinate weigth for each square calibration
+	local exp = 1
+	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
 	local x = cs1.xdim
 	local y = x
-	for i = 2, x do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute)
+	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
+	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
+	exp = exp + math.exp( - k * (i - 1))
 	end
 
-	local fitness = fitnessSum / (x * y)
+	-- print("Squarebysquare value: "..continuousSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..(1 - continuousPixelByPixel(cs1, cs2, attribute, attribute)))
+	local fitness = fitnessSum / exp
+	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
 

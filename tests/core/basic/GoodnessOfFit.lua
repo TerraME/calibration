@@ -55,7 +55,7 @@ return{
      	    	attrname = "Costanza"
 		}
 		local result = continuousCostanzaMultiLevel(cs, cs2, "Costanza")
-		-- unitTest:assert_equal(result, "unknown value" )
+		unitTest:assert_equal(result, 0.84 )
 
 	end
 	}
