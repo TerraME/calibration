@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <title>Reference</title>
+    <title>Calibration metrics and algorithms</title>
     <link rel="stylesheet" href="../luadoc.css" type="text/css" />
 	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
@@ -102,6 +102,11 @@
 	  <tr>
 		<td class="name" nowrap><a href="#multiLevelDemand">multiLevelDemand</a>&nbsp;
 	  <td class="summary">Function under development.</td>
+    </tr>
+
+	  <tr>
+		<td class="name" nowrap><a href="#newDiscreteCostanzaMultiLevel">newDiscreteCostanzaMultiLevel</a>&nbsp;
+	  <td class="summary">Compare two discrete cellular spaces according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both cellular spaces.</td>
     </tr>
 
 
@@ -228,7 +233,7 @@
 </h2></dt>
 <dd>
 
-<span class="description">Compare two discrete cellular spaces according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both cellular spaces. The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function. The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.</span>
+<span class="description">Compare two discrete cellular spaces according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both cellular spaces. The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, but with overlaping pixels. The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.</span>
 
 
 
@@ -368,6 +373,54 @@
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">multiLevelDemand</span>(<span class="id">cs1</span>, <span class="id">cs2</span>, <span class="string">"attribute"</span>, <span class="number">5</span>)</code></pre>
+
+
+
+</dd>
+
+    
+
+
+
+<dt><h2><a name="newDiscreteCostanzaMultiLevel">
+</a><strong>newDiscreteCostanzaMultiLevel</strong>&nbsp;
+</h2></dt>
+<dd>
+
+<span class="description">Compare two discrete cellular spaces according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both cellular spaces. The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping pixels. The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.</span>
+
+
+
+
+<!-- Function parameters -->
+  <h3>Parameters</h3>
+<ul><span class="param">
+
+    <li>
+	  <strong>1st</strong>: First Cellular Space.
+    </li> 
+    
+  
+    <li>
+	  <strong>2nd</strong>: Second Cellular Space.
+    </li> 
+    
+  
+    <li>
+	  <strong>3rd</strong>: An attribute present in both cellular space, which values should be compared
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">newDiscreteCostanzaMultiLevel</span>(<span class="id">cs1</span>, <span class="id">cs2</span>, <span class="string">"attribute"</span>)</code></pre>
 
 
 
