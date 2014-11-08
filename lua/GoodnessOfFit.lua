@@ -4,7 +4,7 @@
 --- Compare two continuous cellular spaces pixel by pixel
 --- and returns a number with the average differences between the values in each cell of both cellular spaces.
 ---This difference is calculated by subtracting the value from a cell in the first cellular space, with the value from the same cell in the second cellular space.
----The final result is the sum of the positive differences divided by the number of cells in the cellular spaces.
+---The final result is the sum of the positive differences divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -54,10 +54,10 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	return dif / counter
 end
 
---- Compare two continuous cellular spaces pixel by pixel
---- and returns a number with the average differences between the values in each cell of both cellular spaces.
----This difference is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
----The final result is the sum of the differences divided by the number of cells in the cellular spaces.
+--- Compare two discrete cellular spaces pixel by pixel
+--- and returns a number with the average precisions between the values in each cell of both cellular spaces.
+---This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
+---The final result is the sum of the precisions divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -181,9 +181,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 end
 
 --- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
---- and returns a number with the average differences between the values of both cellular spaces.
---- The difference is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function.
---- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow).
+--- and returns a number with the average precision between the values of both cellular spaces.
+--- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function.
+--- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
@@ -276,16 +276,15 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 end
 
 --- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
---- and returns a number with the average differences between the values of both cellular spaces.
+--- and returns a number with the average precision between the values of both cellular spaces.
 --- The difference is calculated by comparing the cellular spaces using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
---- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow).
+--- The precision of each square is (1 - difference).
+--- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute An attribute present in both cellular space, which values should be compared.
 -- @usage continuousCostanzaMultiLevel(cs1, cs2, "attribute")
 continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
-	-- supposes numeric attributes (1 or different than 1)
-
 	if cs1 == nil then
 		 mandatoryArgumentError("#1")
 	elseif type(cs1) ~= "CellularSpace" then
@@ -316,7 +315,6 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	-- print("Squarebysquare value: "..continuousSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..(1 - continuousPixelByPixel(cs1, cs2, attribute, attribute)))
 	local fitness = fitnessSum / exp
-	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
 
