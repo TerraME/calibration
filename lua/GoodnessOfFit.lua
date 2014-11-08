@@ -2,10 +2,13 @@
 --@header Goodness-of-fit metrics.
 
 --- Compare two continuous cellular spaces pixel by pixel
+--- and returns a number with the average differences between the values in each cell of both cellular spaces.
+---This difference is calculated by subtracting the value from a cell in the first cellular space, with the value from the same cell in the second cellular space.
+---The final result is the sum of the positive differences divided by the number of cells in the cellular spaces.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
--- @param attribute1 attribute from the first cellular space that should be compared
--- @param attribute2 attribute from the second cellular space that should be compared
+-- @param attribute1 attribute from the first cellular space that should be compared.
+-- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	-- cs1 tem attribute1 cs1.cells[1][attribute1] ~= nil
@@ -51,11 +54,14 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	return dif / counter
 end
 
---- Compare two discrete cellular spaces pixel by pixel
+--- Compare two continuous cellular spaces pixel by pixel
+--- and returns a number with the average differences between the values in each cell of both cellular spaces.
+---This difference is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
+---The final result is the sum of the differences divided by the number of cells in the cellular spaces.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
--- @param attribute1 attribute from the first cellular space that should be compared
--- @param attribute2 attribute from the second cellular space that should be compared
+-- @param attribute1 attribute from the first cellular space that should be compared.
+-- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	-- TODO: pode ser numerico ou string
@@ -175,6 +181,10 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 end
 
 --- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+--- and returns a number with the average differences between the values of both cellular spaces.
+--- The difference is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function.
+--- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow).
+-- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute An attribute present in both cellular space, which values should be compared
@@ -265,7 +275,10 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compare two continuous cellular spaces according to the calibration method described in Costanza's paper.
+--- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+--- and returns a number with the average differences between the values of both cellular spaces.
+--- The difference is calculated by comparing the cellular spaces using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
+--- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow).
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute An attribute present in both cellular space, which values should be compared.
