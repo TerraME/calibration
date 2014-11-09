@@ -3,8 +3,8 @@
 
 --- Compare two continuous cellular spaces pixel by pixel
 --- and returns a number with the average differences between the values in each cell of both cellular spaces.
----This difference is calculated by subtracting the value from a cell in the first cellular space, with the value from the same cell in the second cellular space.
----The final result is the sum of the positive differences divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 1.
+---This difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space.
+---The final result is the sum of the positive differences divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 0.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
