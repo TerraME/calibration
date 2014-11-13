@@ -232,8 +232,8 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 	-- TODO: i = cs1.xmin ate xmax
 	-- TODO use minCol and minRow
 	local t1, t2
-	for i = 0, ((y - dim) + 1), dim do -- for each line
-		for j = 0, ((x - dim) + 1), dim do -- for each column
+	for i = 0, y, dim do -- for each line
+		for j = 0, x, dim do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
@@ -245,9 +245,11 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 			}
 			local counter1 = {}
 			local counter2 = {}
+			local eachCellCounter = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
 					-- print(cell1.x..","..cell1.y)
+					eachCellCounter = eachCellCounter + 1
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
 					else
@@ -261,7 +263,7 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
-	
+					eachCellCounter = eachCellCounter + 1
 		    		if counter2[value2] == nil then
 							counter2[value2] = 1
 					else
@@ -272,7 +274,7 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 						counter1[value2] = 0
 					end
 			end)
-			-- print ("separator")
+			-- print ("separator"..eachCellCounter.."previous:"..(dim*dim*2))
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
@@ -280,7 +282,7 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 			end)
 			-- print("Dif: "..dif)
 
-			squareDif = dif / (dim * dim * 2)
+			squareDif = dif / (eachCellCounter * 2)
 			--print("SquareDif: "..squareDif.."size: "..dim)
 
 			-- print("SquareDif"..squareDif)
