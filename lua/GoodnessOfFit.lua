@@ -117,11 +117,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	local squareFit = 0
 	local squareTotalFit = 0
 	local forCounter = 0
-	-- TODO: i = cs1.xmin ate xmax
-	-- TODO use minCol and minRow
 	local t1, t2
-	for i = 0, ((y - dim) + 1) do -- for each line
-		for j = 0, ((x - dim) + 1) do -- for each column
+	for i = cs1.minRow, ((cs1.maxRow - dim) + 1) do -- for each line
+		for j = cs1.minCol, ((cs1.maxCol - dim) + 1) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
@@ -135,6 +133,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			local counter2 = {}
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
+					-- Print used for debugging, verify if the function is selecting the squares trajectory correctly:
 					-- print(cell1.x..","..cell1.y)
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
@@ -160,14 +159,16 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 						counter1[value2] = 0
 					end
 			end)
+
+			-- Print used for debugging, used for separating each square
 			-- print ("separator")
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
 				-- print("dif: "..dif)
 			end)
-			-- print("Dif: "..dif)
 
+			-- print("Dif: "..dif)
 			squareDif = dif / (dim * dim * 2)
 			--print("SquareDif: "..squareDif.."size: "..dim)
 
@@ -182,7 +183,7 @@ end
 
 --- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
 --- and returns a number with the average precision between the values of both cellular spaces.
---- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, but with overlaping pixels.
+--- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, with overlaping squares and ignoring pixels that does not fit the ixi square.
 --- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
@@ -211,8 +212,8 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.xdim
-	local y = x
+	local x = cs1.maxCol
+	local y = cs1.maxRow
 	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
@@ -229,11 +230,9 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 	local squareFit = 0
 	local squareTotalFit = 0
 	local forCounter = 0
-	-- TODO: i = cs1.xmin ate xmax
-	-- TODO use minCol and minRow
 	local t1, t2
-	for i = 0, y, dim do -- for each line
-		for j = 0, x, dim do -- for each column
+	for i = cs1.minRow, cs1.maxRow, dim do -- for each line
+		for j = cs1.minCol, cs1.maxCol, dim do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
@@ -248,6 +247,7 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 			local eachCellCounter = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
+					-- Print used for debugging, check if the function is selecting the trajectory squares correctly.
 					-- print(cell1.x..","..cell1.y)
 					eachCellCounter = eachCellCounter + 1
 		    		if counter1[value1] == nil then
@@ -274,7 +274,8 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 						counter1[value2] = 0
 					end
 			end)
-			-- print ("separator"..eachCellCounter.."previous:"..(dim*dim*2))
+			-- Print used for debugging, used for separating each square print.
+			-- print ("separator")
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
@@ -296,7 +297,7 @@ end
 
 --- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
 --- and returns a number with the average precision between the values of both cellular spaces.
---- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping pixels.
+--- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping squares and not ignoring pixels that does not fit the ixi square.
 --- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
@@ -325,8 +326,8 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.xdim
-	local y = x
+	local x = cs1.maxCol
+	local y = cs1.maxRow
 	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
@@ -344,11 +345,9 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 	local squareFit = 0
 	local squareTotalFit = 0
 	local forCounter = 0
-	-- TODO: i = cs1.xmin ate xmax
-	-- TODO use minCol and minRow
 	local t1, t2
-	for i = 0, ((y - dim) + 1) do -- for each line
-		for j = 0, ((x - dim) + 1) do -- for each column
+	for i = cs1.minRow, ((cs1.maxRow - dim) + 1) do -- for each line
+		for j = cs1.minCol, ((cs1.maxCol - dim) + 1) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
@@ -362,6 +361,7 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 			local counter2 = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
+					-- Print used for debugging, check if the function is selecting the square trajectory correctly
 					-- print(cell1.x..","..cell1.y)
 		    		counter1 = counter1 + value1
 			end)
@@ -371,6 +371,7 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 					-- print(cell1.x..","..cell1.y)
 		    		counter2 = counter2 + value2
 			end)
+			-- Print used for debugging, used for separating each square
 			-- print ("separator")
 			local dif = 0
 			dif = math.abs(counter1 - counter2)
@@ -419,8 +420,8 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.xdim
-	local y = x
+	local x = cs1.maxCol
+	local y = cs1.maxRow
 	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
