@@ -130,7 +130,7 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	return equal / counter
 end
 
-local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local discreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -139,7 +139,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	local t1, t2
 	for i = cs1.minRow, ((cs1.maxRow - dim) + 1) do -- for each line
 		for j = cs1.minCol, ((cs1.maxCol - dim) + 1) do -- for each column
-			forCounter = forCounter + 1
+			forCounter = forCounter + 1 -- counter for the total number of squares
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
@@ -150,7 +150,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			}
 			local counter1 = {}
 			local counter2 = {}
-			forEachCell(t1, function(cell1) 
+			forEachCell(t1, function(cell1)  -- calculate the number of times each value is present in current square
 					local value1 = cell1[attribute]
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
@@ -177,7 +177,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			end)
 
 			local dif = 0
-			forEachElement(counter1, function(idx, value)
+			forEachElement(counter1, function(idx, value) -- calculate the difference in the amount of times each value appears in each square.
 				dif = math.abs(value - counter2[idx]) + dif
 			end)
 
@@ -220,19 +220,22 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.maxCol
-	local y = cs1.maxRow
-	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
+	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	if cs1.maxRow > cs1.maxCol then
+		largerSquare = cs1.maxRow
+	else
+		largerSquare = cs1.maxCol
+	end
+	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
 
-	local fitness = fitnessSum / exp
+	local fitness = fitnessSum / exp -- fitness = (fitness of all ixi squares)/ (number of ixi squares)
 	return fitness
 end
 
-local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -326,11 +329,14 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.maxCol
-	local y = cs1.maxRow
-	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
+	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	if cs1.maxRow > cs1.maxCol then
+		largerSquare = cs1.maxRow
+	else
+		largerSquare = cs1.maxCol
+	end
+	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 		exp = exp + math.exp( - k * (i - 1))
 	end
 
@@ -339,7 +345,7 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 end
 
 
-local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local continuousSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -410,11 +416,15 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
-	local x = cs1.maxCol
-	local y = cs1.maxRow
-	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
+	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local largerSquare = 0
+	if cs1.maxRow > cs1.maxCol then
+		largerSquare = cs1.maxRow
+	else
+		largerSquare = cs1.maxCol
+	end
+	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
 	
