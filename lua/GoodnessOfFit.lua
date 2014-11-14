@@ -11,10 +11,6 @@
 -- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
-	-- cs1 tem attribute1 cs1.cells[1][attribute1] ~= nil
-	-- attributes string
-	-- cs2 tem attribute2
-	-- TODO: este soh aceita valores numericos type(cs1.cells[attribute1]) e type(cs2.cells[attribute2])
 	if cs1 == nil then
 		 mandatoryArgumentError("#1")
 	elseif type(cs1) ~= "CellularSpace" then
@@ -25,6 +21,10 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 		 mandatoryArgumentError("#2")
 	elseif type(cs2) ~= "CellularSpace" then
 		incompatibleTypeError("#2", "CellularSpace", cs2)	
+	end
+
+	if #cs1 ~= #cs2 then
+		customError("Number of cells in both cellular spaces must be equal")
 	end
 	
 	if attribute1 == nil then
@@ -48,6 +48,13 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	local counter = 0
 	local dif = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
+		if type(cell1[attribute1]) ~= "number" then
+			customError("cell1["..attribute1.."] is not a number")
+		end
+		if type(cell2[attribute2]) ~= "number" then
+			customError("cell2["..attribute2.."] is not a number")
+		end
+
     	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
 		counter = counter + 1
 	end)
@@ -64,8 +71,6 @@ end
 -- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
-	-- TODO: pode ser numerico ou string
-
 	if cs1 == nil then
 		 mandatoryArgumentError("#1")
 	elseif type(cs1) ~= "CellularSpace" then
@@ -80,7 +85,7 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	
 	if attribute1 == nil then
 		 mandatoryArgumentError("#3")
-	elseif type(attribute1) ~= "string" then
+	elseif type(attribute1) ~= "string"  then
 		incompatibleTypeError("#3", "string", attribute1)
 	end
 	
@@ -98,7 +103,10 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 		customError("Attribute "..attribute2.." was not found in the CellularSpace.")
 	end
 
-	-- TODO: #cs1 == #cs2
+	if #cs1 ~= #cs2 then
+		customError("Number of cells in both cellular spaces must be equal")
+	end
+
 	local counter = 0
 	local equal = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
@@ -133,8 +141,6 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 			local counter2 = {}
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
-					-- Print used for debugging, verify if the function is selecting the squares trajectory correctly:
-					-- print(cell1.x..","..cell1.y)
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
 					else
@@ -160,19 +166,13 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 					end
 			end)
 
-			-- Print used for debugging, used for separating each square
-			-- print ("separator")
+			
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
-				-- print("dif: "..dif)
 			end)
 
-			-- print("Dif: "..dif)
 			squareDif = dif / (dim * dim * 2)
-			--print("SquareDif: "..squareDif.."size: "..dim)
-
-			-- print("SquareDif"..squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
@@ -220,7 +220,6 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 
 	local fitness = fitnessSum / exp
-	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
 
@@ -247,8 +246,6 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 			local eachCellCounter = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
-					-- Print used for debugging, check if the function is selecting the trajectory squares correctly.
-					-- print(cell1.x..","..cell1.y)
 					eachCellCounter = eachCellCounter + 1
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
@@ -274,19 +271,14 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 						counter1[value2] = 0
 					end
 			end)
-			-- Print used for debugging, used for separating each square print.
-			-- print ("separator")
+
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
-				-- print("dif: "..dif)
 			end)
-			-- print("Dif: "..dif)
 
-			squareDif = dif / (eachCellCounter * 2)
-			--print("SquareDif: "..squareDif.."size: "..dim)
+			squareDif = dif / (eachCellCounter)
 
-			-- print("SquareDif"..squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
@@ -324,17 +316,16 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
-	local exp = 1
+	local exp = 1 -- that will be used in the final fitness calibration
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square, 
 	local x = cs1.maxCol
 	local y = cs1.maxRow
 	for i = 2, (x + 1) do -- increase the square size and calculate fitness for each square.
-	fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
-	exp = exp + math.exp( - k * (i - 1))
+		fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
+		exp = exp + math.exp( - k * (i - 1))
 	end
 
 	local fitness = fitnessSum / exp
-	-- print("Squarebysquare value: "..discreteSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..discretePixelByPixelString(cs1, cs2, attribute, attribute))
 	return fitness
 end
 
@@ -361,26 +352,17 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 			local counter2 = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
-					-- Print used for debugging, check if the function is selecting the square trajectory correctly
-					-- print(cell1.x..","..cell1.y)
 		    		counter1 = counter1 + value1
 			end)
 
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
-					-- print(cell1.x..","..cell1.y)
 		    		counter2 = counter2 + value2
 			end)
-			-- Print used for debugging, used for separating each square
-			-- print ("separator")
+
 			local dif = 0
 			dif = math.abs(counter1 - counter2)
-			-- print("dif: "..dif)
-			-- print("Dif: "..dif)
 			squareDif = dif / (dim * dim)
-			--print("SquareDif: "..squareDif.."size: "..dim)
-
-			-- print("SquareDif"..squareDif)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
@@ -426,8 +408,7 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, x, y, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
-
-	-- print("Squarebysquare value: "..continuousSquareBySquare(1, cs1, cs2, x, y, attribute).." should be equal to: "..(1 - continuousPixelByPixel(cs1, cs2, attribute, attribute)))
+	
 	local fitness = fitnessSum / exp
 	return fitness
 end
