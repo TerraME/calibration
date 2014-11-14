@@ -51,6 +51,7 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 		if type(cell1[attribute1]) ~= "number" then
 			customError("cell1["..attribute1.."] is not a number")
 		end
+
 		if type(cell2[attribute2]) ~= "number" then
 			customError("cell2["..attribute2.."] is not a number")
 		end
@@ -58,6 +59,7 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
     	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
 		counter = counter + 1
 	end)
+
 	return dif / counter
 end
 
@@ -121,6 +123,7 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
     		if cell1[attribute1] == cell2[attribute2] then
 				equal = equal + 1		
 			end
+			
 		counter = counter + 1
 	end)
 	
