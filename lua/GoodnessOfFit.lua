@@ -109,7 +109,15 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 
 	local counter = 0
 	local equal = 0
-	forEachCellPair(cs1, cs2, function(cell1, cell2) 
+	forEachCellPair(cs1, cs2, function(cell1, cell2)
+			if type(cell1[attribute1]) ~= "number" and type(cell2[attribute2]) ~= "string" then
+				customError("cell1["..attribute1.."] must be a number or string")
+			end
+			
+			if type(cell2[attribute2]) ~= "number"  and type(cell2[attribute2]) ~= "string" then
+				customError("cell2["..attribute2.."] must be a number or string")
+			end 
+    		
     		if cell1[attribute1] == cell2[attribute2] then
 				equal = equal + 1		
 			end
@@ -154,7 +162,6 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
-	
 		    		if counter2[value2] == nil then
 							counter2[value2] = 1
 					else
@@ -166,7 +173,6 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 					end
 			end)
 
-			
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
