@@ -226,7 +226,7 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	else
 		largerSquare = cs1.maxCol
 	end
-	
+
 	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
@@ -472,4 +472,3 @@ multiLevelDemand = function(cs1, cs2, attribute, demand)
 		customError("Demand should be bigger than 0.")		
 	end
 end
-
