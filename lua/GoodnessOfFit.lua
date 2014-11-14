@@ -1,7 +1,7 @@
 
 --@header Goodness-of-fit metrics.
 
---- Compare two continuous cellular spaces pixel by pixel
+--- Compares two continuous cellular spaces pixel by pixel
 --- and returns a number with the average differences between the values in each cell of both cellular spaces.
 ---This difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space.
 ---The final result is the sum of the positive differences divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 0.
@@ -63,7 +63,7 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	return dif / counter
 end
 
---- Compare two discrete cellular spaces pixel by pixel
+--- Compares two discrete cellular spaces pixel by pixel
 --- and returns a number with the average precisions between the values in each cell of both cellular spaces.
 ---This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
 ---The final result is the sum of the precisions divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 1.
@@ -123,7 +123,7 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
     		if cell1[attribute1] == cell2[attribute2] then
 				equal = equal + 1		
 			end
-			
+
 		counter = counter + 1
 	end)
 	
@@ -190,7 +190,7 @@ local discreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- funct
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+--- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
 --- and returns a number with the average precision between the values of both cellular spaces.
 --- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, with overlaping squares and ignoring pixels that does not fit the ixi square.
 --- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
@@ -296,7 +296,7 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fu
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+--- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
 --- and returns a number with the average precision between the values of both cellular spaces.
 --- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping squares and not ignoring pixels that does not fit the ixi square.
 --- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
@@ -380,7 +380,7 @@ local continuousSquareBySquare = function(dim, cs1, cs2, x, y, attribute) -- fun
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compare two discrete cellular spaces according to the calibration method described in Costanza's paper
+--- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
 --- and returns a number with the average precision between the values of both cellular spaces.
 --- The difference is calculated by comparing the cellular spaces using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
 --- The precision of each square is (1 - difference).
