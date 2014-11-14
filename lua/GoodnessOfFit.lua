@@ -212,6 +212,10 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 		incompatibleTypeError("#2", "CellularSpace", cs2)	
 	end
 	
+	if #cs1 ~= #cs2 then
+		customError("Number of cells in both cellular spaces must be equal")
+	end
+
 	if attribute == nil then
 		 mandatoryArgumentError("#3")
 	elseif type(attribute) ~= "string" then
@@ -322,6 +326,10 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 		incompatibleTypeError("#2", "CellularSpace", cs2)	
 	end
 	
+	if #cs1 ~= #cs2 then
+		customError("Number of cells in both cellular spaces must be equal")
+	end
+
 	if attribute == nil then
 		 mandatoryArgumentError("#3")
 	elseif type(attribute) ~= "string" then
@@ -414,6 +422,10 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 		 mandatoryArgumentError("#3")
 	elseif type(attribute) ~= "string" then
 		incompatibleTypeError("#3", "string", attribute1)
+	end
+
+	if #cs1 ~= #cs2 then
+		customError("Number of cells in both cellular spaces must be equal")
 	end
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
