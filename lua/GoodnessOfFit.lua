@@ -1,10 +1,13 @@
 
 --@header Goodness-of-fit metrics.
 
---- Compares two continuous CelluarSpace pixel by pixel
--- and returns a number with the average differences between the values in each cell of both CelluarSpace.
--- This difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space.
--- The final result is the sum of the positive differences divided by the number of cells in the CelluarSpace. If both maps are equal, the final result will be 1.
+--- Compares two continuous CelluarSpace pixel by pixel and returns
+-- a number with the average precision between the values in each cell of both CelluarSpace.
+-- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
+-- This difference is calculated by subtracting the value of a cell in the first cellular space,
+-- with the value of the same cell in the second cellular space.
+-- The final result is the sum of the positive differences divided by the number of cells
+-- in the CelluarSpace. If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -64,9 +67,11 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 end
 
 --- Compares two discrete CelluarSpace pixel by pixel
--- and returns a number with the average precisions between the values in each cell of both CelluarSpace.
+-- and returns a number with the average precisions
+-- between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
--- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace. If both maps are equal, the final result will be 1.
+-- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace.
+-- If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -130,7 +135,8 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	return equal / counter
 end
 
-local discreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local discreteSquareBySquare = function(dim, cs1, cs2, attribute) 
+-- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -140,17 +146,24 @@ local discreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function th
 	for i = cs1.minRow, ((cs1.maxRow - dim) + 1) do -- for each line
 		for j = cs1.minCol, ((cs1.maxCol - dim) + 1) do -- for each column
 			forCounter = forCounter + 1 -- counter for the total number of squares
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t1 = Trajectory{ 
+			-- select all elements belonging to the dim x dim  square  in cs1,
+			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x < dim + j) 
+				and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
-			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t2 = Trajectory{ 
+			-- select all elements belonging to the dim x dim  square  in cs1,
+			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x < dim + j) 
+				and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = {}
 			local counter2 = {}
-			forEachCell(t1, function(cell1)  -- calculate the number of times each value is present in current square
+			forEachCell(t1, function(cell1)  
+			-- calculate the number of times each value is present in current square
 					local value1 = cell1[attribute]
 		    		if counter1[value1] == nil then
 						counter1[value1] = 1
@@ -177,23 +190,29 @@ local discreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function th
 			end)
 
 			local dif = 0
-			forEachElement(counter1, function(idx, value) -- calculate the difference in the amount of times each value appears in each square.
+			forEachElement(counter1, function(idx, value)
+			-- calculate the difference in the amount of times each value appears in each square.
 				dif = math.abs(value - counter2[idx]) + dif
 			end)
 
 			squareDif = dif / (dim * dim * 2)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
-			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
+			squareTotalFit = squareTotalFit + squareFit 
+			-- calculates the fitness of all dimxdim squares
 		end
 	end
 
-	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
+	return squareTotalFit / forCounter
+	-- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both CelluarSpace.
--- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, with overlaping squares and ignoring pixels that does not fit the ixi square.
--- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
+-- paper and returns a number with the average precision between the values of both CelluarSpace.
+-- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString
+-- function, each time considering a square ixi as a single pixel in the function, with overlaping 
+-- squares and ignoring pixels that does not fit the ixi square.
+-- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
+-- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
@@ -224,7 +243,9 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute)
+	-- fitnessSum is the Sum of all the fitness from each square ixi,
+	-- it is being initialized as the fitness of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
@@ -239,16 +260,19 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 		minSquare = cs1.minCol
 	end
 
-	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
+	for i = 2, (largerSquare - minSquare + 1) do
+	-- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
 
-	local fitness = fitnessSum / exp -- fitness = (fitness of all ixi squares)/ (number of ixi squares)
+	local fitness = fitnessSum / exp 
+	-- fitness = (fitness of all ixi squares)/ (number of ixi squares)
 	return fitness
 end
 
-local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
+ -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -258,13 +282,18 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function
 	for i = cs1.minRow, cs1.maxRow, dim do -- for each line
 		for j = cs1.minCol, cs1.maxCol, dim do -- for each column
 			forCounter = forCounter + 1
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
+			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x < dim + j)
+				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
-			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t2 = Trajectory{ 
+			-- select all elements belonging to the dim x dim  square  in cs1, 
+			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x < dim + j)
+				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = {}
 			local counter2 = {}
@@ -308,13 +337,17 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function
 		end
 	end
 
-	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
+	return squareTotalFit / forCounter 
+	-- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both CelluarSpace.
--- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping squares and not ignoring pixels that does not fit the ixi square.
--- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
+-- paper and returns a number with the average precision between the values of both CelluarSpace.
+-- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString 
+-- function, each time considering a square ixi as a single pixel in the function,
+-- without overlaping squares and not ignoring pixels that does not fit the ixi square.
+-- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow),
+-- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
@@ -345,7 +378,9 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) 
+	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
+	-- the fitness of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
@@ -360,7 +395,8 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 		minSquare = cs1.minCol
 	end
 
-	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
+	for i = 2, (largerSquare - minSquare + 1) do 
+			-- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 		exp = exp + math.exp( - k * (i - 1))
 	end
@@ -370,7 +406,8 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 end
 
 
-local continuousSquareBySquare = function(dim, cs1, cs2, attribute) -- function that returns the fitness of a particular dimxdim Costanza square.
+local continuousSquareBySquare = function(dim, cs1, cs2, attribute)
+ -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
 	local squareFit = 0
@@ -380,13 +417,19 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute) -- function 
 	for i = cs1.minRow, ((cs1.maxRow - dim) + 1) do -- for each line
 		for j = cs1.minCol, ((cs1.maxCol - dim) + 1) do -- for each column
 			forCounter = forCounter + 1
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t1 = Trajectory{ 
+			-- select all elements belonging to the dim x dim  square  in cs1,
+			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x < dim + j)
+				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
-			t2 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,  starting from the element in colum j and line x.
+			t2 = Trajectory{
+			-- select all elements belonging to the dim x dim  square  in cs1,
+			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + j) and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x < dim + j)
+				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = 0
 			local counter2 = 0
@@ -404,18 +447,22 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute) -- function 
 			dif = math.abs(counter1 - counter2)
 			squareDif = dif / (dim * dim)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
-			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
+			squareTotalFit = squareTotalFit + squareFit 
+			-- calculates the fitness of all dimxdim squares
 		end
 	end
 
-	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
+	return squareTotalFit / forCounter
+	-- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both CelluarSpace.
--- The difference is calculated by comparing the CelluarSpace using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
+-- paper and returns a number with the average precision between the values of both CelluarSpace.
+-- The difference is calculated by comparing the CelluarSpace using the continuousPixelByPixelString
+-- function, each time considering a square ixi as a single pixel in the function.
 -- The precision of each square is (1 - difference).
--- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
+-- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), 
+-- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute An attribute present in both cellular space, which values should be compared.
@@ -445,7 +492,9 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) 
+	-- fitnessSum is the Sum of all the fitness from each square ixi ,
+	-- it is being initialized as the fitnisess of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
@@ -460,7 +509,8 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 		minSquare = cs1.minCol
 	end
 
-	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
+	for i = 2, (largerSquare - minSquare + 1) do 
+	-- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
