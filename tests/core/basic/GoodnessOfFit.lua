@@ -8,7 +8,7 @@ return{
 
 		local result = continuousPixelByPixel(cs, cs, "a", "b")
 
-		unitTest:assert_equal(result, 0.1, 0.0001)
+		unitTest:assert_equal(result, 0.9, 0.0001)
 	end,
 	discretePixelByPixelString = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
