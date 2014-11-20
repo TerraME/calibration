@@ -1,10 +1,10 @@
 
 --@header Goodness-of-fit metrics.
 
---- Compares two continuous cellular spaces pixel by pixel
--- and returns a number with the average differences between the values in each cell of both cellular spaces.
+--- Compares two continuous CelluarSpace pixel by pixel
+-- and returns a number with the average differences between the values in each cell of both CelluarSpace.
 -- This difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space.
--- The final result is the sum of the positive differences divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 0.
+-- The final result is the sum of the positive differences divided by the number of cells in the CelluarSpace. If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -24,7 +24,7 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	end
 
 	if #cs1 ~= #cs2 then
-		customError("Number of cells in both cellular spaces must be equal")
+		customError("Number of cells in both CelluarSpace must be equal")
 	end
 	
 	if attribute1 == nil then
@@ -60,13 +60,13 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 		counter = counter + 1
 	end)
 
-	return dif / counter
+	return (1 - dif / counter)
 end
 
---- Compares two discrete cellular spaces pixel by pixel
--- and returns a number with the average precisions between the values in each cell of both cellular spaces.
+--- Compares two discrete CelluarSpace pixel by pixel
+-- and returns a number with the average precisions between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
--- The final result is the sum of the precisions divided by the number of cells in the cellular spaces. If both maps are equal, the final result will be 1.
+-- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace. If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs2 Second Cellular Space.
 -- @param attribute1 attribute from the first cellular space that should be compared.
@@ -106,7 +106,7 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	end
 
 	if #cs1 ~= #cs2 then
-		customError("Number of cells in both cellular spaces must be equal")
+		customError("Number of cells in both CelluarSpace must be equal")
 	end
 
 	local counter = 0
@@ -190,9 +190,9 @@ local discreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function th
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both cellular spaces.
--- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, with overlaping squares and ignoring pixels that does not fit the ixi square.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
+-- and returns a number with the average precision between the values of both CelluarSpace.
+-- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, with overlaping squares and ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
@@ -213,7 +213,7 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 	
 	if #cs1 ~= #cs2 then
-		customError("Number of cells in both cellular spaces must be equal")
+		customError("Number of cells in both CelluarSpace must be equal")
 	end
 
 	if attribute == nil then
@@ -311,9 +311,9 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both cellular spaces.
--- The precision is calculated by comparing the cellular spaces using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping squares and not ignoring pixels that does not fit the ixi square.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
+-- and returns a number with the average precision between the values of both CelluarSpace.
+-- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString function, each time considering a square ixi as a single pixel in the function, without overlaping squares and not ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
 -- @param cs1 First Cellular Space.
@@ -334,7 +334,7 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 	
 	if #cs1 ~= #cs2 then
-		customError("Number of cells in both cellular spaces must be equal")
+		customError("Number of cells in both CelluarSpace must be equal")
 	end
 
 	if attribute == nil then
@@ -411,9 +411,9 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute) -- function 
 	return squareTotalFit / forCounter -- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete cellular spaces according to the calibration method described in Costanza's paper
--- and returns a number with the average precision between the values of both cellular spaces.
--- The difference is calculated by comparing the cellular spaces using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
+--- Compares two discrete CelluarSpace according to the calibration method described in Costanza's paper
+-- and returns a number with the average precision between the values of both CelluarSpace.
+-- The difference is calculated by comparing the CelluarSpace using the continuousPixelByPixelString function, each time considering a square ixi as a single pixel in the function.
 -- The precision of each square is (1 - difference).
 -- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @param cs1 First Cellular Space.
@@ -440,12 +440,12 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	end
 
 	if #cs1 ~= #cs2 then
-		customError("Number of cells in both cellular spaces must be equal")
+		customError("Number of cells in both CelluarSpace must be equal")
 	end
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
