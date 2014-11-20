@@ -35,3 +35,27 @@ result = c:execute()
 
 print(result)
 
+
+--[[ 
+local min = 0
+local best_x = 0
+for i = -100, 100 do
+	m = MyModel{x = i}
+
+	m:execute(1)
+
+	if i == -100 then
+		min = m.value
+		best_x = -100 
+	else
+		if m.value< min then
+			min = m.value
+			best_x = i
+		end
+	end
+end
+
+print ("Min: "..min.." Best X: "..best_x)
+--Min = 3 and best_x = 1
+
+]]--
