@@ -14,50 +14,26 @@
 -- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError(1, "CellularSpace", cs1)
-	end
+	mandatoryArgument(1, "CellularSpace", cs1)
 	
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 
-	if #cs1 ~= #cs2 then
-		customError("Number of cells in both CelluarSpace must be equal")
-	end
+	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 	
-	if attribute1 == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute1) ~= "string" then
-		incompatibleTypeError("#3", "String", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute1)
 	
-	if attribute2 == nil then
-		 mandatoryArgumentError("#4")
-	elseif type(attribute2) ~= "string" then
-		incompatibleTypeError("#4", "String", attribute2)
-	end
+	mandatoryArgument(4, "string", attribute2)
 
 	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
 
-	if cs2.cells[1][attribute2] == nil then
-		customError("Attribute "..attribute2.." was not found in the CellularSpace.")
-	end
+	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
 	
 	local counter = 0
 	local dif = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
-		if type(cell1[attribute1]) ~= "number" then
-			customError("cell1["..attribute1.."] is not a number")
-		end
+		verify(type(cell1[attribute1]) == "number", "cell1["..attribute1.."] is not a number")
 
-		if type(cell2[attribute2]) ~= "number" then
-			customError("cell2["..attribute2.."] is not a number")
-		end
+		verify(type(cell2[attribute2]) == "number", "cell2["..attribute2.."] is not a number")
 
     	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
 		counter = counter + 1
@@ -78,52 +54,25 @@ end
 -- @param attribute2 attribute from the second cellular space that should be compared.
 -- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError("#1", "CellularSpace", cs1)
-	end
+	mandatoryArgument(1, "CellularSpace", cs1)
 	
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 	
-	if attribute1 == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute1) ~= "string"  then
-		incompatibleTypeError("#3", "string", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute1)
 	
-	if attribute2 == nil then
-		 mandatoryArgumentError("#4")
-	elseif type(attribute2) ~= "string" then
-		incompatibleTypeError("#4", "string", attribute2)
-	end
+	mandatoryArgument(4, "string", attribute2)
 
-	if cs1.cells[1][attribute1] == nil then
-		customError("Attribute "..attribute1.." was not found in the CellularSpace.")
-	end
+	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
 
-	if cs2.cells[1][attribute2] == nil then
-		customError("Attribute "..attribute2.." was not found in the CellularSpace.")
-	end
+	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
 
-	if #cs1 ~= #cs2 then
-		customError("Number of cells in both CelluarSpace must be equal")
-	end
+	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 
 	local counter = 0
 	local equal = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2)
-			if type(cell1[attribute1]) ~= "number" and type(cell2[attribute2]) ~= "string" then
-				customError("cell1["..attribute1.."] must be a number or string")
-			end
-			
-			if type(cell2[attribute2]) ~= "number"  and type(cell2[attribute2]) ~= "string" then
-				customError("cell2["..attribute2.."] must be a number or string")
-			end 
+			verify(type(cell1[attribute1]) == "number" or type(cell1[attribute1]) == "string", "cell1["..attribute1.."] must be a number or string")
+			verify(type(cell2[attribute2]) == "number" or type(cell2[attribute2]) == "string", "cell2["..attribute2.."] must be a number or string")
     		
     		if cell1[attribute1] == cell2[attribute2] then
 				equal = equal + 1		
@@ -219,27 +168,13 @@ end
 -- @param attribute An attribute present in both cellular space, which values should be compared
 -- @usage discreteCostanzaMultiLevel(cs1, cs2, "attribute")
 discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError("#1", "CellularSpace", cs1)
-	end
+	mandatoryArgument(1, "CellularSpace", cs1)
 
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 	
-	if #cs1 ~= #cs2 then
-		customError("Number of cells in both CelluarSpace must be equal")
-	end
+	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 
-	if attribute == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute) ~= "string" then
-		incompatibleTypeError("#3", "string", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
@@ -354,27 +289,13 @@ end
 -- @param attribute An attribute present in both cellular space, which values should be compared
 -- @usage newDiscreteCostanzaMultiLevel(cs1, cs2, "attribute")
 newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError("#1", "CellularSpace", cs1)
-	end
+	mandatoryArgument(1, "CellularSpace", cs1)
 
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 	
-	if #cs1 ~= #cs2 then
-		customError("Number of cells in both CelluarSpace must be equal")
-	end
+	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 
-	if attribute == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute) ~= "string" then
-		incompatibleTypeError("#3", "string", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
@@ -468,27 +389,13 @@ end
 -- @param attribute An attribute present in both cellular space, which values should be compared.
 -- @usage continuousCostanzaMultiLevel(cs1, cs2, "attribute")
 continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError("#1", "CellularSpace", cs1)
-	end
+	mandatoryArgument(1, "CellularSpace", cs1)
 
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 	
-	if attribute == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute) ~= "string" then
-		incompatibleTypeError("#3", "string", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute)
 
-	if #cs1 ~= #cs2 then
-		customError("Number of cells in both CelluarSpace must be equal")
-	end
+	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
@@ -529,30 +436,13 @@ multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs1 tem attribute1
 	-- cs2 tem attribute2
 	-- demand > 0
-	if cs1 == nil then
-		 mandatoryArgumentError("#1")
-	elseif type(cs1) ~= "CellularSpace" then
-		incompatibleTypeError("#1", "CellularSpace", cs1)
-	end
+    mandatoryArgument(1, "CellularSpace", cs1)
 	
-	if cs2 == nil then
-		 mandatoryArgumentError("#2")
-	elseif type(cs2) ~= "CellularSpace" then
-		incompatibleTypeError("#2", "CellularSpace", cs2)	
-	end
+	mandatoryArgument(2, "CellularSpace", cs2)
 	
-	if attribute == nil then
-		 mandatoryArgumentError("#3")
-	elseif type(attribute) ~= "string" then
-		incompatibleTypeError("#3", "string", attribute1)
-	end
+	mandatoryArgument(3, "string", attribute)
 	
-	if demand == nil then
-		mandatoryArgumentError("#4")
-	elseif type(demand) ~= "number" then
-		incompatibleTypeError("#4", "number", demand)
+	mandatoryArgument(4, "number", demand)
 		 
-	elseif demand <= 0 then
-		customError("Demand should be bigger than 0.")		
-	end
+	verify(demand > 0, "Demand should be bigger than 0.")
 end
