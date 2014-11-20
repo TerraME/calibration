@@ -15,19 +15,12 @@
 -- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	mandatoryArgument(1, "CellularSpace", cs1)
-	
 	mandatoryArgument(2, "CellularSpace", cs2)
-
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-	
 	mandatoryArgument(3, "string", attribute1)
-	
 	mandatoryArgument(4, "string", attribute2)
-
 	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
-
 	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
-	
 	local counter = 0
 	local dif = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2) 
@@ -55,19 +48,12 @@ end
 -- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	mandatoryArgument(1, "CellularSpace", cs1)
-	
 	mandatoryArgument(2, "CellularSpace", cs2)
-	
 	mandatoryArgument(3, "string", attribute1)
-	
 	mandatoryArgument(4, "string", attribute2)
-
 	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
-
 	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
-
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-
 	local counter = 0
 	local equal = 0
 	forEachCellPair(cs1, cs2, function(cell1, cell2)
@@ -169,13 +155,9 @@ end
 -- @usage discreteCostanzaMultiLevel(cs1, cs2, "attribute")
 discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
-
 	mandatoryArgument(2, "CellularSpace", cs2)
-	
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-
 	mandatoryArgument(3, "string", attribute)
-
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute)
@@ -290,13 +272,9 @@ end
 -- @usage newDiscreteCostanzaMultiLevel(cs1, cs2, "attribute")
 newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
-
 	mandatoryArgument(2, "CellularSpace", cs2)
-	
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-
 	mandatoryArgument(3, "string", attribute)
-
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) 
@@ -390,13 +368,9 @@ end
 -- @usage continuousCostanzaMultiLevel(cs1, cs2, "attribute")
 continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
-
 	mandatoryArgument(2, "CellularSpace", cs2)
-	
 	mandatoryArgument(3, "string", attribute)
-
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) 
@@ -437,12 +411,8 @@ multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs2 tem attribute2
 	-- demand > 0
     mandatoryArgument(1, "CellularSpace", cs1)
-	
 	mandatoryArgument(2, "CellularSpace", cs2)
-	
 	mandatoryArgument(3, "string", attribute)
-	
-	mandatoryArgument(4, "number", demand)
-		 
+	mandatoryArgument(4, "number", demand)	 
 	verify(demand > 0, "Demand should be bigger than 0.")
 end
