@@ -225,13 +225,21 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local largerSquare = 0
+	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
 		largerSquare = cs1.maxRow
 	else
 		largerSquare = cs1.maxCol
 	end
 
-	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+	if cs1.minRow < cs1.minCol then
+		minSquare = cs1.minRow
+	else
+		minSquare = cs1.minCol
+	end
+
+	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + discreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
@@ -295,7 +303,6 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute) -- function
 			end)
 
 			squareDif = dif / (eachCellCounter)
-
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
@@ -339,13 +346,21 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
 	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
+	local largerSquare = 0
+	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
 		largerSquare = cs1.maxRow
 	else
 		largerSquare = cs1.maxCol
 	end
 
-	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+	if cs1.minRow < cs1.minCol then
+		minSquare = cs1.minRow
+	else
+		minSquare = cs1.minCol
+	end
+
+	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 		exp = exp + math.exp( - k * (i - 1))
 	end
@@ -432,13 +447,20 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local exp = 1
 	local fitnessSum = 1 - continuousPixelByPixel(cs1, cs2, attribute, attribute) -- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as the fitnisess of the 1x1 square.
 	local largerSquare = 0
+	local minSquare = 0
 	if cs1.maxRow > cs1.maxCol then
 		largerSquare = cs1.maxRow
 	else
 		largerSquare = cs1.maxCol
 	end
 
-	for i = 2, (largerSquare + 1) do -- increase the square size and calculate fitness for each square.
+	if cs1.minRow < cs1.minCol then
+		minSquare = cs1.minRow
+	else
+		minSquare = cs1.minCol
+	end
+
+	for i = 2, (largerSquare - minSquare + 1) do -- increase the square size and calculate fitness for each square.
 	fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 	exp = exp + math.exp( - k * (i - 1))
 	end
