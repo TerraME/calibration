@@ -1,27 +1,27 @@
 Calibration_ = {
 	type_ = "Calibration",
-	execute = function (self)
-		for _, parameter  in ipairs(self.parameters) do
-			for i = parameter[0], parameter[1] do
-				self.model:execute(i)
-				if i == -100 then
-					min = self.model.value
-					best_x = -100 
-				else
-					if self.model.value< min then
-						min = self.model.value
-						best_x = i
-					end
+	fit = function(self)
+		customError("Function 'fit' was not implemented.")
+	end,
+	execute = function(self)
+		if self.parameters == nil then
+			customError("self.parameters is nil")
+		end
+		for parameter = self.parameters.min, self.parameters.max do
+			if parameter == self.parameters.min then
+				best = self.fit(parameter)
+			else
+				if self.fit(parameter) < best then
+					best = self.fit(parameter)
 				end
 			end
 		end
-		return min
+		return best
 	end
 }
 
 metaTableCalibration_ = {
-	__index = Calibration_,
-	__tostring = tostringTerraME
+	__index = Calibration_
 }
 
 function Calibration(data)

@@ -13,6 +13,22 @@ MyModel = Model{
 	end
 }
 
+
+c = Calibration{
+	parameters = {min = -100, max = 100},
+	fit = function(parameter)
+		m = MyModel{x = parameter}
+		m:execute(1)
+		return m.value
+	end
+}
+
+result = c:execute()
+
+print(result)
+
+
+
 --[[
 for i = 1, 10 do
 	m = MyModel{x = i}
@@ -22,19 +38,6 @@ for i = 1, 10 do
 	print(m.value)
 end
 --]]
-
-c = Calibration{
-	model = MyModel,
-	parameters = {x = {-100, 100}},
-	fit = function(model)
-		return model.value
-	end
-}
-
-result = c:execute()
-
-print(result)
-
 
 --[[ 
 local min = 0
