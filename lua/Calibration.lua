@@ -4,9 +4,6 @@ Calibration_ = {
 		customError("Function 'fit' was not implemented.")
 	end,
 	execute = function(self)
-		if self.parameters == nil then
-			customError("self.parameters is nil")
-		end
 		for parameter = self.parameters.min, self.parameters.max do
 			if parameter == self.parameters.min then
 				best = self.fit(parameter)
@@ -26,5 +23,6 @@ metaTableCalibration_ = {
 
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
+	mandatoryArgument(1, "table", data.parameters)
 	return data
 end
