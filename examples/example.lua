@@ -15,8 +15,9 @@ MyModel = Model{
 
 
 c = Calibration{
+	model = MyModel,
 	parameters = {min = -100, max = 100},
-	fit = function(parameter)
+	fit = function(model, parameter)
 		m = MyModel{x = parameter}
 		m:execute(1)
 		return m.value

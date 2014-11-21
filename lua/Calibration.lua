@@ -29,9 +29,8 @@ metaTableCalibration_ = {
 	__index = Calibration_
 }
  
-
 -- @param model A model constructor, containing the model that will be calibrated.
--- @param parameters The range of values in which the model will be calibrated.
+-- @param parameters A table with the range of values in which the model will be calibrated.
 -- @usage Calibration{
 --     model = MyModel,
 --     parameters = {min = 1, max = 10},
@@ -43,6 +42,7 @@ metaTableCalibration_ = {
 
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
+	mandatoryArgument(1, "function", data.model)
 	mandatoryArgument(2, "table", data.parameters)
 	return data
 end
