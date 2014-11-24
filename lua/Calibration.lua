@@ -12,13 +12,17 @@ Calibration_ = {
 	-- and then returns the parameter which generated the smaller fitness value.
 	-- @usage c:execute()
 	execute = function(self)
+		local m = self.model{x = self.parameters.min}
+		m:execute(1)
+		local best = self.fit(m)
+
 		for parameter = self.parameters.min, self.parameters.max do
-			if parameter == self.parameters.min then
-				best = self.fit(parameter)
-			else
-				if self.fit(parameter) < best then
-					best = self.fit(parameter)
-				end
+			m = self.model{x = parameter}
+			m:execute(1)
+			local candidate = self.fit(m)
+
+			if candidate < best then
+				best = candidate
 			end
 		end
 		return best
@@ -42,7 +46,7 @@ metaTableCalibration_ = {
 
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
-	mandatoryArgument(1, "function", data.model)
-	mandatoryArgument(2, "table", data.parameters)
+	mandatoryTableArgument(data, "model", "function")
+	mandatoryTableArgument(data, "parameters", "table")
 	return data
 end
