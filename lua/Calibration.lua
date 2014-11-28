@@ -12,13 +12,16 @@ Calibration_ = {
 	-- and then returns the parameter which generated the smaller fitness value.
 	-- @usage c:execute()
 	execute = function(self)
-		local m = self.model{x = self.parameters.min}
-		m:execute(1)
+		startParams = {}
+		forEachOrderedElement(self.parameters, function(idx, attribute, atype)
+    		startParams[idx] = self.parameters[idx]["min"]
+		end)
+		local m = self.model(startParams)
+		m:execute(self.finalTime)
 		local best = self.fit(m)
-
-		for parameter = self.parameters.min, self.parameters.max do
+		for parameter = self.parameters.x.min, self.parameters.x.max do
 			m = self.model{x = parameter}
-			m:execute(1)
+			m:execute(self.finalTime)
 			local candidate = self.fit(m)
 
 			if candidate < best then
@@ -43,10 +46,10 @@ metaTableCalibration_ = {
 --     end
 -- }
 --
-
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
 	mandatoryTableArgument(data, "model", "function")
 	mandatoryTableArgument(data, "parameters", "table")
+	mandatoryTableArgument(data, "finalTime", "number")
 	return data
 end
