@@ -21,9 +21,9 @@ return{
 				end
 			}
 		end
-
 		unitTest:assert_error(error_func, mandatoryArgumentMsg("model"))	
-		local error_func = function()
+
+		error_func = function()
 			c = Calibration{
 				model = MyModel,
 				parameters = {x ={ min = -100, max = 100}},
@@ -32,9 +32,9 @@ return{
 				end
 			}
 		end
-
 		unitTest:assert_error(error_func, mandatoryArgumentMsg("finalTime"))	
-		local error_func = function()
+
+		error_func = function()
 			c = Calibration{
 				model = MyModel,
 				finalTime = 1,
@@ -43,9 +43,9 @@ return{
 				end
 			}
 		end
-		
 		unitTest:assert_error(error_func, mandatoryArgumentMsg("parameters"))	
-		local error_func = function()
+
+		error_func = function()
 			local c = Calibration{
 				model = MyModel,
 				finalTime = 1,
@@ -53,7 +53,7 @@ return{
 			}
 			c:fit(model, parameters)
 		end
-		
 		unitTest:assert_error(error_func, "Function 'fit' was not implemented.")	
 	end
 }
+
