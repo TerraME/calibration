@@ -1,7 +1,5 @@
 local recursiva = function(self, startParams, Params, best, a, variables)
-	print("a:"..a)
 	for c = a, #Params do
-		print("test")
 		for parameter = Params[a]["min"],  Params[a]["max"] do
 			variables[Params[a]["id"]] = parameter
 			if c == #Params then
@@ -42,12 +40,10 @@ Calibration_ = {
 		forEachOrderedElement(self.parameters, function(idx, attribute, atype)
     		startParams[idx] = self.parameters[idx]["min"]
 		end)
-		print(startParams["x"])
 		local Params = {}
 		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 			Params[#Params+1] = {id = idx, min = self.parameters[idx]["min"], max = self.parameters[idx]["max"] }
 		end)
-		print("#1:"..#Params)
 		local m = self.model(startParams)
 		m:execute(self.finalTime)
 		local best = self.fit(m)
