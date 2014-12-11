@@ -8,10 +8,10 @@
 -- with the value of the same cell in the second cellular space.
 -- The final result is the sum of the positive differences divided by the number of cells
 -- in the CelluarSpace. If both maps are equal, the final result will be 1.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute1 attribute from the first cellular space that should be compared.
--- @param attribute2 attribute from the second cellular space that should be compared.
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute1 attribute from the first cellular space that should be compared.
+-- @arg attribute2 attribute from the second cellular space that should be compared.
 -- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
 continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -41,10 +41,10 @@ end
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
 -- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace.
 -- If both maps are equal, the final result will be 1.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute1 attribute from the first cellular space that should be compared.
--- @param attribute2 attribute from the second cellular space that should be compared.
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute1 attribute from the first cellular space that should be compared.
+-- @arg attribute2 attribute from the second cellular space that should be compared.
 -- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
 discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -148,10 +148,9 @@ end
 -- squares and ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
 -- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
--- @param cs1 First Cellular Space.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute An attribute present in both cellular space, which values should be compared
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute An attribute present in both cellular space, which values should be compared
 -- @usage discreteCostanzaMultiLevel(cs1, cs2, "attribute")
 discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -265,10 +264,9 @@ end
 -- without overlaping squares and not ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow),
 -- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
--- @param cs1 First Cellular Space.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute An attribute present in both cellular space, which values should be compared
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute An attribute present in both cellular space, which values should be compared
 -- @usage newDiscreteCostanzaMultiLevel(cs1, cs2, "attribute")
 newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -362,9 +360,9 @@ end
 -- The precision of each square is (1 - difference).
 -- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), 
 -- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute An attribute present in both cellular space, which values should be compared.
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute An attribute present in both cellular space, which values should be compared.
 -- @usage continuousCostanzaMultiLevel(cs1, cs2, "attribute")
 continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -401,10 +399,10 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 end
 
 --- Function under development.
--- @param cs1 First Cellular Space.
--- @param cs2 Second Cellular Space.
--- @param attribute An attribute present in both cellular space, which values should be compared.
--- @param demand A parameter under development.
+-- @arg cs1 First Cellular Space.
+-- @arg cs2 Second Cellular Space.
+-- @arg attribute An attribute present in both cellular space, which values should be compared.
+-- @arg demand A parameter under development.
 -- @usage multiLevelDemand(cs1, cs2, "attribute", 5)
 multiLevelDemand = function(cs1, cs2, attribute, demand)
 	-- cs1 tem attribute1

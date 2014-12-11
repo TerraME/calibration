@@ -8,3 +8,4 @@ feature using genetic algorithm.]]
 url = "https://github.com/pedro-andrade-inpe/calibration"
 authors = "Antonio Oliveira Jr, Pedro R. Andrade, Raian Maretto"
 contact = "junior092006@hotmail.com, pedro.andrade@inpe.br, raian@dpi.inpe.br"
+license = "CC 4.0 http://creativecommons.org/licenses/by/4.0/"

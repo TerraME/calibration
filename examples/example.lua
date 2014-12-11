@@ -1,6 +1,7 @@
 
 require("calibration")
-
+--@header Calibration examples.
+--- Basic example for testing Calibration type, using a simple equation and variating it's parameters according to a given range.
 
 MyModel = Model{
 	x = 1,
@@ -61,4 +62,4 @@ end
 print ("Min: "..min.." Best X: "..best_x)
 --Min = 3 and best_x = 1
 
-]]--
+]]--p
