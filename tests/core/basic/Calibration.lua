@@ -27,6 +27,13 @@ local result = c:execute()
 
 unitTest:assert_equal(result, 3)
 
-end
+end, 
+fit = function(unitTest)
+		unitTest:assert(true)
+	end,
+
+execute = function(unitTest)
+		unitTest:assert(true)
+	end
 }
 
