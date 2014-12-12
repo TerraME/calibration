@@ -5,10 +5,11 @@ require("calibration")
 
 MyModel = Model{
 	x = 1,
+	y = 0,
 	setup = function(self)
 		self.t = Timer{
 			Event{action = function()
-				self.value = 2 * self.x ^2 - 3 * self.x + 4
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 		}
 	end
@@ -18,7 +19,7 @@ MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x = { min = -100, max = 100}},
+	parameters = {x = { min = -100, max = 100}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 	end
