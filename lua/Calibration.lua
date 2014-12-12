@@ -1,4 +1,4 @@
-local recursiva = function(self, startParams, Params, best, a, variables)
+local executeRecursiveAux = function(self, startParams, Params, best, a, variables)
 	for c = a, #Params do
 		for parameter = Params[a]["min"],  Params[a]["max"] do
 			variables[Params[a]["id"]] = parameter
@@ -10,9 +10,8 @@ local recursiva = function(self, startParams, Params, best, a, variables)
 					best = candidate
 				end
 
-				return best
 			else 
-					best = recursiva(self , startParams, Params, best, a+1, variables)
+					best = executeRecursiveAux(self , startParams, Params, best, a+1, variables)
 			end
 		end
 
