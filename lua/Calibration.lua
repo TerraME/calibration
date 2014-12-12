@@ -1,8 +1,7 @@
 local executeRecursiveAux = function(self, startParams, Params, best, a, variables)
-	for c = a, #Params do
 		for parameter = Params[a]["min"],  Params[a]["max"] do
 			variables[Params[a]["id"]] = parameter
-			if c == #Params then
+			if a == #Params then
 				local m = self.model(variables)
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
@@ -16,7 +15,6 @@ local executeRecursiveAux = function(self, startParams, Params, best, a, variabl
 		end
 
 		return best
-	end
 end
 
 --@header Model Calibration functions.
