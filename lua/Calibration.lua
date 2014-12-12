@@ -1,22 +1,27 @@
 local executeRecursiveAux 
-executeRecursiveAux = function(self, startParams, Params, best, a, variables)
-		for parameter = Params[a]["min"],  Params[a]["max"] do	
-			variables[Params[a]["id"]] = parameter
-			local mVariables = {}
+-- function used in execute to test the model with all the possible combinations of parameters.
+-- Params = Table with all the parameters and it's ranges indexed by number. In the example: Params[1] = {x, -100, 100}
+-- best = The smallest fitness of the model tested.
+-- a = the parameter that the function is currently variating. In the Example: 1 => x, 2=> y.
+-- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
+executeRecursiveAux = function(self, Params, best, a, variables)
+		for parameter = Params[a]["min"],  Params[a]["max"] do	-- Testing the parameter in it's range.
+			variables[Params[a]["id"]] = parameter -- giving the variables table the current parameter and value being tested.
+			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
 				mVariables[idx] = attribute
 			end)
 
-			if a == #Params then
-				local m = self.model(mVariables)
+			if a == #Params then -- if all parameters have already been given a value to be tested.
+				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
 				if candidate < best then
 					best = candidate
 				end
 
-			else 
-					best = executeRecursiveAux(self , startParams, Params, best, a+1, variables)
+			else  -- else, go to the next parameter to test it with it's range of values.
+					best = executeRecursiveAux(self, Params, best, a+1, variables)
 			end
 		end
 
@@ -51,7 +56,7 @@ Calibration_ = {
 		m:execute(self.finalTime)
 		local best = self.fit(m)
 		local variables = {}
-		best = executeRecursiveAux(self, startParams, Params, best, 1, variables)
+		best = executeRecursiveAux(self, Params, best, 1, variables)
 		return best
 	end
 }
