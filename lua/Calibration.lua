@@ -1,8 +1,12 @@
 local executeRecursiveAux = function(self, startParams, Params, best, a, variables)
-		for parameter = Params[a]["min"],  Params[a]["max"] do
+		for parameter = Params[a]["min"],  Params[a]["max"] do		
 			variables[Params[a]["id"]] = parameter
+			local mVariables = {}
+			forEachOrderedElement(variables, function(idx, attribute, atype)
+				mVariables[idx] = attribute
+			end)
 			if a == #Params then
-				local m = self.model(variables)
+				local m = self.model(mVariables)
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
 				if candidate < best then
@@ -10,7 +14,7 @@ local executeRecursiveAux = function(self, startParams, Params, best, a, variabl
 				end
 
 			else 
-					best = executeRecursiveAux(self , startParams, Params, best, a+1, variables)
+					best = executeRecursiveAux(self , startParams, Params, best, a+1, Variables)
 			end
 		end
 
