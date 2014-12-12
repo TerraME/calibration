@@ -18,7 +18,7 @@ MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x ={ min = -100, max = 100}},
+	parameters = {x = { min = -100, max = 100}},
 	fit = function(model)
 		return model.value
 	end
