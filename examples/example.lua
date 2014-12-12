@@ -19,12 +19,23 @@ MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x = { min = -100, max = 100}, y = { min = 1, max = 10}},
+	parameters = {x ={ -100, -1, 0, 1, 2, 100}, y = { -1, 2 ,3}},
 	fit = function(model)
 		return model.value
 	end
 }
 
-result = c:execute()
+local c2 = Calibration{
+	model = MyModel,
+	finalTime = 1,
+	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10}},
+	fit = function(model)
+		return model.value
+	end
+}
 
-print(result)
+
+result = c:execute()
+result2 = c2:execute()
+
+print("result1: "..result.." result2: "..result2)
