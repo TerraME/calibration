@@ -1,8 +1,8 @@
 local executeRecursiveAux 
 -- function used in execute to test the model with all the possible combinations of parameters.
--- Params = Table with all the parameters and it's ranges indexed by number. In the example: Params[1] = {x, -100, 100}
--- best = The smallest fitness of the model tested.
--- a = the parameter that the function is currently variating. In the Example: 1 => x, 2=> y.
+-- Params: Table with all the parameters and it's ranges indexed by number. In the example: Params[1] = {x, -100, 100}
+-- best: The smallest fitness of the model tested.
+-- a: the parameter that the function is currently variating. In the Example: 1 => x, 2=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 executeRecursiveAux = function(self, Params, best, a, variables)
 		for parameter = Params[a]["min"],  Params[a]["max"] do	-- Testing the parameter in it's range.
