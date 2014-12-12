@@ -64,10 +64,17 @@ Calibration_ = {
 	fit = function(model, parameter)
 		customError("Function 'fit' was not implemented.")
 	end,
-	--- Executes and test the fitness of the model
-	-- for each of the values between self.parameters.min and self.parameters.max,
-	-- and then returns the parameter which generated the smaller fitness value.
-	-- @usage c:execute()
+	--- Executes and test the fitness of the model, 
+	-- and then returns the parameter which generated the smaller fitness value..
+	-- If the variable: "parameters" contains a parameter with a table with min and max
+	-- it tests the model for each of the values between self.parameters.min and self.parameters.max,
+	-- If the variable: "parameters" contains a parameter with a table, it tests the model with
+	-- all the possible combinations of these values.
+	-- @usage  c = Calibration{
+	-- 		...
+	--	}
+	--
+	-- c:execute()
 	execute = function(self)
 		local rangedParameters = true
 		-- variable that will determine it the parameters should be tested in a range of values
@@ -129,7 +136,8 @@ metaTableCalibration_ = {
 ---Type to calibrate a model. It tests all the possibilities of parameters combinations
 -- and returns the smallest fitness value possible of the model according to the user defined fit function.
 -- @arg data a Table containing: A model constructor, with the model that will be calibrated,
--- and a table with the range of values in which the model will be calibrated.
+-- and a table with the range of values in which the model will be calibrated 
+-- or a table with multiple values to be tested.
 -- @usage Calibration{
 --     model = MyModel,
 --     parameters = {min = 1, max = 10},
