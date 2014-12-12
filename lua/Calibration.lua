@@ -68,8 +68,8 @@ Calibration_ = {
 	-- and then returns the parameter which generated the smaller fitness value..
 	-- If the variable: "parameters" contains a parameter with a table with min and max
 	-- it tests the model for each of the values between self.parameters.min and self.parameters.max,
-	-- If the variable: "parameters" contains a parameter with a table, it tests the model with
-	-- all the possible combinations of these values.
+	-- If the variable: "parameters" contains a parameter with a table of multiple values,
+	-- it tests the model with all the possible combinations of these values.
 	-- @usage  c = Calibration{
 	-- 		...
 	--	}
