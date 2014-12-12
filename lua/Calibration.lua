@@ -119,12 +119,11 @@ metaTableCalibration_ = {
 	__index = Calibration_
 }
 
----Type to calibrate a model. It tests all the possibilities of parameters combinations
--- and returns the smallest fitness value possible of the model according to the user defined fit function.
+---Type to calibrate a model, returns a calibration type with it's functions.
 -- @arg data a Table containing: A model constructor, with the model that will be calibrated,
 -- and a table with (min, max, step) of the range in which the model will be calibrated 
 -- or a table with multiple values to be tested.
--- @usage Calibration{
+-- @usage c = Calibration{
 --     model = MyModel,
 --     parameters = {x = {min = 1, max = 10, step = 2}},
 --     fit = function(model, parameter)
@@ -132,7 +131,7 @@ metaTableCalibration_ = {
 --     end
 -- }
 -- 
---Calibration{
+--c = Calibration{
 --     model = MyModel,
 --     parameters = { x = {1, 3, 4, 7}},
 --     fit = function(model, parameter)
