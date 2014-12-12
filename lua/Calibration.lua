@@ -126,12 +126,19 @@ metaTableCalibration_ = {
 -- or a table with multiple values to be tested.
 -- @usage Calibration{
 --     model = MyModel,
---     parameters = {min = 1, max = 10, step = 2},
+--     parameters = {x = {min = 1, max = 10, step = 2}},
 --     fit = function(model, parameter)
 --     		...	
 --     end
 -- }
---
+-- 
+--Calibration{
+--     model = MyModel,
+--     parameters = { x = {1, 3, 4, 7}},
+--     fit = function(model, parameter)
+--     		...	
+--     end
+-- }
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
 	mandatoryTableArgument(data, "model", "function")
