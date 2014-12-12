@@ -14,11 +14,10 @@ local MyModel = Model{
 	end
 }
 
-
 local c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10}},
+	parameters = {x ={ -100, -1, 0, 1, 2, 100}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 	end
