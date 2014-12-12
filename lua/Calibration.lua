@@ -61,7 +61,7 @@ end
 
 Calibration_ = {
 	type_ = "Calibration",
-	--- Returns the fitness of a model, fucntion must be implemented by the user
+	--- Returns the fitness of a model, function must be implemented by the user
 	-- @arg model Model fo calibration
 	-- @arg parameter A Table with the parameters of the model.
 	-- @usage c:fit(model, parameter)
@@ -69,7 +69,7 @@ Calibration_ = {
 		customError("Function 'fit' was not implemented.")
 	end,
 	--- Executes and test the fitness of the model, 
-	-- and then returns the parameter which generated the smaller fitness value..
+	-- and then returns the parameter which generated the smaller fitness value.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
 	-- it tests the model for each of the values between self.parameters.min and self.parameters.max,
 	-- If the variable: "parameters" contains a parameter with a table of multiple values,

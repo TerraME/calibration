@@ -1,5 +1,13 @@
 --@example Basic example for testing Calibration type, 
---using a simple equation and variating it's x and y parameters according to a given range.
+--using a simple equation and variating it's x and y parameters.
+-- local c = Calibration{
+--	model = MyModel,
+--	finalTime = 1,
+--	parameters = {x ={ min = -100, max = 100, step = 2}, y = { -1, 2 ,3}},
+--	fit = function(model)
+--		return model.value
+--	end
+--}
 require("calibration")
 
 
@@ -19,7 +27,7 @@ MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x ={ min = -100, max = 100}, y = { -1, 2 ,3}},
+	parameters = {x ={ min = -100, max = 100, step = 2}, y = { -1, 2 ,3}},
 	fit = function(model)
 		return model.value
 	end
