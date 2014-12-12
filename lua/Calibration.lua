@@ -59,9 +59,11 @@ Calibration_ = {
 metaTableCalibration_ = {
 	__index = Calibration_
 }
- 
--- @arg model A model constructor, containing the model that will be calibrated.
--- @arg parameters A table with the range of values in which the model will be calibrated.
+
+---Type to calibrate a model. It tests all the possibilities of parameters combinations
+-- and returns the smallest fitness value possible of the model according to the user defined fit function.
+-- @arg data a Table containing: A model constructor, with the model that will be calibrated,
+-- and a table with the range of values in which the model will be calibrated.
 -- @usage Calibration{
 --     model = MyModel,
 --     parameters = {min = 1, max = 10},

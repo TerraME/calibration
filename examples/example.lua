@@ -1,6 +1,5 @@
---@header Calibration examples.
---- Basic example for testing Calibration type, 
---using a simple equation and variating it's parameters according to a given range.
+--@example Basic example for testing Calibration type, 
+--using a simple equation and variating it's x and y parameters according to a given range.
 require("calibration")
 
 
