@@ -28,9 +28,11 @@ rangeRecursive = function(self, Params, best, a, variables)
 		return best
 end
 
-local elementsRecursive -- Very similar to the rangeRecursive function, however instead of a range of value, it uses a table of values
+local elementsRecursive -- Very similar to the rangeRecursive function, 
+-- however instead of a range of value, it uses a table of values
 elementsRecursive = function(self, Params, best, a, variables)
-	forEachOrderedElement(Params[a]["elements"], function (idx, attribute, atype) -- Testing the parameter with each value in it's table.
+	forEachOrderedElement(Params[a]["elements"], function (idx, attribute, atype) 
+	-- Testing the parameter with each value in it's table.
 		variables[Params[a]["id"]] = attribute
 		local mVariables = {} -- copy of the variables table to be used in the model.
 		forEachOrderedElement(variables, function(idx2, attribute2, atype2)
@@ -68,47 +70,53 @@ Calibration_ = {
 	-- @usage c:execute()
 	execute = function(self)
 		local rangedParameters = true
+		-- variable that will determine it the parameters should be tested in a range of values
+		-- or according to a table of values
 		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 			if self.parameters[idx]["max"] == nil or self.parameters[idx]["min"]  == nil then
 				rangedParameters = false
 			end
 		end)
 
-		if rangedParameters == true then
-			local startParams = {}
+		if rangedParameters == true then -- test the model within a range of values
+			local startParams = {} -- First possible values in range will be given for the parameters to be tested
 			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
     			startParams[idx] = self.parameters[idx]["min"]
 			end)
 
-			local Params = {}
+			local Params = {} -- the possible range of values for each parameter is being put in a table indexed by numbers
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				Params[#Params+1] = {id = idx, min = self.parameters[idx]["min"], max = self.parameters[idx]["max"] }
 			end)
 
-			local m = self.model(startParams)
+			local m = self.model(startParams) -- test the model with it's first possible values
 			m:execute(self.finalTime)
 			local best = self.fit(m)
 			local variables = {}
 			best = rangeRecursive(self, Params, best, 1, variables)
-			return best
-		else
-			local startParams = {}
+			-- use a recursive function to test the model with all possible values
+			-- for each parameter inside the given range.
+			return best -- returns the smallest fitness
+		else -- test the model according to a table of values
+			local startParams = {} -- First possible values in table will be given for the parameters to be tested
 			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
     			startParams[idx] = self.parameters[idx][1]
 			end)
 
-			local Params = {}
+			local Params = {} -- the table of possible values for each parameter is being put in a table indexed by numbers
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				Params[#Params+1] = {id = idx, elements = attribute}
 			end)
 
-			local m = self.model(startParams)
+			local m = self.model(startParams) -- test the model with it's first possible values
 			m:execute(self.finalTime)
 			local best = self.fit(m)
 			local variables = {}
 			best = elementsRecursive(self, Params, best, 1, variables)
+			-- use a recursive function to test the model with all possible values 
+			-- according to the values table for each parameter.
 			
-			return best
+			return best -- returns the smallest fitness
 			
 		end
 	end
