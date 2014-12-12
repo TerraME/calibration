@@ -4,7 +4,7 @@ local executeRecursiveAux = function(self, startParams, Params, best, a, variabl
 			variables[Params[a]["id"]] = parameter
 			if c == #Params then
 				local m = self.model(variables)
-				execute(self.finalTime)
+				m:execute(self.finalTime)
 				local candidate = self.fit(m)
 				if candidate < best then
 					best = candidate
