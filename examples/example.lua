@@ -28,7 +28,7 @@ c = Calibration{
 local c2 = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10}},
+	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10, step = 2}},
 	fit = function(model)
 		return model.value
 	end

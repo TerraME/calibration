@@ -8,7 +8,7 @@ local testRecursive
 
 testRecursive  = function(self, Params, best, a, variables)
 	if Params[a]["ranged"] == true then -- if the parameter uses a range of values
-		for parameter = Params[a]["min"],  Params[a]["max"] do	-- Testing the parameter with each value in it's range.
+		for parameter = Params[a]["min"],  Params[a]["max"], Params[a]["step"] do	-- Testing the parameter with each value in it's range.
 			variables[Params[a]["id"]] = parameter -- giving the variables table the current parameter and value being tested.
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
@@ -91,11 +91,15 @@ Calibration_ = {
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				local range = true
+				local steps = 1
+				if self.parameters[idx]["step"] ~= nil then
+					steps = self.parameters[idx]["step"]
+				end
 				if self.parameters[idx]["min"] == nil or self.parameters[idx]["max"] == nil then
 					range = false
 				end
 				Params[#Params+1] = {id = idx, min = self.parameters[idx]["min"], 
-				max = self.parameters[idx]["max"], elements = attribute, ranged = range}
+				max = self.parameters[idx]["max"], elements = attribute, ranged = range, step = steps}
 			end)
 
 			local m = self.model(startParams) -- test the model with it's first possible values
