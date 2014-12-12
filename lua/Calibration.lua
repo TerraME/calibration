@@ -5,7 +5,7 @@ local rangeRecursive
 -- a: the parameter that the function is currently variating. In the Example: 1 => x, 2=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 rangeRecursive = function(self, Params, best, a, variables)
-		for parameter = Params[a]["min"],  Params[a]["max"] do	-- Testing the parameter in it's range.
+		for parameter = Params[a]["min"],  Params[a]["max"] do	-- Testing the parameter with each value in it's range.
 			variables[Params[a]["id"]] = parameter -- giving the variables table the current parameter and value being tested.
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
@@ -28,16 +28,16 @@ rangeRecursive = function(self, Params, best, a, variables)
 		return best
 end
 
-local elementsRecursive 
+local elementsRecursive -- Very similar to the rangeRecursive function, however instead of a range of value, it uses a table of values
 elementsRecursive = function(self, Params, best, a, variables)
-	forEachOrderedElement(Params[a]["elements"], function (idx, attribute, atype)
+	forEachOrderedElement(Params[a]["elements"], function (idx, attribute, atype) -- Testing the parameter with each value in it's table.
 		variables[Params[a]["id"]] = attribute
 		local mVariables = {} -- copy of the variables table to be used in the model.
 		forEachOrderedElement(variables, function(idx2, attribute2, atype2)
 			mVariables[idx2] = attribute2
 		end)
 
-		if a == #Params then
+		if a == #Params then -- if all parameters have already been given a value to be tested.
 			local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
@@ -45,7 +45,7 @@ elementsRecursive = function(self, Params, best, a, variables)
 					best = candidate
 				end
 
-			else  -- else, go to the next parameter to test it with it's range of values.
+			else  -- else, go to the next parameter to test it with each of it possible values.
 				best = elementsRecursive(self, Params, best, a+1, variables)
 		end
 	end)
