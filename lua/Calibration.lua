@@ -1,3 +1,4 @@
+local executeRecursiveAux 
 executeRecursiveAux = function(self, startParams, Params, best, a, variables)
 		for parameter = Params[a]["min"],  Params[a]["max"] do	
 			variables[Params[a]["id"]] = parameter

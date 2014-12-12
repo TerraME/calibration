@@ -35,10 +35,6 @@ end,
 
 execute = function(unitTest)
 		unitTest:assert(true)
-end,
-
-executeRecursiveAux = function(unitTest)
-		unitTest:assert(true)
 end
 }
 

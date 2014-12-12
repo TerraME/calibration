@@ -1,7 +1,8 @@
-
-require("calibration")
 --@header Calibration examples.
---- Basic example for testing Calibration type, using a simple equation and variating it's parameters according to a given range.
+--- Basic example for testing Calibration type, 
+--using a simple equation and variating it's parameters according to a given range.
+require("calibration")
+
 
 MyModel = Model{
 	x = 1,
