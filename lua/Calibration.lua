@@ -1,5 +1,6 @@
 local testRecursive
 
+
 -- function used in execute to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
 -- In the example: Params[1] = {x, -100, 100, (...)}
@@ -91,6 +92,9 @@ Calibration_ = {
 			end)
 
 			local Params = {} 
+			if self.SAMDE == nil then
+				self.SAMDE = false
+			end
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				local range = true
@@ -109,7 +113,19 @@ Calibration_ = {
 			m:execute(self.finalTime)
 			local best = self.fit(m)
 			local variables = {}
-			best = testRecursive(self, Params, best, 1, variables)
+			if self.SAMDE == true then
+				local SamdeParameters = {}
+				local SamdeParamQuant = 0
+				forEachOrderedElement(self.parameters, function (idx, attribute, atype)
+					SamdeParameters[#SamdeParameters+1] = {self.parameters[idx]["min"], self.parameters[idx]["max"]}
+					SamdeParamQuant = SamdeParamQuant + 2
+				end)
+
+				best = calibration(SamdeParameters, SamdeParamQuant, self.model)
+			else
+				best = testRecursive(self, Params, best, 1, variables)
+			end
+			
 			-- use a recursive function to test the model with all possible values
 			return best -- returns the smallest fitness
 	end
