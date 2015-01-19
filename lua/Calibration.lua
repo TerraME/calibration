@@ -1,11 +1,11 @@
 local testRecursive
 
 
--- function used in execute to test the model with all the possible combinations of parameters.
+-- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
 -- In the example: Params[1] = {x, -100, 100, (...)}
 -- (It also contains some extra information such as the step increase 
--- or wheter or not that parameter varies according to a min/max range.)
+-- or if that parameter varies according to a min/max range.)
 -- best: The smallest fitness of the model tested.
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
