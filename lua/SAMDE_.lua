@@ -6,10 +6,10 @@ GLOBAL_RANDOM_SEED = os.time();
 NUMEST = 4;
 PARAMETERS = 3;
 
-function evaluate(ind, dim, model, Param)
+function evaluate(ind, dim, model, ParamList)
 	local solution = {}
 	for i = 1, dim do
-		solution[Param[i]] = ind[i]
+		solution[ParamList[i]] = ind[i]
 	end
 	err = model(solution);
 	return err;
@@ -178,16 +178,16 @@ function maxDiversity(pop,dim,maxPopulation,varMatrix)
 	return valueMax;
 end
 
-function SAMDE_(varMatrix, dim, model, Param)
+function SAMDE_(varMatrix, dim, model, ParamList)
 	pop = {};
 	costPop = {};
 	maxPopulation = (dim * 10);
 	pop = initPop(maxPopulation, varMatrix, dim);
-	bestCost = evaluate(pop[1], dim, model);
+	bestCost = evaluate(pop[1], dim, model, ParamList);
 	bestInd = copy(pop[1]);
 	table.insert(costPop, bestCost);
 	for i = 2, maxPopulation do
-		local fitness = evaluate(pop[i], dim, model, Param);
+		local fitness = evaluate(pop[i], dim, model, ParamList);
 		table.insert(costPop,fitness);
 		if(fitness<bestCost) then
 			bestCost = fitness;
@@ -292,7 +292,7 @@ function SAMDE_(varMatrix, dim, model, Param)
 	return bestInd;
 end
 
-function calibration(varMatrix, dim, model, Param)
-	return SAMDE_(varMatrix, dim, model, Param);
+function calibration(varMatrix, dim, model, ParamList)
+	return SAMDE_(varMatrix, dim, model, ParamList);
 end
 
