@@ -268,7 +268,7 @@ function SAMDE_(varMatrix, dim, model, ParamList)
 				end
 			end
 			
-			local score = evaluate(ui, dim, model);
+			local score = evaluate(ui, dim, model, ParamList);
 			if(score < costPop[j]) then
 				table.insert(popAux,copy(ui));
 				costPop[j] = score;
