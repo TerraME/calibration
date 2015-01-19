@@ -1,8 +1,21 @@
 
 -- TO DO: Test each of the SAMDE functions
+local MyModel
+MyModel = Model{
+	x = 1,
+	y = 0,
+	setup = function(self)
+		self.t = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+		}
+	end
+
 return{
 
 	evaluate = function(unitTest)
+	
 		unitTest:assert_equal(true)
 	end,
 	initPop = function(unitTest)
@@ -17,7 +30,7 @@ return{
 	copy = function(unitTest)
 		unitTest:assert_equal(true)
 	end,
-	copyParameters= function(unitTest)
+	copyParameters = function(unitTest)
 		unitTest:assert_equal(true)
 	end,
 	repareP = function(unitTest)
@@ -41,7 +54,7 @@ return{
 	SAMDE_ = function(unitTest)
 		unitTest:assert_equal(true)
 	end,
-	calibration= function(unitTest)
+	calibration = function(unitTest)
 		unitTest:assert_equal(true)
 	end
 	}
