@@ -118,7 +118,7 @@ Calibration_ = {
 				local SamdeParamQuant = 0
 				forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 					SamdeParameters[#SamdeParameters+1] = {self.parameters[idx]["min"], self.parameters[idx]["max"]}
-					SamdeParamQuant = SamdeParamQuant + 2
+					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
 				best = calibration(SamdeParameters, SamdeParamQuant, self.model)

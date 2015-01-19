@@ -35,8 +35,18 @@ local c2 = Calibration{
 	end
 }
 
+-- local c3 = Calibration{
+--	model = MyModel,
+--  SAMDE = true,
+--	finalTime = 1,
+--	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10}},
+--	fit = function(model)
+--		return model.value
+--	end
+-- }
 
 result = c:execute()
 result2 = c2:execute()
+-- result3 = c3:execute()
 
 print("result1: "..result.." result2: "..result2)
