@@ -114,14 +114,16 @@ Calibration_ = {
 			local best = self.fit(m)
 			local variables = {}
 			if self.SAMDE == true then
-				local SamdeParameters = {}
+				local samdeValues = {}
+				local samdeParam = {}
 				local SamdeParamQuant = 0
 				forEachOrderedElement(self.parameters, function (idx, attribute, atype)
-					SamdeParameters[#SamdeParameters+1] = {self.parameters[idx]["min"], self.parameters[idx]["max"]}
+					samdeParam[#samdeParam+1] = idx
+					samdeValues[#samdeValues+1] = {self.parameters[idx]["min"], self.parameters[idx]["max"]}
 					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
-				best = calibration(SamdeParameters, SamdeParamQuant, self.model)
+				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam)
 			else
 				best = testRecursive(self, Params, best, 1, variables)
 			end
