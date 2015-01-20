@@ -15,7 +15,6 @@ MyModel = Model{
 return{
 
 	evaluate = function(unitTest)
-	
 		unitTest:assert_equal(true)
 	end,
 	initPop = function(unitTest)

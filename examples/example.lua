@@ -4,11 +4,11 @@
 require("calibration")
 
 
-MyModel = Model{
-	x = 1,
-	y = 0,
-	setup = function(self)
-		self.t = Timer{
+local MyModel = Model{
+	x = choice{-100, -1, 0, 1, 2, 100},
+	y = choice{ min = 1, max = 10},
+	init = function(self)
+		model.timer = Timer{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
