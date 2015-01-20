@@ -114,6 +114,7 @@ Calibration_ = {
 			local best = self.fit(m)
 			local variables = {}
 			if self.SAMDE == true then
+			-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value
 				local samdeValues = {}
 				local samdeParam = {}
 				local SamdeParamQuant = 0
@@ -125,10 +126,10 @@ Calibration_ = {
 
 				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam)
 			else
+			-- Else, test the model by trying all the possible values combinations with the testRecursive function
 				best = testRecursive(self, Params, best, 1, variables)
 			end
-			
-			-- use a recursive function to test the model with all possible values
+		
 			return best -- returns the smallest fitness
 	end
 }
