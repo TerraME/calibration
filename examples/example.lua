@@ -5,12 +5,12 @@ require("calibration")
 
 
 local MyModel = Model{
-	x = choice{-100, -1, 0, 1, 2, 100},
-	y = choice{ min = 1, max = 10},
+	x = choice{ min = -100, max = 100, step = 2},
+	y = choice{ -1, 2 ,3},
 	init = function(self)
 		model.timer = Timer{
 			Event{action = function()
-				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+				self.value = 2 * self.x ^ 2 - 3 * self.x + 4 + self.y
 			end}
 		}
 	end
@@ -26,14 +26,6 @@ c = Calibration{
 	end
 }
 
-local c2 = Calibration{
-	model = MyModel,
-	finalTime = 1,
-	parameters = {x ={ min = -100, max = 100}, y = { min = 1, max = 10, step = 2}},
-	fit = function(model)
-		return model.value
-	end
-}
 
 -- local c3 = Calibration{
 --	model = MyModel,
@@ -46,7 +38,7 @@ local c2 = Calibration{
 -- }
 
 result = c:execute()
-result2 = c2:execute()
+)
 -- result3 = c3:execute()
 
-print("result1: "..result.." result2: "..result2)
+print("result1: "..result)
