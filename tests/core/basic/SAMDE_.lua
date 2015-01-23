@@ -11,49 +11,50 @@ MyModel = Model{
 			end}
 		}
 	end
+}
 
 return{
 
 	evaluate = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	initPop = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	g3Rand = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	g4Rand = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	copy = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	copyParameters = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	repareP = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	oobTrea = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	distancia = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	normaliza = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	maxVector = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	maxDiversity = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	SAMDE_ = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end,
 	calibration = function(unitTest)
-		unitTest:assert_equal(true)
+		unitTest:assert(true)
 	end
 	}
