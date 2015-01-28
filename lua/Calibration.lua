@@ -124,7 +124,7 @@ Calibration_ = {
 					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
-				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam)
+				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.finalTime, self.fit)
 			else
 			-- Else, test the model by trying all the possible values combinations with the testRecursive function
 				best = testRecursive(self, Params, best, 1, variables)
