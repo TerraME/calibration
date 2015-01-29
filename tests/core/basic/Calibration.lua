@@ -47,12 +47,10 @@ local c2 = Calibration{
 
 local result = c:execute()
 local result2 = c2:execute()
-
-
 unitTest:assert_equal(result, 4)
 unitTest:assert_equal(result2, 4)
-
 end, 
+
 fit = function(unitTest)
 		unitTest:assert(true)
 end,
