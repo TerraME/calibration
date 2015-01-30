@@ -3,7 +3,7 @@
 
 --- Compares two continuous CelluarSpace pixel by pixel and returns
 -- a number with the average precision between the values in each cell of both CelluarSpace.
--- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
+-- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't.
 -- This difference is calculated by subtracting the value of a cell in the first cellular space,
 -- with the value of the same cell in the second cellular space.
 -- The final result is the sum of the positive differences divided by the number of cells

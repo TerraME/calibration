@@ -48,7 +48,5 @@ local c2 = Calibration{
 
 local result = c:execute()
 local result2 = c2:execute()
-
-
 print("result1: "..result)
 print("result2 (SAMDE): "..result)

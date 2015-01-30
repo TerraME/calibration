@@ -305,4 +305,3 @@ function calibration(varMatrix, dim, model, ParamList, finalTime, fit)
 	return result
 end
 
-
