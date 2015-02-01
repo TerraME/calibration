@@ -86,8 +86,20 @@ Calibration_ = {
 		end)
 		print("")
 	end,
+
+	---Returns the model result smallest fitness value:
+	-- @usage  c = Calibration{
+	-- 		...
+	--	}
+	--
+	-- result = c:execute()
+	-- bestCost = c:bestCost(result)
+	bestCost = function(self, results)
+		return(results["bestCost"])
+	end,
+	
 	--- Executes and test the fitness of the model, 
-	-- and then returns the parameter which generated the smaller fitness value.
+	-- and then returns the table: {bestCost = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
 	-- it tests the model for each of the values between self.parameters.min and self.parameters.max,
 	-- If the variable: "parameters" contains a parameter with a table of multiple values,
@@ -96,7 +108,8 @@ Calibration_ = {
 	-- 		...
 	--	}
 	--
-	-- c:execute()
+	-- result = c:execute()
+
 	execute = function(self)
 			local startParams = {} 
 			-- A table with the first possible values for the parameters to be tested.

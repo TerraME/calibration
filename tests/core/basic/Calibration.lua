@@ -1,7 +1,4 @@
 require("calibration")
-return{
-Calibration = function(unitTest)
-
 local MyModel = Model{
 	x = choice{-100, -1, 0, 1, 2, 100},
 	y = choice{ min = 1, max = 10},
@@ -32,8 +29,7 @@ local MyModelSamde = Model{
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 		}
-	end
-}
+	end}
 
 local c2 = Calibration{
 	model = MyModelSamde,
@@ -42,9 +38,10 @@ local c2 = Calibration{
 	SAMDE = true,
 	fit = function(model)
 		return model.value
-	end
-}
+	end}
 
+return{
+Calibration = function(unitTest)
 local result = c:execute()
 local result2 = c2:execute()
 unitTest:assert_equal(result["bestCost"], 4)
@@ -61,6 +58,11 @@ end,
 
 printResults = function(unitTest)
 	unitTest:assert(true)
+end,
+
+bestCost = function(unitTest)
+	local result = c:execute()
+	unitTest:assert_equal(c:bestCost(result), 4)
 end,
 
 execute = function(unitTest)
