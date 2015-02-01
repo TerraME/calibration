@@ -10,10 +10,10 @@ GLOBAL_RANDOM_SEED = os.time();
 NUMEST = 4;
 PARAMETERS = 3;
 
-local function evaluate(ind, dim, model, ParamList, finalTime, fit)
+local function evaluate(ind, dim, model, paramList, finalTime, fit)
 	local solution = {}
 	for i = 1, dim do
-		solution[ParamList[i]] = ind[i]
+		solution[paramList[i]] = ind[i]
 	end
 	local m = model(solution) 
 	m:execute(finalTime)
@@ -184,16 +184,16 @@ local function maxDiversity(pop,dim,maxPopulation,varMatrix)
 	return valueMax;
 end
 
-local function SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit)
+local function SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
 	local pop = {};
 	local costPop = {};
 	local maxPopulation = (dim * 10);
 	pop = initPop(maxPopulation, varMatrix, dim);
-	local bestCost = evaluate(pop[1], dim, model, ParamList, finalTime, fit);
+	local bestCost = evaluate(pop[1], dim, model, paramList, finalTime, fit);
 	local bestInd = copy(pop[1]);
 	table.insert(costPop, bestCost);
 	for i = 2, maxPopulation do
-		local fitness = evaluate(pop[i], dim, model, ParamList, finalTime, fit);
+		local fitness = evaluate(pop[i], dim, model, paramList, finalTime, fit);
 		table.insert(costPop,fitness);
 		if(fitness<bestCost) then
 			bestCost = fitness;
@@ -274,7 +274,7 @@ local function SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit)
 				end
 			end
 			
-			local score = evaluate(ui, dim, model, ParamList, finalTime, fit);
+			local score = evaluate(ui, dim, model, paramList, finalTime, fit);
 			if(score < costPop[j]) then
 				table.insert(popAux,copy(ui));
 				costPop[j] = score;
@@ -295,13 +295,19 @@ local function SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit)
 	end
 	-- print("Generation: " .. cont);
 	
-	return bestCost;
+
+	local bestVariablesChoice = {}
+	for i=1,dim do
+		bestVariablesChoice[paramList[i]] = bestInd[i]
+	end
+	local finalTable = {bestCost = bestCost, bestVariables = bestVariablesChoice}
+	return finalTable
 end
 
-function calibration(varMatrix, dim, model, ParamList, finalTime, fit)
+function calibration(varMatrix, dim, model, paramList, finalTime, fit)
 
 
-	local result = SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit);
-	return result
+	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, finalTime, fit);
+	return resultSAMDE
 end
 

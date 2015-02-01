@@ -36,8 +36,10 @@ return{
 			return model.value
 		end
 		}
-		
-		unitTest:assert_equal(c2:execute(), 4)
+		local result = c2:execute()
+		unitTest:assert_equal(result["bestCost"], 4)
+		unitTest:assert_equal(result["bestVariables"]["x"], 1)
+		unitTest:assert_equal(result["bestVariables"]["y"], 1)
 
 	end
 	}
