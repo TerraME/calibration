@@ -1,4 +1,12 @@
-Best Cost 1: 4
-Best Variables 2: X: 1 Y: 1
-Best Cost 2 (SAMDE): 4
-Best Variables 2 (SAMDE) X:1 Y: 1
+1st Example Result: 
+
+Best Cost: 4
+Best x: 1
+Best y: 1
+
+2st Example Result: (SAMDE)
+
+Best Cost: 4
+Best x: 1
+Best y: 1
+

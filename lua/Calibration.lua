@@ -71,6 +71,21 @@ Calibration_ = {
 	fit = function(model, parameter)
 		customError("Function 'fit' was not implemented.")
 	end,
+
+	--- Prints the Calibration results on the console,
+	-- @usage  c = Calibration{
+	-- 		...
+	--	}
+	--
+	-- result = c:execute()
+	-- c:printResults(result)
+	printResults = function(self, results)
+		print("Best Cost: "..results["bestCost"])
+		forEachOrderedElement(self.parameters, function(idx, att, type)
+			print("Best "..idx..": "..results["bestVariables"][idx])
+		end)
+		print("")
+	end,
 	--- Executes and test the fitness of the model, 
 	-- and then returns the parameter which generated the smaller fitness value.
 	-- If the variable: "parameters" contains a parameter with a table with min and max

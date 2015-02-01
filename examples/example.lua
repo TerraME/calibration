@@ -48,7 +48,7 @@ local c2 = Calibration{
 
 local result = c:execute()
 local result2 = c2:execute()
-print("Best Cost 1: "..result["bestCost"])
-print("Best Variables 2: X: "..result["bestVariables"]["x"].." Y: "..result["bestVariables"]["y"])
-print("Best Cost 2 (SAMDE): "..result2["bestCost"])
-print("Best Variables 2 (SAMDE) X:"..result2["bestVariables"]["x"].." Y: "..result2["bestVariables"]["y"])
+print("1st Example Result: \n")
+c:printResults(result)
+print("2st Example Result: (SAMDE)\n")
+c2:printResults(result2)
