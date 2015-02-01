@@ -10,7 +10,7 @@ GLOBAL_RANDOM_SEED = os.time();
 NUMEST = 4;
 PARAMETERS = 3;
 
-function evaluate(ind, dim, model, ParamList, finalTime, fit)
+local function evaluate(ind, dim, model, ParamList, finalTime, fit)
 	local solution = {}
 	for i = 1, dim do
 		solution[ParamList[i]] = ind[i]
@@ -21,7 +21,7 @@ function evaluate(ind, dim, model, ParamList, finalTime, fit)
 	return err;
 end
 
-function initPop(popTam, varMatrix, dim)
+local function initPop(popTam, varMatrix, dim)
 	math.randomseed(GLOBAL_RANDOM_SEED);
 	math.random();
 	-- print("initializing population ...");
@@ -44,7 +44,7 @@ function initPop(popTam, varMatrix, dim)
 	return popInit;
 end
 
-function g3Rand(i,popTam)
+local function g3Rand(i,popTam)
 	local rands = {};
 	local a,b,c;
 	repeat
@@ -62,7 +62,7 @@ function g3Rand(i,popTam)
 	return rands;
 end
 
-function g4Rand(i,popTam)
+local function g4Rand(i,popTam)
 	local rands = {};
 	local a,b,c,d;
 	repeat
@@ -84,7 +84,7 @@ function g4Rand(i,popTam)
 	return rands;
 end
 
-function copy(tab)
+local function copy(tab)
 	local result = {};
 	for i = 1, #tab do
 		table.insert(result,tab[i]);
@@ -92,7 +92,7 @@ function copy(tab)
 	return result;
 end
 
-function copyParameters(tab,dim)
+local function copyParameters(tab,dim)
 	local result = {};
 	for i = dim+1, #tab do
 		table.insert(result,tab[i]);
@@ -100,7 +100,7 @@ function copyParameters(tab,dim)
 	return result;
 end
 
-function repareP(parameter)
+local function repareP(parameter)
 	local p = parameter;
 	if( p < 0) then
 		p = - p;
@@ -110,7 +110,7 @@ function repareP(parameter)
 	return p;
 end
 
-function oobTrea(xi, varMatrix, k)
+local function oobTrea(xi, varMatrix, k)
 	local lim = varMatrix[k];
 	local minVar = lim[1];
 	local maxVar = lim[2];
@@ -132,7 +132,7 @@ function oobTrea(xi, varMatrix, k)
 	return x;
 end
 
-function distancia(x,y,varMatrix,i)
+local function distancia(x,y,varMatrix,i)
 	local dist = normaliza(x,varMatrix,i) - normaliza(y,varMatrix,i);
 	dist = math.abs(dist);
 	return dist;
@@ -146,7 +146,7 @@ function normaliza(x,varMatrix,i)
 	return newValue;
 end
 
-function maxVector(vector,dim)
+local function maxVector(vector,dim)
 	local valueMax = vector[1];
 	for i = 2, dim do
 		if(vector[i] > valueMax) then
@@ -156,7 +156,7 @@ function maxVector(vector,dim)
 	return valueMax;
 end
 
-function maxDiversity(pop,dim,maxPopulation,varMatrix)
+local function maxDiversity(pop,dim,maxPopulation,varMatrix)
 	local varMax = {};
 	local varMin = {};
 	local vector = pop[1];
@@ -184,7 +184,7 @@ function maxDiversity(pop,dim,maxPopulation,varMatrix)
 	return valueMax;
 end
 
-function SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit)
+local function SAMDE_(varMatrix, dim, model, ParamList, finalTime, fit)
 	local pop = {};
 	local costPop = {};
 	local maxPopulation = (dim * 10);
