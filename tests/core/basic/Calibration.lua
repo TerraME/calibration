@@ -40,10 +40,12 @@ local c2 = Calibration{
 		return model.value
 	end}
 
-return{
-Calibration = function(unitTest)
 local result = c:execute()
 local result2 = c2:execute()
+
+return{
+Calibration = function(unitTest)
+
 unitTest:assert_equal(result["bestCost"], 4)
 unitTest:assert_equal(result["bestVariables"]["x"], 1)
 unitTest:assert_equal(result["bestVariables"]["y"], 1)
@@ -57,7 +59,9 @@ fit = function(unitTest)
 end,
 
 printResults = function(unitTest)
-	unitTest:assert(true)
+	unitTest:assert_equal(result["bestCost"], 4)
+	unitTest:assert_equal(result["bestVariables"]["x"], 1)
+	unitTest:assert_equal(result["bestVariables"]["y"], 1)
 end,
 
 bestCost = function(unitTest)
