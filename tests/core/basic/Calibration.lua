@@ -47,8 +47,12 @@ local c2 = Calibration{
 
 local result = c:execute()
 local result2 = c2:execute()
-unitTest:assert_equal(result, 4)
+unitTest:assert_equal(result["bestCost"], 4)
+unitTest:assert_equal(result["bestVariables"]["x"], 1)
+unitTest:assert_equal(result["bestVariables"]["y"], 1)
 unitTest:assert_equal(result2["bestCost"], 4)
+unitTest:assert_equal(result2["bestVariables"]["x"], 1)
+unitTest:assert_equal(result2["bestVariables"]["y"], 1)
 end, 
 
 fit = function(unitTest)

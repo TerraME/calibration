@@ -23,8 +23,9 @@ testRecursive  = function(self, Params, best, a, variables)
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
-				if candidate < best then
-					best = candidate
+				if candidate < best["bestCost"] then
+					best["bestCost"] = candidate
+					best["bestVariables"] = mVariables
 				end
 
 			else  -- else, go to the next parameter to test it with it's range of values.
@@ -45,8 +46,9 @@ testRecursive  = function(self, Params, best, a, variables)
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
-				if candidate < best then
-					best = candidate
+				if candidate < best["bestCost"] then
+					best["bestCost"] = candidate
+					best["bestVariables"] = mVariables
 				end
 
 			else  -- else, go to the next parameter to test it with each of it possible values.
@@ -111,7 +113,7 @@ Calibration_ = {
 
 			local m = self.model(startParams) -- test the model with it's first possible values
 			m:execute(self.finalTime)
-			local best = self.fit(m)
+			local best = {bestCost = self.fit(m), bestVariables = startParams}
 			local variables = {}
 			if self.SAMDE == true then
 			-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value

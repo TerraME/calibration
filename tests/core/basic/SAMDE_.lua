@@ -23,7 +23,9 @@ end
 
 return{
 	normaliza = function(unitTest)
-		unitTest:assert(true)
+		local result = true
+		local test = normaliza(10,{{1,10},{1,5}},2)
+		unitTest:assert_equal(test, 2.25)
 	end,
 	
 	calibration = function(unitTest)
