@@ -22,12 +22,6 @@ fit = function(model)
 end
 
 return{
-	normaliza = function(unitTest)
-		local result = true
-		local test = normaliza(10,{{1,10},{1,5}},2)
-		unitTest:assert_equal(test, 2.25)
-	end,
-	
 	calibration = function(unitTest)
 		local c2 = Calibration{
 		model = MyModel,
@@ -39,9 +33,9 @@ return{
 		end
 		}
 		local result = c2:execute()
-		unitTest:assert_equal(result["bestCost"], 4)
-		unitTest:assert_equal(result["bestVariables"]["x"], 1)
-		unitTest:assert_equal(result["bestVariables"]["y"], 1)
+		unitTest:assert_equal(result.bestCost, 4)
+		unitTest:assert_equal(result.bestVariables.x, 1)
+		unitTest:assert_equal(result.bestVariables.y, 1)
 
 	end
 	}

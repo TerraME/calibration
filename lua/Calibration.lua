@@ -23,9 +23,9 @@ testRecursive  = function(self, Params, best, a, variables)
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
-				if candidate < best["bestCost"] then
-					best["bestCost"] = candidate
-					best["bestVariables"] = mVariables
+				if candidate < best.bestCost then
+					best.bestCost = candidate
+					best.bestVariables = mVariables
 				end
 
 			else  -- else, go to the next parameter to test it with it's range of values.
@@ -46,9 +46,9 @@ testRecursive  = function(self, Params, best, a, variables)
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
-				if candidate < best["bestCost"] then
-					best["bestCost"] = candidate
-					best["bestVariables"] = mVariables
+				if candidate < best.bestCost then
+					best.bestCost = candidate
+					best.bestVariables = mVariables
 				end
 
 			else  -- else, go to the next parameter to test it with each of it possible values.
@@ -80,24 +80,13 @@ Calibration_ = {
 	-- result = c:execute()
 	-- c:printResults(result)
 	printResults = function(self, results)
-		print("Best Cost: "..results["bestCost"])
+		print("Best Cost: "..results.bestCost)
 		forEachOrderedElement(self.parameters, function(idx, att, type)
-			print("Best "..idx..": "..results["bestVariables"][idx])
+			print("Best "..idx..": "..results.bestVariables[idx])
 		end)
 		print("")
 	end,
 
-	---Returns the model result smallest fitness value:
-	-- @usage  c = Calibration{
-	-- 		...
-	--	}
-	--
-	-- result = c:execute()
-	-- bestCost = c:bestCost(result)
-	bestCost = function(self, results)
-		return(results["bestCost"])
-	end,
-	
 	--- Executes and test the fitness of the model, 
 	-- and then returns the table: {bestCost = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
@@ -159,7 +148,7 @@ Calibration_ = {
 			-- Else, test the model by trying all the possible values combinations with the testRecursive function
 				best = testRecursive(self, Params, best, 1, variables)
 			end
-		
+
 			return best -- returns the smallest fitness
 	end
 }

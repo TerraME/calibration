@@ -46,12 +46,12 @@ local result2 = c2:execute()
 return{
 Calibration = function(unitTest)
 
-unitTest:assert_equal(result["bestCost"], 4)
-unitTest:assert_equal(result["bestVariables"]["x"], 1)
-unitTest:assert_equal(result["bestVariables"]["y"], 1)
-unitTest:assert_equal(result2["bestCost"], 4)
-unitTest:assert_equal(result2["bestVariables"]["x"], 1)
-unitTest:assert_equal(result2["bestVariables"]["y"], 1)
+unitTest:assert_equal(result.bestCost, 4)
+unitTest:assert_equal(result.bestVariables.x, 1)
+unitTest:assert_equal(result.bestVariables.y, 1)
+unitTest:assert_equal(result2.bestCost, 4)
+unitTest:assert_equal(result2.bestVariables.x, 1)
+unitTest:assert_equal(result2.bestVariables.y, 1)
 end, 
 
 fit = function(unitTest)
@@ -59,14 +59,9 @@ fit = function(unitTest)
 end,
 
 printResults = function(unitTest)
-	unitTest:assert_equal(result["bestCost"], 4)
-	unitTest:assert_equal(result["bestVariables"]["x"], 1)
-	unitTest:assert_equal(result["bestVariables"]["y"], 1)
-end,
-
-bestCost = function(unitTest)
-	local result = c:execute()
-	unitTest:assert_equal(c:bestCost(result), 4)
+	unitTest:assert_equal(result.bestCost, 4)
+	unitTest:assert_equal(result.bestVariables.x, 1)
+	unitTest:assert_equal(result.bestVariables.y, 1)
 end,
 
 execute = function(unitTest)

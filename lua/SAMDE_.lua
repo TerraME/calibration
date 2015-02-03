@@ -132,11 +132,7 @@ local function oobTrea(xi, varMatrix, k)
 	return x;
 end
 
-local function distancia(x,y,varMatrix,i)
-	local dist = normaliza(x,varMatrix,i) - normaliza(y,varMatrix,i);
-	dist = math.abs(dist);
-	return dist;
-end
+local normaliza
 
 function normaliza(x,varMatrix,i)
 	local intervalo = varMatrix[i];
@@ -145,6 +141,14 @@ function normaliza(x,varMatrix,i)
 	local newValue = ((value*100)/total)/100;
 	return newValue;
 end
+
+local function distancia(x,y,varMatrix,i)
+	local dist = normaliza(x,varMatrix,i) - normaliza(y,varMatrix,i);
+	dist = math.abs(dist);
+	return dist;
+end
+
+
 
 local function maxVector(vector,dim)
 	local valueMax = vector[1];
