@@ -11,9 +11,9 @@ local testRecursive
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 
 testRecursive  = function(self, Params, best, a, variables)
-	if Params[a]["ranged"] == true then -- if the parameter uses a range of values
-		for parameter = Params[a]["min"],  Params[a]["max"], Params[a]["step"] do	-- Testing the parameter with each value in it's range.
-			variables[Params[a]["id"]] = parameter -- giving the variables table the current parameter and value being tested.
+	if Params[a].ranged == true then -- if the parameter uses a range of values
+		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
+			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
 				mVariables[idx] = attribute
@@ -34,9 +34,9 @@ testRecursive  = function(self, Params, best, a, variables)
 		end
 
 	else -- if the parameter uses a table of multiple values
-		forEachOrderedElement(Params[a]["elements"], function (idx, attribute, atype) 
+		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
-			variables[Params[a]["id"]] = attribute
+			variables[Params[a].id] = attribute
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2, atype2)
 				mVariables[idx2] = attribute2
@@ -52,7 +52,7 @@ testRecursive  = function(self, Params, best, a, variables)
 				end
 
 			else  -- else, go to the next parameter to test it with each of it possible values.
-				best = testRecursive(self, Params, best, a+1, variables)
+				best = testRecursive(self, Params, best, a + 1, variables)
 			end
 		end)
 	end
@@ -103,8 +103,8 @@ Calibration_ = {
 			local startParams = {} 
 			-- A table with the first possible values for the parameters to be tested.
 			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
-				if self.parameters[idx]["min"] ~= nil then
-    				startParams[idx] = self.parameters[idx]["min"]
+				if self.parameters[idx].min ~= nil then
+    				startParams[idx] = self.parameters[idx].min
     			else
     				startParams[idx] = self.parameters[idx][0]
     			end
@@ -118,14 +118,14 @@ Calibration_ = {
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				local range = true
 				local steps = 1
-				if self.parameters[idx]["step"] ~= nil then
-					steps = self.parameters[idx]["step"]
+				if self.parameters[idx].step ~= nil then
+					steps = self.parameters[idx].step
 				end
-				if self.parameters[idx]["min"] == nil or self.parameters[idx]["max"] == nil then
+				if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
 					range = false
 				end
-				Params[#Params+1] = {id = idx, min = self.parameters[idx]["min"], 
-				max = self.parameters[idx]["max"], elements = attribute, ranged = range, step = steps}
+				Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
+				max = self.parameters[idx].max, elements = attribute, ranged = range, step = steps}
 			end)
 
 			local m = self.model(startParams) -- test the model with it's first possible values
@@ -139,7 +139,7 @@ Calibration_ = {
 				local SamdeParamQuant = 0
 				forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 					samdeParam[#samdeParam+1] = idx
-					samdeValues[#samdeValues+1] = {self.parameters[idx]["min"], self.parameters[idx]["max"]}
+					samdeValues[#samdeValues+1] = {self.parameters[idx].min, self.parameters[idx].max}
 					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
