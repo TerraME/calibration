@@ -1,11 +1,8 @@
 -------------------------------------------------------------
-----                 Algoritmo SaMDE                     ----
-----        Implementado por: Rodolfo A. Lopes           ----
+----                 Algorithm SaMDE                     ----
+----           Implement by: Rodolfo A. Lopes            ----
+---		 Adapted for TerraME by Antonio G. O. Junior	 ----
 -------------------------------------------------------------
--- TO DO: implement fitness function in evaluate
--- TO DO:implement finalTime from Calibration function
--- TO DO: keep the parameters final value for best result?
-
 GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
@@ -305,9 +302,21 @@ local function SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
 	return finalTable
 end
 
+--- Function that uses the SaMDE genetic algorithm to calibrate a model according to a fit function,
+-- it currently returns the smallest fitness value of the model achieved in the calibration
+-- and the parameters used in such instance of the model
+-- @arg varMatrix Tables containig the min and max ranges for each of the parameters to be calibrated.
+-- @arg dim Number of parameters to be calibrated in the model
+-- @arg model The model type that will be calibrated by the function
+-- @arg paramList A table containing the name of the parameters that will be calibrated in order.
+-- @arg finalTime The final time to be used in the model execution.
+-- @arg fit A function  that recieve a model as a parameter and determines the fitness value of such model.
+-- @usage 
+-- local fit = function(model)
+-- 		return model.result
+-- end
+-- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
 function calibration(varMatrix, dim, model, paramList, finalTime, fit)
-
-
 	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
 	return resultSAMDE
 end

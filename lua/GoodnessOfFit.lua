@@ -397,20 +397,3 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	local fitness = fitnessSum / exp
 	return fitness
 end
-
---- Function under development.
--- @arg cs1 First Cellular Space.
--- @arg cs2 Second Cellular Space.
--- @arg attribute An attribute present in both cellular space, which values should be compared.
--- @arg demand A parameter under development.
--- @usage multiLevelDemand(cs1, cs2, "attribute", 5)
-multiLevelDemand = function(cs1, cs2, attribute, demand)
-	-- cs1 tem attribute1
-	-- cs2 tem attribute2
-	-- demand > 0
-    mandatoryArgument(1, "CellularSpace", cs1)
-	mandatoryArgument(2, "CellularSpace", cs2)
-	mandatoryArgument(3, "string", attribute)
-	mandatoryArgument(4, "number", demand)	 
-	verify(demand > 0, "Demand should be bigger than 0.")
-end

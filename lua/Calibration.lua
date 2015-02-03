@@ -72,7 +72,8 @@ Calibration_ = {
 		customError("Function 'fit' was not implemented.")
 	end,
 
-	--- Prints the Calibration results on the console,
+	--- Prints the Calibration results on the console
+	-- @arg results Result of a Calibration type execution
 	-- @usage  c = Calibration{
 	-- 		...
 	--	}

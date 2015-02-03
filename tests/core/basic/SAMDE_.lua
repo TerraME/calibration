@@ -1,4 +1,4 @@
--- TO DO: Test each of the SAMDE functions
+
 local MyModel
 MyModel = Model{
 	x = choice{ min = 1, max = 10},
