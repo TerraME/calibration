@@ -1,8 +1,6 @@
 -- @example Basic example for testing Calibration type, 
 -- using a simple equation and variating it's x and y parameters.
 
-require("calibration")
-
 local MyModel = Model{
 	x = choice{-100, -1, 0, 1, 2, 100},
 	y = choice{ min = 1, max = 10},
