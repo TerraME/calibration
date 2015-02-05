@@ -7,8 +7,7 @@ local MyModel = Model{
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 		}
-	end
-}
+	end}
 
 local c = Calibration{
 	model = MyModel,
@@ -16,8 +15,7 @@ local c = Calibration{
 	parameters = {x ={-100, -1, 0, 1, 2, 100}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
-	end
-}
+	end}
 
 local MyModelSamde = Model{
 	x = choice{ min = 1, max = 10},
@@ -41,10 +39,8 @@ local c2 = Calibration{
 
 local result = c:execute()
 local result2 = c2:execute()
-
 return{
 Calibration = function(unitTest)
-
 unitTest:assert_equal(result.bestCost, 4)
 unitTest:assert_equal(result.bestVariables.x, 1)
 unitTest:assert_equal(result.bestVariables.y, 1)
@@ -65,5 +61,4 @@ end,
 
 execute = function(unitTest)
 		unitTest:assert(true)
-end
-}
+end}

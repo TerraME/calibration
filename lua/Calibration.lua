@@ -1,6 +1,4 @@
 local testRecursive
-
-
 -- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
 -- In the example: Params[1] = {x, -100, 100, (...)}
@@ -9,7 +7,6 @@ local testRecursive
 -- best: The smallest fitness of the model tested.
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
-
 testRecursive  = function(self, Params, best, a, variables)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
@@ -61,7 +58,6 @@ end
 
 
 --@header Model Calibration functions.
-
 Calibration_ = {
 	type_ = "Calibration",
 	--- Returns the fitness of a model, function must be implemented by the user
@@ -99,7 +95,6 @@ Calibration_ = {
 	--	}
 	--
 	-- result = c:execute()
-
 	execute = function(self)
 			local startParams = {} 
 			-- A table with the first possible values for the parameters to be tested.
@@ -151,8 +146,7 @@ Calibration_ = {
 			end
 
 			return best -- returns the smallest fitness
-	end
-}
+	end}
 
 metaTableCalibration_ = {
 	__index = Calibration_
