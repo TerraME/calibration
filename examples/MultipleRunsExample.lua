@@ -21,4 +21,6 @@ local m = MultipleRuns{
 		return model.value
 	end}
 
+m:execute()
+
 --test

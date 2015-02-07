@@ -17,6 +17,11 @@ testRecursive  = function(self, Params, best, a, variables)
 			end)
 
 			if a == #Params then -- if all parameters have already been given a value to be tested.
+				if type(mVariavles["x"]) == "table" then
+					forEachOrderedElement(mVariables["x"], function(idw, atw,tyw)
+						print("idw = "..idw.."")
+					end)
+				end
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
 				local candidate = self.fit(m)
