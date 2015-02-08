@@ -66,33 +66,63 @@ MultipleRuns_ = {
 
 	execute = function(self)
 		local resultTable = {simulations = {}} 
-			-- A table with the first possible values for the parameters to be tested.
 		local Params = {} 
-		-- The possible values for each parameter is being put in a table indexed by numbers.
-		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
-			local range = true
-			local steps = 1
-			if self.parameters[idx].step ~= nil then
-				steps = self.parameters[idx].step
-			end
-			if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
-				range = false
-			end
-			Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
-			max = self.parameters[idx].max, elements = attribute, ranged = range, step = steps}
-		end)
+		if self.strategy ~= "repeated" then
+			-- The possible values for each parameter is being put in a table indexed by numbers.
+			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
+				local range = true
+				local steps = 1
+				if self.parameters[idx].step ~= nil then
+					steps = self.parameters[idx].step
+				end
+				if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
+					range = false
+				end
+				Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
+				max = self.parameters[idx].max, elements = attribute, ranged = range, step = steps}
+			end)
+		end
 
 		local variables = {}	
-		local data = {factorial = "fac", repeated = "rep", selected = "sec"}
+		local data = {factorial = "fac", repeated = "rep", sample = "samp", selected = "sec"}
 		switch(data, self.strategy):caseof{
     		fac = function()
     			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}
 				end)
-    			factorialRecursive(self, Params, 1, variables, resultTable) 
+    			resultTable = factorialRecursive(self, Params, 1, variables, resultTable)
     		end,
 
-    		rep = function() print("rep") end,
+    		rep = function()
+    			local m = self.model(self.parameters)
+    			for i = 1, self.quantity do
+    					m:execute(self.finalTime)
+    					resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
+						forEachOrderedElement(self.parameters, function ( idv, atv, tyv)
+							if resultTable[idv] == nil then
+								resultTable[idv] = {}
+							end
+							resultTable[idv][#resultTable[idv]+1] = atv
+						end)
+				end
+    		end,
+
+    		samp = function()
+    			math.randomseed(os.time())
+    			local possCounter = 0
+    			forEachOrderedElement(Params, function(idr, atr, tyr)
+    				if Params[idr][ranged] == true then
+    					possCounter = possCounter + (Params[idr][max] - Param[idr][min])/Param[idr][step]
+    				else
+    					possCounter = possCounter + #Params[idr][elements]
+    				end
+    			end)
+    			local chance = 1/possCounter
+    			--TO DO create new or adapt factorialRecursive to use:
+    			-- random based on chance value;
+    			-- samples counter.
+    			print ("Development")
+    		end,
 
     		sec = function()
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
