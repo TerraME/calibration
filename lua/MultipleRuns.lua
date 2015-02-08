@@ -58,16 +58,8 @@ MultipleRuns_ = {
 	type_ = "MultipleRuns",
 	execute = function(self)
 		local resultTable = {simulations = {}} 
-
-		local startParams = {} 
 			-- A table with the first possible values for the parameters to be tested.
 		forEachOrderedElement(self.parameters, function(idx, attribute, atype)
-			if self.parameters[idx].min ~= nil then
-    			startParams[idx] = self.parameters[idx].min
-    		else
-    			startParams[idx] = self.parameters[idx][0]
-    		end
-
     		resultTable[idx] = {}
 		end)
 

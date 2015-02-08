@@ -1,4 +1,8 @@
 return{
+execute = function(unitTest)
+		unitTest:assert(true)
+end,
+
 MultipleRuns = function(unitTest)
 	local MyModel = Model{
 	x = choice{-100, -1, 0, 1, 2, 100},
@@ -23,7 +27,6 @@ local m = MultipleRuns{
 		return model.value
 	end}
 
-	r = m:execute()
-	print(type(r))
+	local r = m:execute()
 	unitTest:assert(true)
 end}

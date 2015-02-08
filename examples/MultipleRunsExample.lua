@@ -20,6 +20,4 @@ local m = MultipleRuns{
 	output = function(model)
 		return model.value
 	end}
-
-
---test
+	local r = m:execute()
