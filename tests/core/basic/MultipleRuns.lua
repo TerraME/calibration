@@ -21,15 +21,32 @@ local m = MultipleRuns{
 		return model.value
 	end}
 
+local m2 = MultipleRuns{
+	model = MyModel,
+	strategy = "selected",
+	finalTime = 1,
+	parameters = {
+		scenario1 = {x = 2, y = 5},
+		scenario2 = {x = 1, y = 3}
+	 },
+	output = function(model)
+		return model.value
+	end}
+
 local r = m:execute()
+local r2 = m2:execute()
 
 return{
 execute = function(unitTest)
 		unitTest:assert(true)
 end,
 get = function (unitTest)
-	unitTest:assert_equal(m:get(r,1).x, -100)
-		unitTest:assert_equal(m:get(r,1).y, 1)
+	unitTest:assert_equal(m:get(r, 1).x, -100)
+	unitTest:assert_equal(m:get(r, 1).y, 1)
+	unitTest:assert_equal(m2:get(r2, 1).x, 2)
+	unitTest:assert_equal(m2:get(r2, 1).y, 5)
+	unitTest:assert_equal(m2:get(r2, 2).x, 1)
+	unitTest:assert_equal(m2:get(r2, 2).y, 3)
 end,
 MultipleRuns = function(unitTest)
 	unitTest:assert(true)

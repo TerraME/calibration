@@ -63,13 +63,10 @@ MultipleRuns_ = {
 		end)
 		return getTable
 	end,
+
 	execute = function(self)
 		local resultTable = {simulations = {}} 
 			-- A table with the first possible values for the parameters to be tested.
-		forEachOrderedElement(self.parameters, function(idx, attribute, atype)
-    		resultTable[idx] = {}
-		end)
-
 		local Params = {} 
 		-- The possible values for each parameter is being put in a table indexed by numbers.
 		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
@@ -84,14 +81,32 @@ MultipleRuns_ = {
 			Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
 			max = self.parameters[idx].max, elements = attribute, ranged = range, step = steps}
 		end)
+
 		local variables = {}	
-		local data = {factorial = "fac", repeated = "rep"}
+		local data = {factorial = "fac", repeated = "rep", selected = "sec"}
 		switch(data, self.strategy):caseof{
     		fac = function()
+    			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
+    				resultTable[idx] = {}
+				end)
     			factorialRecursive(self, Params, 1, variables, resultTable) 
-
     		end,
-    		rep = function() print("rep") end
+
+    		rep = function() print("rep") end,
+
+    		sec = function()
+    			forEachOrderedElement(self.parameters, function (idx, att, atype)
+    				local m = self.model(self.parameters[idx])
+    				m:execute(self.finalTime)
+    				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
+					forEachOrderedElement(self.parameters[idx], function ( idv, atv, tyv)
+						if resultTable[idv] == nil then
+							resultTable[idv] = {}
+						end
+						resultTable[idv][#resultTable[idv]+1] = atv
+					end)
+    			end)
+    		end
 		}
 		return resultTable
 	end}
@@ -105,6 +120,5 @@ function MultipleRuns(data)
 	setmetatable(data, metaTableMultipleRuns_)
 	mandatoryTableArgument(data, "model", "function")
 	mandatoryTableArgument(data, "parameters", "table")
-	mandatoryTableArgument(data, "finalTime", "number")
 	return data
 end
