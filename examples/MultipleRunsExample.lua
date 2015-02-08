@@ -14,13 +14,12 @@ local m = MultipleRuns{
 	strategy = "factorial",
 	finalTime = 1,
 	parameters = {
-		x = choice{-100, -1, 0, 1, 2, 100},
-		y = choice{ min = 1, max = 10, step = 1}
+		x = {-100, -1, 0, 1, 2, 100},
+		y = { min = 1, max = 10, step = 1}
 	 },
 	output = function(model)
 		return model.value
 	end}
 
-m:execute()
 
 --test

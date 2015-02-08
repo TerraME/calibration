@@ -4,10 +4,10 @@ local factorialRecursive
 -- In the example: Params[1] = {x, -100, 100, (...)}
 -- (It also contains some extra information such as the step increase 
 -- or if that parameter varies according to a min/max range.)
--- best: The smallest fitness of the model tested.
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
-factorialRecursive  = function(self, Params, a, variables)
+-- resultTable Table returned by multipleRuns as result
+factorialRecursive  = function(self, Params, a, variables, resultTable)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
@@ -19,9 +19,12 @@ factorialRecursive  = function(self, Params, a, variables)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				print(self.output(m))
+				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
+				forEachOrderedElement(variables, function ( idv, atv, tyv)
+					resultTable[idv][#resultTable[idv]+1] = atv
+				end)
 			else  -- else, go to the next parameter to test it with it's range of values.
-				factorialRecursive(self, Params, a+1, variables)
+				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable)
 			end
 		end
 
@@ -37,23 +40,25 @@ factorialRecursive  = function(self, Params, a, variables)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				print(self.output(m))
-
+				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
+				forEachOrderedElement(variables, function ( idv, atv, tyv)
+					resultTable[idv][#resultTable[idv]+1] = atv
+				end)
 			else  -- else, go to the next parameter to test it with each of it possible values.
-				factorialRecursive(self, Params,a + 1, variables)
+				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
 			end
 		end)
 	end
+	return resultTable
 end
 
 --@header Model Calibration functions.
 MultipleRuns_ = {
 
 	type_ = "MultipleRuns",
-	output = function(self)
-		customError("Function 'fit' was not implemented.")
-	end,
 	execute = function(self)
+		local resultTable = {simulations = {}} 
+
 		local startParams = {} 
 			-- A table with the first possible values for the parameters to be tested.
 		forEachOrderedElement(self.parameters, function(idx, attribute, atype)
@@ -62,6 +67,8 @@ MultipleRuns_ = {
     		else
     			startParams[idx] = self.parameters[idx][0]
     		end
+
+    		resultTable[idx] = {}
 		end)
 
 		local Params = {} 
@@ -82,15 +89,13 @@ MultipleRuns_ = {
 		local data = {factorial = "fac", repeated = "rep"}
 		switch(data, self.strategy):caseof{
     		fac = function()
-    			factorialRecursive(self, Params, 1, variables) 
+    			factorialRecursive(self, Params, 1, variables, resultTable) 
 
     		end,
     		rep = function() print("rep") end
 		}
-	end
-
-	
-}
+		return resultTable
+	end}
 
 metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
