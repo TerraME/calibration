@@ -56,6 +56,13 @@ end
 MultipleRuns_ = {
 
 	type_ = "MultipleRuns",
+	get = function(self, result, number)
+		local getTable = {}
+		forEachOrderedElement(result, function(idx, att, type)
+			getTable[idx] = result[idx][number]
+		end)
+		return getTable
+	end,
 	execute = function(self)
 		local resultTable = {simulations = {}} 
 			-- A table with the first possible values for the parameters to be tested.
