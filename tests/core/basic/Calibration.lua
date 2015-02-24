@@ -1,6 +1,6 @@
 local MyModel = Model{
-	x = choice{-100, -1, 0, 1, 2, 100},
-	y = choice{ min = 1, max = 10},
+	x = {-100, -1, 0, 1, 2, 100},
+	y = { min = 1, max = 10},
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -18,8 +18,8 @@ local c = Calibration{
 	end}
 
 local MyModelSamde = Model{
-	x = choice{ min = 1, max = 10},
-	y = choice{ min = 1, max = 10},
+	x = { min = 1, max = 10},
+	y = { min = 1, max = 10},
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()

@@ -173,7 +173,7 @@ metaTableCalibration_ = {
 -- }
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
-	mandatoryTableArgument(data, "model", "function")
+	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
 	mandatoryTableArgument(data, "finalTime", "number")
 	return data
