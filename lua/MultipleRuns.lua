@@ -64,6 +64,34 @@ MultipleRuns_ = {
 		return getTable
 	end,
 
+	--- Executes and test the model depending on the choosen strategy, 
+	-- MultipleRuns returns an object with type MultipleRuns and a set of tables:
+	-- simulations: the name of the simulations executed. It should be "simulation_*", depending on the strategy used.
+	-- For repeat and sample, * should be 1, 2, ..., quantity. For selected, * should be the idx of the element in the table of tables. 
+	-- For Factorial, * should be a combination of the name and value of the parameters:
+	-- "parameter1_value1_parameter_2_value_2...parameter_n_value_n".
+	-- One extra table for each parameter used in the argument "parameters",
+	-- with the parameter value used for the respective simulation.
+	-- In this sense, the model below:
+
+	-- r = MultipleRuns{
+	--    model = MyModel,
+	--    parameters = {water = 10, rain = 20},
+	--    quantity = 10,
+	--   finalTime = 10
+	-- }
+	-- should return a table with the values:
+
+	-- r.simulations == {"1", "2", "...", "10"}
+	-- r.water = {10, 10, 10, ..., 10}
+	-- r.rain = {20, 20, 20, ... 20}
+	-- type(r) == "MultipleRuns"
+
+	-- @usage  c = MultipleRuns{
+	-- 		...
+	--	}
+	--
+	-- result = c:execute()
 	execute = function(self)
 		local resultTable = {simulations = {}} 
 		local Params = {} 
@@ -121,7 +149,7 @@ MultipleRuns_ = {
     			--TO DO create new or adapt factorialRecursive to use:
     			-- random based on chance value;
     			-- samples counter.
-    			print ("Development")
+    			
     		end,
 
     		sec = function()
