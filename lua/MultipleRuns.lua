@@ -19,7 +19,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
 					resultTable[idx2][#resultTable[idx2]+1] = att2
 				end)
@@ -40,7 +40,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
 					resultTable[idx2][#resultTable[idx2]+1] = att2
 				end)
@@ -131,7 +131,7 @@ MultipleRuns_ = {
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
     					m:execute(self.finalTime)
-    					resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+    					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 						forEachOrderedElement(self.parameters, function ( idx2, att2, typ2)
 							if resultTable[idx2] == nil then
 								resultTable[idx2] = {}
@@ -158,12 +158,12 @@ MultipleRuns_ = {
 
     				local m = self.model(sampleParams)
     				m:execute(self.finalTime)
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					forEachOrderedElement(sampleParams, function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
-						
+
 						resultTable[idx2][#resultTable[idx2]+1] = att2
 					end)
     			end
@@ -173,7 +173,7 @@ MultipleRuns_ = {
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
     				local m = self.model(self.parameters[idx])
     				m:execute(self.finalTime)
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					forEachOrderedElement(self.parameters[idx], function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
