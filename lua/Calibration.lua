@@ -64,7 +64,7 @@ Calibration_ = {
 	-- @arg model Model fo calibration
 	-- @arg parameter A Table with the parameters of the model.
 	-- @usage c:fit(model, parameter)
-	fit = function(model, parameter)
+	fit = function(model)
 		customError("Function 'fit' was not implemented.")
 	end,
 
