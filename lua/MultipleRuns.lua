@@ -19,9 +19,9 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
-				forEachOrderedElement(variables, function ( idv, atv, tyv)
-					resultTable[idv][#resultTable[idv]+1] = atv
+				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+				forEachOrderedElement(variables, function ( idx2, att2, typ2)
+					resultTable[idx2][#resultTable[idx2]+1] = att2
 				end)
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable)
@@ -40,9 +40,9 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute(self.finalTime)
-				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
-				forEachOrderedElement(variables, function ( idv, atv, tyv)
-					resultTable[idv][#resultTable[idv]+1] = atv
+				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+				forEachOrderedElement(variables, function ( idx2, att2, typ2)
+					resultTable[idx2][#resultTable[idx2]+1] = att2
 				end)
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
@@ -97,17 +97,23 @@ MultipleRuns_ = {
 		local Params = {} 
 		if self.strategy ~= "repeated" then
 			-- The possible values for each parameter is being put in a table indexed by numbers.
+			-- example:
+			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+			-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+
 			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 				local range = true
 				local steps = 1
+				local parameterElements
 				if self.parameters[idx].step ~= nil then
 					steps = self.parameters[idx].step
 				end
 				if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
 					range = false
+					parameterElements = attribute
 				end
 				Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
-				max = self.parameters[idx].max, elements = attribute, ranged = range, step = steps}
+				max = self.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
 			end)
 		end
 
@@ -125,43 +131,54 @@ MultipleRuns_ = {
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
     					m:execute(self.finalTime)
-    					resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
-						forEachOrderedElement(self.parameters, function ( idv, atv, tyv)
-							if resultTable[idv] == nil then
-								resultTable[idv] = {}
+    					resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+						forEachOrderedElement(self.parameters, function ( idx2, att2, typ2)
+							if resultTable[idx2] == nil then
+								resultTable[idx2] = {}
 							end
-							resultTable[idv][#resultTable[idv]+1] = atv
+							resultTable[idx2][#resultTable[idx2]+1] = att2
 						end)
 				end
     		end,
 
     		samp = function()
     			math.randomseed(os.time())
-    			local possCounter = 0
-    			forEachOrderedElement(Params, function(idr, atr, tyr)
-    				if Params[idr][ranged] == true then
-    					possCounter = possCounter + (Params[idr][max] - Param[idr][min])/Param[idr][step]
-    				else
-    					possCounter = possCounter + #Params[idr][elements]
-    				end
-    			end)
-    			local chance = 1/possCounter
-    			--TO DO create new or adapt factorialRecursive to use:
-    			-- random based on chance value;
-    			-- samples counter.
-    			
+    			for i=1, self.quantity do
+    				local sampleParams = {}
+    				local sampleValue
+    				forEachOrderedElement(Params, function(idx2, att2, typ2)
+    					if att2[ranged] == true then
+    						sampleValue = math.random(att2[min], att2[max])
+    						sampleParams[att2[id]] = sampleValue
+    					else
+    						sampleValue = att2[elements][math.random(1, #att2[elements])]
+    						sampleParams[att2[id]] =  sampleValue
+    					end
+    				end)
+
+    				local m = self.model(sampleParams)
+    				m:execute(self.finalTime)
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+					forEachOrderedElement(sampleParams, function ( idx2, att2, typ2)
+						if resultTable[idx2] == nil then
+							resultTable[idx2] = {}
+						end
+						
+						resultTable[idx2][#resultTable[idx2]+1] = att2
+					end)
+    			end
     		end,
 
     		sec = function()
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
     				local m = self.model(self.parameters[idx])
     				m:execute(self.finalTime)
-    				resultTable.simulations[#resultTable.simulations + 1] = #resultTable.simulations + 1
-					forEachOrderedElement(self.parameters[idx], function ( idv, atv, tyv)
-						if resultTable[idv] == nil then
-							resultTable[idv] = {}
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..#resultTable.simulations + 1..""
+					forEachOrderedElement(self.parameters[idx], function ( idx2, att2, typ2)
+						if resultTable[idx2] == nil then
+							resultTable[idx2] = {}
 						end
-						resultTable[idv][#resultTable[idv]+1] = atv
+						resultTable[idx2][#resultTable[idx2]+1] = att2
 					end)
     			end)
     		end
