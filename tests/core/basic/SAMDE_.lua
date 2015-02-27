@@ -1,8 +1,9 @@
 
 local MyModel
 MyModel = Model{
-	x = choice{ min = 1, max = 10},
-	y = choice{ min = 1, max = 10},
+	x = Choice{ min = 1, max = 10},
+	y = Choice{ min = 1, max = 10},
+	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -25,7 +26,6 @@ return{
 	calibration = function(unitTest)
 		local c2 = Calibration{
 		model = MyModel,
-		finalTime = 1,
 		parameters = {x ={ min = 1, max = 10}, y = { min = 1, max = 10}},
 		SAMDE = true,
 		fit = function(model)

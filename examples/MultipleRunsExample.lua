@@ -1,6 +1,7 @@
 local MyModel = Model{
-	x = choice{-100, -1, 0, 1, 2, 100},
-	y = choice{ min = 1, max = 10, step = 1},
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y = Choice{ min = 1, max = 10, step = 1},
+	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -12,7 +13,6 @@ local MyModel = Model{
 local m = MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",
-	finalTime = 1,
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
 		y = { min = 1, max = 10, step = 1}

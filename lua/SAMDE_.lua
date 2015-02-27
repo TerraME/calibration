@@ -7,13 +7,13 @@ GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
 
-local function evaluate(ind, dim, model, paramList, finalTime, fit)
+local function evaluate(ind, dim, model, paramList, fit)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
 	end
 	local m = model(solution) 
-	m:execute(finalTime)
+	m:execute()
 	local err = fit(m)
 	return err
 end
@@ -183,16 +183,16 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 	return valueMax
 end
 
-local function SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
+local function SAMDE_(varMatrix, dim, model, paramList, fit)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = (dim * 10)
 	pop = initPop(maxPopulation, varMatrix, dim)
-	local bestCost = evaluate(pop[1], dim, model, paramList, finalTime, fit)
+	local bestCost = evaluate(pop[1], dim, model, paramList, fit)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
 	for i = 2, maxPopulation do
-		local fitness = evaluate(pop[i], dim, model, paramList, finalTime, fit)
+		local fitness = evaluate(pop[i], dim, model, paramList, fit)
 		table.insert(costPop, fitness)
 		if(fitness < bestCost) then
 			bestCost = fitness
@@ -272,7 +272,7 @@ local function SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
 				end
 			end
 			
-			local score = evaluate(ui, dim, model, paramList, finalTime, fit)
+			local score = evaluate(ui, dim, model, paramList, fit)
 			if(score < costPop[j]) then
 				table.insert(popAux,copy(ui))
 				costPop[j] = score
@@ -309,7 +309,6 @@ end
 -- @arg dim dim Number of parameters to be calibrated in the model
 -- @arg model model The model type that will be calibrated by the function
 -- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
--- @arg finalTime finalTime The final time to be used in the model execution.
 -- @arg fit fit() A function  that recieve a model as a parameter and determines the fitness value of such model.
 -- @usage 
 -- local fit = function(model)
@@ -318,8 +317,8 @@ end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
 -- @example
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
-function calibration(varMatrix, dim, model, paramList, finalTime, fit)
-	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, finalTime, fit)
+function calibration(varMatrix, dim, model, paramList, fit)
+	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
 	return resultSAMDE
 end
 

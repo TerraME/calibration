@@ -18,7 +18,7 @@ testRecursive  = function(self, Params, best, a, variables)
 
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
-				m:execute(self.finalTime)
+				m:execute()
 				local candidate = self.fit(m)
 				if candidate < best.bestCost then
 					best.bestCost = candidate
@@ -41,7 +41,7 @@ testRecursive  = function(self, Params, best, a, variables)
 
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
-				m:execute(self.finalTime)
+				m:execute()
 				local candidate = self.fit(m)
 				if candidate < best.bestCost then
 					best.bestCost = candidate
@@ -125,7 +125,7 @@ Calibration_ = {
 			end)
 
 			local m = self.model(startParams) -- test the model with it's first possible values
-			m:execute(self.finalTime)
+			m:execute()
 			local best = {bestCost = self.fit(m), bestVariables = startParams}
 			local variables = {}
 			if self.SAMDE == true then
@@ -139,7 +139,7 @@ Calibration_ = {
 					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
-				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.finalTime, self.fit)
+				best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
 			else
 			-- Else, test the model by trying all the possible values combinations with the testRecursive function
 				best = testRecursive(self, Params, best, 1, variables)
@@ -175,6 +175,5 @@ function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	mandatoryTableArgument(data, "finalTime", "number")
 	return data
 end

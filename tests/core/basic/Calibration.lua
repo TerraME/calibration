@@ -18,8 +18,9 @@ local c = Calibration{
 	end}
 
 local MyModelSamde = Model{
-	x = { min = 1, max = 10},
-	y = { min = 1, max = 10},
+	x = Choice{ min = 1, max = 10},
+	y = Choice{ min = 1, max = 10},
+	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -30,7 +31,6 @@ local MyModelSamde = Model{
 
 local c2 = Calibration{
 	model = MyModelSamde,
-	finalTime = 1,
 	parameters = {x ={ min = 1, max = 10}, y = { min = 1, max = 10}},
 	SAMDE = true,
 	fit = function(model)

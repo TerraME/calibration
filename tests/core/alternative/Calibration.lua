@@ -26,17 +26,6 @@ return{
 		error_func = function()
 			c = Calibration{
 				model = MyModel,
-				parameters = {x ={ min = -100, max = 100}},
-				fit = function(model)
-					return model.value
-				end
-			}
-		end
-		unitTest:assert_error(error_func, mandatoryArgumentMsg("finalTime"))	
-
-		error_func = function()
-			c = Calibration{
-				model = MyModel,
 				finalTime = 1,
 				fit = function(model)
 					return model.value

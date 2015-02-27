@@ -1,9 +1,8 @@
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
--- In the example: Params[1] = {x, -100, 100, (...)}
--- (It also contains some extra information such as the step increase 
--- or if that parameter varies according to a min/max range.)
+-- Example: Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
@@ -18,7 +17,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
-				m:execute(self.finalTime)
+				m:execute()
 				self.output(m)
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
@@ -40,11 +39,13 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
-				m:execute(self.finalTime)
+				m:execute()
 				self.output(m)
+				local stringSimulations = ""
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
 					resultTable[idx2][#resultTable[idx2]+1] = att2
+					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
@@ -138,7 +139,7 @@ MultipleRuns_ = {
     		rep = function()
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
-    					m:execute(self.finalTime)
+    					m:execute()
     					self.output(m)
     					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 						forEachOrderedElement(self.parameters, function ( idx2, att2, typ2)
@@ -166,7 +167,7 @@ MultipleRuns_ = {
     				end)
 
     				local m = self.model(sampleParams)
-    				m:execute(self.finalTime)
+    				m:execute()
     				self.output(m)
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					forEachOrderedElement(sampleParams, function ( idx2, att2, typ2)
@@ -182,9 +183,9 @@ MultipleRuns_ = {
     		sec = function()
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
     				local m = self.model(self.parameters[idx])
-    				m:execute(self.finalTime)
+    				m:execute()
     				self.output(m)
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx + 1)..""
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx)..""
 					forEachOrderedElement(self.parameters[idx], function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
@@ -204,7 +205,7 @@ metaTableMultipleRuns_ = {
 ---Type 
 function MultipleRuns(data)
 	setmetatable(data, metaTableMultipleRuns_)
-	mandatoryTableArgument(data, "model", "function")
+	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
 	return data
 end
