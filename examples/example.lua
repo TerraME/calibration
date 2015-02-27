@@ -14,7 +14,7 @@ local MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	finalTime = 1,
-	parameters = {x ={-100, -1, 0, 1, 2, 100}, y = { min = 1, max = 10}},
+	parameters = {x = {-100, -1, 0, 1, 2, 100}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 	end}

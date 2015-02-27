@@ -64,7 +64,7 @@ Calibration_ = {
 	-- @arg model Model fo calibration
 	-- @arg parameter A Table with the parameters of the model.
 	-- @usage c:fit(model, parameter)
-	fit = function(model, parameter)
+	fit = function(model)
 		customError("Function 'fit' was not implemented.")
 	end,
 
@@ -173,7 +173,7 @@ metaTableCalibration_ = {
 -- }
 function Calibration(data)
 	setmetatable(data, metaTableCalibration_)
-	mandatoryTableArgument(data, "model", "function")
+	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
 	mandatoryTableArgument(data, "finalTime", "number")
 	return data
