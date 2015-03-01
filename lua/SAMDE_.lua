@@ -315,8 +315,7 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
--- @example
--- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
+
 function calibration(varMatrix, dim, model, paramList, fit)
 	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
 	return resultSAMDE

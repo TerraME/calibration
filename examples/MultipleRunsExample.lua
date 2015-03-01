@@ -1,3 +1,5 @@
+-- @example Basic example for testing Calibration type, 
+-- using factorial strategy.
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
 	y = Choice{ min = 1, max = 10, step = 1},

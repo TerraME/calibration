@@ -19,10 +19,12 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
 				self.output(m)
-				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
+				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
 					resultTable[idx2][#resultTable[idx2]+1] = att2
+					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
+				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable)
 			end
@@ -42,11 +44,11 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				m:execute()
 				self.output(m)
 				local stringSimulations = ""
-				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
 					resultTable[idx2][#resultTable[idx2]+1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
+				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
 			end
@@ -58,10 +60,23 @@ end
 
 --@header Model Calibration functions.
 MultipleRuns_ = {
-
 	type_ = "MultipleRuns",
+	--- Optional function defined by the user,
+	-- that is executed each time the model runs
+	-- @arg model The instance of the Model that was executed.
+	-- @usage m = multipleRuns = {...
+	-- output = function(model)
+	-- 	return model.value
+	-- end}
+	-- r = m:execute()
 	output = function(self, model)
 	end,
+	--- Function that returns the result.
+	-- @arg result The result of the Multiple Runs execution
+	-- @arg number The number of the desired execution
+	-- @usage m = multipleRuns = {...}
+	-- r = m:execute()
+	-- m:get(r,1).x == -100
 	get = function(self, result, number)
 		local getTable = {}
 		forEachOrderedElement(result, function(idx, att, type)
@@ -79,7 +94,6 @@ MultipleRuns_ = {
 	-- One extra table for each parameter used in the argument "parameters",
 	-- with the parameter value used for the respective simulation.
 	-- In this sense, the model below:
-
 	-- r = MultipleRuns{
 	--    model = MyModel,
 	--    parameters = {water = 10, rain = 20},
@@ -87,12 +101,10 @@ MultipleRuns_ = {
 	--   finalTime = 10
 	-- }
 	-- should return a table with the values:
-
 	-- r.simulations == {"1", "2", "...", "10"}
 	-- r.water = {10, 10, 10, ..., 10}
 	-- r.rain = {20, 20, 20, ... 20}
 	-- type(r) == "MultipleRuns"
-
 	-- @usage  c = MultipleRuns{
 	-- 		...
 	--	}
@@ -102,6 +114,7 @@ MultipleRuns_ = {
 		local resultTable = {simulations = {}} 
 		local Params = {} 
 		if self.strategy ~= "repeated" then
+			print(self.strategy)
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			-- example:
 			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
@@ -120,7 +133,7 @@ MultipleRuns_ = {
 					parameterElements = attribute
 				end
 
-				Params[#Params+1] = {id = idx, min = self.parameters[idx].min, 
+				Params[#Params + 1] = {id = idx, min = self.parameters[idx].min, 
 				max = self.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
 			end)
 		end
@@ -156,15 +169,15 @@ MultipleRuns_ = {
     			for i=1, self.quantity do
     				local sampleParams = {}
     				local sampleValue
-    				forEachOrderedElement(Params, function(idx2, att2, typ2)
-    					if att2[ranged] == true then
-    						sampleValue = math.random(att2[min], att2[max])
-    						sampleParams[att2[id]] = sampleValue
+    				for i = 1, #Params do
+    					if Params[i]["ranged"] == true then
+    						sampleValue = math.random(Params[i]["min"], Params[i]["max"])
+    						sampleParams[Params[i]["id"]] = sampleValue
     					else
-    						sampleValue = att2[elements][math.random(1, #att2[elements])]
-    						sampleParams[att2[id]] =  sampleValue
+    						sampleValue = Params[i]["elements"][math.random(1, #Params[i]["elements"])]
+    						sampleParams[Params[i]["id"]] =  sampleValue
     					end
-    				end)
+    				end
 
     				local m = self.model(sampleParams)
     				m:execute()
@@ -202,7 +215,25 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
----Type 
+
+---Type to repeatly execute a model according to a choosen strategy,
+-- returns a calibration type with it's functions.
+-- @arg data a Table containing: A model constructor, with the model that will be calibrated;
+-- A table with the parameters to be tested; An optional quantity variable; 
+-- An optional user defined output function.
+-- @usage c = MultipleRuns{
+--     model = MyModel,
+--	quantity = 5,
+--	parameters = {
+--		x = {-100, -1, 0, 1, 2, 100},
+--		y = { min = 1, max = 10, step = 1}
+--	 },
+--	output = function(model)
+--		return model.value
+--	end}
+-- }
+-- 
+
 function MultipleRuns(data)
 	setmetatable(data, metaTableMultipleRuns_)
 	mandatoryTableArgument(data, "model", "Model")

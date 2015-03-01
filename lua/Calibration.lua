@@ -62,7 +62,6 @@ Calibration_ = {
 	type_ = "Calibration",
 	--- Returns the fitness of a model, function must be implemented by the user
 	-- @arg model Model fo calibration
-	-- @arg parameter A Table with the parameters of the model.
 	-- @usage c:fit(model, parameter)
 	fit = function(model)
 		customError("Function 'fit' was not implemented.")
