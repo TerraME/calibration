@@ -77,6 +77,7 @@ get = function (unitTest)
 	unitTest:assert_equal(m2:get(r2, 2).y, 3)
 	unitTest:assert(m3:get(r3, 1).x == 2 and m3:get(r3, 2).x == 2 and m3:get(r3, 3).x == 2)
 	unitTest:assert(m3:get(r3, 1).y == 5 and m3:get(r3, 2).y == 5 and m3:get(r3, 3).y == 5)
+	unitTest:assert(m4:get(r4, 5).simulations == "5")
 end,
 
 MultipleRuns = function(unitTest)
