@@ -70,6 +70,7 @@ end,
 
 get = function (unitTest)
 	unitTest:assert_equal(m:get(r, 1).x, -100)
+	print(type(r))
 	unitTest:assert_equal(m:get(r, 1).y, 1)
 	unitTest:assert_equal(m2:get(r2, 1).x, 2)
 	unitTest:assert_equal(m2:get(r2, 1).y, 5)

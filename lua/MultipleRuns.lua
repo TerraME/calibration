@@ -208,6 +208,7 @@ MultipleRuns_ = {
     			end)
     		end
 		}
+		resultTable.type_ = "MultipleRuns" 
 		return resultTable
 	end}
 
@@ -233,10 +234,7 @@ metaTableMultipleRuns_ = {
 --	end}
 -- }
 -- 
-
 function MultipleRuns(data)
 	setmetatable(data, metaTableMultipleRuns_)
-	mandatoryTableArgument(data, "model", "Model")
-	mandatoryTableArgument(data, "parameters", "table")
 	return data
 end
