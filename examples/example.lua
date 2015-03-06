@@ -2,7 +2,7 @@
 -- using a simple equation and variating it's x and y parameters.
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
-	y = Choice{ min = 1, max = 10},
+	y = Choice{min = 1, max = 10},
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -14,14 +14,17 @@ local MyModel = Model{
 
 c = Calibration{
 	model = MyModel,
-	parameters = {x = {-100, -1, 0, 1, 2, 100}, y = { min = 1, max = 10}},
+	parameters = {
+		x = Choice{min = -100, max = 100, step = 1}, 
+		y = Choice{min = 1, max = 10}
+	},
 	fit = function(model)
 		return model.value
 	end}
 
 local MyModelSamde = Model{
-	x = Choice{ min = 1, max = 10},
-	y = Choice{ min = 1, max = 10},
+	x = Choice{min = 1, max = 10},
+	y = Choice{min = 1, max = 10},
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -33,8 +36,8 @@ local MyModelSamde = Model{
 
 local c2 = Calibration{
 	model = MyModelSamde,
-	parameters = {x ={ min = 1, max = 10}, y = { min = 1, max = 10}},
-	SAMDE = true,
+	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
+	SAMDE = true, -- TODO: remove this line
 	fit = function(model)
 		return model.value
 	end}
@@ -45,3 +48,4 @@ print("1st Example Result: \n")
 c:printResults(result)
 print("2st Example Result: (SAMDE)\n")
 c2:printResults(result2)
+

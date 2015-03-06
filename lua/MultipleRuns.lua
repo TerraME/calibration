@@ -8,7 +8,7 @@ local factorialRecursive
 -- resultTable Table returned by multipleRuns as result
 factorialRecursive  = function(self, Params, a, variables, resultTable)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
+		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
@@ -21,12 +21,12 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				self.output(m)
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
-					resultTable[idx2][#resultTable[idx2]+1] = att2
+					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable)
+				resultTable = factorialRecursive(self, Params, a + 1, variables, resultTable)
 			end
 		end
 
@@ -45,12 +45,12 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				self.output(m)
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
-					resultTable[idx2][#resultTable[idx2]+1] = att2
+					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
+				resultTable = factorialRecursive(self, Params, a + 1, variables, resultTable)
 			end
 		end)
 	end
@@ -139,17 +139,15 @@ MultipleRuns_ = {
 		end
 
 		local variables = {}	
-		local data = {factorial = "fac", repeated = "rep", sample = "samp", selected = "sec"}
-		switch(data, self.strategy):caseof{
-    		fac = function()
+		switch(self, "strategy"):caseof{
+    		factorial = function()
     			forEachOrderedElement(self.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}
 				end)
 
     			resultTable = factorialRecursive(self, Params, 1, variables, resultTable)
     		end,
-
-    		rep = function()
+    		repeated = function()
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
     					m:execute()
@@ -163,19 +161,18 @@ MultipleRuns_ = {
 						end)
 				end
     		end,
-
-    		samp = function()
+    		sample = function()
     			math.randomseed(os.time())
-    			for i=1, self.quantity do
+    			for i = 1, self.quantity do
     				local sampleParams = {}
     				local sampleValue
     				for i = 1, #Params do
-    					if Params[i]["ranged"] == true then
-    						sampleValue = math.random(Params[i]["min"], Params[i]["max"])
-    						sampleParams[Params[i]["id"]] = sampleValue
+    					if Params[i].ranged == true then
+    						sampleValue = math.random(Params[i].min, Params[i].max)
+    						sampleParams[Params[i].id] = sampleValue
     					else
-    						sampleValue = Params[i]["elements"][math.random(1, #Params[i]["elements"])]
-    						sampleParams[Params[i]["id"]] =  sampleValue
+    						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
+    						sampleParams[Params[i].id] =  sampleValue
     					end
     				end
 
@@ -183,27 +180,26 @@ MultipleRuns_ = {
     				m:execute()
     				self.output(m)
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-					forEachOrderedElement(sampleParams, function ( idx2, att2, typ2)
+					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
 
-						resultTable[idx2][#resultTable[idx2]+1] = att2
+						resultTable[idx2][#resultTable[idx2] + 1] = att2
 					end)
     			end
     		end,
-
-    		sec = function()
-    			forEachOrderedElement(self.parameters, function (idx, att, atype)
+    		selected = function()
+    			forEachOrderedElement(self.parameters, function(idx, att, atype)
     				local m = self.model(self.parameters[idx])
     				m:execute()
     				self.output(m)
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx)..""
-					forEachOrderedElement(self.parameters[idx], function ( idx2, att2, typ2)
+					forEachOrderedElement(self.parameters[idx], function(idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
-						resultTable[idx2][#resultTable[idx2]+1] = att2
+						resultTable[idx2][#resultTable[idx2] + 1] = att2
 					end)
     			end)
     		end
@@ -214,7 +210,6 @@ MultipleRuns_ = {
 metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
-
 
 ---Type to repeatly execute a model according to a choosen strategy,
 -- returns a calibration type with it's functions.
@@ -240,3 +235,4 @@ function MultipleRuns(data)
 	mandatoryTableArgument(data, "parameters", "table")
 	return data
 end
+
