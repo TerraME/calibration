@@ -30,7 +30,7 @@ local function initPop(popTam, varMatrix, dim)
 			local minVar = lim[1]
 			local maxVar = lim[2]
 			local value = minVar + (math.random() * (maxVar - minVar))
-			table.insert(ind,value)
+			table.insert(ind, value)
 		end
 		for j = (dim + 1), (dim + NUMEST * PARAMETERS) do
 			local value = math.random()
@@ -59,7 +59,7 @@ local function g3Rand(i,popTam)
 	return rands
 end
 
-local function g4Rand(i,popTam)
+local function g4Rand(i, popTam)
 	local rands = {}
 	local a, b , c, d
 	repeat
@@ -135,7 +135,7 @@ function normaliza(x, varMatrix, i)
 	local intervalo = varMatrix[i]
 	local total = intervalo[2] - intervalo[1]
 	local value = x - intervalo[1]
-	local newValue = ((value*100) / total) / 100
+	local newValue = ((value * 100) / total) / 100
 	return newValue
 end
 
@@ -176,10 +176,10 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 	end
 	local dist = {}
 	for i = 1, dim do
-		local value = distancia(varMax[i],varMin[i],varMatrix,i)
+		local value = distancia(varMax[i], varMin[i], varMatrix, i)
 		table.insert(dist, value)
 	end
-	local valueMax = maxVector(dist,dim)
+	local valueMax = maxVector(dist, dim)
 	return valueMax
 end
 
@@ -202,7 +202,7 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 	local cont = 0
 	
 	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop,dim,maxPopulation,varMatrix) > 0.001) ) do
+	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) ) do
 		local cont = cont + 1
 		local popAux = {}
 		for j = 1, maxPopulation do
@@ -264,11 +264,11 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 				end
 			end
 			
-			for k = 1, (NUMEST*PARAMETERS) do
+			for k = 1, (NUMEST * PARAMETERS) do
 				if( math.random() <= params[crPos] ) then
 					table.insert(ui, params[k])
 				else
-					table.insert(ui, indexInd[dim+k])
+					table.insert(ui, indexInd[dim + k])
 				end
 			end
 			
@@ -281,7 +281,7 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 					bestInd = copy(ui)
 				end
 			else
-				table.insert(popAux,pop[j])
+				table.insert(popAux, pop[j])
 			end
 		end
 		
