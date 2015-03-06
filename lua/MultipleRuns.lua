@@ -72,15 +72,16 @@ MultipleRuns_ = {
 	output = function(self, model)
 	end,
 	--- Function that returns the result.
-	-- @arg result The result of the Multiple Runs execution
 	-- @arg number The number of the desired execution
 	-- @usage m = multipleRuns = {...}
 	-- r = m:execute()
 	-- m:get(r,1).x == -100
-	get = function(self, result, number)
+	get = function(self, number)
 		local getTable = {}
-		forEachOrderedElement(result, function(idx, att, type)
-			getTable[idx] = result[idx][number]
+		forEachOrderedElement(self, function(idx, att, typ)
+			if(type(self[idx]) == "table") then
+				getTable[idx] = self[idx][number]
+			end
 		end)
 		return getTable
 	end,
@@ -114,7 +115,6 @@ MultipleRuns_ = {
 		local resultTable = {simulations = {}} 
 		local Params = {} 
 		if self.strategy ~= "repeated" then
-			print(self.strategy)
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			-- example:
 			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
@@ -233,10 +233,11 @@ metaTableMultipleRuns_ = {
 --	end}
 -- }
 -- 
-
 function MultipleRuns(data)
 	setmetatable(data, metaTableMultipleRuns_)
-	mandatoryTableArgument(data, "model", "Model")
-	mandatoryTableArgument(data, "parameters", "table")
+	local result =  data:execute()
+	forEachOrderedElement(result, function(idx, att, type)
+		data[idx] = att
+	end)
 	return data
 end
