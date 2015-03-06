@@ -88,8 +88,10 @@ MultipleRuns_ = {
 
 	--- Executes and test the model depending on the choosen strategy, 
 	-- MultipleRuns returns an object with type MultipleRuns and a set of tables:
-	-- simulations: the name of the simulations executed. It should be "simulation_*", depending on the strategy used.
-	-- For repeat and sample, * should be 1, 2, ..., quantity. For selected, * should be the idx of the element in the table of tables. 
+	-- simulations: the name of the simulations executed. It should be "simulation_*", 
+	-- depending on the strategy used.
+	-- For repeat and sample, * should be 1, 2, ..., quantity. 
+	-- For selected, * should be the idx of the element in the table of tables. 
 	-- For Factorial, * should be a combination of the name and value of the parameters:
 	-- "parameter1_value1_parameter_2_value_2...parameter_n_value_n".
 	-- One extra table for each parameter used in the argument "parameters",
