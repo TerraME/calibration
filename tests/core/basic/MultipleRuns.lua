@@ -54,7 +54,19 @@ local m4 = MultipleRuns{
 	end}
 
 return{
-execute = function(unitTest)
+output = function(unitTest)
+	unitTest:assert(true)
+end,
+
+get = function (unitTest)
+
+	unitTest:assert_equal(m:get(1).x, -100)
+	unitTest:assert_equal(m:get(1).y, 1)
+	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
+
+end,
+
+MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
@@ -68,19 +80,4 @@ execute = function(unitTest)
 	unitTest:assert_equal(m3:get(1).simulations, "1")
 	unitTest:assert(m4:get(5).simulations == "5")
 	unitTest:assert_equal(m4:get(1).simulations, "1")
-end,
-
-output = function(unitTest)
-	unitTest:assert(true)
-end,
-
-get = function (unitTest)
-	unitTest:assert_equal(m:get(1).x, -100)
-	unitTest:assert_equal(m:get(1).y, 1)
-	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
-
-end,
-
-MultipleRuns = function(unitTest)
-	unitTest:assert(true)
 end}
