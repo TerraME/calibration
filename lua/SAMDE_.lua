@@ -6,12 +6,12 @@
 GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
-
 local function evaluate(ind, dim, model, paramList, fit)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
 	end
+
 	local m = model(solution) 
 	m:execute()
 	local err = fit(m)
@@ -32,12 +32,15 @@ local function initPop(popTam, varMatrix, dim)
 			local value = minVar + (math.random() * (maxVar - minVar))
 			table.insert(ind, value)
 		end
+
 		for j = (dim + 1), (dim + NUMEST * PARAMETERS) do
 			local value = math.random()
 			table.insert(ind, value)
 		end
+
 		table.insert(popInit, ind)
 	end
+
 	return popInit
 end
 
@@ -86,6 +89,7 @@ local function copy(tab)
 	for i = 1, #tab do
 		table.insert(result, tab[i])
 	end
+
 	return result
 end
 
@@ -94,6 +98,7 @@ local function copyParameters(tab,dim)
 	for i = dim + 1, #tab do
 		table.insert(result, tab[i])
 	end
+
 	return result
 end
 
@@ -104,6 +109,7 @@ local function repareP(parameter)
 	elseif ( p > 1) then
 		p = 2 * 1 - p
 	end
+
 	return p
 end
 
@@ -119,6 +125,7 @@ local function oobTrea(xi, varMatrix, k)
 			x = 2 * minVar - x;
 		end
 	end
+
 	if(x > maxVar) then
 		if(math.random() < 0.5) then
 			x = maxVar
@@ -126,21 +133,21 @@ local function oobTrea(xi, varMatrix, k)
 			x = 2 * maxVar - x
 		end
 	end
+
 	return x
 end
 
-local normaliza
-
-function normaliza(x, varMatrix, i)
-	local intervalo = varMatrix[i]
-	local total = intervalo[2] - intervalo[1]
-	local value = x - intervalo[1]
+local normalize
+function normalize(x, varMatrix, i)
+	local interval = varMatrix[i]
+	local total = interval[2] - interval[1]
+	local value = x - interval[1]
 	local newValue = ((value * 100) / total) / 100
 	return newValue
 end
 
-local function distancia(x, y, varMatrix, i)
-	local dist = normaliza(x, varMatrix, i) - normaliza(y, varMatrix, i)
+local function distance(x, y, varMatrix, i)
+	local dist = normalize(x, varMatrix, i) - normalize(y, varMatrix, i)
 	dist = math.abs(dist)
 	return dist
 end
@@ -152,6 +159,7 @@ local function maxVector(vector, dim)
 			valueMax = vector[i]
 		end
 	end
+
 	return valueMax
 end
 
@@ -163,22 +171,26 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 		table.insert(varMax, vector[i])
 		table.insert(varMin, vector[i])
 	end
+
 	for i = 2, maxPopulation do
 		local vector = pop[i]
 		for j = 1, dim do
 			if(vector[j] > varMax[j]) then
 				varMax[j] = vector[j]
 			end
+
 			if(vector[j] < varMin[j]) then
 				varMin[j] = vector[j]
 			end
 		end
 	end
+
 	local dist = {}
 	for i = 1, dim do
-		local value = distancia(varMax[i], varMin[i], varMatrix, i)
+		local value = distance(varMax[i], varMin[i], varMatrix, i)
 		table.insert(dist, value)
 	end
+
 	local valueMax = maxVector(dist, dim)
 	return valueMax
 end
@@ -199,8 +211,8 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 			bestInd = copy(pop[i])
 		end
 	end
+
 	local cont = 0
-	
 	-- print("evolution population ...");
 	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) ) do
 		local cont = cont + 1
@@ -213,7 +225,6 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 			solution1 = pop[rands[1]]
 			solution2 = pop[rands[2]]
 			solution3 = pop[rands[3]]
-			
 			for k = 1, NUMEST do
 				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k]))
 			end
@@ -226,7 +237,6 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 			local _rand = math.random()
 			local p = 0
 			local winV = 0
-			
 			for k = 1, NUMEST do
 				p = p + (params[k] / sumV)
 				if(_rand > p) then
@@ -247,7 +257,6 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 			local indexInd = pop[j]
 			local index = math.random(1, dim)
 			local ui = {}
-			
 			for k = 1, dim do
 				if( math.random() <= params[crPos] or k == index or winV == 3) then
 					if( winV == 0) then -- rand\1
@@ -280,6 +289,7 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 					bestCost = score
 					bestInd = copy(ui)
 				end
+
 			else
 				table.insert(popAux, pop[j])
 			end
@@ -291,13 +301,13 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 		end
 		
 	end
-	-- print("Generation: " .. cont);
-	
 
+	-- print("Generation: " .. cont);
 	local bestVariablesChoice = {}
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
+	
 	local finalTable = {bestCost = bestCost, bestVariables = bestVariablesChoice}
 	return finalTable
 end
@@ -315,7 +325,6 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
-
 function calibration(varMatrix, dim, model, paramList, fit)
 	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
 	return resultSAMDE

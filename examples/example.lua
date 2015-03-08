@@ -15,8 +15,8 @@ local MyModel = Model{
 c = Calibration{
 	model = MyModel,
 	parameters = {
-		x = Choice{min = -100, max = 100, step = 1}, 
-		y = Choice{min = 1, max = 10}
+		x = {-100, -1, 0, 1, 2, 100}, 
+		y = {min = 1, max = 10}
 	},
 	fit = function(model)
 		return model.value
@@ -36,7 +36,7 @@ local MyModelSamde = Model{
 
 local c2 = Calibration{
 	model = MyModelSamde,
-	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
+	parameters = {x = {min = 1, max = 10}, y = {min = 1, max = 10}},
 	SAMDE = true, -- TODO: remove this line
 	fit = function(model)
 		return model.value
