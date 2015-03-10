@@ -42,7 +42,7 @@ return{
 		local result = discreteCostanzaMultiLevel(cs, cs2, "Costanza")
 		unitTest:assert_equal(result, 0.84) -- 0.84 is the Total Fitness in Costanza Paper Example.
 	end, 
-	newDiscreteCostanzaMultiLevel = function(unitTest)
+	multiLevel = function(unitTest)
 		local cs = CellularSpace{
         		database = file("Costanza.map", "calibration"),
         		attrname = "Costanza"
@@ -55,23 +55,9 @@ return{
      	    		attrname = "Costanza"
 		}
 
-		local result = newDiscreteCostanzaMultiLevel(cs, cs2, "Costanza")
+		local result = multiLevel(cs, cs2, "Costanza")
+		local result2 = multiLevel(cs, cs2, "Costanza", true)
 		unitTest:assert_equal(result, 0.84) -- 0.84 is the Total Fitness in Costanza Paper Example.
-	end, 
-	continuousCostanzaMultiLevel = function(unitTest)
-		local cs = CellularSpace{
-        		database = file("Costanza.map", "calibration"),
-        		attrname = "Costanza"
-		}
- 
-		-- print(#cs)
-
-		local cs2 = CellularSpace{
-     	    	database = file("Costanza2.map", "calibration"),
-     	    	attrname = "Costanza"
-		}
-		local result = continuousCostanzaMultiLevel(cs, cs2, "Costanza")
-		unitTest:assert_equal(result, 0.84 )
-
+		unitTest:assert_equal(result2, 0.84 )
 	end
 	}

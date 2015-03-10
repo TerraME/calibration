@@ -33,21 +33,21 @@ return{
 
 		unitTest:assert_error(error_func, "Attribute c was not found in the CellularSpace.")
 	end,
-	discreteCostanzaMultiLevel = function(unitTest)
+	multiLevel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
 		local cs = CellularSpace{xdim = 10, instance = cell}
 		local error_func = function()
-			discreteCostanzaMultiLevel()
+			multiLevel()
 		end
 		
 		unitTest:assert_error(error_func, mandatoryArgumentMsg(1))
 		error_func = function()
-			discreteCostanzaMultiLevel(cs)
+			multiLevel(cs)
 		end
 
 		unitTest:assert_error(error_func, mandatoryArgumentMsg(2))
 		error_func = function()
-			discreteCostanzaMultiLevel(cs,cs)
+			multiLevel(cs,cs)
 		end
 
 		unitTest:assert_error(error_func, mandatoryArgumentMsg(3))
