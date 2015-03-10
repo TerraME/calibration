@@ -1,16 +1,16 @@
 
 
 return{
-	continuousPixelByPixel = function(unitTest)
+	pixelByPixel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
 
-		local result = continuousPixelByPixel(cs, cs, "a", "b")
+		local result = pixelByPixel(cs, cs, "a", "b", true)
 
 		unitTest:assert_equal(result, 0.9, 0.0001)
 	end,
-	discretePixelByPixelString = function(unitTest)
+	pixelByPixel = function(unitTest)
 		local cell = Cell{a = "forest", b = "forest"}
 
 		local cs = CellularSpace{xdim = 10, instance = cell}
@@ -22,7 +22,7 @@ return{
 
 		forEachCell(t, function(cell) cell.b = "deforested" end)
 
-		local result = discretePixelByPixelString(cs, cs, "a", "b")
+		local result = pixelByPixel(cs, cs, "a", "b")
 
 		unitTest:assert_equal(result, 0.5)
 	end,

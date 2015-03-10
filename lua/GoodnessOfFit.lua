@@ -4,16 +4,24 @@
 --- Compares two continuous CelluarSpace pixel by pixel and returns
 -- a number with the average precision between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't.
--- This difference is calculated by subtracting the value of a cell in the first cellular space,
--- with the value of the same cell in the second cellular space.
--- The final result is the sum of the positive differences divided by the number of cells
--- in the CelluarSpace. If both maps are equal, the final result will be 1.
+-- If both maps are equal, the final result will be 1.
+-- If it's continuous:
+-- The difference is calculated by subtracting the value of a cell in the first cellular space,
+-- with the value of the same cell in the second cellular space. 
+-- And the precision of each cell is (1 - difference).
+-- The final result is the sum of the precisions divided by the number of cells
+-- If it's discrete:
+-- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
+-- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace.
+-- in the CelluarSpace.
 -- @arg cs1 First Cellular Space.
 -- @arg cs2 Second Cellular Space.
 -- @arg attribute1 attribute from the first cellular space that should be compared.
 -- @arg attribute2 attribute from the second cellular space that should be compared.
--- @usage continuousPixelByPixel(cs1, cs2, "attribute1", "attribute2")
-continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
+-- @arg continuous boolean that indicates if the model is continuous. 
+-- (default: false, discrete model)
+-- @usage pixelByPixel(cs1, cs2, "attribute1", "attribute2")
+function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
 	mandatoryArgument(2, "CellularSpace", cs2)
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
@@ -23,40 +31,19 @@ continuousPixelByPixel = function(cs1, cs2, attribute1, attribute2)
 	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
 	local counter = 0
 	local dif = 0
-	forEachCellPair(cs1, cs2, function(cell1, cell2) 
-		verify(type(cell1[attribute1]) == "number", "cell1["..attribute1.."] is not a number")
-
-		verify(type(cell2[attribute2]) == "number", "cell2["..attribute2.."] is not a number")
-
-    	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
-		counter = counter + 1
-	end)
-
-	return (1 - dif / counter)
-end
-
---- Compares two discrete CelluarSpace pixel by pixel
--- and returns a number with the average precisions
--- between the values in each cell of both CelluarSpace.
--- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
--- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace.
--- If both maps are equal, the final result will be 1.
--- @arg cs1 First Cellular Space.
--- @arg cs2 Second Cellular Space.
--- @arg attribute1 attribute from the first cellular space that should be compared.
--- @arg attribute2 attribute from the second cellular space that should be compared.
--- @usage discretePixelByPixelString(cs1, cs2, "attribute1", "attribute2")
-discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
-	mandatoryArgument(1, "CellularSpace", cs1)
-	mandatoryArgument(2, "CellularSpace", cs2)
-	mandatoryArgument(3, "string", attribute1)
-	mandatoryArgument(4, "string", attribute2)
-	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
-	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
-	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
-	local counter = 0
 	local equal = 0
-	forEachCellPair(cs1, cs2, function(cell1, cell2)
+	if continuous == true then
+		forEachCellPair(cs1, cs2, function(cell1, cell2) 
+			verify(type(cell1[attribute1]) == "number", "cell1["..attribute1.."] is not a number")
+
+			verify(type(cell2[attribute2]) == "number", "cell2["..attribute2.."] is not a number")
+
+	    	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
+			counter = counter + 1
+		end)
+		return (1 - dif / counter)
+	else
+		forEachCellPair(cs1, cs2, function(cell1, cell2)
 			verify(type(cell1[attribute1]) == "number" or type(cell1[attribute1]) == "string", "cell1["..attribute1.."] must be a number or string")
 			verify(type(cell2[attribute2]) == "number" or type(cell2[attribute2]) == "string", "cell2["..attribute2.."] must be a number or string")
     		
@@ -64,10 +51,10 @@ discretePixelByPixelString = function(cs1, cs2, attribute1, attribute2)
 				equal = equal + 1		
 			end
 
-		counter = counter + 1
-	end)
-	
-	return equal / counter
+			counter = counter + 1
+		end)
+		return equal / counter
+	end
 end
 
 local discreteSquareBySquare = function(dim, cs1, cs2, attribute) 
@@ -143,7 +130,7 @@ end
 
 --- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
 -- paper and returns a number with the average precision between the values of both CelluarSpace.
--- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString
+-- The precision is calculated by comparing the CelluarSpace using the pixelByPixel
 -- function, each time considering a square ixi as a single pixel in the function, with overlaping 
 -- squares and ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
@@ -159,7 +146,7 @@ discreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(3, "string", attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute)
+	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute)
 	-- fitnessSum is the Sum of all the fitness from each square ixi,
 	-- it is being initialized as the fitness of the 1x1 square.
 	local largerSquare = 0
@@ -259,7 +246,7 @@ end
 
 --- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
 -- paper and returns a number with the average precision between the values of both CelluarSpace.
--- The precision is calculated by comparing the CelluarSpace using the discretePixelByPixelString 
+-- The precision is calculated by comparing the CelluarSpace using the pixelByPixel 
 -- function, each time considering a square ixi as a single pixel in the function,
 -- without overlaping squares and not ignoring pixels that does not fit the ixi square.
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow),
@@ -275,7 +262,7 @@ newDiscreteCostanzaMultiLevel = function(cs1, cs2, attribute)
 	mandatoryArgument(3, "string", attribute)
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
-	local fitnessSum = discretePixelByPixelString(cs1, cs2, attribute, attribute) 
+	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute) 
 	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
 	-- the fitness of the 1x1 square.
 	local largerSquare = 0
@@ -355,7 +342,7 @@ end
 
 --- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
 -- paper and returns a number with the average precision between the values of both CelluarSpace.
--- The difference is calculated by comparing the CelluarSpace using the continuousPixelByPixelString
+-- The difference is calculated by comparing the CelluarSpace using the pixelByPixel
 -- function, each time considering a square ixi as a single pixel in the function.
 -- The precision of each square is (1 - difference).
 -- The final result is the sum of the differences, for ixi from 1x1 until (maxCol)x(maxRow), 
@@ -371,7 +358,7 @@ continuousCostanzaMultiLevel = function(cs1, cs2, attribute)
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1
-	local fitnessSum = continuousPixelByPixel(cs1, cs2, attribute, attribute) 
+	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous) 
 	-- fitnessSum is the Sum of all the fitness from each square ixi ,
 	-- it is being initialized as the fitnisess of the 1x1 square.
 	local largerSquare = 0
