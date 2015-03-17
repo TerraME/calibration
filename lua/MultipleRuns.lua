@@ -6,7 +6,7 @@ local factorialRecursive
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-factorialRecursive  = function(self, Params, a, variables, resultTable)
+factorialRecursive  = function(self, Params, a, variables, resultTable, addFunctions)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
@@ -18,6 +18,13 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
+				if addFunctions ~= "nil" then
+					local returnValueF
+					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+						returnValueF = attF
+						resultTable.addFunctions[idxF] = returnValueF 
+					end)
+				end
 				self.output(m)
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
@@ -26,7 +33,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				end)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable)
+				resultTable = factorialRecursive(self, Params, a+1, variables, resultTable, addFunctions)
 			end
 		end
 
@@ -42,6 +49,13 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
+				if addFunctions ~= "nil" then
+					local returnValueF
+					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+						returnValueF = attF
+						resultTable.addFunctions[idxF] = returnValueF 
+					end)
+				end
 				self.output(m)
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
@@ -50,7 +64,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable)
 				end)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable)
+				resultTable = factorialRecursive(self, Params,a + 1, variables, resultTable, addFunctions)
 			end
 		end)
 	end
@@ -112,8 +126,14 @@ MultipleRuns_ = {
 	--
 	-- result = c:execute()
 	execute = function(self)
-		local resultTable = {simulations = {}} 
+		local resultTable = {simulations = {}, addFunctions = {}} 
 		local Params = {} 
+		local addFunctions = {}
+		forEachOrderedElement(self, function(idx, att, typ)
+			if(type(self[idx]) == "function") then
+				addFunctions[#addFunctions + 1] = self[idx]
+			end
+		end)
 		if self.strategy ~= "repeated" then
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			-- example:
@@ -132,7 +152,6 @@ MultipleRuns_ = {
 					range = false
 					parameterElements = attribute
 				end
-
 				Params[#Params + 1] = {id = idx, min = self.parameters[idx].min, 
 				max = self.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
 			end)
@@ -146,14 +165,21 @@ MultipleRuns_ = {
     				resultTable[idx] = {}
 				end)
 
-    			resultTable = factorialRecursive(self, Params, 1, variables, resultTable)
+    			resultTable = factorialRecursive(self, Params, 1, variables, resultTable, addFunctions)
     		end,
 
     		rep = function()
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
     					m:execute()
-    					self.output(m)
+    					if addFunctions ~= "nil" then
+	    					local returnValueF
+							forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+								returnValueF = attF
+								resultTable.addFunctions[idxF] = returnValueF 
+							end)
+	    				end
+	    				self.output(m)
     					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 						forEachOrderedElement(self.parameters, function ( idx2, att2, typ2)
 							if resultTable[idx2] == nil then
@@ -182,6 +208,13 @@ MultipleRuns_ = {
     				local m = self.model(sampleParams)
     				m:execute()
     				self.output(m)
+    				if addFunctions ~= "nil" then
+	    				local returnValueF
+						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+							returnValueF = attF
+							resultTable.addFunctions[idxF] = returnValueF 
+						end)
+					end
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					forEachOrderedElement(sampleParams, function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
@@ -197,6 +230,13 @@ MultipleRuns_ = {
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
     				local m = self.model(self.parameters[idx])
     				m:execute()
+    				if addFunctions ~= "nil" then
+	    				local returnValueF
+						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+							returnValueF = attF
+							resultTable.addFunctions[idxF] = returnValueF 
+						end)
+					end
     				self.output(m)
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx)..""
 					forEachOrderedElement(self.parameters[idx], function ( idx2, att2, typ2)
