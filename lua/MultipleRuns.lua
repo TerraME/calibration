@@ -18,7 +18,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable, addFunct
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
-				if addFunctions ~= "nil" then
+				if addFunctions ~= nil then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 						returnValueF = self[idxF]()
@@ -52,11 +52,11 @@ factorialRecursive  = function(self, Params, a, variables, resultTable, addFunct
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = self.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
-				if addFunctions ~= "nil" then
+				if addFunctions ~= nil then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 						returnValueF = attF(model)
-						if type(resultTable.idxF) == "nil" then
+						if resultTable.idxF == nil then
 							resultTable.idxF = {}
 						end
 						resultTable.idxF[#resultTable.idxF + 1] = returnValueF
@@ -180,10 +180,10 @@ MultipleRuns_ = {
     			local m = self.model(self.parameters)
     			for i = 1, self.quantity do
     					m:execute()
-    					if addFunctions ~= "nil" then
+    					if addFunctions ~= nil then
 	    					local returnValueF
 							forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-								if type(resultTable.idxF) == "nil" then
+								if resultTable.idxF == nil then
 									resultTable.idxF = {}
 								end
 								returnValueF = attF(model)
@@ -223,11 +223,11 @@ MultipleRuns_ = {
     				local m = self.model(sampleParams)
     				m:execute()
     				self.output(m)
-    				if addFunctions ~= "nil" then
+    				if addFunctions ~= nil then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 							returnValueF = attF(model)
-							if type(resultTable.idxF) == "nil" then
+							if resultTable.idxF == nil then
 								resultTable.idxF = {}
 							end
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
@@ -248,11 +248,11 @@ MultipleRuns_ = {
     			forEachOrderedElement(self.parameters, function (idx, att, atype)
     				local m = self.model(self.parameters[idx])
     				m:execute()
-    				if addFunctions ~= "nil" then
+    				if addFunctions ~= nil then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 							returnValueF = attF(model)
-							if type(resultTable.idxF) == "nil" then
+							if resultTable.idxF == nil then
 								resultTable.idxF = {}
 							end
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
