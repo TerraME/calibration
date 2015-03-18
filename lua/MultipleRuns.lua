@@ -21,8 +21,11 @@ factorialRecursive  = function(self, Params, a, variables, resultTable, addFunct
 				if addFunctions ~= "nil" then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF
-						resultTable.addFunctions[idxF] = returnValueF 
+						returnValueF = self[idxF]()
+						if type(resultTable[idxF]) == "nil" then
+							resultTable[idxF] = {}
+						end
+						resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
 					end)
 				end
 				self.output(m)
@@ -52,8 +55,11 @@ factorialRecursive  = function(self, Params, a, variables, resultTable, addFunct
 				if addFunctions ~= "nil" then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF
-						resultTable.addFunctions[idxF] = returnValueF 
+						returnValueF = attF()
+						if type(resultTable.idxF) == "nil" then
+							resultTable.idxF = {}
+						end
+						resultTable.idxF[#resultTable.idxF + 1] = returnValueF
 					end)
 				end
 				self.output(m)
@@ -130,8 +136,8 @@ MultipleRuns_ = {
 		local Params = {} 
 		local addFunctions = {}
 		forEachOrderedElement(self, function(idx, att, typ)
-			if(type(self[idx]) == "function") then
-				addFunctions[#addFunctions + 1] = self[idx]
+			if(type(self[idx]) == "function" and idx ~= "output") then
+				addFunctions[idx] = self[idx]
 			end
 		end)
 		if self.strategy ~= "repeated" then
@@ -175,8 +181,11 @@ MultipleRuns_ = {
     					if addFunctions ~= "nil" then
 	    					local returnValueF
 							forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-								returnValueF = attF
-								resultTable.addFunctions[idxF] = returnValueF 
+								if type(resultTable.idxF) == "nil" then
+									resultTable.idxF = {}
+								end
+								returnValueF = attF()
+								resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 							end)
 	    				end
 	    				self.output(m)
@@ -211,8 +220,11 @@ MultipleRuns_ = {
     				if addFunctions ~= "nil" then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF
-							resultTable.addFunctions[idxF] = returnValueF 
+							returnValueF = attF()
+							if type(resultTable.idxF) == "nil" then
+								resultTable.idxF = {}
+							end
+							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
@@ -233,8 +245,11 @@ MultipleRuns_ = {
     				if addFunctions ~= "nil" then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF
-							resultTable.addFunctions[idxF] = returnValueF 
+							returnValueF = attF()
+							if type(resultTable.idxF) == "nil" then
+								resultTable.idxF = {}
+							end
+							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
     				self.output(m)
