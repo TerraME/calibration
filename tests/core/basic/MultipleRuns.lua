@@ -87,4 +87,5 @@ MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m3:get(1).simulations, "1")
 	unitTest:assert(m4:get(5).simulations == "5")
 	unitTest:assert_equal(m4:get(1).simulations, "1")
+	unitTest:assert_equal(m:get(1).additionalF, "test")
 end}
