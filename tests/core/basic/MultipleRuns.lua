@@ -17,7 +17,7 @@ local m = MultipleRuns{
 		x = {-100, -1, 0, 1, 2, 100},
 		y = { min = 1, max = 10, step = 1}
 	 },
-	additionalF = function()
+	additionalF = function(model)
 		return "test"
 	end,
 	output = function(model)
@@ -82,7 +82,6 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
-
 end,
 
 MultipleRuns = function(unitTest)
