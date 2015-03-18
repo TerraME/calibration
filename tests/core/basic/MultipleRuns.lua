@@ -49,6 +49,7 @@ local m3 = MultipleRuns{
 local m4 = MultipleRuns{
 	model = MyModel,
 	strategy = "sample",
+	seed = 1001,
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
 		y = { min = 1, max = 10, step = 1},

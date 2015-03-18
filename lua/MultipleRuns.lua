@@ -22,7 +22,7 @@ factorialRecursive  = function(self, Params, a, variables, resultTable, addFunct
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 						returnValueF = self[idxF]()
-						if type(resultTable[idxF]) == "nil" then
+						if resultTable.idxF == nil then
 							resultTable[idxF] = {}
 						end
 						resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
