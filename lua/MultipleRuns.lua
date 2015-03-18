@@ -150,16 +150,18 @@ MultipleRuns_ = {
 				local range = true
 				local steps = 1
 				local parameterElements
-				if self.parameters[idx].step ~= nil then
-					steps = self.parameters[idx].step
-				end
+				if idx ~= "finalTime" and idx ~= "seed" then
+					if self.parameters[idx].step ~= nil then
+						steps = self.parameters[idx].step
+					end
 
-				if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
-					range = false
-					parameterElements = attribute
-				end
-				Params[#Params + 1] = {id = idx, min = self.parameters[idx].min, 
-				max = self.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
+					if self.parameters[idx].min == nil or self.parameters[idx].max == nil then
+						range = false
+						parameterElements = attribute
+					end
+					Params[#Params + 1] = {id = idx, min = self.parameters[idx].min, 
+					max = self.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
+				end			
 			end)
 		end
 
@@ -200,7 +202,11 @@ MultipleRuns_ = {
     		end,
 
     		samp = function()
-    			math.randomseed(os.time())
+    			if self.parameters.seed == nil then
+    				math.randomseed(os.time())
+    			else
+    				math.randomseed(self.parameters.seed)
+    			end
     			for i=1, self.quantity do
     				local sampleParams = {}
     				local sampleValue
