@@ -215,7 +215,7 @@ function MultipleRuns(data)
 						end)
 				end
     		end,
-    		samp = function()
+    		sample = function()
     			if data.parameters.seed == nil then
     				math.randomseed(os.time())
     			else
