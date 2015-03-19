@@ -21,7 +21,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				if addFunctions ~= nil then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = data[idxF]()
+						returnValueF = data[idxF](m)
 						if resultTable[idxF] == nil then
 							resultTable[idxF] = {}
 						end
@@ -34,11 +34,13 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				local currentDir = currentDir()
-				mkDir(stringSimulations)
-				chDir(stringSimulations)
-				data.output(m)
-				chDir(currentDir)
+				if data.output(m) ~= nil then
+					local currentDir = currentDir()
+					mkDir(stringSimulations)
+					chDir(stringSimulations)
+					data.output(m)
+					chDir(currentDir)
+				end
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, Params, a+1, variables, resultTable, addFunctions)
@@ -73,11 +75,13 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				local currentDir = currentDir ()
-				mkDir(stringSimulations)
-				chDir(stringSimulations)
-				data.output(m)
-				chDir(currentDir)
+				if data.output(m) ~= nil then
+					local currentDir = currentDir ()
+					mkDir(stringSimulations)
+					chDir(stringSimulations)
+					data.output(m)
+					chDir(currentDir)
+				end
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params,a + 1, variables, resultTable, addFunctions)
@@ -101,6 +105,7 @@ MultipleRuns_ = {
 	-- end}
 	-- r = m:execute()
 	output = function(data, model)
+		return nil
 	end,
 	--- Function that returns the result.
 	-- @arg data The data of the MultipleRuns object.
