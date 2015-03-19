@@ -60,7 +60,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				if addFunctions ~= nil then
 					local returnValueF
 					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF(model)
+						returnValueF = attF(m)
 						if resultTable.idxF == nil then
 							resultTable.idxF = {}
 						end
@@ -216,7 +216,7 @@ function MultipleRuns(data)
 								if resultTable.idxF == nil then
 									resultTable.idxF = {}
 								end
-								returnValueF = attF(model)
+								returnValueF = attF(m)
 								resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 							end)
 	    				end
@@ -259,7 +259,7 @@ function MultipleRuns(data)
     				if addFunctions ~= nil then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF(model)
+							returnValueF = attF(m)
 							if resultTable.idxF == nil then
 								resultTable.idxF = {}
 							end
@@ -289,7 +289,7 @@ function MultipleRuns(data)
     				if addFunctions ~= nil then
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF(model)
+							returnValueF = attF(m)
 							if resultTable.idxF == nil then
 								resultTable.idxF = {}
 							end
