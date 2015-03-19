@@ -194,8 +194,9 @@ function MultipleRuns(data)
     		end,
     		repeated = function()
     			if data.parameters.seed ~= nil or data.model.seed ~= nil then
-    				customError("Models using repeated strategy cannot use random seed")
+    				customError("Models using repeated strategy cannot use random seed.")
     			end	
+    			print(data)
     			local m = data.model(data.parameters)
     			for i = 1, data.quantity do
     					m:execute()
