@@ -34,11 +34,11 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				-- currentDir = FileSystem:currentDir()
-				-- FileSystem:mkDir(stringSimulations)
-				-- FileSystem:chDir(stringSimulations)
+				local currentDir = currentDir()
+				mkDir(stringSimulations)
+				chDir(stringSimulations)
 				data.output(m)
-				-- FileSystem:chDir(currentDir)
+				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, Params, a+1, variables, resultTable, addFunctions)
@@ -73,11 +73,11 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				currentDir = FileSystem:currentDir ()
-				-- FileSystem:mkDir(stringSimulations)
-				-- FileSystem:chDir(stringSimulations)
+				local currentDir = currentDir ()
+				mkDir(stringSimulations)
+				chDir(stringSimulations)
 				data.output(m)
-				-- FileSystem:chDir(currentDir)
+				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params,a + 1, variables, resultTable, addFunctions)
@@ -222,11 +222,11 @@ function MultipleRuns(data)
 	    				end
  
     					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-						-- currentDir = FileSystem:currentDir ()
-						-- FileSystem:mkDir(""..(#resultTable.simulations).."")
-						-- FileSystem:chDir(""..(#resultTable.simulations).."")
+						local currentDir = currentDir ()
+						mkDir(""..(#resultTable.simulations).."")
+						chDir(""..(#resultTable.simulations).."")
 						data.output(m)
-						-- FileSystem:chDir(currentDir)
+						chDir(currentDir)
 						forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
 							if resultTable[idx2] == nil then
 								resultTable[idx2] = {}
@@ -268,11 +268,11 @@ function MultipleRuns(data)
 					end
     				
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-					-- currentDir = FileSystem:currentDir ()
-					-- FileSystem:mkDir(""..(#resultTable.simulations).."")
-					-- FileSystem:chDir(""..(#resultTable.simulations).."")
+					local currentDir = currentDir ()
+					mkDir(""..(#resultTable.simulations).."")
+					chDir(""..(#resultTable.simulations).."")
 					data.output(m)
-					-- FileSystem:chDir(currentDir)
+					chDir(currentDir)
 					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
@@ -298,11 +298,11 @@ function MultipleRuns(data)
 					end
 
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx)..""
-    				-- currentDir = FileSystem:currentDir ()
-					-- FileSystem:mkDir(""..(idx).."")
-					-- FileSystem:chDir(""..(idx).."")
+    				local currentDir = currentDir ()
+					mkDir(""..(idx).."")
+					chDir(""..(idx).."")
 					data.output(m)
-					-- FileSystem:chDir(currentDir)
+					chDir(currentDir)
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
