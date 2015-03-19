@@ -34,13 +34,11 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				if data.output(m) ~= nil then
-					local currentDir = currentDir()
-					mkDir(stringSimulations)
-					chDir(stringSimulations)
-					data.output(m)
-					chDir(currentDir)
-				end
+				local currentDir = currentDir()
+				mkDir(stringSimulations)
+				chDir(stringSimulations)
+				data.output(m)
+				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, Params, a+1, variables, resultTable, addFunctions)
@@ -75,13 +73,11 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 					resultTable[idx2][#resultTable[idx2] + 1] = att2
 					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 				end)
-				if data.output(m) ~= nil then
-					local currentDir = currentDir ()
-					mkDir(stringSimulations)
-					chDir(stringSimulations)
-					data.output(m)
-					chDir(currentDir)
-				end
+				local currentDir = currentDir ()
+				mkDir(stringSimulations)
+				chDir(stringSimulations)
+				data.output(m)
+				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params,a + 1, variables, resultTable, addFunctions)
@@ -211,7 +207,6 @@ function MultipleRuns(data)
     			if data.parameters.seed ~= nil or data.model.seed ~= nil then
     				customError("Models using repeated strategy cannot use random seed.")
     			end	
-    			print(data)
     			local m = data.model(data.parameters)
     			for i = 1, data.quantity do
     					m:execute()
