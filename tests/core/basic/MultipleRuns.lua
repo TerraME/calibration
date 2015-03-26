@@ -7,9 +7,8 @@ local MyModel = Model{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
-		}
+	}
 	end}
-
 local m = MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",

@@ -180,13 +180,16 @@ function MultipleRuns(data)
 				local steps = 1
 				local parameterElements
 				if idx ~= "finalTime" and idx ~= "seed" then	
-					if data.parameters[idx].step ~= nil then
-						steps = data.parameters[idx].step
-					end
+					
 
 					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false
 						parameterElements = attribute
+					else
+						if data.parameters[idx].step == nil then
+							mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
+						end
+						steps = data.parameters[idx].step
 					end
 
 					Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
