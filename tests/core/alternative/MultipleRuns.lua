@@ -33,7 +33,20 @@ return{
 				return model.value
 			end}
 		end
+
 		unitTest:assert_error(error_func, "Argument 'x.step' is mandatory.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = {min = 2, max = 5, step = 1}, y = 5},
+			test = "test",
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Argument 'test' is unnecessary.")
 	end
 
 }

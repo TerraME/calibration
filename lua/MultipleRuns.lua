@@ -167,6 +167,10 @@ function MultipleRuns(data)
 		forEachOrderedElement(data, function(idx, att, typ)
 			if type(att) == "function" and idx ~= "output" then
 				addFunctions[idx] = att
+			else
+				local chekingArgument = {}
+				chekingArgument[idx] = idx
+				checkUnnecessaryArguments(chekingArgument, {"model", "strategy", "parameters", "quantity", "seed", "output"})
 			end
 		end)
 		if data.strategy ~= "repeated" then
