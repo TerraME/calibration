@@ -15,7 +15,7 @@ local m = MultipleRuns{
 	strategy = "factorial",
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
-		y = { min = 1, max = 10, step = 1},
+		y = {min = 1, max = 10, step = 1},
 		finalTime = 1
 	 },
 	additionalF = function(model)
@@ -52,7 +52,7 @@ local m4 = MultipleRuns{
 	seed = 1001,
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
-		y = { min = 1, max = 10, step = 1},
+		y = {min = 1, max = 10, step = 1},
 		seed = 1001
 	 },
 	quantity = 5,
@@ -70,7 +70,6 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
-
 end,
 
 MultipleRuns = function(unitTest)

@@ -41,7 +41,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, Params, a+1, variables, resultTable, addFunctions)
+				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
 			end
 		end
 
@@ -80,7 +80,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, Params,a + 1, variables, resultTable, addFunctions)
+				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
 			end
 		end)
 	end
@@ -112,7 +112,7 @@ MultipleRuns_ = {
 	get = function(data, number)
 		local getTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
-			if(type(data[idx]) == "table") then
+			if type(data[idx]) == "table" then
 				getTable[idx] = data[idx][number]
 			end
 		end)
@@ -165,7 +165,7 @@ function MultipleRuns(data)
 		local Params = {} 
 		local addFunctions = {}
 		forEachOrderedElement(data, function(idx, att, typ)
-			if(type(att) == "function" and idx ~= "output") then
+			if type(att) == "function" and idx ~= "output" then
 				addFunctions[idx] = att
 			end
 		end)
@@ -178,7 +178,7 @@ function MultipleRuns(data)
 			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 				local range = true
 				local steps = 1
-				local parameterElements		
+				local parameterElements
 				if idx ~= "finalTime" and idx ~= "seed" then	
 					if data.parameters[idx].step ~= nil then
 						steps = data.parameters[idx].step
