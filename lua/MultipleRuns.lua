@@ -161,6 +161,7 @@ metaTableMultipleRuns_ = {
 -- }
 function MultipleRuns(data)
 		mandatoryTableArgument(data, "model", "Model")
+		mandatoryTableArgument(data, "parameters", "table")
 		local resultTable = {simulations = {}} 
 		local Params = {} 
 		local addFunctions = {}
@@ -211,6 +212,7 @@ function MultipleRuns(data)
     			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions)
     		end,
     		repeated = function()
+    			mandatoryTableArgument(data, "quantity", "number")
     			if data.parameters.seed ~= nil or data.model.seed ~= nil then
     				customError("Models using repeated strategy cannot use random seed.")
     			end	
@@ -243,6 +245,7 @@ function MultipleRuns(data)
 				end
     		end,
     		sample = function()
+    			mandatoryTableArgument(data, "quantity", "number")
     			if data.parameters.seed == nil then
     				math.randomseed(os.time())
     			else
