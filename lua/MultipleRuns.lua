@@ -179,14 +179,11 @@ function MultipleRuns(data)
 			-- example:
 			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
 			-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-
 			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 				local range = true
 				local steps = 1
 				local parameterElements
-				if idx ~= "finalTime" and idx ~= "seed" then	
-					
-
+				if idx ~= "finalTime" and idx ~= "seed" then
 					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false
 						parameterElements = attribute
@@ -246,11 +243,6 @@ function MultipleRuns(data)
     		end,
     		sample = function()
     			mandatoryTableArgument(data, "quantity", "number")
-    			if data.parameters.seed == nil then
-    				math.randomseed(os.time())
-    			else
-    				math.randomseed(data.parameters.seed)
-    			end
     			for i = 1, data.quantity do
     				local sampleParams = {}
     				local sampleValue

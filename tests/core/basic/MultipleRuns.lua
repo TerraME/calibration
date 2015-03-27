@@ -56,6 +56,7 @@ local m4 = MultipleRuns{
 	 },
 	quantity = 5,
 	output = function(model)
+		print("potato")
 		return model.value
 	end}
 
