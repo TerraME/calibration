@@ -7,19 +7,23 @@ local MyModel = Model{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
-		}
+	}
 	end}
-
 local m = MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
-		y = { min = 1, max = 10, step = 1}
+		y = {min = 1, max = 10, step = 1},
+		finalTime = 1
 	 },
+	additionalF = function(model)
+		return "test"
+	end,
 	output = function(model)
 		return model.value
 	end}
+	
 
 local m2 = MultipleRuns{
 	model = MyModel,
@@ -44,9 +48,11 @@ local m3 = MultipleRuns{
 local m4 = MultipleRuns{
 	model = MyModel,
 	strategy = "sample",
+	seed = 1001,
 	parameters = {
 		x = {-100, -1, 0, 1, 2, 100},
-		y = { min = 1, max = 10, step = 1}
+		y = {min = 1, max = 10, step = 1},
+		seed = 1001
 	 },
 	quantity = 5,
 	output = function(model)
@@ -63,7 +69,6 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
-
 end,
 
 MultipleRuns = function(unitTest)
@@ -80,4 +85,5 @@ MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m3:get(1).simulations, "1")
 	unitTest:assert(m4:get(5).simulations == "5")
 	unitTest:assert_equal(m4:get(1).simulations, "1")
+	unitTest:assert_equal(m:get(1).additionalF, "test")
 end}
