@@ -1,10 +1,62 @@
+-- local function valid(data, array)
+--  local valid = {}
+--  for i = 1, #array do
+--   valid[array[i]] = true
+--  end
+--  if valid[data] then
+--   return true
+--  else
+--   return false
+--  end
+-- end
 function checkParameters(tModel, tParameters)
-	switch(tParameters, "strategy"):caseof{
-		factorial = function()
-			forEachElement(tParameters, function (idx, att, typ)
+	mandatoryTableArgument(tParameters, "model", "Model")
+	mandatoryTableArgument(tParameters, "parameters", "table")
+	if type(tParameters) == "MultipleRuns" then
+		switch(tParameters.parameters, "strategy"):caseof{
+			factorial = function()
+			end,
+			repeated = function()
+				mandatoryTableArgument(tParameters, "quantity", "number")
+				forEachOrderedElement(tParameters.parameters,function(idx, att, typ)
+					if type(att) == "Choice" then
+						customError("Parameters used in repeated strategy must be a single variable and not a Choice Table")
+					end
+				end)
+			end,
+			selected = function()
+				forEachOrderedElement(tParameters.parameters,function(idx, att, typ)
+					mandatoryTableArgument(tParameters.parameters, att, "table")
+					forEachOrderedElement(tParameters.parameters,function(idx2, att2, typ2)
+						if type(att2) == "Choice" then
+							customError("Parameters used in each selected strategy scenario must be a single variable and not a Choice Table")
+						end
+					end)
+				end)
+			end,
+			sample = function()
+				mandatoryTableArgument(tParameters, "quantity", "number")
+				if data.parameters.seed ~= nil or data.model.seed ~= nil then
+    				customError("Models using repeated strategy cannot use random seed.")
+    			end	
+			end
+		}
+	end
+	local inChoices = true
+	forEachOrderedElement(tParameters.parameters, function (idx, att, typ)
+				forEachOrderedElement(tParameters.parameters.idx.values, function(idx2, att2, typ2)
+					inChoices = false
+					forEachOrderedElement(tModel.idx.values, function(idx3, att3, typ3)
+						if tModel.idx.idx3 == att2 then
+							inChoices = true
+						end
+					end)
+					if inChoices == false then
+						customError("the value "..att2.." is not a valid choice for parameter "..idx)
+					end
+				end)
 			end)
-		end
-	}
+	
 	-- tParameters.strategy
 	-- check each parameter for infinite possibilites
 	-- check if belongs to the model 

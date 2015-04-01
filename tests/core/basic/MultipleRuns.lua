@@ -13,8 +13,8 @@ local m = MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",
 	parameters = {
-		x = {-100, -1, 0, 1, 2, 100},
-		y = {min = 1, max = 10, step = 1},
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
 		finalTime = 1
 	 },
 	additionalF = function(model)
@@ -50,8 +50,8 @@ local m4 = MultipleRuns{
 	strategy = "sample",
 	seed = 1001,
 	parameters = {
-		x = {-100, -1, 0, 1, 2, 100},
-		y = {min = 1, max = 10, step = 1},
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
 		seed = 1001
 	 },
 	quantity = 5,

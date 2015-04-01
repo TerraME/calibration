@@ -162,6 +162,7 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 		mandatoryTableArgument(data, "model", "Model")
 		mandatoryTableArgument(data, "parameters", "table")
+	--	checkParameters(data.model, data)
 		local resultTable = {simulations = {}} 
 		local Params = {} 
 		local addFunctions = {}
@@ -169,12 +170,13 @@ function MultipleRuns(data)
 			if type(att) == "function" and idx ~= "output" then
 				addFunctions[idx] = att
 			else
-				local chekingArgument = {}
-				chekingArgument[idx] = idx
-				checkUnnecessaryArguments(chekingArgument, {"model", "strategy", "parameters", "quantity", "seed", "output"})
+				local checkingArgument = {}
+				checkingArgument[idx] = idx
+				checkUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "seed", "output"})
 			end
 		end)
-		if data.strategy ~= "repeated" then
+		print (data.strategy)
+		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			-- example:
 			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
@@ -184,12 +186,38 @@ function MultipleRuns(data)
 				local steps = 1
 				local parameterElements
 				if idx ~= "finalTime" and idx ~= "seed" then
+					print (type(data.parameters))
+				print (type(data.parameters[idx])..idx)
+				print (type(data.parameters[idx].values))
+				print (type(data.parameters[idx].min))
+				print("potato")
+					if data.parameters[idx].values.min == nil or data.parameters[idx].values.max == nil then
+						range = false
+						parameterElements = attribute
+					else
+						if data.parameters[idx].step == nil then
+							mandatoryTableArgument(data.parameters[idx].values, "step", "Choice")
+						end
+						steps = data.parameters[idx].values.step
+					end
+
+					Params[#Params + 1] = {id = idx, min = data.parameters[idx].values.min, 
+					max = data.parameters[idx].values.max, elements = parameterElements, ranged = range, step = steps}
+				end
+			end)
+		elseif data.strategy == "selected" then
+			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
+				local range = true
+				local steps = 1
+				local parameterElements
+				-- print(t.values[1])
+				if idx ~= "finalTime" and idx ~= "seed" then
 					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false
 						parameterElements = attribute
 					else
 						if data.parameters[idx].step == nil then
-							mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
+							mandatoryTableArgument(data.parameters[idx], "step", "Choice")
 						end
 						steps = data.parameters[idx].step
 					end
