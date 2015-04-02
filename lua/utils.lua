@@ -66,8 +66,12 @@ function checkParameters(tModel, tParameters)
 			else
 				if  tParameters.parameters.idx.min > tModel.idx.min or tModel.idx.max > tParameters.parameters.idx.max then
 					customError("the value for"..idx.." is out of the range defined by the Model")
-				elseif type(tParameters.parameters.idx.step) ~= type(tModel.idx.step) then
-					customError(idx.."needs a step")
+				elseif type(tParameters.parameters.idx.step) == nil then
+					if type(tParameters) == "MultipleRuns" then
+						mandatoryTableArgument(tParameters.parameters[idx], idx..".step", "Choice")
+					elseif type(tModel.idx.step) ~= nil then
+						 customError(idx.."need a step value")
+					end
 				end
 			end
 		end
