@@ -51,6 +51,8 @@ function checkParameters(tModel, tParameters)
 			print(type(tParameters.parameters.idx))
 			if type(att) == "Choice" then
 				forEachOrderedElement(att.values, function(idx2, att2, typ2)
+					-- compares the values of the parameters in tParameters with the values in the model 
+					-- to check if all parameters are subset of models parameters.
 					inChoices = false
 					print(type(tModel))
 					print(type(tModel.idx))
