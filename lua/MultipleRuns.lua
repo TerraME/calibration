@@ -175,7 +175,6 @@ function MultipleRuns(data)
 				checkUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "seed", "output"})
 			end
 		end)
-		print (data.strategy)
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 			-- The possible values for each parameter is being put in a table indexed by numbers.
 			-- example:
@@ -184,25 +183,26 @@ function MultipleRuns(data)
 			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 				local range = true
 				local steps = 1
-				local parameterElements
+				local parameterElements = {}
 				if idx ~= "finalTime" and idx ~= "seed" then
-					print (type(data.parameters))
-				print (type(data.parameters[idx])..idx)
-				print (type(data.parameters[idx].values))
-				print (type(data.parameters[idx].min))
-				print("potato")
-					if data.parameters[idx].values.min == nil or data.parameters[idx].values.max == nil then
+					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false
-						parameterElements = attribute
+						if type(data.parameters[idx]) == "Choice" then
+							forEachOrderedElement(data.parameters[idx].values, function ( idv, atv, tpv)
+								parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
+							end)
+						else
+							parameterElements = attribute
+						end
 					else
 						if data.parameters[idx].step == nil then
-							mandatoryTableArgument(data.parameters[idx].values, "step", "Choice")
+							mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
 						end
-						steps = data.parameters[idx].values.step
+						steps = data.parameters[idx].step
 					end
 
-					Params[#Params + 1] = {id = idx, min = data.parameters[idx].values.min, 
-					max = data.parameters[idx].values.max, elements = parameterElements, ranged = range, step = steps}
+					Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
+					max = data.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
 				end
 			end)
 		elseif data.strategy == "selected" then
@@ -210,7 +210,6 @@ function MultipleRuns(data)
 				local range = true
 				local steps = 1
 				local parameterElements
-				-- print(t.values[1])
 				if idx ~= "finalTime" and idx ~= "seed" then
 					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false

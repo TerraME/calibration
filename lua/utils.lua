@@ -44,8 +44,16 @@ function checkParameters(tModel, tParameters)
 	end
 	local inChoices = true
 	forEachOrderedElement(tParameters.parameters, function (idx, att, typ)
-				forEachOrderedElement(tParameters.parameters.idx.values, function(idx2, att2, typ2)
+		if idx ~= "finalTime" and idx ~= "seed" then
+			print(idx)
+			print(type(tParameters.parameters))
+			print(type(att))
+			print(type(tParameters.parameters.idx))
+			if type(att) == "Choice" then
+				forEachOrderedElement(att.values, function(idx2, att2, typ2)
 					inChoices = false
+					print(type(tModel))
+					print(type(tModel.idx))
 					forEachOrderedElement(tModel.idx.values, function(idx3, att3, typ3)
 						if tModel.idx.idx3 == att2 then
 							inChoices = true
@@ -55,7 +63,15 @@ function checkParameters(tModel, tParameters)
 						customError("the value "..att2.." is not a valid choice for parameter "..idx)
 					end
 				end)
-			end)
+			else
+				if  tParameters.parameters.idx.min > tModel.idx.min or tModel.idx.max > tParameters.parameters.idx.max then
+					customError("the value for"..idx.." is out of the range defined by the Model")
+				elseif type(tParameters.parameters.idx.step) ~= type(tModel.idx.step) then
+					customError(idx.."needs a step")
+				end
+			end
+		end
+	end)
 	
 	-- tParameters.strategy
 	-- check each parameter for infinite possibilites
