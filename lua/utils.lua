@@ -1,62 +1,127 @@
+local TestRangedvalues = function(att, Param, idx)
+	if att.min == nil and att.max == nil then
+		customError("Parameter "..idx.." should not be a range of values")
+	end
+
+	if Param.min == nil or Param.max == nil then
+		customError("Parameter "..idx.." must have min and max values")
+	end
+
+	if att.min ~= nil then
+		if att.min > Param.min then
+			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+		end
+	end
+
+	if att.max ~= nil then
+		if att.max < Param.max then
+			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+		end
+	end
+
+	if att.step ~= nil then
+		if Param.step == nil then
+			customError("Argument '"..idx..".step' is mandatory.")
+		elseif Param.step % att.step ~= 0 then
+			customError("Parameter step"..idx.." is out of the model "..idx.." range.")
+		end
+
+		if att.min ~= nil then
+			if (Param.min - att.min) % att.step ~= 0 then
+				customError("Parameter min"..idx.." is out of the model "..idx.." range.")
+			end
+		end
+
+		if att.max ~= nil then
+			if (att.max - Param.max) % att.step ~= 0 then
+				customError("Parameter max"..idx.." is out of the model "..idx.." range.")
+			end
+		end		    		
+	end
+end
+
+local testSingleValue = function(att, idx, idx2, value)
+	if att.min ~= nil then
+		if value < att.min then
+			customError("Parameter "..value.." in #"..idx2.." is smaller than"..idx.." min value")
+		end
+
+		if att.step ~= nil then
+			if (value - att.min) % att.step ~= 0 then
+				customError("Parameter "..value.." in #"..idx2.." is out of "..idx.." range")
+			end
+		end
+	end
+
+	if att.max ~= nil then
+		if value > att.max then
+			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
+		end
+
+		if att.step ~= nil then
+			if (att.max - att.min) % att.step ~= 0 then
+				customError("Parameter "..value.." in #"..idx2" is out of "..idx.." range")
+			end
+		end
+	end
+
+	if att.values ~= nil then
+		if belong(value, att.values) == false then
+			customError("Parameter "..value.." in #"..idx2.." is out of the model "..idx.." range.")
+		end
+	end
+end
+
+local testGroupOfValues = function (att, Param, idx) -- note param extenso
+	forEachOrderedElement(Param.values, function(idx2, att2, type2)
+		testSingleValue(att, idx, idx2, att2)
+	end)
+end
+
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
 	mandatoryTableArgument(tParameters, "parameters", "table")
 
 	forEachElement(tModel(), function(idx, att, mtype)
-    	if idx ~= "init" and idx ~="finalTime" then
+    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then
 			local Param = tParameters.parameters[idx]
-			if type(Param) == "Choice" then
-	    		if att.min ~= nil then
-	    			if Param.min == nil or Param.max == nil then
-	    				customError("Parameter"..idx.." must have min and max values")
-	    			end
+			if mtype == "Choice" then
+				if type(Param) == "Choice" then
+		    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
+		    			TestRangedvalues(att, Param, idx)	
+			    	else
+			    		 testGroupOfValues(att, Param, idx)
+			    	end
 
-	    			if att.min > Param.min or att.max < Param.max then
-	    				customError("Parameter"..idx.." is out of the model "..idx.." range.")
-	    			elseif att.step ~= nil then
-	    				if Param.step == nil then
-	    					mandatoryTableArgument(tParameters.parameters, step, "number")
-	    				elseif Param.step % att.step > 0 then
-	    					customError("Parameter step"..idx.." is out of the model "..idx.." range.")
-		    			elseif (Param.min - att.min) % att.step > 0 then
-		    				customError("Parameter min"..idx.." is out of the model "..idx.." range.")
-		    			elseif (att.max - Param.max) % att.step < 0 then
-		    				customError("Parameter max"..idx.." is out of the model "..idx.." range.")
-		    			end
-		    		end
+			   	elseif tParameters.strategy == "selected" then
+			   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+			   			testSingleValue(att, idx, 0, sParam[idx])
+			   		end)
+			   	elseif tParameters.strategy == "repeated" then
+			   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
+			   	else
+			   		customError("Parameter "..idx.." does not meet the requirements for given strategy")
+			   	end
 
-		    	else
-		    		--print(idx)
-		    		--print(att.values[1])
-		    		--print(type(tParameters.parameters))
-		    		forEachOrderedElement(tParameters.parameters, function(idx2, _, tp2)
-		    		--	print(idx2, tp2)
-		    		end)
-		    		--print(type(tParameters.parameters[idx]))
-		    		--print(type(tParameters.parameters[idx].values))
-		    		local belongsTable = {}
-		    		forEachOrderedElement(att.values, function(idx2, att2, type2)
-						belongsTable[att2] = true
-		    		end)
-		    		forEachOrderedElement(tParameters.parameters[idx].values, function(idx2, att2, type2)
-		    			if belongsTable[att2] == nil then
-		    				customError("Parameter"..idx.." is out of the model "..idx.." range.")
-		    			end
-		    		end)
-		    	end
-	    	
-		    	
 			elseif mtype == "Mandatory" then
-			-- else
-			-- 	forEachOrderedElement(att, function(idx2, _, tp2)
-			-- 		print(idx2, tp2)
-			-- 	end)
+				--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
+				local mandatory = false
+				forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
+					if idx2 == idx then
+						mandatory = true
+						forEachOrderedElement(att2, function(idx3, att3, typ3)
+							if typ3 ~= att.value then
+								mandatory = false
+							end
+						end)
+					end
+				end)
+				if mandatory == false then
+					mandatoryTableArgument(tParameters.parameters, idx, att.value)
+				end
 			end
     	end
 	end)
-	-- tParameters.strategy
-	-- check each parameter for infinite possibilites
-	-- check if belongs to the model 
 end
 
 function randomModel(tModel, tParameters)
