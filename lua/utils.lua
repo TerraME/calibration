@@ -1,4 +1,5 @@
 local TestRangedvalues = function(att, Param, idx)
+	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	if att.min == nil and att.max == nil then
 		customError("Parameter "..idx.." should not be a range of values")
 	end
@@ -41,6 +42,7 @@ local TestRangedvalues = function(att, Param, idx)
 end
 
 local testSingleValue = function(att, idx, idx2, value)
+	--test if a value inside the accepted model range of values
 	if att.min ~= nil then
 		if value < att.min then
 			customError("Parameter "..value.." in #"..idx2.." is smaller than"..idx.." min value")
@@ -72,7 +74,8 @@ local testSingleValue = function(att, idx, idx2, value)
 	end
 end
 
-local testGroupOfValues = function (att, Param, idx) -- note param extenso
+local testGroupOfValues = function (att, Param, idx) 
+	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
 		testSingleValue(att, idx, idx2, att2)
 	end)
@@ -81,15 +84,18 @@ end
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
 	mandatoryTableArgument(tParameters, "parameters", "table")
-
+	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
+	-- range of values according to a Model.
 	forEachElement(tModel(), function(idx, att, mtype)
-    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then
+    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then 
 			local Param = tParameters.parameters[idx]
-			if mtype == "Choice" then
+			if mtype == "Choice" then 
 				if type(Param) == "Choice" then
-		    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
+					-- if parameter in Multiple Runs/Calibration is a range of values
+		    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
 		    			TestRangedvalues(att, Param, idx)	
 			    	else
+			    	-- if parameter Multiple Runs/Calibration is a grop of values
 			    		 testGroupOfValues(att, Param, idx)
 			    	end
 
