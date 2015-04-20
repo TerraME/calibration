@@ -23,7 +23,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Models using repeated strategy cannot use random seed.")
+		unitTest:assert_error(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,

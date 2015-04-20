@@ -91,6 +91,10 @@ function checkParameters(tModel, tParameters)
 			local Param = tParameters.parameters[idx]
 			if mtype == "Choice" then 
 				if type(Param) == "Choice" then
+					if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+						customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+					end
+					
 					-- if parameter in Multiple Runs/Calibration is a range of values
 		    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
 		    			TestRangedvalues(att, Param, idx)	
@@ -101,6 +105,10 @@ function checkParameters(tModel, tParameters)
 
 			   	elseif tParameters.strategy == "selected" then
 			   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+			   			if sType == "Choice" then
+			   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+			   			end
+
 			   			testSingleValue(att, idx, 0, sParam[idx])
 			   		end)
 			   	elseif tParameters.strategy == "repeated" then

@@ -238,13 +238,9 @@ function MultipleRuns(data)
     		repeated = function()
     			mandatoryTableArgument(data, "quantity", "number")
     			if data.parameters.seed ~= nil or data.model.seed ~= nil then
-    				customError("Models using repeated strategy cannot use random seed.")
+    				customError("Models using repeated strategy cannot use seed or all results will be the same.")
     			end	
-				forEachOrderedElement(data.parameters,function(idx, att, typ)
-					if type(att) == "Choice" then
-						customError("Parameters used in repeated strategy must be a single variable and not a Choice Table")
-					end
-				end)
+
     			local m = data.model(data.parameters)
     			for i = 1, data.quantity do
     					m:execute()
@@ -322,11 +318,6 @@ function MultipleRuns(data)
     					incompatibleTypeMsg(idx, "table", att)
     				end
 
-    				forEachOrderedElement(att, function(_, _, t)
-    					if t == "Choice" then
-    						customError("Parameters used in selected strategy must be a single variable and not a Choice Table")
-    					end
-    				end)
     				local m = data.model(att)
     				m:execute()
     				if addFunctions ~= nil then
