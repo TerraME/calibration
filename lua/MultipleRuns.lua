@@ -117,7 +117,21 @@ MultipleRuns_ = {
 			end
 		end)
 		return getTable
-	end}
+	end,
+
+	saveCSVResult = function(data, separator)
+		local CSVTable = {}
+		forEachOrderedElement(data, function(idx, att, typ)
+			if type(att) == "table" then
+				CSVTable[idx] = {}
+				forEachOrderedElement(att, function(idx2, att2, typ2)
+					CSVTable[idx][#CSVTable[idx] + 1] = idx2
+				end)
+				--CSVwrite(CSVTable[idx], idx..".csv", separator)
+			end
+		end)
+	end
+}
 metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }

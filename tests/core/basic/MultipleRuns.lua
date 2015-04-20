@@ -130,6 +130,11 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
 end,
 
+saveCSVResult = function(unitTest)
+	m:saveCSVResult("file.csv", ";")
+	unitTest:assert(true)
+end,
+
 MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)

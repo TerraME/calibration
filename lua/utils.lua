@@ -87,54 +87,56 @@ function checkParameters(tModel, tParameters)
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
 	forEachElement(tModel(), function(idx, att, mtype)
-    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then 
-			local Param = tParameters.parameters[idx]
-			if mtype == "Choice" then 
-				if type(Param) == "Choice" then
-					if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-						customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		if mtype ~= "function" then
+	    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then 
+				local Param = tParameters.parameters[idx]
+				if mtype == "Choice" then 
+					if type(Param) == "Choice" then
+						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+						end
+						
+						-- if parameter in Multiple Runs/Calibration is a range of values
+			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
+			    			TestRangedvalues(att, Param, idx)	
+				    	else
+				    	-- if parameter Multiple Runs/Calibration is a grop of values
+				    		 testGroupOfValues(att, Param, idx)
+				    	end
+
+				   	elseif tParameters.strategy == "selected" then
+				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+				   			if sType == "Choice" then
+				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+				   			end
+
+				   			testSingleValue(att, idx, 0, sParam[idx])
+				   		end)
+				   	elseif tParameters.strategy == "repeated" then
+				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
+				   	else
+				   		customError("Parameter "..idx.." does not meet the requirements for given strategy")
+				   	end
+
+				elseif mtype == "Mandatory" then
+					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
+					local mandatory = false
+					forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
+						if idx2 == idx then
+							mandatory = true
+							forEachOrderedElement(att2, function(idx3, att3, typ3)
+								if typ3 ~= att.value then
+									mandatory = false
+								end
+							end)
+						end
+					end)
+					if mandatory == false then
+						mandatoryTableArgument(tParameters.parameters, idx, att.value)
 					end
-					
-					-- if parameter in Multiple Runs/Calibration is a range of values
-		    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
-		    			TestRangedvalues(att, Param, idx)	
-			    	else
-			    	-- if parameter Multiple Runs/Calibration is a grop of values
-			    		 testGroupOfValues(att, Param, idx)
-			    	end
-
-			   	elseif tParameters.strategy == "selected" then
-			   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-			   			if sType == "Choice" then
-			   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-			   			end
-
-			   			testSingleValue(att, idx, 0, sParam[idx])
-			   		end)
-			   	elseif tParameters.strategy == "repeated" then
-			   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
-			   	else
-			   		customError("Parameter "..idx.." does not meet the requirements for given strategy")
-			   	end
-
-			elseif mtype == "Mandatory" then
-				--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
-				local mandatory = false
-				forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
-					if idx2 == idx then
-						mandatory = true
-						forEachOrderedElement(att2, function(idx3, att3, typ3)
-							if typ3 ~= att.value then
-								mandatory = false
-							end
-						end)
-					end
-				end)
-				if mandatory == false then
-					mandatoryTableArgument(tParameters.parameters, idx, att.value)
 				end
-			end
-    	end
+	    	end
+	    end
 	end)
 end
 
