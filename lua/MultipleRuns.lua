@@ -1,38 +1,46 @@
-local parametersOrganizer = function(data, mainTable)
-	local Params = {}
-		-- The possible values for each parameter is being put in a table indexed by numbers.
-		-- example:
-		-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
-		-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-		forEachOrderedElement(data.parameters, function (idx, attribute, atype)
-			local range = true
-			local steps = 1
-			local parameterElements = {}
-			if idx ~= "finalTime" and idx ~= "seed" then
-				if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
-					range = false
-					if atype == "Choice" then
-						forEachOrderedElement(data.parameters[idx].values, function ( idv, atv, tpv)
-							parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
-						end) 
-					else
-						parameterElements = attribute
-					end
-
-				else
-					if data.parameters[idx].step == nil then
-						mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
-					end
-
-					steps = data.parameters[idx].step
-				end
-
-				Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
-				max = data.parameters[idx].max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
+local parametersOrganizer
+-- The possible values for each parameter is being put in a table indexed by numbers.
+-- example:
+-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+parametersOrganizer = function(data, mainTable, idx, attribute, atype, Params)
+	local range = true
+	local steps = 1
+	local parameterElements = {}
+	if idx ~= "finalTime" and idx ~= "seed" then
+		if attribute.min == nil or attribute.max == nil then
+			range = false
+			if atype == "Choice" then
+				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
+					parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
+				end) 
+			else
+				parameterElements = attribute
 			end
-		end)
-	return Params
+
+		else
+			if attribute.step == nil then
+				mandatoryTableArgument(attribute, idx..".step", "Choice")
+			end
+
+			steps = attribute.step
+		end
+
+		Params[#Params + 1] = {id = idx, min = attribute.min, 
+		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
+	end
 end
+
+-- local parametersRearranger
+-- -- rearrange the second order tables of parameters, preparing for model execution
+-- parametersRearranger = function(mVariables, Params)
+-- 	newModelVariables = {}
+-- 	forEachOrderedElement(Params, function(idx, att, typ)
+-- 		if Params.table == nil
+-- 			newModelVariables[idx] = mVariables[idx]
+-- 	end)
+-- 	return newModelVariables
+-- end
 
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
@@ -45,7 +53,16 @@ local factorialRecursive
 factorialRecursive  = function(data, Params, a, variables, resultTable, addFunctions)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
-			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
+			-- Giving the variables table the current parameter and value being tested.
+			if Params[a].table == nil then
+				variables[Params[a].id] = parameter 
+			else
+				if variables[Params.table] == nil then
+					variables[Params.table] = {}
+				end
+				variables[Params.table][Params[a].id] = parameter
+			end
+			
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
 				mVariables[idx] = attribute
@@ -233,11 +250,21 @@ function MultipleRuns(data)
 		-- Organizing the parameters table of multiple runs into a simpler table,
 		-- indexed by number with the characteristics of each parameter.
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
-			Params = parametersOrganizer(data)
+			local mainTable = nil
+			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
+				if atype ~= "table" then
+					parametersOrganizer(data, mainTable, idx, attribute, atype, Params)
+				else
+					forEachOrderedElement(attribute, function(idx2, att2, typ2)
+						parametersOrganizer(data, idx, idx2, att2, typ2, Params)
+					end)
+				end
+			end)
 		end
+
 		local variables = {}	
 		switch(data, "strategy"):caseof{
-    	-- prepares the variables and executes the model according to each strategy.
+    	-- Prepares the variables and executes the model according to each strategy.
     		factorial = function()
     			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}

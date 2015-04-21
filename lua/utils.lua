@@ -1,3 +1,4 @@
+
 local TestRangedvalues = function(att, Param, idx)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	if att.min == nil and att.max == nil then
@@ -79,6 +80,48 @@ local testGroupOfValues = function (att, Param, idx)
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
 		testSingleValue(att, idx, idx2, att2)
 	end)
+end
+
+function printParamsTable(table)
+	forEachOrderedElement(table, function(idx, att, typ)
+		print("{")
+		if typ == "table" then
+			print(idx.."= {")
+			printParamsTable(att)
+			print("}")
+		elseif typ == "Choice" then
+			print(idx.." = {")
+			if att.values ~= nil then
+				printParamsTable(att.values)
+			else
+				if att.min ~= nil then
+					print("min = "..att.min..",")
+				end
+				if att.max ~= nil then
+					print("max = "..att.max..",")
+				end
+				if att.step ~= nil then
+					print("step = "..att.step..",")
+				end
+			end
+
+			print("}")
+		elseif typ == "Mandatory" then
+			print(idx.." is a mandatory argument,")
+		else
+			if att == nil then
+				print(idx.."= nil,")
+			elseif typ ~= "function" then
+				print(idx.." = "..att..",")
+			else
+				print(idx.." = ")
+				print(att..",")
+			end
+		end
+
+		print("")
+	end)
+	print("}")
 end
 
 function checkParameters(tModel, tParameters)

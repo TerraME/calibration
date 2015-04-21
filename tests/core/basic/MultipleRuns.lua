@@ -131,7 +131,7 @@ get = function (unitTest)
 end,
 
 saveCSVResult = function(unitTest)
-	m:saveCSVResult("file.csv", ";")
+	m:saveCSVResult(";")
 	unitTest:assert(true)
 end,
 
