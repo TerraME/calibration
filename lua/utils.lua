@@ -185,6 +185,38 @@ function checkParameters(tModel, tParameters)
 					if mandatory == false then
 						mandatoryTableArgument(tParameters.parameters, idx, att.value)
 					end
+				elseif mtype == "table" then
+					forEachOrderedElement(att, function( idxt, attt, typt)
+						Param = tParameters.parameters[idx][idxt]
+						if type(Param) == "Choice" then
+						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+						end
+						
+						-- if parameter in Multiple Runs/Calibration is a range of values
+			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
+			    			TestRangedvalues(attt, Param, idxt)	
+				    	else
+				    	-- if parameter Multiple Runs/Calibration is a grop of values
+				    		 testGroupOfValues(attt, Param, idxt)
+				    	end
+
+					   	elseif tParameters.strategy == "selected" then
+					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+					   			if sType == "Choice" then
+					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+					   			end
+
+					   			testSingleValue(attt, idxt, 0, sParam[idx][idxt])
+					   		end)
+					   	elseif tParameters.strategy == "repeated" then
+					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])	
+					   	else
+					   		customError("Parameter "..idxt.." does not meet the requirements for given strategy")
+					   	end
+					end)
+				else
+					customError("There's an unknown problem in the model definition.")
 				end
 	    	end
 	    end
