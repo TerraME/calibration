@@ -12,7 +12,7 @@ parametersOrganizer = function(data, mainTable, idx, attribute, atype, Params)
 			range = false
 			if atype == "Choice" then
 				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
-					parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
+					parameterElements[#parameterElements + 1] = attribute.values[idv]
 				end) 
 			else
 				parameterElements = attribute
@@ -31,17 +31,6 @@ parametersOrganizer = function(data, mainTable, idx, attribute, atype, Params)
 	end
 end
 
--- local parametersRearranger
--- -- rearrange the second order tables of parameters, preparing for model execution
--- parametersRearranger = function(mVariables, Params)
--- 	newModelVariables = {}
--- 	forEachOrderedElement(Params, function(idx, att, typ)
--- 		if Params.table == nil
--- 			newModelVariables[idx] = mVariables[idx]
--- 	end)
--- 	return newModelVariables
--- end
-
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
@@ -57,12 +46,12 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 			if Params[a].table == nil then
 				variables[Params[a].id] = parameter 
 			else
-				if variables[Params.table] == nil then
-					variables[Params.table] = {}
+				if variables[Params[a].table] == nil then
+					variables[Params[a].table] = {}
 				end
-				variables[Params.table][Params[a].id] = parameter
+				variables[Params[a].table][Params[a].id] = parameter
 			end
-			
+
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx, attribute, atype)
 				mVariables[idx] = attribute
@@ -84,8 +73,15 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
-					resultTable[idx2][#resultTable[idx2] + 1] = att2
-					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+					if typ2 ~= "table" then
+						resultTable[idx2][#resultTable[idx2] + 1] = att2
+						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+					else
+						forEachOrderedElement(att2, function( idx3, att3, typ3)
+							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
+							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
+						end)
+					end
 				end)
 				local currentDir = currentDir()
 				mkDir(stringSimulations)
@@ -101,7 +97,15 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 	else -- if the parameter uses a table of multiple values
 		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
-			variables[Params[a].id] = attribute
+			-- Giving the variables table the current parameter and value being tested.
+			if Params[a].table == nil then
+				variables[Params[a].id] = attribute 
+			else
+				if variables[Params[a].table] == nil then
+					variables[Params[a].table] = {}
+				end
+				variables[Params[a].table][Params[a].id] = attribute
+			end
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2, atype2)
 				mVariables[idx2] = attribute2
@@ -231,10 +235,6 @@ function MultipleRuns(data)
 		mandatoryTableArgument(data, "parameters", "table")
 		local resultTable = {simulations = {}} 
 		local Params = {} 
-		-- tabledParameters: Parameter that indicates if any table of parameters in the model is inside another table.
-		-- If true, function parametersRearranger will be necessary to rearrange the tables of parameters
-		-- before model execution.
-		local tabledParameters = false
 		-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 		local addFunctions = {}
 		forEachOrderedElement(data, function(idx, att, typ)
@@ -252,10 +252,16 @@ function MultipleRuns(data)
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 			local mainTable = nil
 			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
+				if Params[idx] == nil then
+					Params[idx] = {}
+				end
 				if atype ~= "table" then
 					parametersOrganizer(data, mainTable, idx, attribute, atype, Params)
 				else
 					forEachOrderedElement(attribute, function(idx2, att2, typ2)
+						if Params[idx][idx2] == nil then
+							Params[idx][idx2] = {}
+						end
 						parametersOrganizer(data, idx, idx2, att2, typ2, Params)
 					end)
 				end
@@ -268,6 +274,11 @@ function MultipleRuns(data)
     		factorial = function()
     			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}
+    				if atype == "table" then
+    					forEachOrderedElement(attribute, function(idx2, _, _)
+    						resultTable[idx][idx2] = {}
+    					end)
+    				end
 				end)
     			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions)
     		end,
@@ -382,6 +393,7 @@ function MultipleRuns(data)
     			end)
     		end
 		}
+
 	setmetatable(data, metaTableMultipleRuns_)
 	forEachOrderedElement(resultTable, function(idx, att, type)
 		data[idx] = att

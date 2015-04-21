@@ -22,19 +22,19 @@ local MyModel2 = Model{
 	}
 end}
 
--- local MyModel3 = Model{
--- 	parameters = {
--- 		x = Choice{-100, -1, 0, 1, 2, 100},
--- 		y3 = Choice{min = 1, max = 10, step = 1}
--- 	},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y3
--- 			end}
--- 	}
--- end}
+local MyModel3 = Model{
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y3 = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y3
+			end}
+	}
+end}
 
 local m = MultipleRuns{
 	model = MyModel,
@@ -66,21 +66,23 @@ local m21 = MultipleRuns{
 		return model.value
 	end}
 
--- local m31 = MultipleRuns{
--- 	model = MyModel3,
--- 	strategy = "factorial",
--- 	parameters3 = {
--- 		x = Choice{-100, -1, 0, 1, 2, 100},
--- 		y3 = Choice{min = 1, max = 10, step = 1},
+local m31 = MultipleRuns{
+	model = MyModel3,
+	strategy = "factorial",
+	parameters = {
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y3 = Choice{min = 1, max = 10, step = 1},
 		
--- 	 },
--- 	 finalTime = 1,
--- 	additionalF = function(model)
--- 		print (model.value)
--- 	end,
--- 	output = function(model)
--- 		return model.value
--- 	end}
+	 },
+	finalTime = 1
+	},
+	additionalF = function(model)
+		print (model.value)
+	end,
+	output = function(model)
+		return model.value
+	end}
 	
 	
 

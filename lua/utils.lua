@@ -84,7 +84,6 @@ end
 
 function printParamsTable(table)
 	forEachOrderedElement(table, function(idx, att, typ)
-		print("{")
 		if typ == "table" then
 			print(idx.."= {")
 			printParamsTable(att)
@@ -115,13 +114,12 @@ function printParamsTable(table)
 				print(idx.." = "..att..",")
 			else
 				print(idx.." = ")
-				print(att..",")
+				print(att)
+				print(",")
 			end
 		end
-
-		print("")
 	end)
-	print("}")
+	print("")
 end
 
 function checkParameters(tModel, tParameters)
