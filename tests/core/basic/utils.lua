@@ -19,4 +19,12 @@ randomModel = function(unitTest)
 			}
 	local rs = randomModel(MyModel, rParam)
 	unitTest:assert_equal(rs.value, 19709)
-end}
+end,
+printParamsTable = function(unitTest)
+	unitTest:assert(true)
+end,
+checkParameters = function(unitTest)
+	-- The tests for the checkParameter function are the same as the alternative Multiple Runs tests that use it.
+	unitTest:assert(true)
+end
+}
