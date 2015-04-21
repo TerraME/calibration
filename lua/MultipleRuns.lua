@@ -337,12 +337,21 @@ function MultipleRuns(data)
     				for i = 1, #Params do
     					if Params[i].ranged == true then
     						sampleValue = math.random(Params[i].min, Params[i].max)
-    						sampleParams[Params[i].id] = sampleValue
+    						if Params[i].table == nil then
+								sampleParams[Params[i].id] = sampleValue
+							else
+								if sampleParams[Params[i].table] == nil then
+									sampleParams[Params[i].table] = {}
+								end
+								sampleParams[Params[i].table][Params[i].id] = parameter
+							end
+    						
     					else
     						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
     						sampleParams[Params[i].id] =  sampleValue
     					end
     				end
+
 
     				local m = data.model(sampleParams)
     				m:execute()
