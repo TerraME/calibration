@@ -149,7 +149,7 @@ end
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
 	--- Optional function defined by the user,
-	-- that is executed each time the model runs
+	-- that is executed each time the model runs.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
 	-- @usage m = multipleRuns = {...
@@ -160,9 +160,9 @@ MultipleRuns_ = {
 	output = function(data, model)
 		return nil
 	end,
-	--- Function that returns the result.
+	--- Function that returns the result of the Multiple Runs Instance.
 	-- @arg data The data of the MultipleRuns object.
-	-- @arg number The number of the desired execution
+	-- @arg number The number of the desired execution.
 	-- @usage m = multipleRuns = {...}
 	-- r = m:execute()
 	-- m:get(r,1).x == -100
@@ -176,7 +176,13 @@ MultipleRuns_ = {
 		return getTable
 	end,
 
-	saveCSVResult = function(data, separator)
+	--- Function that saves the result of the Multiple Runs instance in a .csv file.
+	-- @arg data The data of the MultipleRuns object.
+	-- @arg separator The choosen separator to be used in the .csv file.
+	-- @usage m = multipleRuns = {...}
+	-- r = m:execute()
+	-- m:saveCSV(";")
+	saveCSV = function(data, separator)
 		local CSVTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if type(att) == "table" then

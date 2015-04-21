@@ -1,6 +1,6 @@
 
 local TestRangedvalues = function(att, Param, idx)
-	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values
+	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if att.min == nil and att.max == nil then
 		customError("Parameter "..idx.." should not be a range of values")
 	end
@@ -82,6 +82,9 @@ local testGroupOfValues = function (att, Param, idx)
 	end)
 end
 
+---Function that prints a table of parameters in the console.
+-- @arg table The Table to be printed.
+-- @usage printParamsTable(table).
 function printParamsTable(table)
 	forEachOrderedElement(table, function(idx, att, typ)
 		if typ == "table" then
@@ -122,6 +125,13 @@ function printParamsTable(table)
 	print("")
 end
 
+---Function to be used by Multiple Runs and Calibration to check
+-- if all possibilites of models can be instantiated before
+-- starting to test the model.
+-- @arg tModel A Paramater with the model to be instantiated.
+-- @arg tParameters A parameter with the parametes of a type
+-- Multiple Runs or Calibration instance. 
+-- @usage checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
 	mandatoryTableArgument(tParameters, "parameters", "table")
@@ -181,6 +191,14 @@ function checkParameters(tModel, tParameters)
 	end)
 end
 
+---Function that  that returns a randommodel instance from a set of parameters.
+-- Each parameter that has a choice needs to be instantiated with a random value from the available choices.
+-- The other parameters need to be instantiated with their exact values.
+-- This function can be used by SaMDE as well as by MultipleRuns.
+-- @arg tModel A Paramater with the model to be instantiated.
+-- @arg tParameters A parameter with the parametes of a type
+-- Multiple Runs or Calibration instance .
+-- @usage randomModel(myModel, MultipleRunsParameters)
 function randomModel(tModel, tParameters)
 	-- The possible values for each parameter is being put in a table indexed by numbers.
 	-- example:
