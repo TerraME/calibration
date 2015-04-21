@@ -1,3 +1,39 @@
+local parametersOrganizer = function(data, mainTable)
+	local Params = {}
+		-- The possible values for each parameter is being put in a table indexed by numbers.
+		-- example:
+		-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+		-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+		forEachOrderedElement(data.parameters, function (idx, attribute, atype)
+			local range = true
+			local steps = 1
+			local parameterElements = {}
+			if idx ~= "finalTime" and idx ~= "seed" then
+				if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
+					range = false
+					if atype == "Choice" then
+						forEachOrderedElement(data.parameters[idx].values, function ( idv, atv, tpv)
+							parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
+						end) 
+					else
+						parameterElements = attribute
+					end
+
+				else
+					if data.parameters[idx].step == nil then
+						mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
+					end
+
+					steps = data.parameters[idx].step
+				end
+
+				Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
+				max = data.parameters[idx].max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
+			end
+		end)
+	return Params
+end
+
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
@@ -178,6 +214,11 @@ function MultipleRuns(data)
 		mandatoryTableArgument(data, "parameters", "table")
 		local resultTable = {simulations = {}} 
 		local Params = {} 
+		-- tabledParameters: Parameter that indicates if any table of parameters in the model is inside another table.
+		-- If true, function parametersRearranger will be necessary to rearrange the tables of parameters
+		-- before model execution.
+		local tabledParameters = false
+		-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 		local addFunctions = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if type(att) == "function" and idx ~= "output" then
@@ -189,40 +230,14 @@ function MultipleRuns(data)
 			end
 		end)
 		checkParameters(data.model, data)
+		-- Organizing the parameters table of multiple runs into a simpler table,
+		-- indexed by number with the characteristics of each parameter.
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
-			-- The possible values for each parameter is being put in a table indexed by numbers.
-			-- example:
-			-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
-			-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
-				local range = true
-				local steps = 1
-				local parameterElements = {}
-				if idx ~= "finalTime" and idx ~= "seed" then
-					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
-						range = false
-						if atype == "Choice" then
-							forEachOrderedElement(data.parameters[idx].values, function ( idv, atv, tpv)
-								parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
-							end) 
-						else
-							parameterElements = attribute
-						end
-					else
-						if data.parameters[idx].step == nil then
-							mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
-						end
-						steps = data.parameters[idx].step
-					end
-
-					Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
-					max = data.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
-				end
-			end)
+			Params = parametersOrganizer(data)
 		end
-
 		local variables = {}	
 		switch(data, "strategy"):caseof{
+    	-- prepares the variables and executes the model according to each strategy.
     		factorial = function()
     			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}
