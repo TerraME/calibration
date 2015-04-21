@@ -201,36 +201,16 @@ function MultipleRuns(data)
 				if idx ~= "finalTime" and idx ~= "seed" then
 					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
 						range = false
-						if type(data.parameters[idx]) == "Choice" then
+						if atype == "Choice" then
 							forEachOrderedElement(data.parameters[idx].values, function ( idv, atv, tpv)
 								parameterElements[#parameterElements + 1] = data.parameters[idx].values[idv]
-							end)
+							end) 
 						else
 							parameterElements = attribute
 						end
 					else
 						if data.parameters[idx].step == nil then
 							mandatoryTableArgument(data.parameters[idx], idx..".step", "Choice")
-						end
-						steps = data.parameters[idx].step
-					end
-
-					Params[#Params + 1] = {id = idx, min = data.parameters[idx].min, 
-					max = data.parameters[idx].max, elements = parameterElements, ranged = range, step = steps}
-				end
-			end)
-		elseif data.strategy == "selected" then
-			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
-				local range = true
-				local steps = 1
-				local parameterElements
-				if idx ~= "finalTime" and idx ~= "seed" then
-					if data.parameters[idx].min == nil or data.parameters[idx].max == nil then
-						range = false
-						parameterElements = attribute
-					else
-						if data.parameters[idx].step == nil then
-							mandatoryTableArgument(data.parameters[idx], "step", "Choice")
 						end
 						steps = data.parameters[idx].step
 					end
