@@ -86,7 +86,9 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local currentDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
-				data.output(m)
+				if output ~= nil then
+					data.output(m)
+				end
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
@@ -133,7 +135,9 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local currentDir = currentDir ()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
-				data.output(m)
+				if output ~= nil then
+					data.output(m)
+				end
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
@@ -222,6 +226,7 @@ metaTableMultipleRuns_ = {
 -- r.rain = {20, 20, 20, ... 20}
 -- type(r) == "MultipleRuns"
 --
+-- Is an example of a Multiple Runs type.
 -- @arg data a Table containing: A model constructor, with the model that will be calibrated;
 -- A table with the parameters to be tested; An optional quantity variable; 
 -- An optional user defined output function.
@@ -312,7 +317,9 @@ function MultipleRuns(data)
 						local currentDir = currentDir ()
 						mkDir(""..(#resultTable.simulations).."")
 						chDir(""..(#resultTable.simulations).."")
-						data.output(m)
+						if output ~= nil then
+							data.output(m)
+						end
 						chDir(currentDir)
 						forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
 							if resultTable[idx2] == nil then
@@ -354,7 +361,9 @@ function MultipleRuns(data)
 					local currentDir = currentDir ()
 					mkDir(""..(#resultTable.simulations).."")
 					chDir(""..(#resultTable.simulations).."")
-					data.output(m)
+					if output ~= nil then
+						data.output(m)
+					end
 					chDir(currentDir)
 					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 						if resultTable[idx2] == nil then
@@ -388,7 +397,9 @@ function MultipleRuns(data)
     				local currentDir = currentDir ()
 					mkDir(""..(idx).."")
 					chDir(""..(idx).."")
-					data.output(m)
+					if output ~= nil then
+						data.output(m)
+					end
 					chDir(currentDir)
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 						if resultTable[idx2] == nil then

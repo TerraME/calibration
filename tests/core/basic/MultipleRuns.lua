@@ -78,7 +78,7 @@ local m31 = MultipleRuns{
 	finalTime = 1
 	},
 	additionalF = function(model)
-		print (model.value)
+		return (model.value)
 	end,
 	output = function(model)
 		return model.value
@@ -132,8 +132,8 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
 end,
 
-saveCSVResult = function(unitTest)
-	m:saveCSVResult(";")
+saveCSV = function(unitTest)
+	m:saveCSV(";")
 	unitTest:assert(true)
 end,
 

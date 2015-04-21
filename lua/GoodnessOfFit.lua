@@ -18,8 +18,8 @@
 -- @arg cs2 Second Cellular Space.
 -- @arg attribute1 attribute from the first cellular space that should be compared.
 -- @arg attribute2 attribute from the second cellular space that should be compared.
--- @arg continuous boolean that indicates if the model is continuous. 
--- (default: false, discrete model)
+-- @arg continuous boolean that indicates if the model is continuous
+-- (default: false, discrete model).
 -- @usage pixelByPixel(cs1, cs2, "attribute1", "attribute2")
 function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -192,8 +192,8 @@ end
 -- @arg cs1 First Cellular Space.
 -- @arg cs2 Second Cellular Space.
 -- @arg attribute An attribute present in both cellular space, which values should be compared.
--- @arg continuous Boolean that indicates if the model to be calibrated is continuous. 
--- (Default = False, discrete model)
+-- @arg continuous Boolean that indicates if the model to be calibrated is continuous
+-- (Default = False, discrete model).
 -- @usage multiLevel(cs1, cs2, "attribute")
 multiLevel = function(cs1, cs2, attribute, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
