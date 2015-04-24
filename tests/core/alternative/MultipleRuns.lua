@@ -23,23 +23,23 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Models using repeated strategy cannot use random seed.")
+		unitTest:assert_error(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
-			parameters = {x = {min = 2, max = 5}, y = 5},
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{ min = 1, max = 10}},
 			output = function(model)
 				return model.value
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Argument 'x.step' is mandatory.")
+		unitTest:assert_error(error_func, "Argument 'y.step' is mandatory.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
-			parameters = {x = {min = 2, max = 5, step = 1}, y = 5},
+			parameters = {x = Choice{min = 2, max = 5, step = 1}, y = 5},
 			test = "test",
 			output = function(model)
 				return model.value

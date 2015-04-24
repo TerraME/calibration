@@ -1,9 +1,8 @@
-
 return{
 	Calibration = function(unitTest)
 		local MyModel = Model{
 			x = 1,
-			setup = function(self)
+			init = function(self)
 				self.t = Timer{
 					Event{action = function()
 						self.value = 2 * self.x ^2 - 3 * self.x + 4
@@ -38,7 +37,7 @@ return{
 			local c = Calibration{
 				model = MyModel,
 				finalTime = 1,
-				parameters = {x ={ min = -100, max = 100}},
+				parameters = {x = {min = -100, max = 100}},
 			}
 			c:fit(model, parameters)
 		end

@@ -1,6 +1,6 @@
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
-	y = Choice{ min = 1, max = 10, step = 1},
+	y = Choice{min = 1, max = 10, step = 1},
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -9,12 +9,39 @@ local MyModel = Model{
 			end}
 	}
 	end}
+
+local MyModel2 = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y2 = Mandatory("number"),
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y2
+			end}
+	}
+end}
+
+local MyModel3 = Model{
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y3 = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y3
+			end}
+	}
+end}
+
 local m = MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",
 	parameters = {
-		x = {-100, -1, 0, 1, 2, 100},
-		y = {min = 1, max = 10, step = 1},
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
 		finalTime = 1
 	 },
 	additionalF = function(model)
@@ -23,6 +50,40 @@ local m = MultipleRuns{
 	output = function(model)
 		return model.value
 	end}
+
+local m21 = MultipleRuns{
+	model = MyModel2,
+	strategy = "factorial",
+	parameters = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y2 = Choice{min = 1, max = 10, step = 1},
+		finalTime = 1
+	 },
+	additionalF = function(model)
+		return "test"
+	end,
+	output = function(model)
+		return model.value
+	end}
+
+local m31 = MultipleRuns{
+	model = MyModel3,
+	strategy = "factorial",
+	parameters = {
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y3 = Choice{min = 1, max = 10, step = 1},
+		
+	 },
+	finalTime = 1
+	},
+	additionalF = function(model)
+		return (model.value)
+	end,
+	output = function(model)
+		return model.value
+	end}
+	
 	
 
 local m2 = MultipleRuns{
@@ -50,8 +111,8 @@ local m4 = MultipleRuns{
 	strategy = "sample",
 	seed = 1001,
 	parameters = {
-		x = {-100, -1, 0, 1, 2, 100},
-		y = {min = 1, max = 10, step = 1},
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
 		seed = 1001
 	 },
 	quantity = 5,
@@ -69,6 +130,11 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
+end,
+
+saveCSV = function(unitTest)
+	m:saveCSV(";")
+	unitTest:assert(true)
 end,
 
 MultipleRuns = function(unitTest)

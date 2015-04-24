@@ -60,15 +60,15 @@ end
 --@header Model Calibration functions.
 Calibration_ = {
 	type_ = "Calibration",
-	--- Returns the fitness of a model, function must be implemented by the user
-	-- @arg model Model fo calibration
+	--- Returns the fitness of a model, function must be implemented by the user.
+	-- @arg model Model fo calibration.
 	-- @usage c:fit(model, parameter)
 	fit = function(model)
 		customError("Function 'fit' was not implemented.")
 	end,
 
-	--- Prints the Calibration results on the console
-	-- @arg results Result of a Calibration type execution
+	--- Prints the Calibration results on the console.
+	-- @arg results Result of a Calibration type execution.
 	-- @usage  c = Calibration{
 	-- 		...
 	--	}
