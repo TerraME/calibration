@@ -189,14 +189,18 @@ MultipleRuns_ = {
 	saveCSV = function(data, separator)
 		local CSVTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
-			if type(att) == "table" then
-				CSVTable[idx] = {}
+			if typ == "table" and idx ~= "parameters" then
+				local counter = 0
 				forEachOrderedElement(att, function(idx2, att2, typ2)
-					CSVTable[idx][#CSVTable[idx] + 1] = idx2
+					counter = counter + 1
+					if CSVTable[counter] == nil then
+						CSVTable[counter] = {}
+					end
+					CSVTable[counter][idx] = idx2
 				end)
-				--CSVwrite(CSVTable[idx], idx..".csv", separator)
 			end
 		end)
+		CSVwrite(CSVTable, "result.csv", separator)
 	end
 }
 metaTableMultipleRuns_ = {
