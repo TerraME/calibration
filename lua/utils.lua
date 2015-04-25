@@ -74,7 +74,7 @@ end
 -- if all possibilites of models can be instantiated before
 -- starting to test the model.
 -- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A parameter with the parametes of a type
+-- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
 -- Multiple Runs or Calibration instance. 
 -- @usage checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
@@ -169,10 +169,12 @@ end
 -- The other parameters need to be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A parameter with the parametes of a type
+-- @arg tParameters A table of parameters.
 -- Multiple Runs or Calibration instance .
 -- @usage randomModel(myModel, MultipleRunsParameters)
 function randomModel(tModel, tParameters)
+	mandatoryArgument(1, "Model", tModel)
+	mandatoryArgument(1, "table", tParameters)
 	-- The possible values for each parameter is being put in a table indexed by numbers.
 	-- example:
 	-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
