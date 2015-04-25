@@ -32,13 +32,7 @@ local TestRangedvalues = function(att, Param, idx)
 			if (Param.min - att.min) % att.step ~= 0 then
 				customError("Parameter "..idx.." min is out of the model range.")
 			end
-		end
-
-		if att.max ~= nil then
-			if (att.max - Param.max) % att.step ~= 0 then
-				customError("Parameter "..idx.." max is out of the model range.")
-			end
-		end		    		
+		end		
 	end
 end
 
@@ -59,12 +53,6 @@ local testSingleValue = function(mParam, idx, idx2, value)
 	if mParam.max ~= nil then
 		if value > mParam.max then
 			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
-		end
-
-		if mParam.step ~= nil then
-			if (mParam.max - mParam.min) % mParam.step ~= 0 then
-				customError("Parameter "..value.." in #"..idx2" is out of "..idx.." range")
-			end
 		end
 	end
 
@@ -122,8 +110,6 @@ function checkParameters(tModel, tParameters)
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
 				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
-				   	else
-				   		customError("Parameter "..idx.." does not meet the requirements for given strategy")
 				   	end
 
 				elseif mtype == "Mandatory" then
@@ -170,12 +156,8 @@ function checkParameters(tModel, tParameters)
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
 					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])	
-					   	else
-					   		customError("Parameter "..idxt.." does not meet the requirements for given strategy")
 					   	end
 					end)
-				else
-					customError("There's an unknown problem in the model definition.")
 				end
 	    	end
 	    end

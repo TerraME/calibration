@@ -11,7 +11,7 @@ local MyModel = Model{
 	end
 }
 local MyModel2 = Model{
-	x = Choice{min = 1},
+	x = Choice{min = 1, max = 10},
 	y = Mandatory("number"),
 	finalTime = 1,
 	init = function(self)
@@ -130,6 +130,17 @@ return{
 			local m4 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1.5, max = 9.5, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Parameter y min is out of the model range.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
 			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 11, step = 1}},
 			output = function(model)
 				return model.value
@@ -192,10 +203,20 @@ return{
 			output = function(model)
 				return model.value
 			end}
-			m4:saveCSV(1)
 		end
 		
 		unitTest:assert_error(error_func, "Parameter 100 in #2 is bigger than y max value")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 1.5}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Parameter 1.5 in #2 is out of y range")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -204,11 +225,20 @@ return{
 			output = function(model)
 				return model.value
 			end}
-			m4:saveCSV(1)
 		end
 		
 		unitTest:assert_error(error_func, "Parameter 2.5 in #1 is out of y range")
-
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel2,
+			strategy = "factorial",
+			parameters = {x = Choice{1,2,3}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Argument 'y' is mandatory.")
 	end
 
 }
