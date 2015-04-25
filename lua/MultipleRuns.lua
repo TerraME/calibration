@@ -28,6 +28,8 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 
 		Params[#Params + 1] = {id = idx, min = attribute.min, 
 		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
+	elseif idx == seed then
+		Params[#Params + 1] = {id = "seed", min = nil, max = nil, elements = {attribute}, ranged = false, step = 1, table = mainTable}
 	end
 end
 
@@ -187,8 +189,9 @@ MultipleRuns_ = {
 	-- @usage m = multipleRuns = {...}
 	-- r = m:execute()
 	-- m:saveCSV(";")
-	saveCSV = function(data, separator)
-		mandatoryArgument(1, "string", separator)
+	saveCSV = function(data, name, separator)
+		mandatoryArgument(2, "string", separator)
+		mandatoryArgument(1, "string", name)
 		local CSVTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if typ == "table" and idx ~= "parameters" then
@@ -202,7 +205,7 @@ MultipleRuns_ = {
 				end)
 			end
 		end)
-		CSVwrite(CSVTable, "result.csv", separator)
+		CSVwrite(CSVTable, name..".csv", separator)
 	end
 }
 metaTableMultipleRuns_ = {
@@ -347,7 +350,10 @@ function MultipleRuns(data)
     						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
     					end
 
-    					sampleValue = sampleValue - (sampleValue % Params[i].step)
+    					if Params[i].step ~= nil then
+    						sampleValue = sampleValue - (sampleValue % Params[i].step)
+    					end
+
     					if Params[i].table == nil then
 							sampleParams[Params[i].id] = sampleValue
 						else
@@ -431,4 +437,3 @@ function MultipleRuns(data)
 	end)
 	return data
 end
-
