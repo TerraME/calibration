@@ -11,13 +11,13 @@ local TestRangedvalues = function(att, Param, idx)
 
 	if att.min ~= nil then
 		if att.min > Param.min then
-			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." min is out of the model range.")
 		end
 	end
 
 	if att.max ~= nil then
 		if att.max < Param.max then
-			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." max is out of the model range.")
 		end
 	end
 
@@ -25,18 +25,18 @@ local TestRangedvalues = function(att, Param, idx)
 		if Param.step == nil then
 			customError("Argument '"..idx..".step' is mandatory.")
 		elseif Param.step % att.step ~= 0 then
-			customError("Parameter step"..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." step is out of the model range.")
 		end
 
 		if att.min ~= nil then
 			if (Param.min - att.min) % att.step ~= 0 then
-				customError("Parameter min"..idx.." is out of the model "..idx.." range.")
+				customError("Parameter "..idx.." min is out of the model range.")
 			end
 		end
 
 		if att.max ~= nil then
 			if (att.max - Param.max) % att.step ~= 0 then
-				customError("Parameter max"..idx.." is out of the model "..idx.." range.")
+				customError("Parameter "..idx.." max is out of the model range.")
 			end
 		end		    		
 	end

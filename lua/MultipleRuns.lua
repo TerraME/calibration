@@ -171,6 +171,7 @@ MultipleRuns_ = {
 	-- r = m:execute()
 	-- m:get(r,1).x == -100
 	get = function(data, number)
+		mandatoryArgument(1, "number", number)
 		local getTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if type(data[idx]) == "table" then
@@ -187,6 +188,7 @@ MultipleRuns_ = {
 	-- r = m:execute()
 	-- m:saveCSV(";")
 	saveCSV = function(data, separator)
+		mandatoryArgument(1, "string", separator)
 		local CSVTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if typ == "table" and idx ~= "parameters" then
