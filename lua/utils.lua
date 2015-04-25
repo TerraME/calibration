@@ -42,34 +42,34 @@ local TestRangedvalues = function(att, Param, idx)
 	end
 end
 
-local testSingleValue = function(att, idx, idx2, value)
+local testSingleValue = function(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
-	if att.min ~= nil then
-		if value < att.min then
-			customError("Parameter "..value.." in #"..idx2.." is smaller than"..idx.." min value")
+	if mParam.min ~= nil then
+		if value < mParam.min then
+			customError("Parameter "..value.." in #"..idx2.." is smaller than "..idx.." min value")
 		end
 
-		if att.step ~= nil then
-			if (value - att.min) % att.step ~= 0 then
+		if mParam.step ~= nil then
+			if (value - mParam.min) % mParam.step ~= 0 then
 				customError("Parameter "..value.." in #"..idx2.." is out of "..idx.." range")
 			end
 		end
 	end
 
-	if att.max ~= nil then
-		if value > att.max then
+	if mParam.max ~= nil then
+		if value > mParam.max then
 			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
 		end
 
-		if att.step ~= nil then
-			if (att.max - att.min) % att.step ~= 0 then
+		if mParam.step ~= nil then
+			if (mParam.max - mParam.min) % mParam.step ~= 0 then
 				customError("Parameter "..value.." in #"..idx2" is out of "..idx.." range")
 			end
 		end
 	end
 
-	if att.values ~= nil then
-		if belong(value, att.values) == false then
+	if mParam.values ~= nil then
+		if belong(value, mParam.values) == false then
 			customError("Parameter "..value.." in #"..idx2.." is out of the model "..idx.." range.")
 		end
 	end

@@ -10,6 +10,18 @@ local MyModel = Model{
 		}
 	end
 }
+local MyModel2 = Model{
+	x = Choice{min = 1},
+	y = Mandatory("number"),
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+		}
+	end
+}
 local error_func
 return{
 	MultipleRuns = function(unitTest)
@@ -125,6 +137,78 @@ return{
 		end
 		
 		unitTest:assert_error(error_func, "Parameter y max is out of the model range.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+			m4:get("a")
+			
+		end
+		
+		unitTest:assert_error(error_func, "Incompatible types. Argument '#1' expected number, got string.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+			m4:saveCSV(1)
+		end
+		
+		unitTest:assert_error(error_func, "Incompatible types. Argument '#1' expected string, got number.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 99}, y = Choice{min = 1, max = 10, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Parameter 99 in #6 is out of the model x range.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel2,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Parameter -100 in #1 is smaller than x min value")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 100}},
+			output = function(model)
+				return model.value
+			end}
+			m4:saveCSV(1)
+		end
+		
+		unitTest:assert_error(error_func, "Parameter 100 in #2 is bigger than y max value")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
+			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{2.5, 3}},
+			output = function(model)
+				return model.value
+			end}
+			m4:saveCSV(1)
+		end
+		
+		unitTest:assert_error(error_func, "Parameter 2.5 in #1 is out of y range")
+
 	end
 
 }
