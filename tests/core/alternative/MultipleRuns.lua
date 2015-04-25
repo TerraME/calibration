@@ -12,7 +12,7 @@ local MyModel = Model{
 }
 local MyModel2 = Model{
 	x = Choice{min = 1, max = 10},
-	y = Mandatory("number"),
+	y = Mandatory("Choice"),
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -239,6 +239,17 @@ return{
 		end
 		
 		unitTest:assert_error(error_func, "Argument 'y' is mandatory.")
+			error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel2,
+			strategy = "factorial",
+			parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
+			output = function(model)
+				return model.value
+			end}
+		end
+		
+		unitTest:assert_error(error_func, "Argument 'x.step' is mandatory.")
 	end
 
 }
