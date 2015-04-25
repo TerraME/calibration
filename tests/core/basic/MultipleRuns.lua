@@ -128,8 +128,7 @@ local m4 = MultipleRuns{
 	strategy = "sample",
 	parameters = {
 		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1},
-		seed = 1001
+		y = Choice{min = 1, max = 10, step = 1}
 	 },
 	quantity = 5,
 	output = function(model)
@@ -144,7 +143,6 @@ local m34 = MultipleRuns{
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1}
 		},
-		seed = 1001
 	},
 	quantity = 5,
 	output = function(model)
@@ -162,8 +160,10 @@ get = function (unitTest)
 	unitTest:assert_equal(m:get(1).simulations, "x_-100_y_1_")
 end,
 saveCSV = function(unitTest)
-	m:saveCSV(";")
-	unitTest:assert(true)
+	m:saveCSV("results", ";")
+	local myTable = CSVread("results.csv", ";")
+	unitTest:assert(myTable[1]["x"] == 1)
+	unitTest:assert(myTable[1]["additionalF"] == 1)
 end,
 MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m:get(1).x, -100)
