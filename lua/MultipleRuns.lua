@@ -258,7 +258,7 @@ function MultipleRuns(data)
 			else
 				local checkingArgument = {}
 				checkingArgument[idx] = idx
-				checkUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "seed", "output"})
+				checkUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
 			end
 		end)
 		checkParameters(data.model, data)
@@ -341,19 +341,17 @@ function MultipleRuns(data)
     				for i = 1, #Params do
     					if Params[i].ranged == true then
     						sampleValue = math.random(Params[i].min, Params[i].max)
-    						if Params[i].table == nil then
-								sampleParams[Params[i].id] = sampleValue
-							else
-								if sampleParams[Params[i].table] == nil then
-									sampleParams[Params[i].table] = {}
-								end
-								sampleParams[Params[i].table][Params[i].id] = parameter
-							end
-    						
     					else
     						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-    						sampleParams[Params[i].id] =  sampleValue
     					end
+    					if Params[i].table == nil then
+							sampleParams[Params[i].id] = sampleValue
+						else
+							if sampleParams[Params[i].table] == nil then
+								sampleParams[Params[i].table] = {}
+							end
+							sampleParams[Params[i].table][Params[i].id] = sampleValue
+						end
     				end
 
 

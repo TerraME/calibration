@@ -118,7 +118,7 @@ function checkParameters(tModel, tParameters)
 				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 				   			end
 
-				   			testSingleValue(att, idx, 0, sParam[idx])
+				   			testSingleValue(att, idx, 1, sParam[idx])
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
 				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
@@ -144,19 +144,21 @@ function checkParameters(tModel, tParameters)
 					end
 				elseif mtype == "table" then
 					forEachOrderedElement(att, function( idxt, attt, typt)
-						Param = tParameters.parameters[idx][idxt]
-						if type(Param) == "Choice" then
-						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+						if tParameters.strategy ~= "selected" then
+							Param = tParameters.parameters[idx][idxt]
 						end
-						
-						-- if parameter in Multiple Runs/Calibration is a range of values
-			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
-			    			TestRangedvalues(attt, Param, idxt)	
-				    	else
-				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 testGroupOfValues(attt, Param, idxt)
-				    	end
+						if type(Param) == "Choice" then
+							if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+								customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+							end
+							
+							-- if parameter in Multiple Runs/Calibration is a range of values
+				    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
+				    			TestRangedvalues(attt, Param, idxt)	
+					    	else
+					    	-- if parameter Multiple Runs/Calibration is a grop of values
+					    		 testGroupOfValues(attt, Param, idxt)
+					    	end
 
 					   	elseif tParameters.strategy == "selected" then
 					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
@@ -164,7 +166,7 @@ function checkParameters(tModel, tParameters)
 					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 					   			end
 
-					   			testSingleValue(attt, idxt, 0, sParam[idx][idxt])
+					   			testSingleValue(attt, idxt, 1, sParam[idx][idxt])
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
 					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])	
