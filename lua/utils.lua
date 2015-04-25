@@ -169,11 +169,6 @@ local parametersOrganizer
 -- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
 parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
-	if type(attribute) == "number" then
-		print(attribute)
-		print(idx)
-		print(atype)
-	end
 	local range = true
 	local steps = 1
 	local parameterElements = {}
@@ -217,7 +212,7 @@ function randomModel(tModel, tParameters, seed)
 	local sampleParams = {}
 	local mainTable = nil
 	forEachOrderedElement(tParameters, function (idx, attribute, atype)
-		if atype == "Choice" then
+		if atype == "Choice" and atype ~= "table" then
 			if Params[idx] == nil then
 				Params[idx] = {}
 			end
@@ -253,7 +248,7 @@ function randomModel(tModel, tParameters, seed)
 		if Params[i].step ~= nil then
 			sampleValue = sampleValue - (sampleValue % Params[i].step)
 		end
-		
+
 		if Params[i].table == nil then
 			sampleParams[Params[i].id] = sampleValue
 		else
