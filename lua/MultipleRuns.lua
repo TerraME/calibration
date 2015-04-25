@@ -251,7 +251,6 @@ function MultipleRuns(data)
 		mandatoryTableArgument(data, "model", "Model")
 		mandatoryTableArgument(data, "parameters", "table")
 		local resultTable = {simulations = {}} 
-		local Params = {} 
 		-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 		local addFunctions = {}
 		forEachOrderedElement(data, function(idx, att, typ)
@@ -264,6 +263,7 @@ function MultipleRuns(data)
 			end
 		end)
 		checkParameters(data.model, data)
+		local Params = {} 
 		-- Organizing the parameters table of multiple runs into a simpler table,
 		-- indexed by number with the characteristics of each parameter.
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then

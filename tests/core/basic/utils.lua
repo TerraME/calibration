@@ -13,11 +13,10 @@ local MyModel = Model{
 return{
 randomModel = function(unitTest)
 	local rParam = {
-				x = {-100, -1, 0, 1, 2, 100},
-				y = {min = 1, max = 10, step = 1},
-				seed = 1001
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1}
 			}
-	local rs = randomModel(MyModel, rParam)
+	local rs = randomModel(MyModel, rParam, 1001)
 	unitTest:assert_equal(rs.value, 19709)
 end,
 checkParameters = function(unitTest)
