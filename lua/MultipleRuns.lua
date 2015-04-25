@@ -3,7 +3,7 @@ local parametersOrganizer
 -- example:
 -- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-parametersOrganizer = function(data, mainTable, idx, attribute, atype, Params)
+parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 	local range = true
 	local steps = 1
 	local parameterElements = {}
@@ -273,13 +273,13 @@ function MultipleRuns(data)
 					Params[idx] = {}
 				end
 				if atype ~= "table" then
-					parametersOrganizer(data, mainTable, idx, attribute, atype, Params)
+					parametersOrganizer(mainTable, idx, attribute, atype, Params)
 				else
 					forEachOrderedElement(attribute, function(idx2, att2, typ2)
 						if Params[idx][idx2] == nil then
 							Params[idx][idx2] = {}
 						end
-						parametersOrganizer(data, idx, idx2, att2, typ2, Params)
+						parametersOrganizer(idx, idx2, att2, typ2, Params)
 					end)
 				end
 			end)
@@ -346,6 +346,8 @@ function MultipleRuns(data)
     					else
     						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
     					end
+
+    					sampleValue = sampleValue - (sampleValue % Params[i].step)
     					if Params[i].table == nil then
 							sampleParams[Params[i].id] = sampleValue
 						else
@@ -355,7 +357,6 @@ function MultipleRuns(data)
 							sampleParams[Params[i].table][Params[i].id] = sampleValue
 						end
     				end
-
 
     				local m = data.model(sampleParams)
     				m:execute()
