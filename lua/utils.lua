@@ -217,7 +217,7 @@ function randomModel(tModel, tParameters, seed)
 	local sampleParams = {}
 	local mainTable = nil
 	forEachOrderedElement(tParameters, function (idx, attribute, atype)
-		if atype ~= "number" then
+		if atype == "Choice" then
 			if Params[idx] == nil then
 				Params[idx] = {}
 			end
@@ -246,12 +246,24 @@ function randomModel(tModel, tParameters, seed)
 	for i = 1, #Params do
 		if Params[i].ranged == true then
 			sampleValue = math.random(Params[i].min, Params[i].max)
-			sampleParams[Params[i].id] = sampleValue
 		else
 			sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-			sampleParams[Params[i].id] =  sampleValue
+		end
+
+		if Params[i].step ~= nil then
+			sampleValue = sampleValue - (sampleValue % Params[i].step)
+		end
+		
+		if Params[i].table == nil then
+			sampleParams[Params[i].id] = sampleValue
+		else
+			if sampleParams[Params[i].table] == nil then
+				sampleParams[Params[i].table] = {}
+			end
+			sampleParams[Params[i].table][Params[i].id] = sampleValue
 		end
 	end
+
 	local m = tModel(sampleParams)
 	m:execute()
 	return m
