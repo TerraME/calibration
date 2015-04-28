@@ -7,17 +7,12 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 	local range = true
 	local steps = 1
 	local parameterElements = {}
-	if idx ~= "finalTime" and idx ~= "seed" then
+	if atype == "Choice" then
 		if attribute.min == nil or attribute.max == nil then
 			range = false
-			if atype == "Choice" then
-				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
-					parameterElements[#parameterElements + 1] = attribute.values[idv]
-				end) 
-			else
-				parameterElements = attribute
-			end
-
+			forEachOrderedElement(attribute.values, function (idv, atv, tpv)
+				parameterElements[#parameterElements + 1] = attribute.values[idv]
+			end) 
 		else
 			if attribute.step == nil then
 				mandatoryTableArgument(attribute, idx..".step", "Choice")
@@ -28,8 +23,8 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 
 		Params[#Params + 1] = {id = idx, min = attribute.min, 
 		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
-	elseif idx == seed then
-		Params[#Params + 1] = {id = "seed", min = nil, max = nil, elements = {attribute}, ranged = false, step = 1, table = mainTable}
+	else
+		Params[#Params + 1] = {id = idx, min = nil, max = nil, elements = {attribute}, ranged = false, step = 1, table = mainTable}
 	end
 end
 
@@ -176,8 +171,20 @@ MultipleRuns_ = {
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
-			if type(data[idx]) == "table" then
-				getTable[idx] = data[idx][number]
+			if typ == "table" then
+				if data[idx][number] ~= nil then		
+					getTable[idx] = data[idx][number]
+				else
+					forEachOrderedElement(att, function(idx2, att2, typ2)
+						if typ2 == "table" then
+							if getTable[idx] == nil then
+								getTable[idx] = {}
+							end
+							
+							getTable[idx][idx2] = data[idx][idx2][number]
+						end
+					end)
+				end
 			end
 		end)
 		return getTable
