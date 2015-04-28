@@ -46,6 +46,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				if variables[Params[a].table] == nil then
 					variables[Params[a].table] = {}
 				end
+
 				variables[Params[a].table][Params[a].id] = parameter
 			end
 
@@ -64,6 +65,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 						if resultTable[idxF] == nil then
 							resultTable[idxF] = {}
 						end
+
 						resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
 					end)
 				end
@@ -83,9 +85,10 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local currentDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
-				if output ~= nil then
+				if data.output ~= nil then
 					data.output(m)
 				end
+
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
@@ -126,15 +129,23 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function ( idx2, att2, typ2)
-					resultTable[idx2][#resultTable[idx2] + 1] = att2
-					stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+					if typ2 ~= "table" then
+						resultTable[idx2][#resultTable[idx2] + 1] = att2
+						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+					else
+						forEachOrderedElement(att2, function( idx3, att3, typ3)
+							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
+							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
+						end)
+					end
 				end)
 				local currentDir = currentDir ()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
-				if output ~= nil then
+				if data.output ~= nil then
 					data.output(m)
 				end
+
 				chDir(currentDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with each of it possible values.
@@ -180,7 +191,7 @@ MultipleRuns_ = {
 							if getTable[idx] == nil then
 								getTable[idx] = {}
 							end
-							
+
 							getTable[idx][idx2] = data[idx][idx2][number]
 						end
 					end)

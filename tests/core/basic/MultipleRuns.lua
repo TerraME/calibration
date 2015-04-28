@@ -36,6 +36,20 @@ local MyModel3 = Model{
 	}
 end
 }
+local MyModel3Inv = Model{
+	parameters3 = {
+		y = Choice{min = 1, max = 10, step = 1},
+		z = Choice{-100, -1, 0, 1, 2, 100}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.z ^2 - 3 * self.parameters3.z + 4 + self.parameters3.y
+			end}
+	}
+end
+}
 local MyModel4 = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
 	y = Choice{min = 1, max = 10, step = 1},
@@ -95,6 +109,20 @@ local mTab = MultipleRuns{
 	end,
 	output = function(model)
 		return model.value
+	end
+}
+local mTab2 = MultipleRuns{
+	model = MyModel3Inv,
+	strategy = "factorial",
+	parameters = {
+		parameters3 = {
+			y = Choice{min = 1, max = 10, step = 1},	
+			z = Choice{-100, -1, 0, 1, 2, 100}
+		 },
+		finalTime = 1
+	},
+	additionalF = function(model)
+		return (model.value)
 	end
 }
 local m4Single = MultipleRuns{
