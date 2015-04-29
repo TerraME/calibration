@@ -1,4 +1,3 @@
-
 local TestRangedvalues = function(att, Param, idx)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if att.min == nil and att.max == nil then
@@ -11,13 +10,13 @@ local TestRangedvalues = function(att, Param, idx)
 
 	if att.min ~= nil then
 		if att.min > Param.min then
-			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." min is out of the model range.")
 		end
 	end
 
 	if att.max ~= nil then
 		if att.max < Param.max then
-			customError("Parameter "..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." max is out of the model range.")
 		end
 	end
 
@@ -25,51 +24,39 @@ local TestRangedvalues = function(att, Param, idx)
 		if Param.step == nil then
 			customError("Argument '"..idx..".step' is mandatory.")
 		elseif Param.step % att.step ~= 0 then
-			customError("Parameter step"..idx.." is out of the model "..idx.." range.")
+			customError("Parameter "..idx.." step is out of the model range.")
 		end
 
 		if att.min ~= nil then
 			if (Param.min - att.min) % att.step ~= 0 then
-				customError("Parameter min"..idx.." is out of the model "..idx.." range.")
+				customError("Parameter "..idx.." min is out of the model range.")
 			end
-		end
-
-		if att.max ~= nil then
-			if (att.max - Param.max) % att.step ~= 0 then
-				customError("Parameter max"..idx.." is out of the model "..idx.." range.")
-			end
-		end		    		
+		end		
 	end
 end
 
-local testSingleValue = function(att, idx, idx2, value)
+local testSingleValue = function(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
-	if att.min ~= nil then
-		if value < att.min then
-			customError("Parameter "..value.." in #"..idx2.." is smaller than"..idx.." min value")
+	if mParam.min ~= nil then
+		if value < mParam.min then
+			customError("Parameter "..value.." in #"..idx2.." is smaller than "..idx.." min value")
 		end
 
-		if att.step ~= nil then
-			if (value - att.min) % att.step ~= 0 then
+		if mParam.step ~= nil then
+			if (value - mParam.min) % mParam.step ~= 0 then
 				customError("Parameter "..value.." in #"..idx2.." is out of "..idx.." range")
 			end
 		end
 	end
 
-	if att.max ~= nil then
-		if value > att.max then
+	if mParam.max ~= nil then
+		if value > mParam.max then
 			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
-		end
-
-		if att.step ~= nil then
-			if (att.max - att.min) % att.step ~= 0 then
-				customError("Parameter "..value.." in #"..idx2" is out of "..idx.." range")
-			end
 		end
 	end
 
-	if att.values ~= nil then
-		if belong(value, att.values) == false then
+	if mParam.values ~= nil then
+		if belong(value, mParam.values) == false then
 			customError("Parameter "..value.." in #"..idx2.." is out of the model "..idx.." range.")
 		end
 	end
@@ -86,7 +73,7 @@ end
 -- if all possibilites of models can be instantiated before
 -- starting to test the model.
 -- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A parameter with the parametes of a type
+-- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
 -- Multiple Runs or Calibration instance. 
 -- @usage checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
@@ -122,8 +109,6 @@ function checkParameters(tModel, tParameters)
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
 				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
-				   	else
-				   		customError("Parameter "..idx.." does not meet the requirements for given strategy")
 				   	end
 
 				elseif mtype == "Mandatory" then
@@ -170,16 +155,45 @@ function checkParameters(tModel, tParameters)
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
 					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])	
-					   	else
-					   		customError("Parameter "..idxt.." does not meet the requirements for given strategy")
 					   	end
 					end)
-				else
-					customError("There's an unknown problem in the model definition.")
 				end
 	    	end
 	    end
 	end)
+end
+
+local parametersOrganizer
+-- The possible values for each parameter is being put in a table indexed by numbers.
+-- example:
+-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
+	local range = true
+	local steps = 1
+	local parameterElements = {}
+	if idx ~= "finalTime" and idx ~= "seed" then
+		if attribute.min == nil or attribute.max == nil then
+			range = false
+			if atype == "Choice" then
+				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
+					parameterElements[#parameterElements + 1] = attribute.values[idv]
+				end) 
+			else
+				parameterElements = attribute
+			end
+
+		else
+			if attribute.step == nil then
+				mandatoryTableArgument(attribute, idx..".step", "Choice")
+			end
+
+			steps = attribute.step
+		end
+
+		Params[#Params + 1] = {id = idx, min = attribute.min, 
+		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
+	end
 end
 
 ---Function that  that returns a randommodel instance from a set of parameters.
@@ -187,50 +201,64 @@ end
 -- The other parameters need to be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A parameter with the parametes of a type
+-- @arg tParameters A table of parameters.
+-- @arg seed Optional seed to be used by randomModel.
 -- Multiple Runs or Calibration instance .
 -- @usage randomModel(myModel, MultipleRunsParameters)
-function randomModel(tModel, tParameters)
-	-- The possible values for each parameter is being put in a table indexed by numbers.
-	-- example:
-	-- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
-	-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+function randomModel(tModel, tParameters, seed)
+	mandatoryArgument(1, "Model", tModel)
+	mandatoryArgument(1, "table", tParameters)
 	local Params = {}
+	local sampleParams = {}
+	local mainTable = nil
 	forEachOrderedElement(tParameters, function (idx, attribute, atype)
-		local range = true
-		local steps = 1
-		local parameterElements
-		if idx ~= "finalTime" and idx ~= "seed" then
-			if tParameters[idx].min == nil or tParameters[idx].max == nil then
-				range = false
-				parameterElements = attribute
-			else
-				if tParameters[idx].step == nil then
-					mandatoryTableArgument(tParameters[idx], idx..".step", "Choice")
-				end
-				steps = tParameters[idx].step
+		if atype == "Choice" and atype ~= "table" then
+			if Params[idx] == nil then
+				Params[idx] = {}
 			end
 
-			Params[#Params + 1] = {id = idx, min = tParameters[idx].min, 
-			max = tParameters[idx].max, elements = parameterElements, ranged = range, step = steps}
+			if atype ~= "table" then
+				parametersOrganizer(mainTable, idx, attribute, atype, Params)
+			else
+				forEachOrderedElement(attribute, function(idx2, att2, typ2)
+					if Params[idx][idx2] == nil then
+						Params[idx][idx2] = {}
+					end
+					parametersOrganizer(idx, idx2, att2, typ2, Params)
+				end)
+			end
+		else
+			sampleParams[idx] = attribute
 		end
 	end)
-	if tParameters.seed == nil then
+	if seed == nil then
 		math.randomseed(os.time())
 	else
-		math.randomseed(tParameters.seed)
+		math.randomseed(seed)
 	end
-	local sampleParams = {}
+
 	local sampleValue
 	for i = 1, #Params do
 		if Params[i].ranged == true then
 			sampleValue = math.random(Params[i].min, Params[i].max)
-			sampleParams[Params[i].id] = sampleValue
 		else
 			sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-			sampleParams[Params[i].id] =  sampleValue
+		end
+
+		if Params[i].step ~= nil then
+			sampleValue = sampleValue - (sampleValue % Params[i].step)
+		end
+
+		if Params[i].table == nil then
+			sampleParams[Params[i].id] = sampleValue
+		else
+			if sampleParams[Params[i].table] == nil then
+				sampleParams[Params[i].table] = {}
+			end
+			sampleParams[Params[i].table][Params[i].id] = sampleValue
 		end
 	end
+
 	local m = tModel(sampleParams)
 	m:execute()
 	return m
