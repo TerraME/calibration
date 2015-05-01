@@ -24,7 +24,8 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 		Params[#Params + 1] = {id = idx, min = attribute.min, 
 		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
 	else
-		Params[#Params + 1] = {id = idx, min = nil, max = nil, elements = {attribute}, ranged = false, step = 1, table = mainTable}
+		table.insert(parameterElements, attribute)
+		Params[#Params + 1] = {id = idx, min = nil, max = nil, elements = parameterElements, ranged = false, step = 1, table = mainTable}
 	end
 end
 
@@ -290,16 +291,10 @@ function MultipleRuns(data)
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 			local mainTable = nil
 			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
-				if Params[idx] == nil then
-					Params[idx] = {}
-				end
 				if atype ~= "table" then
 					parametersOrganizer(mainTable, idx, attribute, atype, Params)
 				else
 					forEachOrderedElement(attribute, function(idx2, att2, typ2)
-						if Params[idx][idx2] == nil then
-							Params[idx][idx2] = {}
-						end
 						parametersOrganizer(idx, idx2, att2, typ2, Params)
 					end)
 				end
@@ -402,6 +397,7 @@ function MultipleRuns(data)
 					if output ~= nil then
 						data.output(m)
 					end
+
 					chDir(currentDir)
 					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 						if resultTable[idx2] == nil then
