@@ -148,7 +148,8 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 
 				chDir(currentDir)
-				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
+				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
+-- print("151")
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
 			end
@@ -277,7 +278,8 @@ function MultipleRuns(data)
 		local addFunctions = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if type(att) == "function" and idx ~= "output" then
-				addFunctions[idx] = att
+				addFunctions[idx] = att 
+-- print("280")
 			else
 				local checkingArgument = {}
 				checkingArgument[idx] = idx
@@ -295,7 +297,8 @@ function MultipleRuns(data)
 					parametersOrganizer(mainTable, idx, attribute, atype, Params)
 				else
 					forEachOrderedElement(attribute, function(idx2, att2, typ2)
-						parametersOrganizer(idx, idx2, att2, typ2, Params)
+						parametersOrganizer(idx, idx2, att2, typ2, Params) 
+-- print("298")
 					end)
 				end
 			end)
@@ -323,11 +326,14 @@ function MultipleRuns(data)
 
     			local m = data.model(data.parameters)
     			for i = 1, data.quantity do
-    					m:execute()
-    					if addFunctions ~= nil then
+    					m:execute() 
+-- print("326")
+    					if addFunctions ~= nil then 
+-- print("327")
 	    					local returnValueF
 							forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-								if resultTable.idxF == nil then
+								if resultTable.idxF == nil then 
+-- print("330")
 									resultTable.idxF = {}
 								end
 								returnValueF = attF(m)
@@ -335,111 +341,151 @@ function MultipleRuns(data)
 							end)
 	    				end
  
-    					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
+    					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
+-- print("338")
 						local currentDir = currentDir ()
-						mkDir(""..(#resultTable.simulations).."")
-						chDir(""..(#resultTable.simulations).."")
-						if output ~= nil then
-							data.output(m)
+						mkDir(""..(#resultTable.simulations).."") 
+-- print("340")
+						chDir(""..(#resultTable.simulations).."") 
+-- print("341")
+						if data.output ~= nil then 
+-- print("342")
+							data.output(m) 
+-- print("343")
 						end
-						chDir(currentDir)
+						chDir(currentDir) 
+-- print("345")
 						forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
-							if resultTable[idx2] == nil then
+							if resultTable[idx2] == nil then 
+-- print("347")
 								resultTable[idx2] = {}
 							end
-							resultTable[idx2][#resultTable[idx2]+1] = att2
+							resultTable[idx2][#resultTable[idx2]+1] = att2 
+-- print("350")
 						end)
 				end
     		end,
     		sample = function()
-    			mandatoryTableArgument(data, "quantity", "number")
+    			mandatoryTableArgument(data, "quantity", "number") 
+-- print("355")
     			for i = 1, data.quantity do
     				local sampleParams = {}
     				local sampleValue
     				for i = 1, #Params do
-    					if Params[i].ranged == true then
+    					if Params[i].ranged == true then 
+-- print("360")
     						sampleValue = math.random(Params[i].min, Params[i].max)
     					else
     						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
     					end
 
-    					if Params[i].step ~= nil then
-    						sampleValue = sampleValue - (sampleValue % Params[i].step)
+    					if Params[i].step ~= nil then 
+-- print("366")
+    						sampleValue = sampleValue - (sampleValue % Params[i].step) 
+-- print("367")
     					end
 
-    					if Params[i].table == nil then
-							sampleParams[Params[i].id] = sampleValue
+    					if Params[i].table == nil then 
+-- print("370")
+							sampleParams[Params[i].id] = sampleValue 
+-- print("371")
 						else
-							if sampleParams[Params[i].table] == nil then
+							if sampleParams[Params[i].table] == nil then 
+-- print("373")
 								sampleParams[Params[i].table] = {}
 							end
-							sampleParams[Params[i].table][Params[i].id] = sampleValue
+							sampleParams[Params[i].table][Params[i].id] = sampleValue 
+-- print("376")
 						end
     				end
 
     				local m = data.model(sampleParams)
-    				m:execute()
-    				if addFunctions ~= nil then
+    				m:execute() 
+-- print("381")
+    				if addFunctions ~= nil then 
+-- print("382")
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 							returnValueF = attF(m)
-							if resultTable.idxF == nil then
+							if resultTable.idxF == nil then  
+-- print("386")
 								resultTable.idxF = {}
 							end
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
     				
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
+-- print("393")
 					local currentDir = currentDir ()
-					mkDir(""..(#resultTable.simulations).."")
-					chDir(""..(#resultTable.simulations).."")
-					if output ~= nil then
-						data.output(m)
+					mkDir(""..(#resultTable.simulations).."") 
+-- print("395")
+					chDir(""..(#resultTable.simulations).."") 
+-- print("396")
+					if data.output ~= nil then 
+-- print("397")
+						data.output(m) 
+-- print("398")
 					end
 
-					chDir(currentDir)
+					chDir(currentDir) 
+-- print("401")
 					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
-						if resultTable[idx2] == nil then
+						if resultTable[idx2] == nil then  
+-- print("403")
 							resultTable[idx2] = {}
 						end
 
-						resultTable[idx2][#resultTable[idx2] + 1] = att2
+						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+-- print("407")
 					end)
     			end
     		end,
     		selected = function()
     			forEachOrderedElement(data.parameters, function(idx, att, atype)
-    				if atype ~= "table" then
-    					incompatibleTypeMsg(idx, "table", att)
+    				if atype ~= "table" then 
+-- print("413")
+    					incompatibleTypeMsg(idx, "table", att)  
+-- print("414")
     				end
 
     				local m = data.model(att)
-    				m:execute()
-    				if addFunctions ~= nil then
+    				m:execute() 
+-- print("418")
+    				if addFunctions ~= nil then 
+-- print("419")
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
 							returnValueF = attF(m)
-							if resultTable.idxF == nil then
+							if resultTable.idxF == nil then 
+-- print("423")
 								resultTable.idxF = {}
 							end
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
 
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx)..""
+    				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
+-- print("430")
     				local currentDir = currentDir ()
-					mkDir(""..(idx).."")
-					chDir(""..(idx).."")
-					if output ~= nil then
-						data.output(m)
+					mkDir(""..(idx).."") 
+-- print("432")
+					chDir(""..(idx).."") 
+-- print("433")
+					if data.output ~= nil then 
+-- print("434")
+						data.output(m) 
+-- print("435")
 					end
-					chDir(currentDir)
+					chDir(currentDir)  
+-- print("437")
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
-						if resultTable[idx2] == nil then
+						if resultTable[idx2] == nil then 
+-- print("439")
 							resultTable[idx2] = {}
 						end
-						resultTable[idx2][#resultTable[idx2] + 1] = att2
+						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+-- print("442")
 					end)
     			end)
     		end

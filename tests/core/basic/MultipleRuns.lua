@@ -170,6 +170,9 @@ local m3 = MultipleRuns{
 	quantity = 3,
 	output = function(model)
 		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
 	end
 }
 local m3Tab = MultipleRuns{
