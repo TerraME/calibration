@@ -209,12 +209,14 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 		local largerSquare = 0
 		local minSquare = 0
 		if cs1.maxRow > cs1.maxCol then
+		-- Determines of the size of the smallest square possible containig all the map elements.
 			largerSquare = cs1.maxRow
 		else
 			largerSquare = cs1.maxCol
 		end
 
 		if cs1.minRow < cs1.minCol then
+		--Determines if the model starts at [0] or [1].
 			minSquare = cs1.minRow
 		else
 			minSquare = cs1.minCol
@@ -237,20 +239,22 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 		local largerSquare = 0
 		local minSquare = 0
 		if cs1.maxRow > cs1.maxCol then
+		-- Determines of the size of the smallest square possible containig all the map elements.
 			largerSquare = cs1.maxRow
 		else
 			largerSquare = cs1.maxCol
 		end
 
 		if cs1.minRow < cs1.minCol then
+		--Determines if the model starts at [0] or [1].
 			minSquare = cs1.minRow
 		else
 			minSquare = cs1.minCol
 		end
 
 		for i = 2, (largerSquare - minSquare + 1) do 
-				-- increase the square size and calculate fitness for each square.
-				fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
+			-- increase the square size and calculate fitness for each square.
+			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
 			exp = exp + math.exp( - k * (i - 1))
 		end
 

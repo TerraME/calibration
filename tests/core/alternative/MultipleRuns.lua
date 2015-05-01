@@ -262,6 +262,16 @@ return{
 		end
 		
 		unitTest:assert_error(error_func, "Argument 'x.step' is mandatory.")
-	end
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "selected",
+			parameters = {x = -100, y = 10},
+			output = function(model)
+				return model.value
+			end}
+		end
 
+		unitTest:assert_error(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+	end
 }

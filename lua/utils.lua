@@ -101,8 +101,8 @@ function checkParameters(tModel, tParameters)
 
 				   	elseif tParameters.strategy == "selected" then
 				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-				   			if sType == "Choice" then
-				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+				   			if sType ~= "table" then
+				   				customError("Parameters used in selected strategy must be in a table of scenarios")
 				   			end
 
 				   			testSingleValue(att, idx, 1, sParam[idx])

@@ -125,7 +125,7 @@ local mTab2 = MultipleRuns{
 		return (model.value)
 	end
 }
-local m4Single = MultipleRuns{
+local mSingle = MultipleRuns{
 	model = MyModel4,
 	strategy = "factorial",
 	parameters = {
@@ -150,6 +150,9 @@ local m2 = MultipleRuns{
 	 },
 	output = function(model)
 		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
 	end
 }
 local m2Tab = MultipleRuns{
@@ -170,6 +173,9 @@ local m3 = MultipleRuns{
 	quantity = 3,
 	output = function(model)
 		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
 	end
 }
 local m3Tab = MultipleRuns{
@@ -187,6 +193,23 @@ local m4 = MultipleRuns{
 	parameters = {
 		x = Choice{-100, -1, 0, 1, 2, 100},
 		y = Choice{min = 1, max = 10, step = 1}
+	 },
+	quantity = 5,
+	output = function(model)
+		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
+	end
+}
+local m4Single = MultipleRuns{
+	model = MyModel4,
+	strategy = "sample",
+	parameters = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
+		z = 1,
+		finalTime = 1
 	 },
 	quantity = 5,
 	output = function(model)
@@ -212,12 +235,13 @@ output = function(unitTest)
 	unitTest:assert(true)
 end,
 get = function (unitTest)
-
+unitTest:assert(true)
 	unitTest:assert_equal(m:get(1).x, -100)
 	unitTest:assert_equal(m:get(1).y, 1)
 	unitTest:assert_equal(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
 end,
 saveCSV = function(unitTest)
+unitTest:assert(true)
 	m:saveCSV("results", ";")
 	local myTable = CSVread("results.csv", ";")
 	unitTest:assert(myTable[1]["x"] == 1)
@@ -233,9 +257,9 @@ MultipleRuns = function(unitTest)
 	unitTest:assert_equal(mTab:get(1).parameters3.x, -100)
 	unitTest:assert_equal(mTab:get(1).parameters3.y, 1)
 	unitTest:assert_equal(mTab:get(1).simulations, 'finalTime_1_parameters3_x_-100_parameters3_y_1_')
-	unitTest:assert_equal(m4Single:get(1).x, -100)
-	unitTest:assert_equal(m4Single:get(1).y, 1)
-	unitTest:assert_equal(m4Single:get(1).simulations, 'finalTime_1_x_-100_y_1_z_1_')
+	unitTest:assert_equal(mSingle:get(1).x, -100)
+	unitTest:assert_equal(mSingle:get(1).y, 1)
+	unitTest:assert_equal(mSingle:get(1).simulations, 'finalTime_1_x_-100_y_1_z_1_')
 	unitTest:assert_equal(m2:get(1).x, 2)
 	unitTest:assert_equal(m2:get(1).y, 5)
 	unitTest:assert_equal(m2:get(2).x, 1)
@@ -256,6 +280,8 @@ MultipleRuns = function(unitTest)
 	unitTest:assert_equal(m4:get(1).simulations, "1")
 	unitTest:assert(m4Tab:get(5).simulations == "5")
 	unitTest:assert_equal(m4Tab:get(1).simulations, "1")
+	unitTest:assert(m4Single:get(5).simulations == "5")
+	unitTest:assert_equal(m4Single:get(1).simulations, "1")
 	unitTest:assert_equal(m:get(1).additionalF, "test")
 end
 }
