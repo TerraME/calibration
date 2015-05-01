@@ -443,12 +443,6 @@ function MultipleRuns(data)
     		end,
     		selected = function()
     			forEachOrderedElement(data.parameters, function(idx, att, atype)
-    				if atype ~= "table" then 
--- print("413")
-    					incompatibleTypeMsg(idx, "table", att)  
--- print("414")
-    				end
-
     				local m = data.model(att)
     				m:execute() 
 -- print("418")

@@ -150,6 +150,9 @@ local m2 = MultipleRuns{
 	 },
 	output = function(model)
 		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
 	end
 }
 local m2Tab = MultipleRuns{
@@ -194,6 +197,9 @@ local m4 = MultipleRuns{
 	quantity = 5,
 	output = function(model)
 		return model.value
+	end,
+	additionalF = function(model)
+		return "test"
 	end
 }
 local m4Single = MultipleRuns{
