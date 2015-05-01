@@ -222,9 +222,6 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 			minSquare = cs1.minCol
 		end
 
-		print("maxSquare"..largerSquare)
-		print("minSquare"..minSquare)
-
 		for i = 2, (largerSquare - minSquare + 1) do 
 		-- increase the square size and calculate fitness for each square.
 		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
@@ -254,9 +251,6 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 		else
 			minSquare = cs1.minCol
 		end
-
-		print("minSquare"..minSquare)
-		print("maxSquare"..largerSquare)
 
 		for i = 2, (largerSquare - minSquare + 1) do 
 			-- increase the square size and calculate fitness for each square.

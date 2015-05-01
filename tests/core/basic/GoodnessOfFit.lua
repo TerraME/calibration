@@ -39,17 +39,27 @@ return{
         		database = file("Costanza2-2.map", "calibration"),
         		attrname = "Costanza"
 		}
+		local sugar = CellularSpace{
+        		database = file("sugarScape.csv", "calibration"),
+        		sep      = ";"
+		}
+		local sugar2 = CellularSpace{
+        		database = file("sugarScape2.csv", "calibration"),
+        		sep      = ";"
+		}
 		-- Discrete Tests:
 		local result = multiLevel(cs, cs2, "Costanza")
 		local result3 = multiLevel(cs12, cs22, "Costanza")
-		local result6 = multiLevel(cs, cs, "Costanza")
+		local result5 = multiLevel(sugar, sugar, "maxsugar")
 		-- Continuous Tests:
 		local result2 = multiLevel(cs, cs2, "Costanza", true)
 		local result4 = multiLevel(cs12, cs22, "Costanza", true)
+		local result6 = multiLevel(sugar, sugar2, "maxsugar", true)
 		unitTest:assert_equal(result, 0.78, 0.01) 
 		unitTest:assert_equal(result2, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
 		unitTest:assert_equal(result3, 0.79, 0.01) 
 		unitTest:assert_equal(result4, 0.85, 0.01)
-		unitTest:assert_equal(result6, 1, 0.01)
+		unitTest:assert_equal(result5, 1, 0.01)
+		unitTest:assert_equal(result6, 0,44, 0.01)
 	end
 	}
