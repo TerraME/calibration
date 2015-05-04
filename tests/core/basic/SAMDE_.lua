@@ -33,9 +33,9 @@ return{
 		end
 		}
 		local result = c2:execute()
-		unitTest:assert_equal(result.bestCost, 4)
-		unitTest:assert_equal(result.bestVariables.x, 1)
-		unitTest:assert_equal(result.bestVariables.y, 1)
+		unitTest:assertEquals(result.bestCost, 4)
+		unitTest:assertEquals(result.bestVariables.x, 1)
+		unitTest:assertEquals(result.bestVariables.y, 1)
 
 	end
 	}

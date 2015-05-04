@@ -8,7 +8,7 @@ return{
 
 		local result = pixelByPixel(cs, cs, "a", "b", true)
 
-		unitTest:assert_equal(result, 0.9, 0.0001)
+		unitTest:assertEquals(result, 0.9, 0.0001)
 
 		local cell2 = Cell{a = "forest", b = "forest"}
 
@@ -20,7 +20,7 @@ return{
 		}
 		forEachCell(t, function(cell2) cell2.b = "deforested" end)
 		local result2 = pixelByPixel(cs2, cs2, "a", "b")
-		unitTest:assert_equal(result2, 0.5)
+		unitTest:assertEquals(result2, 0.5)
 	end,
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
@@ -55,11 +55,11 @@ return{
 		local result2 = multiLevel(cs, cs2, "Costanza", true)
 		local result4 = multiLevel(cs12, cs22, "Costanza", true)
 		local result6 = multiLevel(sugar, sugar2, "maxsugar", true)
-		unitTest:assert_equal(result, 0.78, 0.01) 
-		unitTest:assert_equal(result2, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
-		unitTest:assert_equal(result3, 0.79, 0.01) 
-		unitTest:assert_equal(result4, 0.85, 0.01)
-		unitTest:assert_equal(result5, 1, 0.01)
-		unitTest:assert_equal(result6, 0,44, 0.01)
+		unitTest:assertEquals(result, 0.78, 0.01) 
+		unitTest:assertEquals(result2, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
+		unitTest:assertEquals(result3, 0.79, 0.01) 
+		unitTest:assertEquals(result4, 0.85, 0.01)
+		unitTest:assertEquals(result5, 1, 0.01)
+		unitTest:assertEquals(result6, 0,44, 0.01)
 	end
 	}

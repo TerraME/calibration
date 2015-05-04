@@ -36,7 +36,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
+		unitTest:assertError(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -47,7 +47,7 @@ return{
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Argument 'y.step' is mandatory.")
+		unitTest:assertError(error_func, "Argument 'y.step' is mandatory.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -59,7 +59,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Argument 'test' is unnecessary.")
+		unitTest:assertError(error_func, "Argument 'test' is unnecessary.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -70,7 +70,7 @@ return{
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Parameter x should not be a range of values")
+		unitTest:assertError(error_func, "Parameter x should not be a range of values")
 			error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -81,7 +81,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y must have min and max values")
+		unitTest:assertError(error_func, "Parameter y must have min and max values")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -92,7 +92,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y min is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 			error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -103,7 +103,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y max is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -114,7 +114,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y step is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y step is out of the model range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -125,7 +125,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y min is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -136,7 +136,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y min is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -147,7 +147,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter y max is out of the model range.")
+		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -160,7 +160,7 @@ return{
 			
 		end
 		
-		unitTest:assert_error(error_func, "Incompatible types. Argument '#1' expected number, got string.")
+		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -172,7 +172,7 @@ return{
 			m4:saveCSV("nome", 1)
 		end
 		
-		unitTest:assert_error(error_func, "Incompatible types. Argument '#2' expected string, got number.")
+		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -184,7 +184,7 @@ return{
 			m4:saveCSV(1, ",")
 		end
 		
-		unitTest:assert_error(error_func, "Incompatible types. Argument '#1' expected string, got number.")
+		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -195,7 +195,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter 99 in #6 is out of the model x range.")
+		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel2,
@@ -206,7 +206,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter -100 in #1 is smaller than x min value")
+		unitTest:assertError(error_func, "Parameter -100 in #1 is smaller than x min value")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -217,7 +217,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter 100 in #2 is bigger than y max value")
+		unitTest:assertError(error_func, "Parameter 100 in #2 is bigger than y max value")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -228,7 +228,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter 1.5 in #2 is out of y range")
+		unitTest:assertError(error_func, "Parameter 1.5 in #2 is out of y range")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -239,7 +239,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Parameter 2.5 in #1 is out of y range")
+		unitTest:assertError(error_func, "Parameter 2.5 in #1 is out of y range")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel2,
@@ -250,7 +250,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Argument 'y' is mandatory.")
+		unitTest:assertError(error_func, "Argument 'y' is mandatory.")
 			error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel2,
@@ -261,7 +261,7 @@ return{
 			end}
 		end
 		
-		unitTest:assert_error(error_func, "Argument 'x.step' is mandatory.")
+		unitTest:assertError(error_func, "Argument 'x.step' is mandatory.")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -272,6 +272,6 @@ return{
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
 	end
 }

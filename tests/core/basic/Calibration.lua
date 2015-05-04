@@ -41,12 +41,12 @@ local result = c:execute()
 local result2 = c2:execute()
 return{
 Calibration = function(unitTest)
-unitTest:assert_equal(result.bestCost, 4)
-unitTest:assert_equal(result.bestVariables.x, 1)
-unitTest:assert_equal(result.bestVariables.y, 1)
-unitTest:assert_equal(result2.bestCost, 4)
-unitTest:assert_equal(result2.bestVariables.x, 1)
-unitTest:assert_equal(result2.bestVariables.y, 1)
+unitTest:assertEquals(result.bestCost, 4)
+unitTest:assertEquals(result.bestVariables.x, 1)
+unitTest:assertEquals(result.bestVariables.y, 1)
+unitTest:assertEquals(result2.bestCost, 4)
+unitTest:assertEquals(result2.bestVariables.x, 1)
+unitTest:assertEquals(result2.bestVariables.y, 1)
 end, 
 
 fit = function(unitTest)
@@ -54,9 +54,9 @@ fit = function(unitTest)
 end,
 
 printResults = function(unitTest)
-	unitTest:assert_equal(result.bestCost, 4)
-	unitTest:assert_equal(result.bestVariables.x, 1)
-	unitTest:assert_equal(result.bestVariables.y, 1)
+	unitTest:assertEquals(result.bestCost, 4)
+	unitTest:assertEquals(result.bestVariables.x, 1)
+	unitTest:assertEquals(result.bestVariables.y, 1)
 end,
 
 execute = function(unitTest)

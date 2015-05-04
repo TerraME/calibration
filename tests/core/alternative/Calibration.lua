@@ -20,7 +20,7 @@ return{
 				end
 			}
 		end
-		unitTest:assert_error(error_func, mandatoryArgumentMsg("model"))	
+		unitTest:assertError(error_func, mandatoryArgumentMsg("model"))	
 
 		error_func = function()
 			c = Calibration{
@@ -31,7 +31,7 @@ return{
 				end
 			}
 		end
-		unitTest:assert_error(error_func, mandatoryArgumentMsg("parameters"))	
+		unitTest:assertError(error_func, mandatoryArgumentMsg("parameters"))	
 
 		error_func = function()
 			local c = Calibration{
@@ -41,7 +41,7 @@ return{
 			}
 			c:fit(model, parameters)
 		end
-		unitTest:assert_error(error_func, "Function 'fit' was not implemented.")	
+		unitTest:assertError(error_func, "Function 'fit' was not implemented.")	
 	end
 }
 
