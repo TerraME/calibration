@@ -224,8 +224,8 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 
 		for i = 2, (largerSquare - minSquare + 1) do 
 		-- increase the square size and calculate fitness for each square.
-		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
-		exp = exp + math.exp( - k * (i - 1))
+		fitnessSum = fitnessSum + continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1))
+		exp = exp + math.exp(-k * (i - 1))
 		end
 		
 		local fitness = fitnessSum / exp
@@ -254,8 +254,8 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 
 		for i = 2, (largerSquare - minSquare + 1) do 
 			-- increase the square size and calculate fitness for each square.
-			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp( - k * (i - 1))
-			exp = exp + math.exp( - k * (i - 1))
+			fitnessSum = fitnessSum + newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1))
+			exp = exp + math.exp(-k * (i - 1))
 		end
 
 		local fitness = fitnessSum / exp

@@ -7,7 +7,7 @@ local testRecursive
 -- best: The smallest fitness of the model tested.
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
-testRecursive  = function(self, Params, best, a, variables)
+testRecursive = function(self, Params, best, a, variables)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min,  Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
@@ -26,10 +26,9 @@ testRecursive  = function(self, Params, best, a, variables)
 				end
 
 			else  -- else, go to the next parameter to test it with it's range of values.
-				best = testRecursive(self, Params, best, a+1, variables)
+				best = testRecursive(self, Params, best, a + 1, variables)
 			end
 		end
-
 	else -- if the parameter uses a table of multiple values
 		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
@@ -133,8 +132,8 @@ Calibration_ = {
 				local samdeParam = {}
 				local SamdeParamQuant = 0
 				forEachOrderedElement(self.parameters, function (idx, attribute, atype)
-					samdeParam[#samdeParam+1] = idx
-					samdeValues[#samdeValues+1] = {self.parameters[idx].min, self.parameters[idx].max}
+					table.insert(samdeParam, idx)
+					table.insert(samdeValues, {self.parameters[idx].min, self.parameters[idx].max})
 					SamdeParamQuant = SamdeParamQuant + 1
 				end)
 
@@ -176,3 +175,4 @@ function Calibration(data)
 	mandatoryTableArgument(data, "parameters", "table")
 	return data
 end
+

@@ -25,7 +25,7 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
 	else
 		table.insert(parameterElements, attribute)
-		Params[#Params + 1] = {id = idx, min = nil, max = nil, elements = parameterElements, ranged = false, step = 1, table = mainTable}
+		table.insert(Params, {id = idx, min = nil, max = nil, elements = parameterElements, ranged = false, step = 1, table = mainTable})
 	end
 end
 
@@ -72,12 +72,12 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 
 				local stringSimulations = ""
-				forEachOrderedElement(variables, function ( idx2, att2, typ2)
+				forEachOrderedElement(variables, function (idx2, att2, typ2)
 					if typ2 ~= "table" then
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
-						forEachOrderedElement(att2, function( idx3, att3, typ3)
+						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
 						end)
@@ -129,18 +129,18 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 
 				local stringSimulations = ""
-				forEachOrderedElement(variables, function ( idx2, att2, typ2)
+				forEachOrderedElement(variables, function (idx2, att2, typ2)
 					if typ2 ~= "table" then
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
-						forEachOrderedElement(att2, function( idx3, att3, typ3)
+						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
 						end)
 					end
 				end)
-				local currentDir = currentDir ()
+				local currentDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
 				if data.output ~= nil then
@@ -281,7 +281,7 @@ function MultipleRuns(data)
 			else
 				local checkingArgument = {}
 				checkingArgument[idx] = idx
-				checkUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
+				verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
 			end
 		end)
 		checkParameters(data.model, data)
@@ -290,7 +290,7 @@ function MultipleRuns(data)
 		-- indexed by number with the characteristics of each parameter.
 		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 			local mainTable = nil
-			forEachOrderedElement(data.parameters, function (idx, attribute, atype)
+			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
 				if atype ~= "table" then
 					parametersOrganizer(mainTable, idx, attribute, atype, Params)
 				else
@@ -308,7 +308,7 @@ function MultipleRuns(data)
     			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
     				resultTable[idx] = {}
     				if atype == "table" then
-    					forEachOrderedElement(attribute, function(idx2, _, _)
+    					forEachOrderedElement(attribute, function(idx2)
     						resultTable[idx][idx2] = {}
     					end)
     				end
@@ -337,7 +337,7 @@ function MultipleRuns(data)
 	    				end
  
     					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-						local currentDir = currentDir ()
+						local currentDir = currentDir()
 						mkDir(""..(#resultTable.simulations).."") 
 						chDir(""..(#resultTable.simulations).."") 
 						if data.output ~= nil then 
@@ -350,7 +350,7 @@ function MultipleRuns(data)
 								resultTable[idx2] = {}
 							end
 
-							resultTable[idx2][#resultTable[idx2]+1] = att2
+							resultTable[idx2][#resultTable[idx2] + 1] = att2
 						end)
 				end
     		end,
@@ -453,3 +453,4 @@ function MultipleRuns(data)
 	end)
 	return data
 end
+
