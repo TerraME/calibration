@@ -1,35 +1,51 @@
 local TestRangedvalues = function(att, Param, idx)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if att.min == nil and att.max == nil then
+	 print("3")
 		customError("Parameter "..idx.." should not be a range of values")
+		 print("4")
 	end
 
 	if Param.min == nil or Param.max == nil then
-		customError("Parameter "..idx.." must have min and max values")
+	 print("7")
+		customError("Parameter "..idx.." must have min and max values") print("8")
 	end
 
 	if att.min ~= nil then
+	 print("11")
 		if att.min > Param.min then
+		 print("12")
 			customError("Parameter "..idx.." min is out of the model range.")
+			 print("13")
 		end
 	end
 
 	if att.max ~= nil then
+	 print("17")
 		if att.max < Param.max then
+		 print("18")
 			customError("Parameter "..idx.." max is out of the model range.")
+			 print("19")
 		end
 	end
 
 	if att.step ~= nil then
+	 print("23")
 		if Param.step == nil then
+		 print("24")
 			customError("Argument '"..idx..".step' is mandatory.")
+			 print("25")
 		elseif Param.step % att.step ~= 0 then
+			 print("27")
 			customError("Parameter "..idx.." step is out of the model range.")
 		end
 
 		if att.min ~= nil then
+		 print("30")
 			if (Param.min - att.min) % att.step ~= 0 then
+			 print("31")
 				customError("Parameter "..idx.." min is out of the model range.")
+				 print("32")
 			end
 		end		
 	end
@@ -38,26 +54,38 @@ end
 local testSingleValue = function(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
+	 print("40")
 		if value < mParam.min then
+		 print("41")
 			customError("Parameter "..value.." in #"..idx2.." is smaller than "..idx.." min value")
+			 print("42")
 		end
 
 		if mParam.step ~= nil then
+		 print("45")
 			if (value - mParam.min) % mParam.step ~= 0 then
+			 print("46")
 				customError("Parameter "..value.." in #"..idx2.." is out of "..idx.." range")
+				 print("47")
 			end
 		end
 	end
 
 	if mParam.max ~= nil then
+	 print("52")
 		if value > mParam.max then
+		 print("53")
 			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
+			 print("54")
 		end
 	end
 
 	if mParam.values ~= nil then
+	 print("58")
 		if belong(value, mParam.values) == false then
+		 print("59")
 			customError("Parameter "..value.." in #"..idx2.." is out of the model "..idx.." range.")
+			 print("60")
 		end
 	end
 end
@@ -66,6 +94,7 @@ local testGroupOfValues = function (att, Param, idx)
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
 		testSingleValue(att, idx, idx2, att2)
+		 print("68")
 	end)
 end
 
@@ -78,37 +107,53 @@ end
 -- @usage checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
+	 print("80")
 	mandatoryTableArgument(tParameters, "parameters", "table")
+	 print("81")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
 	forEachElement(tModel(), function(idx, att, mtype)
 		if mtype ~= "function" then
-	    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then 
+	    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then
+	    	 print("86")
 				local Param = tParameters.parameters[idx]
-				if mtype == "Choice" then 
+				if mtype == "Choice" then
+				  print("88")
 					if type(Param) == "Choice" then
+					 print("89")
 						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
 							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 						end
 						
 						-- if parameter in Multiple Runs/Calibration is a range of values
-			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
-			    			TestRangedvalues(att, Param, idx)	
+			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
+			    		 print("95")
+			    			TestRangedvalues(att, Param, idx)
+			    			print("96")
 				    	else
 				    	-- if parameter Multiple Runs/Calibration is a grop of values
 				    		 testGroupOfValues(att, Param, idx)
+				    		  print("99")
 				    	end
 
 				   	elseif tParameters.strategy == "selected" then
 				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
 				   			if sType ~= "table" then
+				   			 print("104")
 				   				customError("Parameters used in selected strategy must be in a table of scenarios")
+				   				 print("105")
+				   			end
+
+				   			if type(sParam[idx])  == "Choice" then
+				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 				   			end
 
 				   			testSingleValue(att, idx, 1, sParam[idx])
+				   			 print("108")
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
-				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])	
+				   		testSingleValue(att, idx, 0, tParameters.parameters[idx])
+				   		 print("111")
 				   	end
 
 				elseif mtype == "Mandatory" then
@@ -116,42 +161,63 @@ function checkParameters(tModel, tParameters)
 					local mandatory = false
 					forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
 						if idx2 == idx then
+							print("118")
 							mandatory = true
+							 print("119")
 							forEachOrderedElement(att2, function(idx3, att3, typ3)
 								if typ3 ~= att.value then
+								 print("121")
 									mandatory = false
+									 print("122")
 								end
 							end)
 						end
 					end)
 					if mandatory == false then
+					 print("127")
 						mandatoryTableArgument(tParameters.parameters, idx, att.value)
+						 print("128")
 					end
+
 				elseif mtype == "table" then
 					forEachOrderedElement(att, function( idxt, attt, typt)
-						if tParameters.strategy ~= "selected" then
+						if tParameters.parameters[idx] ~= nil then
+						 print("132")
 							Param = tParameters.parameters[idx][idxt]
+							 print("133")
 						end
+						
 						if type(Param) == "Choice" then
+						 print("135")
 							if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
 								customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 							end
 							
 							-- if parameter in Multiple Runs/Calibration is a range of values
-				    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then 
-				    			TestRangedvalues(attt, Param, idxt)	
+				    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
+				    		 print("141")
+				    			TestRangedvalues(attt, Param, idxt)
+				    			 print("142")
 					    	else
 					    	-- if parameter Multiple Runs/Calibration is a grop of values
 					    		 testGroupOfValues(attt, Param, idxt)
+					    		  print("145")
 					    	end
 
 					   	elseif tParameters.strategy == "selected" then
 					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-					   			if sType == "Choice" then
+					   			if type(sParam[idx]) ~= "table" then
+					   				print("150 - 1")
+					   				customError("Parameters used in selected strategy must be in a table of scenarios")
+					   			end
+
+					   			if type(sParam[idx][idxt]) == "Choice" then
+					   				print("150 - 2")
 					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 					   			end
 
 					   			testSingleValue(attt, idxt, 1, sParam[idx][idxt])
+					   			 print("154")
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
 					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])	
@@ -181,11 +247,13 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 				end) 
 			else
 				parameterElements = attribute
+				 print("183")
 			end
 
 		else
 			if attribute.step == nil then
 				mandatoryTableArgument(attribute, idx..".step", "Choice")
+				 print("188")
 			end
 
 			steps = attribute.step
@@ -222,9 +290,11 @@ function randomModel(tModel, tParameters, seed)
 			else
 				forEachOrderedElement(attribute, function(idx2, att2, typ2)
 					if Params[idx][idx2] == nil then
+					 print("224")
 						Params[idx][idx2] = {}
 					end
 					parametersOrganizer(idx, idx2, att2, typ2, Params)
+					 print("227")
 				end)
 			end
 		else
@@ -253,9 +323,11 @@ function randomModel(tModel, tParameters, seed)
 			sampleParams[Params[i].id] = sampleValue
 		else
 			if sampleParams[Params[i].table] == nil then
+			 print("255")
 				sampleParams[Params[i].table] = {}
 			end
 			sampleParams[Params[i].table][Params[i].id] = sampleValue
+			 print("258")
 		end
 	end
 
