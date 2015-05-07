@@ -1,5 +1,4 @@
 
-
 return{
 	pixelByPixel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
@@ -24,28 +23,28 @@ return{
 	end,
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
-        		database = file("Costanza.map", "calibration"),
-        		attrname = "Costanza"
+			database = file("Costanza.map", "calibration"),
+			attrname = "Costanza"
 		}
 		local cs2 = CellularSpace{
-     	    		database = file("Costanza2.map", "calibration"),
-     	    		attrname = "Costanza"
+				database = file("Costanza2.map", "calibration"),
+				attrname = "Costanza"
 		}
 		local cs12 = CellularSpace{
-        		database = file("Costanza1-2.map", "calibration"),
-        		attrname = "Costanza"
+			database = file("Costanza1-2.map", "calibration"),
+			attrname = "Costanza"
 		}
 		local cs22 = CellularSpace{
-        		database = file("Costanza2-2.map", "calibration"),
-        		attrname = "Costanza"
+			database = file("Costanza2-2.map", "calibration"),
+			attrname = "Costanza"
 		}
 		local sugar = CellularSpace{
-        		database = file("sugarScape.csv", "calibration"),
-        		sep      = ";"
+			database = file("sugarScape.csv", "calibration"),
+			sep      = ";"
 		}
 		local sugar2 = CellularSpace{
-        		database = file("sugarScape2.csv", "calibration"),
-        		sep      = ";"
+			database = file("sugarScape2.csv", "calibration"),
+			sep      = ";"
 		}
 		-- Discrete Tests:
 		local result = multiLevel(cs, cs2, "Costanza")
@@ -62,4 +61,5 @@ return{
 		unitTest:assertEquals(result5, 1, 0.01)
 		unitTest:assertEquals(result6, 0,44, 0.01)
 	end
-	}
+}
+

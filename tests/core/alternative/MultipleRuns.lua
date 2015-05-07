@@ -286,7 +286,7 @@ return{
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
 		error_func = function()
 			local m4 = MultipleRuns{
 			model = MyModel,
@@ -297,7 +297,7 @@ return{
 			end}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 = MultipleRuns{
 			model = MyModel,
@@ -315,7 +315,7 @@ return{
 			}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 = MultipleRuns{
 			model = MyModel3,
@@ -333,7 +333,7 @@ return{
 			}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 = MultipleRuns{
 			model = MyModel3,
@@ -350,7 +350,7 @@ return{
 			}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 = MultipleRuns{
 			model = MyModel3,
@@ -367,6 +367,6 @@ return{
 			}
 		end
 
-		unitTest:assert_error(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
 	end
 }
