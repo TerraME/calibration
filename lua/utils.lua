@@ -5,7 +5,7 @@ local TestRangedvalues = function(att, Param, idx)
 	end
 
 	if Param.min == nil or Param.max == nil then
-		customError("Parameter "..idx.." must have min and max values") -- print("8")
+		customError("Parameter "..idx.." must have min and max values")
 	end
 
 	if att.min ~= nil then
