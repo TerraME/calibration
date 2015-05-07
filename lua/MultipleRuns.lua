@@ -415,7 +415,7 @@ function MultipleRuns(data)
     		selected = function()
     			forEachOrderedElement(data.parameters, function(idx, att, atype)
     				local m = data.model(att)
-    				m:execute() 
+    				m:execute()
     				if addFunctions ~= nil then 
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)

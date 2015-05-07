@@ -218,6 +218,7 @@ end
 function randomModel(tModel, tParameters, seed)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
+	local random = Random()
 	local Params = {}
 	local sampleParams = {}
 	local mainTable = nil
@@ -242,17 +243,17 @@ function randomModel(tModel, tParameters, seed)
 		end
 	end)
 	if seed == nil then
-		math.randomseed(os.time())
+		random:reSeed(os.time())
 	else
-		math.randomseed(seed)
+		random:reSeed(seed)
 	end
 
 	local sampleValue
 	for i = 1, #Params do
 		if Params[i].ranged == true then
-			sampleValue = math.random(Params[i].min, Params[i].max)
+			sampleValue = random:number(Params[i].min, Params[i].max)
 		else
-			sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
+			sampleValue = Params[i].elements[random:number(1, #Params[i].elements)]
 		end
 
 		if Params[i].step ~= nil then
