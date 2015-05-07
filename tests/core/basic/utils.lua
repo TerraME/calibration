@@ -17,14 +17,14 @@ randomModel = function(unitTest)
 				y = Choice{min = 1, max = 10, step = 1}
 			}
 	local rs = randomModel(MyModel, rParam, 1001)
-	unitTest:assert_equal(rs.value, 19709)
+	unitTest:assertEquals(rs.value, 19709)
 
 	local rParam = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = 5
 			}
 	local rs = randomModel(MyModel, rParam, 1001)
-	unitTest:assert_equal(rs.value, 19709)
+	unitTest:assertEquals(rs.value, 19709)
 end,
 checkParameters = function(unitTest)
 	-- The tests for the checkParameter function are the same as the alternative Multiple Runs tests that use it.

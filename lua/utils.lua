@@ -92,8 +92,8 @@ function checkParameters(tModel, tParameters)
 						end
 						
 						-- if parameter in Multiple Runs/Calibration is a range of values
-			    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
-			    			TestRangedvalues(att, Param, idx)
+			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
+			    			TestRangedvalues(att, Param, idx)	
 				    	else
 				    	-- if parameter Multiple Runs/Calibration is a grop of values
 				    		 testGroupOfValues(att, Param, idx)
@@ -133,7 +133,7 @@ function checkParameters(tModel, tParameters)
 					end
 
 				elseif mtype == "table" then
-					forEachOrderedElement(att, function( idxt, attt, typt)
+					forEachOrderedElement(att, function(idxt, attt, typt)
 						if tParameters.parameters[idx] ~= nil then
 							Param = tParameters.parameters[idx][idxt]
 						end
@@ -144,8 +144,8 @@ function checkParameters(tModel, tParameters)
 							end
 							
 							-- if parameter in Multiple Runs/Calibration is a range of values
-				    		if Param.min ~= nil  or Param.max ~= nil or Param.step ~= nil then
-				    			TestRangedvalues(attt, Param, idxt)
+				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
+				    			TestRangedvalues(attt, Param, idxt)	
 					    	else
 					    	-- if parameter Multiple Runs/Calibration is a grop of values
 					    		 testGroupOfValues(attt, Param, idxt)
@@ -187,7 +187,7 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 			range = false
 			if atype == "Choice" then
 				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
-					parameterElements[#parameterElements + 1] = attribute.values[idv]
+					table.insert(parameterElements, attribute.values[idv])
 				end) 
 			else
 				parameterElements = attribute
@@ -206,9 +206,9 @@ parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
 	end
 end
 
----Function that  that returns a randommodel instance from a set of parameters.
--- Each parameter that has a choice needs to be instantiated with a random value from the available choices.
--- The other parameters need to be instantiated with their exact values.
+--- Function that returns a randommodel instance from a set of parameters.
+-- Each Choice argument will be instantiated with a random value from the available choices.
+-- The other arguments will be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters.
@@ -274,3 +274,4 @@ function randomModel(tModel, tParameters, seed)
 	m:execute()
 	return m
 end
+
