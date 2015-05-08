@@ -358,31 +358,7 @@ function MultipleRuns(data)
     			mandatoryTableArgument(data, "quantity", "number")
     			for i = 1, data.quantity do
     				local sampleParams = {}
-    				local sampleValue
-    				for i = 1, #Params do
-    					if Params[i].ranged == true then
-    						sampleValue = math.random(Params[i].min, Params[i].max)
-    					else
-    						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-    					end
-
-    					if Params[i].step ~= nil then
-    						sampleValue = sampleValue - (sampleValue % Params[i].step)
-    					end
-
-    					if Params[i].table == nil then 
-							sampleParams[Params[i].id] = sampleValue 
-						else
-							if sampleParams[Params[i].table] == nil then 
-								sampleParams[Params[i].table] = {}
-							end
-
-							sampleParams[Params[i].table][Params[i].id] = sampleValue 
-						end
-    				end
-
-    				local m = data.model(sampleParams)
-    				m:execute() 
+    				local m = randomModel(data.model, data.parameters)
     				if addFunctions ~= nil then 
 	    				local returnValueF
 						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
@@ -390,6 +366,7 @@ function MultipleRuns(data)
 							if resultTable.idxF == nil then  
 								resultTable.idxF = {}
 							end
+							
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
@@ -403,6 +380,19 @@ function MultipleRuns(data)
 					end
 
 					chDir(currentDir) 
+					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
+						if typ2 ~= "table" then
+							sampleParams[idx2] = m.idx2
+						else
+							if sampleParams[idx2] == nil then
+								sampleParams[idx2] = {}
+							end
+
+							forEachOrderedElement(att2, function(idx3, att3, typ3)
+								sampleParams[idx2][idx3] = m[idx2].idx3
+							end)
+						end
+					end)
 					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 						if resultTable[idx2] == nil then  
 							resultTable[idx2] = {}
@@ -423,6 +413,7 @@ function MultipleRuns(data)
 							if resultTable.idxF == nil then 
 								resultTable.idxF = {}
 							end
+
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
