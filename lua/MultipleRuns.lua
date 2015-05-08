@@ -233,8 +233,10 @@ metaTableMultipleRuns_ = {
 }
 
 ---Type to repeatly execute a model according to a choosen strategy,
--- Returns an object with type MultipleRuns and a set of tables:
--- simulations: the name of the simulations executed. It should be "simulation_*", 
+-- Returns an object with type MultipleRuns and a set of tables.
+-- The set of tables will have a parameter named simulations, 
+-- which holds the name of each simulation executed.
+-- It should be "simulation_*", 
 -- depending on the strategy used.
 -- For repeat and sample, * should be 1, 2, ..., quantity. 
 -- For selected, * should be the idx of the element in the table of tables. 
