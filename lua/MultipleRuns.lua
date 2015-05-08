@@ -158,7 +158,6 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 	return resultTable
 end
 
---@header Model Calibration functions.
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
 	--- Optional function defined by the user,
@@ -201,7 +200,6 @@ MultipleRuns_ = {
 		end)
 		return getTable
 	end,
-
 	--- Function that saves the result of the Multiple Runs instance in a .csv file.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg name The name of the .csv file.
@@ -233,31 +231,7 @@ metaTableMultipleRuns_ = {
 }
 
 ---Type to repeatly execute a model according to a choosen strategy,
--- Returns an object with type MultipleRuns and a set of tables.
--- The set of tables will have a parameter named simulations, 
--- which holds the name of each simulation executed.
--- It should be "simulation_*", 
--- depending on the strategy used.
--- For repeat and sample, * should be 1, 2, ..., quantity. 
--- For selected, * should be the idx of the element in the table of tables. 
--- For Factorial, * should be a combination of the name and value of the parameters:
--- "parameter1_value1_parameter_2_value_2...parameter_n_value_n".
--- One extra table for each parameter used in the argument "parameters",
--- with the parameter value used for the respective simulation.
--- In this sense, the model below:
--- r = MultipleRuns{
---    model = MyModel,
---    parameters = {water = 10, rain = 20},
---    quantity = 10,
---   finalTime = 10
--- }
--- should return a table with the values:
--- r.simulations == {"1", "2", "...", "10"}
--- r.water = {10, 10, 10, ..., 10}
--- r.rain = {20, 20, 20, ... 20}
--- type(r) == "MultipleRuns"
---
--- Is an example of a Multiple Runs type.
+-- returns an object with type MultipleRuns with it's functions and a set of tables.
 -- @arg data a Table containing: A model constructor, with the model that will be calibrated;
 -- A table with the parameters to be tested; An optional quantity variable; 
 -- An optional user defined output function.
@@ -272,6 +246,18 @@ metaTableMultipleRuns_ = {
 --		return model.value
 --	end}
 -- }
+-- The model below:
+-- r = MultipleRuns{
+--    model = MyModel,
+--    parameters = {water = 10, rain = 20},
+--    quantity = 10,
+--   finalTime = 10
+-- }
+-- should return a table with the values:
+-- r.simulations == {"1", "2", "...", "10"}
+-- r.water = {10, 10, 10, ..., 10}
+-- r.rain = {20, 20, 20, ... 20}
+-- type(r) == "MultipleRuns"
 function MultipleRuns(data)
 		mandatoryTableArgument(data, "model", "Model")
 		mandatoryTableArgument(data, "parameters", "table")

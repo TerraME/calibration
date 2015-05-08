@@ -55,8 +55,6 @@ testRecursive = function(self, Params, best, a, variables)
 	return best
 end
 
-
---@header Model Calibration functions.
 Calibration_ = {
 	type_ = "Calibration",
 	--- Returns the fitness of a model, function must be implemented by the user.
@@ -65,7 +63,6 @@ Calibration_ = {
 	fit = function(model)
 		customError("Function 'fit' was not implemented.")
 	end,
-
 	--- Prints the Calibration results on the console.
 	-- @arg results Result of a Calibration type execution.
 	-- @usage  c = Calibration{
@@ -81,7 +78,6 @@ Calibration_ = {
 		end)
 		print("")
 	end,
-
 	--- Executes and test the fitness of the model, 
 	-- and then returns the table: {bestCost = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
