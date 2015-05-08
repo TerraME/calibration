@@ -252,12 +252,12 @@ function randomModel(tModel, tParameters, seed)
 	for i = 1, #Params do
 		if Params[i].ranged == true then
 			sampleValue = random:number(Params[i].min, Params[i].max)
-		else
-			sampleValue = Params[i].elements[random:number(1, #Params[i].elements)]
-		end
+			if Params[i].step ~= nil then
+				sampleValue = sampleValue - (sampleValue % Params[i].step)
+			end
 
-		if Params[i].step ~= nil then
-			sampleValue = sampleValue - (sampleValue % Params[i].step)
+		else
+			sampleValue = Params[i].elements[random:integer(1, #Params[i].elements)]
 		end
 
 		if Params[i].table == nil then
