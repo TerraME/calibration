@@ -204,10 +204,11 @@ MultipleRuns_ = {
 
 	--- Function that saves the result of the Multiple Runs instance in a .csv file.
 	-- @arg data The data of the MultipleRuns object.
+	-- @arg name The name of the .csv file.
 	-- @arg separator The choosen separator to be used in the .csv file.
 	-- @usage m = multipleRuns = {...}
 	-- r = m:execute()
-	-- m:saveCSV(";")
+	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
 		mandatoryArgument(1, "string", name)
@@ -366,7 +367,7 @@ function MultipleRuns(data)
 							if resultTable.idxF == nil then  
 								resultTable.idxF = {}
 							end
-							
+
 							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 						end)
 					end
