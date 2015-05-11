@@ -212,10 +212,10 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 		end
 	end
 
-	local cont = 0
+	local generation = 0
 	-- print("evolution population ...");
 	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) ) do
-		local cont = cont + 1
+		local generation = generation + 1
 		local popAux = {}
 		for j = 1, maxPopulation do
 			local params = copyParameters(pop[j], dim)
@@ -302,13 +302,13 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 		
 	end
 
-	-- print("Generation: " .. cont);
+	-- print("Generation: " .. generation);
 	local bestVariablesChoice = {}
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
-	
-	local finalTable = {bestCost = bestCost, bestVariables = bestVariablesChoice}
+
+	local finalTable = {bestCost = bestCost, bestModel = bestVariablesChoice, numGenerations = generation}
 	return finalTable
 end
 
@@ -324,7 +324,7 @@ end
 -- local fit = function(model)
 -- 		return model.result
 -- end
--- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, 1, fit())
+-- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
 function calibration(varMatrix, dim, model, paramList, fit)
 	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
 	return resultSAMDE
