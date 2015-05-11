@@ -215,7 +215,7 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 	local generation = 0
 	-- print("evolution population ...");
 	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) ) do
-		local generation = generation + 1
+		generation = generation + 1
 		local popAux = {}
 		for j = 1, maxPopulation do
 			local params = copyParameters(pop[j], dim)
@@ -302,7 +302,6 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 		
 	end
 
-	-- print("Generation: " .. generation);
 	local bestVariablesChoice = {}
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
