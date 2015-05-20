@@ -39,7 +39,7 @@ local factorialRecursive
 -- resultTable Table returned by multipleRuns as result
 factorialRecursive  = function(data, Params, a, variables, resultTable, addFunctions)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
+		for parameter = Params[a].min, Params[a].max, Params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
 			if Params[a].table == nil then
 				variables[Params[a].id] = parameter 
@@ -98,7 +98,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 		end
 
 	else -- if the parameter uses a table of multiple values
-		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
+		forEachOrderedElement(Params[a].elements, function(idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
 			-- Giving the variables table the current parameter and value being tested.
 			if Params[a].table == nil then
@@ -129,7 +129,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 
 				local stringSimulations = ""
-				forEachOrderedElement(variables, function (idx2, att2, typ2)
+				forEachOrderedElement(variables, function(idx2, att2, typ2)
 					if typ2 ~= "table" then
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
@@ -165,9 +165,9 @@ MultipleRuns_ = {
 	-- that is executed each time the model runs.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
-	-- @usage m = multipleRuns = {...
+	-- @usage m = MultipleRuns = {
 	-- output = function(model)
-	-- 	return model.value
+	--     return model.value
 	-- end}
 	-- r = m:execute()
 	output = function(data, model)
@@ -184,7 +184,7 @@ MultipleRuns_ = {
 		local getTable = {}
 		forEachOrderedElement(data, function(idx, att, typ)
 			if typ == "table" then
-				if data[idx][number] ~= nil then		
+				if data[idx][number] ~= nil then
 					getTable[idx] = data[idx][number]
 				else
 					forEachOrderedElement(att, function(idx2, att2, typ2)
@@ -201,7 +201,6 @@ MultipleRuns_ = {
 		end)
 		return getTable
 	end,
-
 	--- Function that saves the result of the Multiple Runs instance in a .csv file.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg separator The choosen separator to be used in the .csv file.
@@ -227,11 +226,12 @@ MultipleRuns_ = {
 		CSVwrite(CSVTable, name..".csv", separator)
 	end
 }
+
 metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
----Type to repeatly execute a model according to a choosen strategy,
+--- Type to repeatly execute a model according to a choosen strategy,
 -- Returns an object with type MultipleRuns and a set of tables:
 -- simulations: the name of the simulations executed. It should be "simulation_*", 
 -- depending on the strategy used.
@@ -246,7 +246,7 @@ metaTableMultipleRuns_ = {
 --    model = MyModel,
 --    parameters = {water = 10, rain = 20},
 --    quantity = 10,
---   finalTime = 10
+--    finalTime = 10
 -- }
 -- should return a table with the values:
 -- r.simulations == {"1", "2", "...", "10"}
@@ -260,192 +260,192 @@ metaTableMultipleRuns_ = {
 -- An optional user defined output function.
 -- @usage c = MultipleRuns{
 --     model = MyModel,
---	quantity = 5,
---	parameters = {
---		x = {-100, -1, 0, 1, 2, 100},
---		y = { min = 1, max = 10, step = 1}
---	 },
---	output = function(model)
---		return model.value
---	end}
+--     quantity = 5,
+--     parameters = {
+--         x = {-100, -1, 0, 1, 2, 100},
+--         y = { min = 1, max = 10, step = 1}
+--     },
+--     output = function(model)
+--         return model.value
+--     end}
 -- }
 function MultipleRuns(data)
-		mandatoryTableArgument(data, "model", "Model")
-		mandatoryTableArgument(data, "parameters", "table")
-		local resultTable = {simulations = {}} 
-		-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
-		local addFunctions = {}
-		forEachOrderedElement(data, function(idx, att, typ)
-			if type(att) == "function" and idx ~= "output" then
-				addFunctions[idx] = att 
-			else
-				local checkingArgument = {}
+	mandatoryTableArgument(data, "model", "Model")
+	mandatoryTableArgument(data, "parameters", "table")
+	local resultTable = {simulations = {}} 
+	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
+	local addFunctions = {}
+	forEachOrderedElement(data, function(idx, att, typ)
+		if type(att) == "function" and idx ~= "output" then
+			addFunctions[idx] = att 
+		else
+			local checkingArgument = {}
 				checkingArgument[idx] = idx
-				verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
+		end
+	end)
+	checkParameters(data.model, data)
+	local Params = {} 
+	-- Organizing the parameters table of multiple runs into a simpler table,
+	-- indexed by number with the characteristics of each parameter.
+	if data.strategy ~= "repeated" and data.strategy ~= "selected" then
+		local mainTable = nil
+		forEachOrderedElement(data.parameters, function(idx, attribute, atype)
+			if atype ~= "table" then
+				parametersOrganizer(mainTable, idx, attribute, atype, Params)
+			else
+				forEachOrderedElement(attribute, function(idx2, att2, typ2)
+					parametersOrganizer(idx, idx2, att2, typ2, Params) 
+				end)
 			end
 		end)
-		checkParameters(data.model, data)
-		local Params = {} 
-		-- Organizing the parameters table of multiple runs into a simpler table,
-		-- indexed by number with the characteristics of each parameter.
-		if data.strategy ~= "repeated" and data.strategy ~= "selected" then
-			local mainTable = nil
+	end
+
+	local variables = {}
+	switch(data, "strategy"):caseof{
+	-- Prepares the variables and executes the model according to each strategy.
+		factorial = function()
 			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
-				if atype ~= "table" then
-					parametersOrganizer(mainTable, idx, attribute, atype, Params)
-				else
-					forEachOrderedElement(attribute, function(idx2, att2, typ2)
-						parametersOrganizer(idx, idx2, att2, typ2, Params) 
+				resultTable[idx] = {}
+				if atype == "table" then
+					forEachOrderedElement(attribute, function(idx2)
+						resultTable[idx][idx2] = {}
 					end)
 				end
 			end)
-		end
+			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions)
+		end,
+		repeated = function()
+			mandatoryTableArgument(data, "quantity", "number")
+			if data.parameters.seed ~= nil or data.model.seed ~= nil then
+				customError("Models using repeated strategy cannot use seed or all results will be the same.")
+			end
 
-		local variables = {}	
-		switch(data, "strategy"):caseof{
-    	-- Prepares the variables and executes the model according to each strategy.
-    		factorial = function()
-    			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
-    				resultTable[idx] = {}
-    				if atype == "table" then
-    					forEachOrderedElement(attribute, function(idx2)
-    						resultTable[idx][idx2] = {}
-    					end)
-    				end
-				end)
-    			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions)
-    		end,
-    		repeated = function()
-    			mandatoryTableArgument(data, "quantity", "number")
-    			if data.parameters.seed ~= nil or data.model.seed ~= nil then
-    				customError("Models using repeated strategy cannot use seed or all results will be the same.")
-    			end	
-
-    			local m = data.model(data.parameters)
-    			for i = 1, data.quantity do
-    					m:execute() 
-    					if addFunctions ~= nil then 
-	    					local returnValueF
-							forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-								if resultTable.idxF == nil then 
-									resultTable.idxF = {}
-								end
-
-								returnValueF = attF(m)
-								resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-							end)
-	    				end
- 
-    					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-						local currentDir = currentDir()
-						mkDir(""..(#resultTable.simulations).."") 
-						chDir(""..(#resultTable.simulations).."") 
-						if data.output ~= nil then 
-							data.output(m)
+			local m = data.model(data.parameters)
+			for i = 1, data.quantity do
+				m:execute() 
+				if addFunctions ~= nil then 
+					local returnValueF
+					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+						if resultTable.idxF == nil then 
+							resultTable.idxF = {}
 						end
 
-						chDir(currentDir) 
-						forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
-							if resultTable[idx2] == nil then
-								resultTable[idx2] = {}
-							end
-
-							resultTable[idx2][#resultTable[idx2] + 1] = att2
-						end)
+						returnValueF = attF(m)
+						resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
+					end)
 				end
-    		end,
-    		sample = function()
-    			mandatoryTableArgument(data, "quantity", "number")
-    			for i = 1, data.quantity do
-    				local sampleParams = {}
-    				local sampleValue
-    				for i = 1, #Params do
-    					if Params[i].ranged == true then
-    						sampleValue = math.random(Params[i].min, Params[i].max)
-    					else
-    						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-    					end
+ 
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
+				local currentDir = currentDir()
+				mkDir(""..(#resultTable.simulations).."") 
+				chDir(""..(#resultTable.simulations).."") 
+				if data.output ~= nil then 
+					data.output(m)
+				end
 
-    					if Params[i].step ~= nil then
-    						sampleValue = sampleValue - (sampleValue % Params[i].step)
-    					end
-
-    					if Params[i].table == nil then 
-							sampleParams[Params[i].id] = sampleValue 
-						else
-							if sampleParams[Params[i].table] == nil then 
-								sampleParams[Params[i].table] = {}
-							end
-
-							sampleParams[Params[i].table][Params[i].id] = sampleValue 
-						end
-    				end
-
-    				local m = data.model(sampleParams)
-    				m:execute() 
-    				if addFunctions ~= nil then 
-	    				local returnValueF
-						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF(m)
-							if resultTable.idxF == nil then  
-								resultTable.idxF = {}
-							end
-							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-						end)
-					end
-    				
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
-					local currentDir = currentDir ()
-					mkDir(""..(#resultTable.simulations).."") 
-					chDir(""..(#resultTable.simulations).."") 
-					if data.output ~= nil then 
-						data.output(m) 
+				chDir(currentDir) 
+				forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
+					if resultTable[idx2] == nil then
+						resultTable[idx2] = {}
 					end
 
-					chDir(currentDir) 
-					forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
-						if resultTable[idx2] == nil then  
-							resultTable[idx2] = {}
+					resultTable[idx2][#resultTable[idx2] + 1] = att2
+				end)
+			end
+		end,
+		sample = function()
+			mandatoryTableArgument(data, "quantity", "number")
+			for i = 1, data.quantity do
+				local sampleParams = {}
+				local sampleValue
+				for i = 1, #Params do
+					if Params[i].ranged == true then
+						sampleValue = math.random(Params[i].min, Params[i].max)
+					else
+						sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
+					end
+
+					if Params[i].step ~= nil then
+						sampleValue = sampleValue - (sampleValue % Params[i].step)
+					end
+
+					if Params[i].table == nil then 
+						sampleParams[Params[i].id] = sampleValue 
+					else
+						if sampleParams[Params[i].table] == nil then 
+							sampleParams[Params[i].table] = {}
 						end
 
-						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+						sampleParams[Params[i].table][Params[i].id] = sampleValue 
+					end
+				end
+
+				local m = data.model(sampleParams)
+				m:execute() 
+				if addFunctions ~= nil then 
+					local returnValueF
+					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+						returnValueF = attF(m)
+						if resultTable.idxF == nil then  
+							resultTable.idxF = {}
+						end
+						resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 					end)
-    			end
-    		end,
-    		selected = function()
-    			forEachOrderedElement(data.parameters, function(idx, att, atype)
-    				local m = data.model(att)
-    				m:execute() 
-    				if addFunctions ~= nil then 
-	    				local returnValueF
-						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							returnValueF = attF(m)
-							if resultTable.idxF == nil then 
-								resultTable.idxF = {}
-							end
-							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-						end)
+				end
+
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
+				local currentDir = currentDir ()
+				mkDir(""..(#resultTable.simulations).."") 
+				chDir(""..(#resultTable.simulations).."") 
+				if data.output ~= nil then 
+					data.output(m) 
+				end
+
+				chDir(currentDir) 
+				forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
+					if resultTable[idx2] == nil then  
+						resultTable[idx2] = {}
 					end
 
-    				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
-    				local currentDir = currentDir ()
-					mkDir(""..(idx).."") 
-					chDir(""..(idx).."") 
-					if data.output ~= nil then 
-						data.output(m) 
-					end
-
-					chDir(currentDir)  
-					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
-						if resultTable[idx2] == nil then 
-							resultTable[idx2] = {}
+					resultTable[idx2][#resultTable[idx2] + 1] = att2 
+				end)
+			end
+		end,
+		selected = function()
+			forEachOrderedElement(data.parameters, function(idx, att, atype)
+				local m = data.model(att)
+				m:execute() 
+				if addFunctions ~= nil then 
+					local returnValueF
+					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+						returnValueF = attF(m)
+						if resultTable.idxF == nil then 
+							resultTable.idxF = {}
 						end
-
-						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+						resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
 					end)
-    			end)
-    		end
-		}
+				end
+
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
+				local currentDir = currentDir ()
+				mkDir(""..(idx).."") 
+				chDir(""..(idx).."") 
+				if data.output ~= nil then 
+					data.output(m) 
+				end
+
+				chDir(currentDir)  
+				forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
+					if resultTable[idx2] == nil then 
+						resultTable[idx2] = {}
+					end
+
+					resultTable[idx2][#resultTable[idx2] + 1] = att2 
+				end)
+			end)
+		end
+	}
 
 	setmetatable(data, metaTableMultipleRuns_)
 	forEachOrderedElement(resultTable, function(idx, att, type)
