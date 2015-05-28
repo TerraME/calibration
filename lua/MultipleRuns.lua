@@ -98,7 +98,6 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
 			end
 		end
-
 	else -- if the parameter uses a table of multiple values
 		forEachOrderedElement(Params[a].elements, function(idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
@@ -111,6 +110,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 				variables[Params[a].table][Params[a].id] = attribute
 			end
+
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2, atype2)
 				mVariables[idx2] = attribute2
@@ -126,6 +126,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 						if resultTable.idxF == nil then
 							resultTable.idxF = {}
 						end
+
 						resultTable.idxF[#resultTable.idxF + 1] = returnValueF
 					end)
 				end
@@ -143,6 +144,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 						end)
 					end
 				end)
+
 				local currentDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(stringSimulations)
@@ -202,6 +204,7 @@ MultipleRuns_ = {
 				end
 			end
 		end)
+
 		return getTable
 	end,
 	--- Function that saves the result of the Multiple Runs instance in a .csv file.
@@ -222,10 +225,12 @@ MultipleRuns_ = {
 					if CSVTable[counter] == nil then
 						CSVTable[counter] = {}
 					end
+
 					CSVTable[counter][idx] = idx2
 				end)
 			end
 		end)
+
 		CSVwrite(CSVTable, name..".csv", separator)
 	end
 }
@@ -283,10 +288,11 @@ function MultipleRuns(data)
 			addFunctions[idx] = att 
 		else
 			local checkingArgument = {}
-				checkingArgument[idx] = idx
+			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
 		end
 	end)
+
 	checkParameters(data.model, data)
 	local Params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
@@ -316,6 +322,7 @@ function MultipleRuns(data)
 					end)
 				end
 			end)
+
 			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions)
 		end,
 		repeated = function()
@@ -454,6 +461,7 @@ function MultipleRuns(data)
 	forEachOrderedElement(resultTable, function(idx, att, type)
 		data[idx] = att
 	end)
+
 	return data
 end
 

@@ -9,19 +9,24 @@ local MyModelSamde = Model{
 			end}
 		}
 end}
+--[[
 local c2 = SAMDE{
 	model = MyModelSamde,
 	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 end}
+
 local result2 = c2:execute()
+--]]
 return{
+--[[
 SAMDE = function(unitTest)
 unitTest:assertEquals(result2.bestCost, 4)
 unitTest:assertEquals(result2.bestModel.x, 1)
 unitTest:assertEquals(result2.bestModel.y, 1)
-end, 
+end,
+--]] 
 fit = function(unitTest)
 		unitTest:assert(true)
 end,

@@ -24,7 +24,6 @@ testRecursive = function(self, Params, best, a, variables)
 					best.bestCost = candidate
 					best.bestVariables = mVariables
 				end
-
 			else -- else, go to the next parameter to test it with it's range of values.
 				best = testRecursive(self, Params, best, a + 1, variables)
 			end
@@ -46,7 +45,6 @@ testRecursive = function(self, Params, best, a, variables)
 					best.bestCost = candidate
 					best.bestVariables = mVariables
 				end
-
 			else -- else, go to the next parameter to test it with each of it possible values.
 				best = testRecursive(self, Params, best, a + 1, variables)
 			end
@@ -106,6 +104,7 @@ Calibration_ = {
 		if self.SAMDE == nil then
 			self.SAMDE = false
 		end
+
 		-- The possible values for each parameter is being put in a table indexed by numbers.
 		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
 			local range = true
@@ -125,7 +124,7 @@ Calibration_ = {
 		local best = {bestCost = self.fit(m), bestVariables = startParams}
 		local variables = {}
 		if self.SAMDE == true then
-		-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value
+			-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value
 			local samdeValues = {}
 			local samdeParam = {}
 			local SamdeParamQuant = 0
@@ -137,7 +136,7 @@ Calibration_ = {
 
 			best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
 		else
-		-- Else, test the model by trying all the possible values combinations with the testRecursive function
+			-- Else, test the model by trying all the possible values combinations with the testRecursive function
 			best = testRecursive(self, Params, best, 1, variables)
 		end
 

@@ -1,5 +1,6 @@
 return{
 	SAMDE = function(unitTest)
+--[[
 		local MyModel = Model{
 			x = 1,
 			init = function(self)
@@ -42,6 +43,7 @@ return{
 			c:fit(model, parameters)
 		end
 		unitTest:assertError(error_func, "Function 'fit' was not implemented.")	
+--]]
 	end
 }
 

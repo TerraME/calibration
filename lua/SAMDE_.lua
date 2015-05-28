@@ -195,7 +195,7 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 	return valueMax
 end
 
-local function SAMDE_(varMatrix, dim, model, paramList, fit)
+function SAMDE(varMatrix, dim, model, paramList, fit)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = (dim * 10)
@@ -325,7 +325,7 @@ end
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
 function calibration(varMatrix, dim, model, paramList, fit)
-	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
+	local resultSAMDE = SAMDE(varMatrix, dim, model, paramList, fit)
 	return resultSAMDE
 end
 
