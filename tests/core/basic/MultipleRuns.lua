@@ -25,7 +25,8 @@ end
 local MyModel3 = Model{
 	parameters3 = {
 		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1}
+		y = Choice{min = 1, max = 10, step = 1},
+		z = Choice{-50, -3, 0, 1, 2, 50}
 	},
 	finalTime = 1,
 	init = function(self)
@@ -100,7 +101,8 @@ local mTab = MultipleRuns{
 	parameters = {
 		parameters3 = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
-			y = Choice{min = 1, max = 10, step = 1},	
+			y = Choice{min = 1, max = 10, step = 1},
+			z = 1	
 		 },
 		finalTime = 1
 	},
@@ -159,8 +161,8 @@ local m2Tab = MultipleRuns{
 	model = MyModel3,
 	strategy = "selected",
 	parameters = {
-		scenario1 = {parameters3 = {x = 2, y = 5}},
-		scenario2 = {parameters3 = {x = 1, y = 3}}
+		scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
+		scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
 	 },
 	output = function(model)
 		return model.value
@@ -181,7 +183,7 @@ local m3 = MultipleRuns{
 local m3Tab = MultipleRuns{
 	model = MyModel3,
 	strategy = "repeated",
-	parameters = {parameters3 = {x = 2, y = 5}},
+	parameters = {parameters3 = {x = 2, y = 5, z = 1}},
 	quantity = 3,
 	output = function(model)
 		return model.value
@@ -222,7 +224,8 @@ local m4Tab = MultipleRuns{
 	parameters = {
 		parameters3 = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
-			y = Choice{min = 1, max = 10, step = 1}
+			y = Choice{min = 1, max = 10, step = 1},
+			z = 1
 		},
 	},
 	quantity = 5,
@@ -256,7 +259,7 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(mMan:get(1).simulations, 'finalTime_1_x_-100_y2_1_')
 	unitTest:assertEquals(mTab:get(1).parameters3.x, -100)
 	unitTest:assertEquals(mTab:get(1).parameters3.y, 1)
-	unitTest:assertEquals(mTab:get(1).simulations, 'finalTime_1_parameters3_x_-100_parameters3_y_1_')
+	unitTest:assertEquals(mTab:get(1).simulations, 'finalTime_1_parameters3_x_-100_parameters3_y_1_parameters3_z_1_')
 	unitTest:assertEquals(mSingle:get(1).x, -100)
 	unitTest:assertEquals(mSingle:get(1).y, 1)
 	unitTest:assertEquals(mSingle:get(1).simulations, 'finalTime_1_x_-100_y_1_z_1_')

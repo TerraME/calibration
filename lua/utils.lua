@@ -173,103 +173,38 @@ function checkParameters(tModel, tParameters)
 	end)
 end
 
-local parametersOrganizer
--- The possible values for each parameter is being put in a table indexed by numbers.
--- example:
--- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
--- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
-	local range = true
-	local steps = 1
-	local parameterElements = {}
-	if idx ~= "finalTime" and idx ~= "seed" then
-		if attribute.min == nil or attribute.max == nil then
-			range = false
-			if atype == "Choice" then
-				forEachOrderedElement(attribute.values, function (idv, atv, tpv)
-					table.insert(parameterElements, attribute.values[idv])
-				end) 
-			else
-				parameterElements = attribute
-			end
-
-		else
-			if attribute.step == nil then
-				mandatoryTableArgument(attribute, idx..".step", "Choice")
-			end
-
-			steps = attribute.step
-		end
-
-		Params[#Params + 1] = {id = idx, min = attribute.min, 
-		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
-	end
-end
-
 --- Function that returns a randommodel instance from a set of parameters.
 -- Each Choice argument will be instantiated with a random value from the available choices.
 -- The other arguments will be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters.
--- @arg seed Optional seed to be used by randomModel.
 -- Multiple Runs or Calibration instance .
 -- @usage randomModel(myModel, MultipleRunsParameters)
-function randomModel(tModel, tParameters, seed)
+function randomModel(tModel, tParameters)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
 	local Params = {}
 	local sampleParams = {}
-	local mainTable = nil
 	forEachOrderedElement(tParameters, function (idx, attribute, atype)
-		if atype == "Choice" and atype ~= "table" then
-			if Params[idx] == nil then
-				Params[idx] = {}
+		if atype == "Choice" then
+			sampleParams[idx] = attribute:sample()
+		elseif atype == "table" then
+			if sampleParams[idx] == nil then
+				sampleParams[idx] = {}
 			end
 
-			if atype ~= "table" then
-				parametersOrganizer(mainTable, idx, attribute, atype, Params)
-			else
-				forEachOrderedElement(attribute, function(idx2, att2, typ2)
-					if Params[idx][idx2] == nil then
-						Params[idx][idx2] = {}
-					end
-					parametersOrganizer(idx, idx2, att2, typ2, Params)
-				end)
-			end
+			forEachOrderedElement(attribute, function(idx2, att2, typ2)
+				if typ2 == "Choice" then
+					sampleParams[idx][idx2] = att2:sample()
+				else
+					sampleParams[idx][idx2] = att2
+				end
+			end)
 		else
 			sampleParams[idx] = attribute
 		end
 	end)
-	if seed == nil then
-		math.randomseed(os.time())
-	else
-		math.randomseed(seed)
-	end
-
-	local sampleValue
-	for i = 1, #Params do
-		if Params[i].ranged == true then
-			sampleValue = math.random(Params[i].min, Params[i].max)
-		else
-			sampleValue = Params[i].elements[math.random(1, #Params[i].elements)]
-		end
-
-		if Params[i].step ~= nil then
-			sampleValue = sampleValue - (sampleValue % Params[i].step)
-		end
-
-		if Params[i].table == nil then
-			sampleParams[Params[i].id] = sampleValue
-		else
-			if sampleParams[Params[i].table] == nil then
-				sampleParams[Params[i].table] = {}
-			end
-
-			sampleParams[Params[i].table][Params[i].id] = sampleValue
-		end
-	end
-
 	local m = tModel(sampleParams)
 	m:execute()
 	return m
