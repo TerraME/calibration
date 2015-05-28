@@ -74,9 +74,11 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
 					if typ2 ~= "table" then
+						-- print("THE DARK SECRET LIES WITHIN THESE LINES")
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
+						-- print("THATS MY DESIRE")
 						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
@@ -134,6 +136,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
+						-- print("IN THE END, IT DOESNT EVEN MATTER")
 						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"

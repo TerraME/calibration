@@ -37,16 +37,18 @@ local MyModel3 = Model{
 	}
 end
 }
+-- It's here just so all lines are executed:
 local MyModel3Inv = Model{
 	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
 		y = Choice{min = 1, max = 10, step = 1},
-		z = Choice{-100, -1, 0, 1, 2, 100}
+		f = Choice{1, 2 ,3}
 	},
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
-				self.value = 2 * self.parameters3.z ^2 - 3 * self.parameters3.z + 4 + self.parameters3.y
+				self.value = 2 * self.parameters3.f ^2 - 3 * self.parameters3.f + 4 + self.parameters3.y
 			end}
 	}
 end
@@ -65,192 +67,223 @@ local MyModel4 = Model{
 	end
 }
 
-local m = MultipleRuns{
-	model = MyModel,
-	strategy = "factorial",
-	parameters = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1},
-		finalTime = 1
-	 },
-	additionalF = function(model)
-		return "test"
-	end,
-	output = function(model)
-		return model.value
-	end
-}
-local mMan = MultipleRuns{
-	model = MyModel2,
-	strategy = "factorial",
-	parameters = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
-		y2 = Choice{min = 1, max = 10, step = 1},
-		finalTime = 1
-	 },
-	additionalF = function(model)
-		return "test"
-	end,
-	output = function(model)
-		return model.value
-	end
-}
-local mTab = MultipleRuns{
-	model = MyModel3,
-	strategy = "factorial",
-	parameters = {
-		parameters3 = {
-			x = Choice{-100, -1, 0, 1, 2, 100},
-			y = Choice{min = 1, max = 10, step = 1},
-			z = 1	
-		 },
-		finalTime = 1
-	},
-	additionalF = function(model)
-		return (model.value)
-	end,
-	output = function(model)
-		return model.value
-	end
-}
-local mTab2 = MultipleRuns{
-	model = MyModel3Inv,
-	strategy = "factorial",
-	parameters = {
-		parameters3 = {
-			y = Choice{min = 1, max = 10, step = 1},	
-			z = Choice{-100, -1, 0, 1, 2, 100}
-		 },
-		finalTime = 1
-	},
-	additionalF = function(model)
-		return (model.value)
-	end
-}
-local mSingle = MultipleRuns{
-	model = MyModel4,
-	strategy = "factorial",
-	parameters = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1},
-		z = 1,
-		finalTime = 1
-	 },
-	additionalF = function(model)
-		return "test"
-	end,
-	output = function(model)
-		return model.value
-	end
-}
-local m2 = MultipleRuns{
-	model = MyModel,
-	strategy = "selected",
-	parameters = {
-		scenario1 = {x = 2, y = 5},
-		scenario2 = {x = 1, y = 3}
-	 },
-	output = function(model)
-		return model.value
-	end,
-	additionalF = function(model)
-		return "test"
-	end
-}
-local m2Tab = MultipleRuns{
-	model = MyModel3,
-	strategy = "selected",
-	parameters = {
-		scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
-		scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
-	 },
-	output = function(model)
-		return model.value
-	end
-}
-local m3 = MultipleRuns{
-	model = MyModel,
-	strategy = "repeated",
-	parameters = {x = 2, y = 5},
-	quantity = 3,
-	output = function(model)
-		return model.value
-	end,
-	additionalF = function(model)
-		return "test"
-	end
-}
-local m3Tab = MultipleRuns{
-	model = MyModel3,
-	strategy = "repeated",
-	parameters = {parameters3 = {x = 2, y = 5, z = 1}},
-	quantity = 3,
-	output = function(model)
-		return model.value
-	end
-}
-local m4 = MultipleRuns{
-	model = MyModel,
-	strategy = "sample",
-	parameters = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1}
-	 },
-	quantity = 5,
-	output = function(model)
-		return model.value
-	end,
-	additionalF = function(model)
-		return "test"
-	end
-}
-local m4Single = MultipleRuns{
-	model = MyModel4,
-	strategy = "sample",
-	parameters = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
-		y = Choice{min = 1, max = 10, step = 1},
-		z = 1,
-		finalTime = 1
-	 },
-	quantity = 5,
-	output = function(model)
-		return model.value
-	end
-}
-local m4Tab = MultipleRuns{
-	model = MyModel3,
-	strategy = "sample",
-	parameters = {
-		parameters3 = {
-			x = Choice{-100, -1, 0, 1, 2, 100},
-			y = Choice{min = 1, max = 10, step = 1},
-			z = 1
-		},
-	},
-	quantity = 5,
-	output = function(model)
-		return model.value
-	end
-}
 return{
 output = function(unitTest)
 	unitTest:assert(true)
 end,
 get = function (unitTest)
-unitTest:assert(true)
+	local m = MultipleRuns{
+		model = MyModel,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
 end,
 saveCSV = function(unitTest)
 unitTest:assert(true)
+	local m = MultipleRuns{
+		model = MyModel,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
 	m:saveCSV("results", ";")
 	local myTable = CSVread("results.csv", ";")
 	unitTest:assert(myTable[1]["x"] == 1)
 	unitTest:assert(myTable[1]["additionalF"] == 1)
 end,
 MultipleRuns = function(unitTest)
+	-- print("M")
+	local m = MultipleRuns{
+		model = MyModel,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
+	local mMan = MultipleRuns{
+		model = MyModel2,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y2 = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
+	local mTab = MultipleRuns{
+		model = MyModel3,
+		strategy = "factorial",
+		parameters = {
+			parameters3 = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				z = 1	
+			 },
+			finalTime = 1
+		},
+		additionalF = function(model)
+			return (model.value)
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
+	local mTab2 = MultipleRuns{
+		model = MyModel3Inv,
+		strategy = "factorial",
+		parameters = {
+			parameters3 = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				f = 1	
+			 },
+			finalTime = 1
+		},
+		additionalF = function(model)
+			return (model.value)
+		end
+	}
+	local mSingle = MultipleRuns{
+		model = MyModel4,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			z = 1,
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
+	local m2 = MultipleRuns{
+		model = MyModel,
+		strategy = "selected",
+		parameters = {
+			scenario1 = {x = 2, y = 5},
+			scenario2 = {x = 1, y = 3}
+		 },
+		output = function(model)
+			return model.value
+		end,
+		additionalF = function(model)
+			return "test"
+		end
+	}
+	local m2Tab = MultipleRuns{
+		model = MyModel3,
+		strategy = "selected",
+		parameters = {
+			scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
+			scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
+		 },
+		output = function(model)
+			return model.value
+		end
+	}
+	local m3 = MultipleRuns{
+		model = MyModel,
+		strategy = "repeated",
+		parameters = {x = 2, y = 5},
+		quantity = 3,
+		output = function(model)
+			return model.value
+		end,
+		additionalF = function(model)
+			return "test"
+		end
+	}
+	local m3Tab = MultipleRuns{
+		model = MyModel3,
+		strategy = "repeated",
+		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
+		quantity = 3,
+		output = function(model)
+			return model.value
+		end
+	}
+	local m4 = MultipleRuns{
+		model = MyModel,
+		strategy = "sample",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1}
+		 },
+		quantity = 5,
+		output = function(model)
+			return model.value
+		end,
+		additionalF = function(model)
+			return "test"
+		end
+	}
+	local m4Single = MultipleRuns{
+		model = MyModel4,
+		strategy = "sample",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			z = 1,
+			finalTime = 1
+		 },
+		quantity = 5,
+		output = function(model)
+			return model.value
+		end
+	}
+	local m4Tab = MultipleRuns{
+		model = MyModel3,
+		strategy = "sample",
+		parameters = {
+			parameters3 = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				z = 1
+			},
+		},
+		quantity = 5,
+		output = function(model)
+			return model.value
+		end
+	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
@@ -259,6 +292,8 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(mMan:get(1).simulations, 'finalTime_1_x_-100_y2_1_')
 	unitTest:assertEquals(mTab:get(1).parameters3.x, -100)
 	unitTest:assertEquals(mTab:get(1).parameters3.y, 1)
+	unitTest:assertEquals(mTab2:get(1).parameters3.x, -100)
+	unitTest:assertEquals(mTab2:get(1).parameters3.y, 1)
 	unitTest:assertEquals(mTab:get(1).simulations, 'finalTime_1_parameters3_x_-100_parameters3_y_1_parameters3_z_1_')
 	unitTest:assertEquals(mSingle:get(1).x, -100)
 	unitTest:assertEquals(mSingle:get(1).y, 1)

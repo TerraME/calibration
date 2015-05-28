@@ -8,8 +8,8 @@ local MyModel = Model{
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 	}
-	end}
-
+	end
+}
 return{
 randomModel = function(unitTest)
 	local rParam = {
@@ -18,7 +18,6 @@ randomModel = function(unitTest)
 			}
 	local rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
-
 	local rParam = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = 5
