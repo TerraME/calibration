@@ -20,7 +20,7 @@ Calibration_ = {
 	printResults = function(self, results)
 		print("Best Cost: "..results.bestCost)
 		forEachOrderedElement(self.parameters, function(idx, att, type)
-			print("Best "..idx..": "..results.bestVariables[idx])
+			print("Best "..idx..": "..results.bestModel[idx])
 		end)
 		print("")
 	end,

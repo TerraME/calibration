@@ -12,7 +12,7 @@ local MyModelSamde = Model{
 		}
 	end}
 
-local c2 = SAMDE{
+local c2 = Calibration{
 	model = MyModelSamde,
 	parameters = {x = {min = 1, max = 10}, y = {min = 1, max = 10}},
 	fit = function(model)
