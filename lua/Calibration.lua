@@ -1,57 +1,3 @@
-local testRecursive
--- function used in execute() to test the model with all the possible combinations of parameters.
--- Params: Table with all the parameters and it's ranges or values indexed by number.
--- In the example: Params[1] = {x, -100, 100, (...)}
--- (It also contains some extra information such as the step increase 
--- or if that parameter varies according to a min/max range.)
--- best: The smallest fitness of the model tested.
--- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
--- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
-testRecursive = function(self, Params, best, a, variables)
-	if Params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = Params[a].min, Params[a].max, Params[a].step do -- Testing the parameter with each value in it's range.
-			variables[Params[a].id] = parameter -- giving the variables table the current parameter and value being tested.
-			local mVariables = {} -- copy of the variables table to be used in the model.
-			forEachOrderedElement(variables, function(idx, attribute, atype)
-				mVariables[idx] = attribute
-			end)
-
-			if a == #Params then -- if all parameters have already been given a value to be tested.
-				local m = self.model(mVariables) -- testing the model with it's current parameter values.
-				m:execute()
-				local candidate = self.fit(m)
-				if candidate < best.bestCost then
-					best.bestCost = candidate
-					best.bestVariables = mVariables
-				end
-			else -- else, go to the next parameter to test it with it's range of values.
-				best = testRecursive(self, Params, best, a + 1, variables)
-			end
-		end
-	else -- if the parameter uses a table of multiple values
-		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
-			-- Testing the parameter with each value in it's table.
-			variables[Params[a].id] = attribute
-			local mVariables = {} -- copy of the variables table to be used in the model.
-			forEachOrderedElement(variables, function(idx2, attribute2, atype2)
-				mVariables[idx2] = attribute2
-			end)
-
-			if a == #Params then -- if all parameters have already been given a value to be tested.
-				local m = self.model(mVariables) --testing the model with it's current parameter values.
-				m:execute()
-				local candidate = self.fit(m)
-				if candidate < best.bestCost then
-					best.bestCost = candidate
-					best.bestVariables = mVariables
-				end
-			else -- else, go to the next parameter to test it with each of it possible values.
-				best = testRecursive(self, Params, best, a + 1, variables)
-			end
-		end)
-	end
-	return best
-end
 
 
 --@header Model Calibration functions.
@@ -101,9 +47,7 @@ Calibration_ = {
 		end)
 
 		local Params = {} 
-		if self.SAMDE == nil then
-			self.SAMDE = false
-		end
+
 
 		-- The possible values for each parameter is being put in a table indexed by numbers.
 		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
@@ -123,23 +67,16 @@ Calibration_ = {
 		m:execute()
 		local best = {bestCost = self.fit(m), bestVariables = startParams}
 		local variables = {}
-		if self.SAMDE == true then
-			-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value
-			local samdeValues = {}
-			local samdeParam = {}
-			local SamdeParamQuant = 0
-			forEachOrderedElement(self.parameters, function (idx, attribute, atype)
-				table.insert(samdeParam, idx)
-				table.insert(samdeValues, {self.parameters[idx].min, self.parameters[idx].max})
-				SamdeParamQuant = SamdeParamQuant + 1
-			end)
-
-			best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
-		else
-			-- Else, test the model by trying all the possible values combinations with the testRecursive function
-			best = testRecursive(self, Params, best, 1, variables)
-		end
-
+		-- If the SAMDE variable is set to true, use the SAMDE genetic algorithm to find the best fitness value
+		local samdeValues = {}
+		local samdeParam = {}
+		local SamdeParamQuant = 0
+		forEachOrderedElement(self.parameters, function (idx, attribute, atype)
+			table.insert(samdeParam, idx)
+			table.insert(samdeValues, {self.parameters[idx].min, self.parameters[idx].max})
+			SamdeParamQuant = SamdeParamQuant + 1
+		end)
+		best = SAMDE(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
 		return best -- returns the smallest fitness
 	end}
 

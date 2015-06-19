@@ -21,8 +21,8 @@ fit = function(model)
 end
 
 return{
-	calibration = function(unitTest)
-		local c2 = SAMDE{
+	SAMDE = function(unitTest)
+		local c2 = Calibration{
 		model = MyModel,
 		parameters = {x ={min = 1, max = 10}, y = {min = 1, max = 10}},
 		fit = function(model)

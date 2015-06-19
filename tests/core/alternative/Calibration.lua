@@ -1,6 +1,6 @@
 return{
-	SAMDE = function(unitTest)
---[[
+	Calibration = function(unitTest)
+
 		local MyModel = Model{
 			x = 1,
 			init = function(self)
@@ -13,7 +13,7 @@ return{
 		}
 
 		local error_func = function()
-			c = SAMDE{
+			c = Calibration{
 				finalTime = 1,
 				parameters = {x ={ min = -100, max = 100}},
 				fit = function(model)
@@ -24,7 +24,7 @@ return{
 		unitTest:assertError(error_func, mandatoryArgumentMsg("model"))	
 
 		error_func = function()
-			c = SAMDE{
+			c = Calibration{
 				model = MyModel,
 				finalTime = 1,
 				fit = function(model)
@@ -35,7 +35,7 @@ return{
 		unitTest:assertError(error_func, mandatoryArgumentMsg("parameters"))	
 
 		error_func = function()
-			local c = SAMDE{
+			local c = Calibration{
 				model = MyModel,
 				finalTime = 1,
 				parameters = {x = {min = -100, max = 100}},
@@ -43,7 +43,7 @@ return{
 			c:fit(model, parameters)
 		end
 		unitTest:assertError(error_func, "Function 'fit' was not implemented.")	
---]]
+
 	end
 }
 

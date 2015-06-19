@@ -9,8 +9,7 @@ local MyModelSamde = Model{
 			end}
 		}
 end}
---[[
-local c2 = SAMDE{
+local c2 = Calibration{
 	model = MyModelSamde,
 	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
 	fit = function(model)
@@ -18,15 +17,14 @@ local c2 = SAMDE{
 end}
 
 local result2 = c2:execute()
---]]
 return{
---[[
-SAMDE = function(unitTest)
+
+Calibration = function(unitTest)
 unitTest:assertEquals(result2.bestCost, 4)
 unitTest:assertEquals(result2.bestModel.x, 1)
 unitTest:assertEquals(result2.bestModel.y, 1)
 end,
---]] 
+
 fit = function(unitTest)
 		unitTest:assert(true)
 end,
