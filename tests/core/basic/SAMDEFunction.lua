@@ -26,6 +26,7 @@ return{
 		model = MyModel,
 		parameters = {x ={min = 1, max = 10}, y = {min = 1, max = 10}},
 		size = 30,
+		maxGen = 100,
 		fit = function(model)
 			return model.value
 		end

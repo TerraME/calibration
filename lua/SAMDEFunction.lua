@@ -208,7 +208,7 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size)
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, maxGen)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
@@ -234,7 +234,7 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size)
 
 	local generation = 0
 	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) ) do
+	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) and generation < maxGen) do
 		generation = generation + 1
 		local popAux = {}
 		for j = 1, maxPopulation do
