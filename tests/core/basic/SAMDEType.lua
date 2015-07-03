@@ -25,11 +25,6 @@ end,
 fit = function(unitTest)
 		unitTest:assert(true)
 end,
-printResults = function(unitTest)
-	unitTest:assertEquals(result2.bestCost, 4)
-	unitTest:assertEquals(result2.bestModel.x, 1)
-	unitTest:assertEquals(result2.bestModel.y, 1)
-end,
 execute = function(unitTest)
 		unitTest:assert(true)
 end}

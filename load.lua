@@ -1,7 +1,7 @@
 files = {
-	"Calibration.lua",
+	"SAMDEType.lua",
 	"GoodnessOfFit.lua",
-	"SAMDE_.lua",
+	"SAMDEFunction.lua",
 	"MultipleRuns.lua",
 	"utils.lua"
 }

@@ -6,23 +6,6 @@ SAMDE_ = {
 	fit = function(model)
 		customError("Function 'fit' was not implemented.")
 	end,
-	--- Prints the SAMDE results on the console.
-	-- @arg results Result of a SAMDE type execution.
-	-- @usage  c = SAMDE{
-	-- 		...
-	--	}
-	--
-	-- result = c:execute()
-	-- c:printResults(result)
-	printResults = function(self, results)
-		print("Best Cost: "..results.bestCost)
-		forEachOrderedElement(self.parameters, function(idx, att, type)
-			if results.bestModel[idx] ~= nil then
-				print("Best "..idx..": "..results.bestModel[idx])
-			end
-		end)
-		print("")
-	end,
 	--- Executes and test the fitness of the model, 
 	-- and then returns the table: {bestCost = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
@@ -70,7 +53,7 @@ SAMDE_ = {
 
 				SamdeParamQuant = SamdeParamQuant + 1
 			end)
-			best = calibration(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
+			best = SAMDECalibrate(samdeValues, SamdeParamQuant, self.model, samdeParam, self.fit)
 			return best -- returns the smallest fitness
 	end}
 

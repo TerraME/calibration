@@ -195,7 +195,20 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 	return valueMax
 end
 
-local function SAMDE_(varMatrix, dim, model, paramList, fit)
+--- Function that uses the SaMDE genetic algorithm to calibrate a model according to a fit function,
+-- it currently returns the smallest fitness value of the model achieved in the calibration
+-- and the parameters used in such instance of the model.
+-- @arg varMatrix VarMaxtrix Tables containig the min and max ranges for each of the parameters to be calibrated.
+-- @arg dim dim Number of parameters to be calibrated in the model.
+-- @arg model model The model type that will be calibrated by the function.
+-- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
+-- @arg fit fit() A function  that recieve a model as a parameter and determines the fitness value of such model.
+-- @usage 
+-- local fit = function(model)
+-- 		return model.result
+-- end
+-- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = (dim * 10)
@@ -311,21 +324,4 @@ local function SAMDE_(varMatrix, dim, model, paramList, fit)
 	return finalTable
 end
 
---- Function that uses the SaMDE genetic algorithm to calibrate a model according to a fit function,
--- it currently returns the smallest fitness value of the model achieved in the calibration
--- and the parameters used in such instance of the model.
--- @arg varMatrix VarMaxtrix Tables containig the min and max ranges for each of the parameters to be calibrated.
--- @arg dim dim Number of parameters to be calibrated in the model.
--- @arg model model The model type that will be calibrated by the function.
--- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
--- @arg fit fit() A function  that recieve a model as a parameter and determines the fitness value of such model.
--- @usage 
--- local fit = function(model)
--- 		return model.result
--- end
--- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function calibration(varMatrix, dim, model, paramList, fit)
-	local resultSAMDE = SAMDE_(varMatrix, dim, model, paramList, fit)
-	return resultSAMDE
-end
 
