@@ -18,9 +18,9 @@ end}
 local result2 = c2:execute()
 return{
 SAMDE = function(unitTest)
-unitTest:assertEquals(result2.bestCost, 4)
-unitTest:assertEquals(result2.bestModel.x, 1)
-unitTest:assertEquals(result2.bestModel.y, 1)
+unitTest:assertEquals(result2.fit, 4)
+unitTest:assertEquals(result2.instance.x, 1)
+unitTest:assertEquals(result2.instance.y, 1)
 end, 
 fit = function(unitTest)
 		unitTest:assert(true)

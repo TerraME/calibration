@@ -20,8 +20,8 @@ local c2 = SAMDE{
 	end}
 local result2 = c2:execute()
 print("Example Result: (SAMDE)\n")
-print("Best Cost: "..result2.bestCost)
+print("Best Cost: "..result2.fit)
 forEachOrderedElement(c2.parameters, function(idx, att, type)
-	print("Best "..idx..": "..result2.bestModel[idx])
+	print("Best "..idx..": "..result2.instance[idx])
 end)
 print("")

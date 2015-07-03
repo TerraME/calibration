@@ -322,7 +322,7 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 	local bestInstance = model(bestVariablesChoice)
 	bestInstance:execute()
 
-	local finalTable = {bestCost = bestCost, bestModel = bestInstance, numGenerations = generation}
+	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation}
 	return finalTable
 end
 

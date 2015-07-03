@@ -7,7 +7,7 @@ SAMDE_ = {
 		customError("Function 'fit' was not implemented.")
 	end,
 	--- Executes and test the fitness of the model, 
-	-- and then returns the table: {bestCost = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
+	-- and then returns the table: {fit = (Smallest Fitness Value), bestVariables = {x = (bestXValue),...,z = (bestZValue)}}.
 	-- If the variable: "parameters" contains a parameter with a table with min and max
 	-- it tests the model for each of the values between self.parameters.min and self.parameters.max,
 	-- If the variable: "parameters" contains a parameter with a table of multiple values,
@@ -29,7 +29,7 @@ SAMDE_ = {
 			end)
 			local m = self.model(startParams) -- test the model with it's first possible values
 			m:execute()
-			local best = {bestCost = self.fit(m), bestModel = m, numGenerations = 1}
+			local best = {fit = self.fit(m), instance = m, generations = 1}
 			local variables = {}
 			local samdeValues = {}
 			local samdeParam = {}
