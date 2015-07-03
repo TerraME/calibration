@@ -319,8 +319,10 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
+	local bestInstance = model(bestVariablesChoice)
+	bestInstance:execute()
 
-	local finalTable = {bestCost = bestCost, bestModel = bestVariablesChoice, numGenerations = generation}
+	local finalTable = {bestCost = bestCost, bestModel = bestInstance, numGenerations = generation}
 	return finalTable
 end
 
