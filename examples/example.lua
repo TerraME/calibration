@@ -18,10 +18,9 @@ local c2 = SAMDE{
 	fit = function(model)
 		return model.value
 	end}
-local result2 = c2:execute()
 print("Example Result: (SAMDE)\n")
-print("Best Cost: "..result2.fit)
+print("Best Cost: "..c2.fit)
 forEachOrderedElement(c2.parameters, function(idx, att, type)
-	print("Best "..idx..": "..result2.instance[idx])
+	print("Best "..idx..": "..c2.instance[idx])
 end)
 print("")

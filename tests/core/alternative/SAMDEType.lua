@@ -13,8 +13,7 @@ return{
 
 		local error_func = function()
 			c = SAMDE{
-				finalTime = 1,
-				parameters = {x ={ min = -100, max = 100}},
+				parameters = {finalTime = 1, x ={min = -100, max = 100}},
 				fit = function(model)
 					return model.value
 				end
@@ -25,7 +24,6 @@ return{
 		error_func = function()
 			c = SAMDE{
 				model = MyModel,
-				finalTime = 1,
 				fit = function(model)
 					return model.value
 				end
@@ -36,8 +34,7 @@ return{
 		error_func = function()
 			local c = SAMDE{
 				model = MyModel,
-				finalTime = 1,
-				parameters = {x = {min = -100, max = 100}},
+				parameters = {finalTime = 1, x = {min = -100, max = 100}},
 			}
 			c:fit(model, parameters)
 		end

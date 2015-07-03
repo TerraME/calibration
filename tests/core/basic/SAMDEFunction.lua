@@ -29,9 +29,8 @@ return{
 			return model.value
 		end
 		}
-		local result = c2:execute()
-		unitTest:assertEquals(result.fit, 4)
-		unitTest:assertEquals(result.instance.x, 1)
-		unitTest:assertEquals(result.instance.y, 1)
+		unitTest:assertEquals(c2.fit, 4)
+		unitTest:assertEquals(c2.instance.x, 1)
+		unitTest:assertEquals(c2.instance.y, 1)
 	end
 }

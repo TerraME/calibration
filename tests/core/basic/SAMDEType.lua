@@ -15,16 +15,9 @@ local c2 = SAMDE{
 	fit = function(model)
 		return model.value
 end}
-local result2 = c2:execute()
 return{
 SAMDE = function(unitTest)
-unitTest:assertEquals(result2.fit, 4)
-unitTest:assertEquals(result2.instance.x, 1)
-unitTest:assertEquals(result2.instance.y, 1)
-end, 
-fit = function(unitTest)
-		unitTest:assert(true)
-end,
-execute = function(unitTest)
-		unitTest:assert(true)
+unitTest:assertEquals(c2.fit, 4)
+unitTest:assertEquals(c2.instance.x, 1)
+unitTest:assertEquals(c2.instance.y, 1)
 end}
