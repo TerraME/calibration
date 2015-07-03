@@ -208,7 +208,7 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = (dim * 10)
@@ -219,9 +219,16 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 	for i = 2, maxPopulation do
 		local fitness = evaluate(pop[i], dim, model, paramList, fit)
 		table.insert(costPop, fitness)
-		if(fitness < bestCost) then
-			bestCost = fitness
-			bestInd = copy(pop[i])
+		if maximize == true then
+			if(fitness > bestCost) then
+				bestCost = fitness
+				bestInd = copy(pop[i])
+			end
+		else
+			if(fitness < bestCost) then
+				bestCost = fitness
+				bestInd = copy(pop[i])
+			end
 		end
 	end
 
@@ -295,16 +302,30 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 			end
 			
 			local score = evaluate(ui, dim, model, paramList, fit)
-			if(score < costPop[j]) then
-				table.insert(popAux,copy(ui))
-				costPop[j] = score
-				if(score < bestCost) then
-					bestCost = score
-					bestInd = copy(ui)
-				end
+			if maximize == true then
+				if(score > costPop[j]) then
+					table.insert(popAux,copy(ui))
+					costPop[j] = score
+					if(score > bestCost) then
+						bestCost = score
+						bestInd = copy(ui)
+					end
 
+				else
+					table.insert(popAux, pop[j])
+				end
 			else
-				table.insert(popAux, pop[j])
+				if(score < costPop[j]) then
+					table.insert(popAux,copy(ui))
+					costPop[j] = score
+					if(score < bestCost) then
+						bestCost = score
+						bestInd = copy(ui)
+					end
+
+				else
+					table.insert(popAux, pop[j])
+				end	
 			end
 		end
 		

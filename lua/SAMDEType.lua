@@ -48,14 +48,19 @@ function SAMDE(data)
 	local m = data.model(startParams) -- test the model with it's first possible values
 	m:execute()
 	local best = {fit = data.fit(m), instance = m, generations = 1}
-	local variables = {}
 	local samdeValues = {}
 	local samdeParam = {}
 	local SamdeParamQuant = 0
 	forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 		table.insert(samdeParam, idx)
-		if attribute.min and attribute.max ~=nil then
-			table.insert(samdeValues, {attribute.min, attribute.max})
+		if attribute.min ~= nil then
+			if attribute.max ~=nil then
+				table.insert(samdeValues, {attribute.min, attribute.max})
+			else
+				table.insert(samdeValues, {attribute.min, math.huge()})
+			end
+		elseif attribute.max ~= nil then
+				table.insert(samdeValues, { -1*math.huge(), attribute.max})
 		else
 			local bigger = attribute[1]
 			local smaller = attribute[1]
@@ -71,7 +76,10 @@ function SAMDE(data)
 
 		SamdeParamQuant = SamdeParamQuant + 1
 	end)
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit)
+	if data.maximize == nil then
+		data.maximize = false
+	end
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)
