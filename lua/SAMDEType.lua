@@ -34,6 +34,8 @@ function SAMDE(data)
 	if data.fit == nil or type(data.fit) ~= "function" then
 		customError("Function 'fit' was not implemented.")
 	end
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing"})
+	checkParameters(data.model, data)
 	local startParams = {} 
 	-- A table with the first possible values for the parameters to be tested.
 	forEachOrderedElement(data.parameters, function(idx, attribute, atype)
