@@ -208,10 +208,10 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize)
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size)
 	local pop = {}
 	local costPop = {}
-	local maxPopulation = (dim * 10)
+	local maxPopulation = size
 	pop = initPop(maxPopulation, varMatrix, dim)
 	local bestCost = evaluate(pop[1], dim, model, paramList, fit)
 	local bestInd = copy(pop[1])

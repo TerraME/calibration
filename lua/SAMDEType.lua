@@ -31,6 +31,7 @@ metaTableSAMDE_ = {
 function SAMDE(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
+	mandatoryTableArgument(data, "size", "number")
 	if data.fit == nil or type(data.fit) ~= "function" then
 		customError("Function 'fit' was not implemented.")
 	end
@@ -79,7 +80,7 @@ function SAMDE(data)
 	if data.maximize == nil then
 		data.maximize = false
 	end
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize)
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize, data.size)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)

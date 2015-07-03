@@ -14,6 +14,7 @@ local MyModelSamde = Model{
 
 local c2 = SAMDE{
 	model = MyModelSamde,
+	size = 30,
 	parameters = {x = {min = 1, max = 10}, y = {min = 1, max = 10}},
 	fit = function(model)
 		return model.value

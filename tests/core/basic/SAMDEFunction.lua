@@ -25,6 +25,7 @@ return{
 		local c2 = SAMDE{
 		model = MyModel,
 		parameters = {x ={min = 1, max = 10}, y = {min = 1, max = 10}},
+		size = 30,
 		fit = function(model)
 			return model.value
 		end
