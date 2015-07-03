@@ -9,29 +9,21 @@ local MyModelSamde = Model{
 			end}
 		}
 end}
-local c2 = Calibration{
+local c2 = SAMDE{
 	model = MyModelSamde,
 	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 end}
-
 local result2 = c2:execute()
 return{
-
-Calibration = function(unitTest)
-unitTest:assertEquals(result2.bestCost, 4)
-unitTest:assertEquals(result2.bestModel.x, 1)
-unitTest:assertEquals(result2.bestModel.y, 1)
-end,
-
+SAMDE = function(unitTest)
+unitTest:assertEquals(result2.fit, 4)
+unitTest:assertEquals(result2.instance.x, 1)
+unitTest:assertEquals(result2.instance.y, 1)
+end, 
 fit = function(unitTest)
 		unitTest:assert(true)
-end,
-printResults = function(unitTest)
-	unitTest:assertEquals(result2.bestCost, 4)
-	unitTest:assertEquals(result2.bestModel.x, 1)
-	unitTest:assertEquals(result2.bestModel.y, 1)
 end,
 execute = function(unitTest)
 		unitTest:assert(true)

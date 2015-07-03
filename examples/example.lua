@@ -12,7 +12,7 @@ local MyModelSamde = Model{
 		}
 	end}
 
-local c2 = Calibration{
+local c2 = SAMDE{
 	model = MyModelSamde,
 	parameters = {x = {min = 1, max = 10}, y = {min = 1, max = 10}},
 	fit = function(model)
@@ -20,5 +20,8 @@ local c2 = Calibration{
 	end}
 local result2 = c2:execute()
 print("Example Result: (SAMDE)\n")
-c2:printResults(result2)
-
+print("Best Cost: "..result2.fit)
+forEachOrderedElement(c2.parameters, function(idx, att, type)
+	print("Best "..idx..": "..result2.instance[idx])
+end)
+print("")

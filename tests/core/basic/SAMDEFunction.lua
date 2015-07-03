@@ -21,8 +21,8 @@ fit = function(model)
 end
 
 return{
-	SAMDE = function(unitTest)
-		local c2 = Calibration{
+	SAMDECalibrate = function(unitTest)
+		local c2 = SAMDE{
 		model = MyModel,
 		parameters = {x ={min = 1, max = 10}, y = {min = 1, max = 10}},
 		fit = function(model)
@@ -30,8 +30,8 @@ return{
 		end
 		}
 		local result = c2:execute()
-		unitTest:assertEquals(result.bestCost, 4)
-		unitTest:assertEquals(result.bestModel.x, 1)
-		unitTest:assertEquals(result.bestModel.y, 1)
+		unitTest:assertEquals(result.fit, 4)
+		unitTest:assertEquals(result.instance.x, 1)
+		unitTest:assertEquals(result.instance.y, 1)
 	end
 }

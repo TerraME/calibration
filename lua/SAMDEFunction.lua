@@ -208,7 +208,7 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDE(varMatrix, dim, model, paramList, fit)
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = (dim * 10)
@@ -319,8 +319,11 @@ function SAMDE(varMatrix, dim, model, paramList, fit)
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
+	local bestInstance = model(bestVariablesChoice)
+	bestInstance:execute()
 
-	local finalTable = {bestCost = bestCost, bestModel = bestVariablesChoice, numGenerations = generation}
+	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation}
 	return finalTable
 end
+
 
