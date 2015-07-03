@@ -33,10 +33,11 @@ function SAMDE(data)
 	mandatoryTableArgument(data, "parameters", "table")
 	mandatoryTableArgument(data, "size", "number")
 	mandatoryTableArgument(data, "maxGen", "number")
+	mandatoryTableArgument(data, "threshold", "number")
 	if data.fit == nil or type(data.fit) ~= "function" then
 		customError("Function 'fit' was not implemented.")
 	end
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing"})
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing", "threshold"})
 	checkParameters(data.model, data)
 	local startParams = {} 
 	-- A table with the first possible values for the parameters to be tested.
@@ -81,7 +82,7 @@ function SAMDE(data)
 	if data.maximize == nil then
 		data.maximize = false
 	end
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize, data.size, data.maxGen)
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)

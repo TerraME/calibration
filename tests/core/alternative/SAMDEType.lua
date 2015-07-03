@@ -16,6 +16,7 @@ return{
 				parameters = {finalTime = 1, x ={min = -100, max = 100}},
 				size = 30,
 				maxGen = 100,
+				threshold = 1,
 				fit = function(model)
 					return model.value
 				end
@@ -28,6 +29,7 @@ return{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
+				threshold = 1,
 				fit = function(model)
 					return model.value
 				end
@@ -40,6 +42,7 @@ return{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
+				threshold = 1,
 				parameters = {finalTime = 1, x = {min = -100, max = 100}},
 			}
 			c:fit(model, parameters)
@@ -51,6 +54,7 @@ return{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
+				threshold = 1,
 				fit = function(model)
 					return model.value
 				end,
@@ -65,6 +69,7 @@ return{
 			local c = SAMDE{
 				model = MyModel,
 				maxGen = 100,
+				threshold = 1,
 				fit = function(model)
 					return model.value
 				end,
@@ -78,6 +83,7 @@ return{
 			local c = SAMDE{
 				model = MyModel,
 				size = 30,
+				threshold = 1,
 				fit = function(model)
 					return model.value
 				end,
@@ -86,7 +92,21 @@ return{
 			c:fit(model, parameters)
 		end
 
-		unitTest:assertError(error_func, "Argument 'maxGen' is mandatory.")		
+		unitTest:assertError(error_func, "Argument 'maxGen' is mandatory.")	
+		error_func = function()
+			local c = SAMDE{
+				model = MyModel,
+				size = 30,
+				maxGen = 100,
+				fit = function(model)
+					return model.value
+				end,
+				parameters = {finalTime = 1, x = {min = -100, max = 100}}
+			}
+			c:fit(model, parameters)
+		end
+
+		unitTest:assertError(error_func, "Argument 'threshold' is mandatory.")	
 	end
 }
 

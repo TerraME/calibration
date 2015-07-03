@@ -14,6 +14,7 @@ local c2 = SAMDE{
 	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
 	size = 30,
 	maxGen = 100,
+	threshold = 1,
 	fit = function(model)
 		return model.value
 end}
@@ -22,6 +23,7 @@ local c3 = SAMDE{
 	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
 	size = 30,
 	maxGen = 100,
+	threshold = 100,
 	maximize = true,
 	fit = function(model)
 		return model.value
