@@ -208,7 +208,7 @@ end
 -- 		return model.result
 -- end
 -- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, maxGen)
+function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, maxGen, threshold)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
@@ -232,9 +232,10 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, m
 		end
 	end
 
+	local thresholdStop = false
 	local generation = 0
 	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) and generation < maxGen) do
+	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) and generation < maxGen and thresholdStop == false) do
 		generation = generation + 1
 		local popAux = {}
 		for j = 1, maxPopulation do
@@ -334,6 +335,15 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, m
 			pop[j] = copy(popAux[j])
 		end
 		
+		if maximize == true then
+			if bestCost > threshold then
+				thresholdStop = true
+			end
+		else
+			if bestCost < threshold then
+				thresholdStop = true
+			end
+		end	
 	end
 
 	local bestVariablesChoice = {}

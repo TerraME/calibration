@@ -33,7 +33,9 @@ SAMDE = function(unitTest)
 unitTest:assertEquals(c2.fit, 4)
 unitTest:assertEquals(c2.instance.x, 1)
 unitTest:assertEquals(c2.instance.y, 1)
-unitTest:assertEquals(c3.fit, 184)
-unitTest:assertEquals(c3.instance.x, 10)
-unitTest:assertEquals(c3.instance.y, 10)
+--The maximun value possible is 184, but ssince the threshold is 100,
+--the SaMDE function will stopas soon as it gets a valua higher that 100.
+unitTest:assertEquals(c3.fit, 142, 42)
+unitTest:assertEquals(c3.instance.x, 7, 3)
+unitTest:assertEquals(c3.instance.y, 7, 3)
 end}
