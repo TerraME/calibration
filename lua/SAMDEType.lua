@@ -65,16 +65,17 @@ function SAMDE(data)
 		elseif attribute.max ~= nil then
 				table.insert(samdeValues, { -1*math.huge(), attribute.max})
 		else
-			local bigger = attribute[1]
-			local smaller = attribute[1]
-			forEachOrderedElement(attribute, function(idx2, att2, atyp2)
-				if att2 > bigger then
-					bigger = att2
-				elseif att2 < smaller then
-					smaller = att2
-				end
-			end)
-			table.insert(samdeValues, {smaller, bigger})
+			customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
+			-- local bigger = attribute[1]
+			-- local smaller = attribute[1]
+			-- forEachOrderedElement(attribute, function(idx2, att2, atyp2)
+			-- 	if att2 > bigger then
+			-- 		bigger = att2
+			-- 	elseif att2 < smaller then
+			-- 		smaller = att2
+			-- 	end
+			-- end)
+			-- table.insert(samdeValues, {smaller, bigger})
 		end
 
 		SamdeParamQuant = SamdeParamQuant + 1
