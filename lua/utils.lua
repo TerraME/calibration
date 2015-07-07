@@ -74,7 +74,6 @@ end
 -- starting to test the model.
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
--- Multiple Runs or Calibration instance. 
 -- @usage checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
@@ -177,7 +176,7 @@ function checkParameters(tModel, tParameters)
 	end)
 end
 
---- Function that returns a randommodel instance from a set of parameters.
+--- Function that returns a random model instance from a set of parameters.
 -- Each Choice argument will be instantiated with a random value from the available choices.
 -- The other arguments will be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.

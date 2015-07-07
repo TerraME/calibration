@@ -1,8 +1,5 @@
 SAMDE_ = {
 	type_ = "SAMDE",
-	--- Returns the fitness of a model, function must be implemented by the user.
-	-- @arg model Model fo calibration.
-	-- @usage c:fit(model, parameter)
 }
 
 metaTableSAMDE_ = {
@@ -12,18 +9,10 @@ metaTableSAMDE_ = {
 ---Type to calibrate a model, returns a SAMDE type with the fittest individual,
 -- the fit value and the number of generations.
 -- @arg data a Table containing: A model constructor, with the model that will be calibrated,
--- a table of parameters and a fit function to determine the fitness of a model
+-- a table of parameters and a fit function to determine the fitness of a model.
 -- @usage c = SAMDE{
 --     model = MyModel,
---     parameters = {x = {min = 1, max = 10, step = 2}},
---     fit = function(model, parameter)
---     		...	
---     end
--- }
--- 
---c = SAMDE{
---     model = MyModel,
---     parameters = { x = {1, 3, 4, 7}},
+--     parameters = {x = {min = 1, max = 10, step = 2}, finalTime = 1},
 --     fit = function(model, parameter)
 --     		...	
 --     end

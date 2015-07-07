@@ -196,18 +196,24 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 end
 
 --- Function that uses the SaMDE genetic algorithm to calibrate a model according to a fit function,
--- it currently returns the smallest fitness value of the model achieved in the calibration
--- and the parameters used in such instance of the model.
+-- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
+-- generations = number of generations it took to the genetic algorithm reach this model}.
 -- @arg varMatrix VarMaxtrix Tables containig the min and max ranges for each of the parameters to be calibrated.
 -- @arg dim dim Number of parameters to be calibrated in the model.
--- @arg model model The model type that will be calibrated by the function.
+-- @arg model model The model that will be calibrated by the function.
 -- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
--- @arg fit fit() A function  that recieve a model as a parameter and determines the fitness value of such model.
+-- @arg fit fit() A function  that receive a model as a parameter and determines the fitness value of such model.
+-- @arg maximize maximize An optional paramaters that determines if the models fitness valuees must be
+-- maximized instead of minimized, default is false.
+-- @arg size size Determines the size of the populations used in the SaMDE algorithm
+-- (recommended size: (10*dim)).
+-- @arg maxGen maxGen If a model generation reach this value, the function stops.
+-- @arg threshold threshol If a model fitness reach this value, the function stops.
 -- @usage 
 -- local fit = function(model)
 -- 		return model.result
 -- end
--- local best = calibration({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
+-- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
 function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, maxGen, threshold)
 	local pop = {}
 	local costPop = {}

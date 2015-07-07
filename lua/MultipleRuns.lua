@@ -171,7 +171,6 @@ MultipleRuns_ = {
 	-- output = function(model)
 	-- 	return model.value
 	-- end}
-	-- r = m:execute()
 	output = function(data, model)
 		return nil
 	end,
@@ -179,8 +178,7 @@ MultipleRuns_ = {
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg number The number of the desired execution.
 	-- @usage m = multipleRuns = {...}
-	-- r = m:execute()
-	-- m:get(r,1).x == -100
+	-- m:get(1).x == -100
 	get = function(data, number)
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
@@ -208,7 +206,6 @@ MultipleRuns_ = {
 	-- @arg name The name of the .csv file.
 	-- @arg separator The choosen separator to be used in the .csv file.
 	-- @usage m = multipleRuns = {...}
-	-- r = m:execute()
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
@@ -234,27 +231,28 @@ metaTableMultipleRuns_ = {
 }
 
 ---Type to repeatly execute a model according to a choosen strategy,
--- returns an object with type MultipleRuns with it's functions and a set of tables.
--- @arg data a Table containing: A model constructor, with the model that will be calibrated;
+-- returns an object of type MultipleRuns with it's functions and a set of tables.
+-- @arg data A table containing: A model constructor, with the model that will be calibrated;
 -- A table with the parameters to be tested; An optional quantity variable; 
 -- An optional user defined output function.
 -- @usage c = MultipleRuns{
---     model = MyModel,
---	quantity = 5,
---	parameters = {
---		x = {-100, -1, 0, 1, 2, 100},
---		y = { min = 1, max = 10, step = 1}
---	 },
---	output = function(model)
---		return model.value
---	end}
+--  	model = MyModel,
+--		quantity = 5,
+--		parameters = {
+--			x = {-100, -1, 0, 1, 2, 100},
+--			y = { min = 1, max = 10, step = 1},
+--			finalTime = 1
+--	 	},
+--		output = function(model)
+--			return model.value
+--		end}
 -- }
 -- The model below:
 -- r = MultipleRuns{
 --    model = MyModel,
---    parameters = {water = 10, rain = 20},
+--    parameters = {water = 10, rain = 20, finalTime = 1},
 --    quantity = 10,
---   finalTime = 10
+--    finalTime = 10
 -- }
 -- should return a table with the values:
 -- r.simulations == {"1", "2", "...", "10"}
