@@ -42,10 +42,14 @@ function SAMDE(data)
 	local startParams = {} 
 	-- A table with the first possible values for the parameters to be tested.
 	forEachOrderedElement(data.parameters, function(idx, attribute, atype)
-		if attribute.min ~= nil then
-			startParams[idx] = attribute.min
+		if idx ~= "finalTime" then
+			if attribute.min ~= nil then
+				startParams[idx] = attribute.min
+			else
+				startParams[idx] = attribute[1]
+			end
 		else
-			startParams[idx] = attribute[1]
+			startParams[idx] = attribute
 		end
 	end)
 	local m = data.model(startParams) -- test the model with it's first possible values
@@ -56,26 +60,28 @@ function SAMDE(data)
 	local SamdeParamQuant = 0
 	forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 		table.insert(samdeParam, idx)
-		if attribute.min ~= nil then
-			if attribute.max ~=nil then
-				table.insert(samdeValues, {attribute.min, attribute.max})
+		if idx ~= "finalTime" then
+			if attribute.min ~= nil then
+				if attribute.max ~=nil then
+					table.insert(samdeValues, {attribute.min, attribute.max})
+				else
+					table.insert(samdeValues, {attribute.min, math.huge()})
+				end
+			elseif attribute.max ~= nil then
+					table.insert(samdeValues, { -1*math.huge(), attribute.max})
 			else
-				table.insert(samdeValues, {attribute.min, math.huge()})
+				customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
+				-- local bigger = attribute[1]
+				-- local smaller = attribute[1]
+				-- forEachOrderedElement(attribute, function(idx2, att2, atyp2)
+				-- 	if att2 > bigger then
+				-- 		bigger = att2
+				-- 	elseif att2 < smaller then
+				-- 		smaller = att2
+				-- 	end
+				-- end)
+				-- table.insert(samdeValues, {smaller, bigger})
 			end
-		elseif attribute.max ~= nil then
-				table.insert(samdeValues, { -1*math.huge(), attribute.max})
-		else
-			customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
-			-- local bigger = attribute[1]
-			-- local smaller = attribute[1]
-			-- forEachOrderedElement(attribute, function(idx2, att2, atyp2)
-			-- 	if att2 > bigger then
-			-- 		bigger = att2
-			-- 	elseif att2 < smaller then
-			-- 		smaller = att2
-			-- 	end
-			-- end)
-			-- table.insert(samdeValues, {smaller, bigger})
 		end
 
 		SamdeParamQuant = SamdeParamQuant + 1

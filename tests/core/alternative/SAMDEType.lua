@@ -1,7 +1,8 @@
 return{
 	SAMDE = function(unitTest)
 		local MyModel = Model{
-			x = Choice{1,2},
+			x = Choice{min = -100, max = 100},
+			finalTime = 1,
 			init = function(self)
 				self.t = Timer{
 					Event{action = function()
@@ -13,7 +14,7 @@ return{
 
 		local error_func = function()
 			c = SAMDE{
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
@@ -43,7 +44,7 @@ return{
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 			}
 			c:fit(model, parameters)
 		end
@@ -58,7 +59,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 				extraParameter = {"Unnecessary"}
 			}
 			c:fit(model, parameters)
@@ -73,7 +74,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
 			c:fit(model, parameters)
 		end
@@ -87,7 +88,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
 			c:fit(model, parameters)
 		end
@@ -101,27 +102,27 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
 			c:fit(model, parameters)
 		end
 
 		unitTest:assertError(error_func, "Argument 'threshold' is mandatory.")
-		-- error_func = function()
-		-- 	local c = SAMDE{
-		-- 		model = MyModel,
-		-- 		size = 30,
-		-- 		maxGen = 100,
-		-- 		fit = function(model)
-		-- 			return model.value
-		-- 		end,
-		-- 		threshold = 0,
-		-- 		parameters = {finalTime = 1, x = Choice{1,3,5,10}}
-		-- 	}
-		-- 	c:fit(model, parameters)
-		-- end
+		error_func = function()
+			local c = SAMDE{
+				model = MyModel,
+				size = 30,
+				maxGen = 100,
+				fit = function(model)
+					return model.value
+				end,
+				threshold = 0,
+				parameters = {finalTime = 1, x = Choice{1,2}}
+			}
+			c:fit(model, parameters)
+		end
 
-		-- unitTest:assertError(error_func, "Argument 'threshold' is mandatory.")
+		unitTest:assertError(error_func, "Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
 			
 	end
 }

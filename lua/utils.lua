@@ -167,7 +167,7 @@ function checkParameters(tModel, tParameters)
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
 					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])
-					   	elseif type(Param) == "table" then
+					   	elseif type(Param) == "table" and type(attt) == "Choice" then
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end
 					end)
