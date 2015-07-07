@@ -11,7 +11,7 @@ local MyModelSamde = Model{
 end}
 local c2 = SAMDE{
 	model = MyModelSamde,
-	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
+	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
 	size = 30,
 	maxGen = 100,
 	threshold = 1,
@@ -20,7 +20,7 @@ local c2 = SAMDE{
 end}
 local c3 = SAMDE{
 	model = MyModelSamde,
-	parameters = {x = {min = 1, max = 10}, y = { min = 1, max = 10}},
+	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
 	size = 30,
 	maxGen = 100,
 	threshold = 100,

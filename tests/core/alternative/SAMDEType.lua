@@ -1,7 +1,7 @@
 return{
 	SAMDE = function(unitTest)
 		local MyModel = Model{
-			x = 1,
+			x = Choice{1,2},
 			init = function(self)
 				self.t = Timer{
 					Event{action = function()
@@ -13,7 +13,7 @@ return{
 
 		local error_func = function()
 			c = SAMDE{
-				parameters = {finalTime = 1, x ={min = -100, max = 100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
@@ -43,7 +43,7 @@ return{
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
-				parameters = {finalTime = 1, x = {min = -100, max = 100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
 			}
 			c:fit(model, parameters)
 		end
@@ -58,7 +58,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = {min = -100, max = 100}},
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}},
 				extraParameter = {"Unnecessary"}
 			}
 			c:fit(model, parameters)
@@ -73,7 +73,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = {min = -100, max = 100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
 			}
 			c:fit(model, parameters)
 		end
@@ -87,7 +87,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = {min = -100, max = 100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
 			}
 			c:fit(model, parameters)
 		end
@@ -101,7 +101,7 @@ return{
 				fit = function(model)
 					return model.value
 				end,
-				parameters = {finalTime = 1, x = {min = -100, max = 100}}
+				parameters = {finalTime = 1, x = Choice{min = -100, max = Choice100}}
 			}
 			c:fit(model, parameters)
 		end

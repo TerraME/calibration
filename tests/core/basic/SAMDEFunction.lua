@@ -24,7 +24,7 @@ return{
 	SAMDECalibrate = function(unitTest)
 		local c2 = SAMDE{
 		model = MyModel,
-		parameters = {x ={min = 1, max = 10}, y = {min = 1, max = 10}},
+		parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
 		size = 30,
 		maxGen = 100,
 		threshold = 1,

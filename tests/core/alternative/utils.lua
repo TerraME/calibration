@@ -69,6 +69,17 @@ return{
 			local m4 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
+			parameters = {x = {-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
+			output = function(model)
+				return model.value
+			end}
+		end
+
+		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
+		error_func = function()
+			local m4 = MultipleRuns{
+			model = MyModel,
+			strategy = "factorial",
 			parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 			test = "test",
 			output = function(model)
@@ -371,6 +382,23 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		error_func = function()
+			local m2 = MultipleRuns{
+			model = MyModel3,
+			strategy = "factorial",
+			parameters = {
+				parameters3 = {x = {0,1,2}, y = 5}
+	 		},
+			output = function(model)
+				return model.value
+			end,
+			additionalF = function(model)
+				return "test"
+			end
+			}
+		end
+
+		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
 	end,
 	randomModel = function(unitTest)
 		error_func = function()

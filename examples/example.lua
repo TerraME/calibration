@@ -17,7 +17,7 @@ local c2 = SAMDE{
 	size = 30,
 	maxGen = 100,
 	threshold = 1,
-	parameters = {x = {min = 1, max = 10}, y = {min = 1, max = 10}},
+	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
 	fit = function(model)
 		return model.value
 	end}

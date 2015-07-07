@@ -24,7 +24,7 @@ end
 }
 local MyModel3 = Model{
 	parameters3 = {
-		x = Choice{-100, -1, 0, 1, 2, 100},
+		x = Choice{-100, -1, 0, 1, 2, 100, 200},
 		y = Choice{min = 1, max = 10, step = 1},
 		z = Choice{-50, -3, 0, 1, 2, 50}
 	},
