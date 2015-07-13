@@ -52,18 +52,38 @@ function SAMDE(data)
 	local samdeValues = {}
 	local samdeParam = {}
 	local SamdeParamQuant = 0
+	local samdeParamInfo = {}
 	forEachOrderedElement(data.parameters, function (idx, attribute, atype)
 		table.insert(samdeParam, idx)
+		samdeParamInfo[idx] = {}
 		if idx ~= "finalTime" then
 			if attribute.min ~= nil then
+				samdeParamInfo[idx].group = false
+				if attribute.choice ~= nil then
+					samdeParamInfo[idx].choice = true
+				else 
+					samdeParamInfo[idx].choice = false
+				end
+
 				if attribute.max ~=nil then
 					table.insert(samdeValues, {attribute.min, attribute.max})
 				else
 					table.insert(samdeValues, {attribute.min, math.huge()})
 				end
+
 			elseif attribute.max ~= nil then
+					samdeParamInfo[idx].group = false
+					if attribute.choice ~= nil then
+						samdeParamInfo[idx].choice = true
+					else 
+						samdeParamInfo[idx].choice = false
+					end
+
 					table.insert(samdeValues, { -1*math.huge(), attribute.max})
 			else
+				samdeParamInfo[idx].choice = false
+				samdeParamInfo[idx].group = true
+				table.insert(samdeValues, attribute)
 				customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
 				-- local bigger = attribute[1]
 				-- local smaller = attribute[1]
@@ -83,7 +103,7 @@ function SAMDE(data)
 	if data.maximize == nil then
 		data.maximize = false
 	end
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, samdeParamInfo, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)
