@@ -6,11 +6,12 @@
 GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
-local function evaluate(ind, dim, model, paramList, fit)
+local function evaluate(ind, dim, model, paramList, fit, finalTime)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
 	end
+	solution["finalTime"] = finalTime
 
 	local m = model(solution) 
 	m:execute()
@@ -201,9 +202,10 @@ end
 -- @arg varMatrix VarMaxtrix Tables containig the min and max ranges for each of the parameters to be calibrated.
 -- @arg dim dim Number of parameters to be calibrated in the model.
 -- @arg model model The model that will be calibrated by the function.
+-- @arg finalTime finalTime to be used in the model.
 -- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
 -- @arg fit fit() A function  that receive a model as a parameter and determines the fitness value of such model.
--- @arg maximize maximize An optional paramaters that determines if the models fitness valuees must be
+-- @arg maximize maximize An optional paramaters that determines if the models fitness values must be
 -- maximized instead of minimized, default is false.
 -- @arg size size Determines the size of the populations used in the SaMDE algorithm
 -- (recommended size: (10*dim)).
@@ -214,7 +216,7 @@ end
 -- 		return model.result
 -- end
 -- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
-function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, maxGen, threshold)
+function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, fit, maximize, size, maxGen, threshold)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
@@ -307,8 +309,8 @@ function SAMDECalibrate(varMatrix, dim, model, paramList, fit, maximize, size, m
 					table.insert(ui, indexInd[dim + k])
 				end
 			end
-			
-			local score = evaluate(ui, dim, model, paramList, fit)
+
+			local score = evaluate(ui, dim, model, paramList, fit, finalTime)
 			if maximize == true then
 				if(score > costPop[j]) then
 					table.insert(popAux,copy(ui))

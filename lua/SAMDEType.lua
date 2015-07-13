@@ -8,11 +8,16 @@ metaTableSAMDE_ = {
 
 ---Type to calibrate a model, returns a SAMDE type with the fittest individual,
 -- the fit value and the number of generations.
--- @arg data a Table containing: A model constructor, with the model that will be calibrated,
--- a table of parameters and a fit function to determine the fitness of a model.
+-- @arg data a Table containing: {model = A model,
+-- parameters = a table of parameters to be calibrated,
+-- size = the population size for each generation,
+-- maxGen = If a model generation reach this value, the function stops,
+-- threshold = If a model fitness reach this value, the function stops,
+-- maximize = An optional paramaters that determines if the models fitness values
+-- must be must be maximized instead of minimized, default is false}.
 -- @usage c = SAMDE{
 --     model = MyModel,
---     parameters = {x = {min = 1, max = 10, step = 2}, finalTime = 1},
+--     parameters = {x = Choice{min = 1, max = 10, step = 2}, finalTime = 1},
 --     fit = function(model, parameter)
 --     		...	
 --     end
@@ -78,7 +83,7 @@ function SAMDE(data)
 	if data.maximize == nil then
 		data.maximize = false
 	end
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, samdeParam, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)
