@@ -308,9 +308,7 @@ function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamI
 					if samdeParamInfo[paramList[k]].step == false then
 						table.insert(ui, ui2)
 					else
-						local ui3 = oobTrea((ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true)
-						table.insert(ui, ui3 )
-						print(ui3)
+						table.insert(ui, oobTrea((ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true))
 					end
 
 				else
