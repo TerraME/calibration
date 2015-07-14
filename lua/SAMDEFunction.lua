@@ -19,18 +19,23 @@ local function evaluate(ind, dim, model, paramList, fit, finalTime)
 	return err
 end
 
-local function initPop(popTam, varMatrix, dim)
+local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
 	math.randomseed(GLOBAL_RANDOM_SEED)
-	math.random()
 	-- print("initializing population ...");
 	local popInit = {}
 	for i = 1, popTam do
 		local ind = {}
 		for j = 1, dim do
-			local lim = varMatrix[j]
-			local minVar = lim[1]
-			local maxVar = lim[2]
-			local value = minVar + (math.random() * (maxVar - minVar))
+			local value
+			if paramInfo[paramList[j]].group == false then
+				local lim = varMatrix[j]
+				local minVar = lim[1]
+				local maxVar = lim[2]
+				value = minVar + (math.random() * (maxVar - minVar))
+			else
+				value = varMatrix[j][math.random(1,#varMatrix[j])]
+			end
+
 			table.insert(ind, value)
 		end
 
@@ -114,26 +119,33 @@ local function repareP(parameter)
 	return p
 end
 
-local function oobTrea(xi, varMatrix, k, limits)
+local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
 	local lim = varMatrix[k]
 	local minVar = lim[1]
 	local maxVar = lim[2]
 	local x = xi
-	if limits == nil then
-		limits = false
+	if step == nil then
+		local stepValue = 0
+		local step = false
 	end
 
 	if(x < minVar) then
-		if(math.random() < 0.5) or (limits == true) then
+		if(math.random() < mutation) then
 			x = minVar
+		elseif step == true then
+			x = (2 * minVar - x)
+			x = x - ((x - minVar) %  stepValue)
 		else
 			x = 2 * minVar - x;
 		end
 	end
 
 	if(x > maxVar) then
-		if(math.random() < 0.5)  or (limits == true) then
+		if(math.random() < mutation)  then
 			x = maxVar
+		elseif step == true then
+			x = (2 * maxVar - x)
+			x = x - ((x - minVar) %  stepValue)
 		else
 			x = 2 * maxVar - x
 		end
@@ -158,10 +170,14 @@ local function aproxGroup(xi, varMatrix, k)
 		if i > #lim then
 			return result
 		else
-			if result - lim[i - 1] < lim[i] - result then
+			if xi - result < lim[i] - xi and math.random() > 0.3 then
 				return result
-			else
+			elseif xi - result < lim[i] - xi then
 				return lim[i]
+			elseif math.random() > 0.3 then
+				return lim[i]
+			else
+				return result
 			end
 		end
 	end
@@ -244,16 +260,21 @@ end
 -- (recommended size: (10*dim)).
 -- @arg maxGen maxGen If a model generation reach this value, the function stops.
 -- @arg threshold threshol If a model fitness reach this value, the function stops.
+-- @arg mutation Affects the probability a mutation will occur (default is 0.5)
 -- @usage 
 -- local fit = function(model)
 -- 		return model.result
 -- end
 -- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, 1, {"x","y"}, {x = {step = false, group = false}, y = {step = false, group = false}}, fit(), false, 30, 100, 0)
-function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamInfo, fit, maximize, size, maxGen, threshold)
+function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamInfo, fit, maximize, size, maxGen, threshold, mutation)
+	if mutation == nil then
+		mutation = 0.5
+	end
+
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
-	pop = initPop(maxPopulation, varMatrix, dim)
+	pop = initPop(maxPopulation, varMatrix, dim, paramList, samdeParamInfo)
 	local bestCost = evaluate(pop[1], dim, model, paramList, fit)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
@@ -323,17 +344,24 @@ function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamI
 				if( math.random() <= params[crPos] or k == index or winV == 3) then
 					local ui2
 					if( winV == 0) then -- rand\1
-						ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+						ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 					elseif (winV == 1) then -- best\1
-						ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
+						ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
 					elseif (winV == 2) then -- rand\2
-						ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
+						ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
 					elseif (winV == 3) then -- current-to-rand
-						ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+						ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 					end
 
 					if samdeParamInfo[paramList[k]].step == true then
-						table.insert(ui, oobTrea((ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true))
+						local ui3
+						if math.random() > 0.5 then
+							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true, samdeParamInfo[paramList[k]].stepValue)
+						else
+							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)) + samdeParamInfo[paramList[k]].stepValue, varMatrix, k, true, samdeParamInfo[paramList[k]].stepValue)
+						end
+
+						table.insert(ui, ui3)
 					elseif samdeParamInfo[paramList[k]].group == true then
 						table.insert(ui, aproxGroup(ui2), varMatrix, k)
 					else

@@ -9,6 +9,16 @@ local MyModelSamde = Model{
 			end}
 		}
 end}
+local c1 = SAMDE{
+	model = MyModelSamde,
+	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{min = 1, max = 10, step = 0.3}},
+	size = 30,
+	maxGen = 100,
+	maximize = true,
+	threshold = 200,
+	fit = function(model)
+		return model.value
+end}
 local c2 = SAMDE{
 	model = MyModelSamde,
 	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
@@ -48,6 +58,9 @@ end}
 -- end}
 return{
 SAMDE = function(unitTest)
+unitTest:assertEquals(c1.fit, 184)
+unitTest:assertEquals(c1.instance.x, 10)
+unitTest:assertEquals(c1.instance.y, 10)
 unitTest:assertEquals(c2.fit, 4)
 unitTest:assertEquals(c2.instance.x, 1)
 unitTest:assertEquals(c2.instance.y, 1)

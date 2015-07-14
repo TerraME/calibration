@@ -106,7 +106,7 @@ function SAMDE(data)
 		data.maximize = false
 	end
 
-	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, samdeParamInfo, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.parameters)
+	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, samdeParamInfo, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.mutation)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)
