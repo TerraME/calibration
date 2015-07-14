@@ -221,7 +221,7 @@ end
 -- local fit = function(model)
 -- 		return model.result
 -- end
--- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, {"x","y"}, fit())
+-- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, 1, {"x","y"}, {x = {step = false, group = false}, y = {step = false, group = false}}, fit(), false, 30, 100, 0)
 function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamInfo, fit, maximize, size, maxGen, threshold)
 	local pop = {}
 	local costPop = {}
