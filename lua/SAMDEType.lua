@@ -59,10 +59,11 @@ function SAMDE(data)
 		if idx ~= "finalTime" then
 			if attribute.min ~= nil then
 				samdeParamInfo[idx].group = false
-				if attribute.choice ~= nil then
-					samdeParamInfo[idx].choice = true
+				if attribute.step ~= nil then
+					samdeParamInfo[idx].step = true
+					samdeParamInfo[idx].stepValue = attribute.step
 				else 
-					samdeParamInfo[idx].choice = false
+					samdeParamInfo[idx].step = false
 				end
 
 				if attribute.max ~=nil then
@@ -73,15 +74,16 @@ function SAMDE(data)
 
 			elseif attribute.max ~= nil then
 					samdeParamInfo[idx].group = false
-					if attribute.choice ~= nil then
-						samdeParamInfo[idx].choice = true
+					if attribute.step ~= nil then
+						samdeParamInfo[idx].step = true
+						samdeParamInfo[idx].stepValue = attribute.step
 					else 
-						samdeParamInfo[idx].choice = false
+						samdeParamInfo[idx].step = false
 					end
 
 					table.insert(samdeValues, { -1*math.huge(), attribute.max})
 			else
-				samdeParamInfo[idx].choice = false
+				samdeParamInfo[idx].step = false
 				samdeParamInfo[idx].group = true
 				table.insert(samdeValues, attribute)
 				customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
@@ -103,6 +105,7 @@ function SAMDE(data)
 	if data.maximize == nil then
 		data.maximize = false
 	end
+
 	best = SAMDECalibrate(samdeValues, SamdeParamQuant, data.model, data.finalTime, samdeParam, samdeParamInfo, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
