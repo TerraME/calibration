@@ -37,6 +37,15 @@ local c4 = SAMDE{
 	fit = function(model)
 		return model.value
 end}
+-- local c5 = SAMDE{
+-- 	model = MyModelSamde,
+-- 	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice(2,3,4,9)},
+-- 	size = 30,
+-- 	maxGen = 100,
+-- 	threshold = 1,
+-- 	fit = function(model)
+-- 		return model.value
+-- end}
 return{
 SAMDE = function(unitTest)
 unitTest:assertEquals(c2.fit, 4)
@@ -50,4 +59,7 @@ unitTest:assertEquals(c3.instance.y, 6, 4)
 unitTest:assertEquals(c4.fit, 4)
 unitTest:assertEquals(c4.instance.x, 1)
 unitTest:assertEquals(c4.instance.y, 1)
+-- unitTest:assertEquals(c5.fit, 4)
+-- unitTest:assertEquals(c5.instance.x, 1)
+-- unitTest:assertEquals(c5.instance.y, 1)
 end}

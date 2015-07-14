@@ -142,6 +142,33 @@ local function oobTrea(xi, varMatrix, k, limits)
 	return x
 end
 
+local function aproxGroup(xi, varMatrix, k)
+	local group = varMatrix[k]
+	local result
+	if #group == 1 then
+		return group[1]
+	else
+		result = lim[1]
+		i = 2
+		while result < lim[i] and i <= #lim do
+			result = lim[i]
+			i = i + 1
+		end
+
+		if i > #lim then
+			return result
+		else
+			if result - lim[i - 1] < lim[i] - result then
+				return result
+			else
+				return lim[i]
+			end
+		end
+	end
+
+	return x
+end
+
 local normalize
 function normalize(x, varMatrix, i)
 	local interval = varMatrix[i]
@@ -305,10 +332,12 @@ function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamI
 						ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 					end
 
-					if samdeParamInfo[paramList[k]].step == false then
-						table.insert(ui, ui2)
-					else
+					if samdeParamInfo[paramList[k]].step == true then
 						table.insert(ui, oobTrea((ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true))
+					elseif samdeParamInfo[paramList[k]].group == true then
+						table.insert(ui, aproxGroup(ui2), varMatrix, k)
+					else
+						table.insert(ui, ui2)
 					end
 
 				else
