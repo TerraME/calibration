@@ -123,7 +123,23 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
-			
+		local mutationTest = "test"
+		error_func = function()
+			local c = SAMDE{
+				model = MyModel,
+				size = 30,
+				maxGen = 100,
+				fit = function(model)
+					return model.value
+				end,
+				threshold = 0,
+				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
+				mutation = mutationTest
+			}
+			c:fit(model, parameters)
+		end
+
+		unitTest:assertError(error_func, incompatibleTypeMsg("mutation", "number", mutationTest))
 	end
 }
 
