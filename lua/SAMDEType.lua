@@ -28,9 +28,14 @@ function SAMDE(data)
 	mandatoryTableArgument(data, "size", "number")
 	mandatoryTableArgument(data, "maxGen", "number")
 	mandatoryTableArgument(data, "threshold", "number")
+	if data.mutation ~= nil and type(data.mutation) ~= "number" then
+		incompatibleTypeError("mutation", "number", data.mutation)
+	end
+
 	if data.fit == nil or type(data.fit) ~= "function" then
 		customError("Function 'fit' was not implemented.")
 	end
+
 	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing", "threshold"})
 	checkParameters(data.model, data)
 	local startParams = {} 
