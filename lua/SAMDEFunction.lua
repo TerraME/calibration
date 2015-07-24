@@ -160,22 +160,27 @@ local function aproxGroup(xi, varMatrix, k)
 	if #group == 1 then
 		return group[1]
 	else
-		result = lim[1]
-		i = 2
-		while result < lim[i] and i <= #lim do
-			result = lim[i]
-			i = i + 1
+		result = group[1]
+		local i = 2
+		local foundGroup = false
+		while (foundGroup == false and i <= #group) do
+			if result < group[i] then
+				result = group[i]
+				i = i + 1
+			else
+				foundGroup = true
+			end
 		end
 
-		if i > #lim then
+		if i > #group then
 			return result
 		else
-			if xi - result < lim[i] - xi and math.random() > 0.3 then
+			if xi - result < group[i] - xi and math.random() > 0.3 then
 				return result
-			elseif xi - result < lim[i] - xi then
-				return lim[i]
+			elseif xi - result < group[i] - xi then
+				return group[i]
 			elseif math.random() > 0.3 then
-				return lim[i]
+				return group[i]
 			else
 				return result
 			end
@@ -363,7 +368,7 @@ function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamI
 
 						table.insert(ui, ui3)
 					elseif samdeParamInfo[paramList[k]].group == true then
-						table.insert(ui, aproxGroup(ui2), varMatrix, k)
+						table.insert(ui, aproxGroup(ui2, varMatrix, k))
 					else
 						table.insert(ui, ui2)
 					end

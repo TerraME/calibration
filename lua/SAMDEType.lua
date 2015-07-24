@@ -90,18 +90,7 @@ function SAMDE(data)
 			else
 				samdeParamInfo[idx].step = false
 				samdeParamInfo[idx].group = true
-				table.insert(samdeValues, attribute)
-				customError("Current version of SaMDE do not suport parameters with a group of values, without a min or max range")
-				-- local bigger = attribute[1]
-				-- local smaller = attribute[1]
-				-- forEachOrderedElement(attribute, function(idx2, att2, atyp2)
-				-- 	if att2 > bigger then
-				-- 		bigger = att2
-				-- 	elseif att2 < smaller then
-				-- 		smaller = att2
-				-- 	end
-				-- end)
-				-- table.insert(samdeValues, {smaller, bigger})
+				table.insert(samdeValues, attribute.values)
 			end
 		end
 
