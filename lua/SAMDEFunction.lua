@@ -12,10 +12,7 @@ local function evaluate(ind, dim, model, paramList, fit, finalTime)
 		solution[paramList[i]] = ind[i]
 	end
 	solution["finalTime"] = finalTime
-
-	local m = model(solution) 
-	m:execute()
-	local err = fit(m)
+	local err = fit(model, solution)
 	return err
 end
 
@@ -252,12 +249,9 @@ end
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.
--- @arg varMatrix VarMaxtrix Tables containig the min and max ranges for each of the parameters to be calibrated.
--- @arg dim dim Number of parameters to be calibrated in the model.
+-- @arg modelParameters Table containing the model parameters.
 -- @arg model model The model that will be calibrated by the function.
 -- @arg finalTime finalTime to be used in the model.
--- @arg paramList paramList A table containing the name of the parameters that will be calibrated in order.
--- @arg samdeParamInfo A table with some information about each parameter.
 -- @arg fit fit() A function  that receive a model as a parameter and determines the fitness value of such model.
 -- @arg maximize maximize An optional paramaters that determines if the models fitness values must be
 -- maximized instead of minimized, default is false.
@@ -265,21 +259,66 @@ end
 -- (recommended size: (10*dim)).
 -- @arg maxGen maxGen If a model generation reach this value, the function stops.
 -- @arg threshold threshol If a model fitness reach this value, the function stops.
--- @arg mutation Affects the probability a mutation will occur (default is 0.5)
+-- @arg mutation Affects the probability a mutation will occur (default is 0.5).
 -- @usage 
--- local fit = function(model)
--- 		return model.result
+-- local fit = function(model, parameters)
+--		local m = model(parameters)
+--		m:execute()
+-- 		return m.result
 -- end
--- local best = SAMDECalibrate({{1,10},{11,15}}, 2, MyModel, 1, {"x","y"}, {x = {step = false, group = false}, y = {step = false, group = false}}, fit(), false, 30, 100, 0)
-function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamInfo, fit, maximize, size, maxGen, threshold, mutation)
+--
+-- local best = SAMDECalibrate({x = Choice{min = 1, max = 10, step = 2}, finalTime = 1}, MyModel, 1, fit(), false, 30, 100, 0)
+function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, maxGen, threshold, mutation)
 	if mutation == nil then
 		mutation = 0.5
 	end
 
+	local varMatrix = {}
+	local paramList = {}
+	local dim = 0
+	local paramListInfo = {}
+	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
+		table.insert(paramList, idx)
+		paramListInfo[idx] = {}
+		if idx ~= "finalTime" then
+			if attribute.min ~= nil then
+				paramListInfo[idx].group = false
+				if attribute.step ~= nil then
+					paramListInfo[idx].step = true
+					paramListInfo[idx].stepValue = attribute.step
+				else 
+					paramListInfo[idx].step = false
+				end
+
+				if attribute.max ~=nil then
+					table.insert(varMatrix, {attribute.min, attribute.max})
+				else
+					table.insert(varMatrix, {attribute.min, math.huge()})
+				end
+
+			elseif attribute.max ~= nil then
+					paramListInfo[idx].group = false
+					if attribute.step ~= nil then
+						paramListInfo[idx].step = true
+						paramListInfo[idx].stepValue = attribute.step
+					else 
+						paramListInfo[idx].step = false
+					end
+
+					table.insert(varMatrix, { -1*math.huge(), attribute.max})
+			else
+				paramListInfo[idx].step = false
+				paramListInfo[idx].group = true
+				table.insert(varMatrix, attribute.values)
+			end
+		end
+
+		dim = dim + 1
+	end)
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
-	pop = initPop(maxPopulation, varMatrix, dim, paramList, samdeParamInfo)
+	pop = initPop(maxPopulation, varMatrix, dim, paramList, paramListInfo)
 	local bestCost = evaluate(pop[1], dim, model, paramList, fit)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
@@ -358,16 +397,16 @@ function SAMDECalibrate(varMatrix, dim, model, finalTime, paramList, samdeParamI
 						ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 					end
 
-					if samdeParamInfo[paramList[k]].step == true then
+					if paramListInfo[paramList[k]].step == true then
 						local ui3
 						if math.random() > 0.5 then
-							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)), varMatrix, k, true, samdeParamInfo[paramList[k]].stepValue)
+							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)), varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
 						else
-							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % samdeParamInfo[paramList[k]].stepValue)) + samdeParamInfo[paramList[k]].stepValue, varMatrix, k, true, samdeParamInfo[paramList[k]].stepValue)
+							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)) + paramListInfo[paramList[k]].stepValue, varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
 						end
 
 						table.insert(ui, ui3)
-					elseif samdeParamInfo[paramList[k]].group == true then
+					elseif paramListInfo[paramList[k]].group == true then
 						table.insert(ui, aproxGroup(ui2, varMatrix, k))
 					else
 						table.insert(ui, ui2)

@@ -16,8 +16,10 @@ local c1 = SAMDE{
 	maxGen = 100,
 	maximize = true,
 	threshold = 200,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 local c2 = SAMDE{
 	model = MyModelSamde,
@@ -25,8 +27,10 @@ local c2 = SAMDE{
 	size = 30,
 	maxGen = 100,
 	threshold = 1,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 local c3 = SAMDE{
 	model = MyModelSamde,
@@ -35,8 +39,10 @@ local c3 = SAMDE{
 	maxGen = 100,
 	threshold = 100,
 	maximize = true,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 local c4 = SAMDE{
 	model = MyModelSamde,
@@ -44,8 +50,10 @@ local c4 = SAMDE{
 	size = 30,
 	maxGen = 100,
 	threshold = 1,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 local c5 = SAMDE{
 	model = MyModelSamde,
@@ -54,8 +62,10 @@ local c5 = SAMDE{
 	maxGen = 100,
 	mutation = 0.3,
 	threshold = 1,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 local c5 = SAMDE{
 	model = MyModelSamde,
@@ -63,8 +73,10 @@ local c5 = SAMDE{
 	size = 30,
 	maxGen = 100,
 	threshold = 1,
-	fit = function(model)
-		return model.value
+	fit = function(model, parameters)
+		local m = model(parameters)
+		m:execute()
+		return m.value
 end}
 return{
 SAMDE = function(unitTest)
