@@ -8,7 +8,7 @@ metaTableSAMDE_ = {
 
 ---Type to calibrate a model, returns a SAMDE type with the fittest individual,
 -- the fit value and the number of generations.
--- @arg data a Table containing: 
+-- @arg data a table containing the described variables.
 -- @tabular Data
 -- Variables  & Description \
 -- "model" & A model. \
