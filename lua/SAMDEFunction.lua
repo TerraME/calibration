@@ -278,9 +278,9 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 	local dim = 0
 	local paramListInfo = {}
 	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
-		table.insert(paramList, idx)
-		paramListInfo[idx] = {}
 		if idx ~= "finalTime" then
+			table.insert(paramList, idx)
+			paramListInfo[idx] = {}
 			if attribute.min ~= nil then
 				paramListInfo[idx].group = false
 				if attribute.step ~= nil then
@@ -311,9 +311,9 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 				paramListInfo[idx].group = true
 				table.insert(varMatrix, attribute.values)
 			end
-		end
 
 		dim = dim + 1
+		end
 	end)
 	local pop = {}
 	local costPop = {}
