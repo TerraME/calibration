@@ -10,19 +10,8 @@ local MyModelSamde = Model{
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 		}
-	end}
-local LimitedGrowth = Model{
-	x = Choice{min = -1000, max = 1000},
-	y = Choice{min = -100, max = 100},
-	finalTime = 9,
-	init = function(self)
-		self.timer = Timer{
-			Event{action = function()
-				self.value = (self.value * self.y) + self.x
-			end}
-		}
-	end}
-
+	end
+}
 local c2 = SAMDE{
 	model = MyModelSamde,
 	size = 30,
@@ -33,19 +22,8 @@ local c2 = SAMDE{
 		m = model(parameters)
 		m:execute()
 		return m.value
-	end}
--- local c = SAMDE{
--- 	model = MyModelSamde,
--- 	size = 30,
--- 	maxGen = 100,
--- 	threshold = 0,
--- 	parameters = {x = Choice{min = -1000, max = 1000}, y = Choice{min = -100, max = 100},
--- 	fit = function(model, parameters)
--- 	m = model(parameters)
--- 	m:execute()
--- 	return m.value
--- 	end}
-	
+	end
+}
 print("Example Result: (SAMDE)\n")
 print("Type result: "..type(c2))
 print("Best Cost: "..c2.fit)
