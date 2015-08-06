@@ -172,11 +172,11 @@ local function aproxGroup(xi, varMatrix, k)
 		if i > #group then
 			return result
 		else
-			if xi - result < group[i] - xi and math.random() > 0.3 then
+			if xi - result < group[i] - xi and math.random() > 0.1 then
 				return result
 			elseif xi - result < group[i] - xi then
 				return group[i]
-			elseif math.random() > 0.3 then
+			elseif math.random() > 0.1 then
 				return group[i]
 			else
 				return result

@@ -307,7 +307,7 @@ function MultipleRuns(data)
     		end,
     		repeated = function()
     			mandatoryTableArgument(data, "quantity", "number")
-    			if data.parameters.seed ~= nil or data.model.seed ~= nil then
+    			if data.parameters.seed ~= nil or data.model().seed ~= nil then
     				customError("Models using repeated strategy cannot use seed or all results will be the same.")
     			end	
 
