@@ -245,7 +245,7 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 	return valueMax
 end
 
---- Function used by SAMDE Type that implements the SaMDE genetic algorithm
+--- Function used by SAMDE type that implements the SaMDE genetic algorithm
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.

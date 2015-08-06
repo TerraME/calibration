@@ -1,5 +1,5 @@
 files = {
-	"SAMDEType.lua",
+	"SAMDE.lua",
 	"GoodnessOfFit.lua",
 	"SAMDEFunction.lua",
 	"MultipleRuns.lua",
