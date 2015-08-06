@@ -38,22 +38,7 @@ function SAMDE(data)
 
 	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing", "threshold"})
 	checkParameters(data.model, data)
-	local startParams = {} 
-	-- A table with the first possible values for the parameters to be tested.
-	forEachOrderedElement(data.parameters, function(idx, attribute, atype)
-		if idx ~= "finalTime" then
-			if attribute.min ~= nil then
-				startParams[idx] = attribute.min
-			else
-				startParams[idx] = attribute[1]
-			end
-		else
-			startParams[idx] = attribute
-		end
-	end)
-	local m = data.model(startParams) -- test the model with it's first possible values
-	m:execute()
-	local best = {fit = data.fit(m), instance = m, generations = 1}
+	local best = {fit, instance, generations}
 	local samdeValues = {}
 	local samdeParam = {}
 	local SamdeParamQuant = 0
