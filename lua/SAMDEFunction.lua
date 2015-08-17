@@ -154,15 +154,11 @@ local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
 end
 
 -- Find Proportion function
-local function fP(parameter, varMatrix, k)
+local function fP(paramListInfo, paramList, parameter, varMatrix, k)
 	local group = varMatrix[k]
 	local size = #group
 	if size > 1 then
-		local i = 1
-		while parameter ~= group[i] do
-			i = i + 1
-		end
-
+		local i = paramListInfo[paramList[k]].index[parameter]
 		return (i / size)
 	else
 		return 1
@@ -327,7 +323,11 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 			else
 				paramListInfo[idx].step = false
 				paramListInfo[idx].group = true
+				paramListInfo[idx].index = {}
 				table.insert(varMatrix, attribute.values)
+				forEachOrderedElement(attribute.values, function(idx2, att2, typ2)
+					paramListInfo[idx].index[att2] = idx2
+				end)
 			end
 
 		dim = dim + 1
@@ -407,13 +407,13 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 					local ui2
 					if paramListInfo[paramList[k]].group == true then
 						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(mutation, fP(solution1[k], varMatrix, k) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(mutation, fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (fP(solution1[k], varMatrix, k) - fP(solution2[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - fP(paramListInfo, paramList, solution2[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(mutation, fP(solution1[k], varMatrix, k) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)) + params[fPos] * (fP(solution3[k], varMatrix, k) - fP(solution4[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(mutation, fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)) + params[fPos] * (fP(paramListInfo, paramList, solution3[k], varMatrix, k) - fP(paramListInfo, paramList, solution4[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (fP(solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
 						end
 					else
 						if( winV == 0) then -- rand\1

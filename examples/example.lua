@@ -18,10 +18,9 @@ local c2 = SAMDE{
 	maxGen = 100,
 	threshold = 1,
 	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
-	fit = function(model, parameters)
-		m = model(parameters)
-		m:execute()
-		return m.value
+	fit = function(model)
+		model:execute()
+		return model.value
 	end
 }
 print("Example Result: (SAMDE)\n")
