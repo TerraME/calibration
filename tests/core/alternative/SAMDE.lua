@@ -11,17 +11,14 @@ return{
 				}
 			end
 		}
-
 		local error_func = function()
 			c = SAMDE{
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end
 			}
 		end
@@ -33,10 +30,8 @@ return{
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end
 			}
 		end
@@ -60,10 +55,8 @@ return{
 				size = 30,
 				maxGen = 100,
 				threshold = 1,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end,
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 				extraParameter = {"Unnecessary"}
@@ -77,10 +70,8 @@ return{
 				model = MyModel,
 				maxGen = 100,
 				threshold = 1,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end,
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
@@ -93,10 +84,8 @@ return{
 				model = MyModel,
 				size = 30,
 				threshold = 1,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end,
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
@@ -109,10 +98,8 @@ return{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end,
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
 			}
@@ -126,10 +113,8 @@ return{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
-				fit = function(model, parameters)
-					local m = model(parameters)
-					m:execute()
-					return m.value
+				fit = function(model)
+					return model.value
 				end,
 				threshold = 0,
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},

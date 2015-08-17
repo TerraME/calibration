@@ -12,7 +12,9 @@ local function evaluate(ind, dim, model, paramList, fit, finalTime)
 		solution[paramList[i]] = ind[i]
 	end
 	solution["finalTime"] = finalTime
-	local err = fit(model, solution)
+	local m = model(solution)
+	m:execute()
+	local err = fit(m)
 	return err
 end
 
@@ -151,40 +153,56 @@ local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
 	return x
 end
 
-local function aproxGroup(xi, varMatrix, k)
+-- Find Proportion function
+local function fP(parameter, varMatrix, k)
 	local group = varMatrix[k]
-	local result
-	if #group == 1 then
+	local size = #group
+	if size > 1 then
+		local i = 1
+		while parameter ~= group[i] do
+			i = i + 1
+		end
+
+		return (i / size)
+	else
+		return 1
+	end
+end
+
+local aproxGroup 
+aproxGroup = function(proportion, varMatrix, k)
+	local group = varMatrix[k]
+	local max = group[#group]
+	local min = group[1]
+	local size = #group
+	local share = 1 / size
+	local i = 1
+	if size == 1 then
 		return group[1]
 	else
-		result = group[1]
-		local i = 2
-		local foundGroup = false
-		while (foundGroup == false and i <= #group) do
-			if result < group[i] then
-				result = group[i]
-				i = i + 1
+		if proportion < 0 or proportion > 1 then
+			if math.random() < 0.5 then
+				local result =  aproxGroup(math.random(), varMatrix, k)
+				return result
 			else
-				foundGroup = true
+				if proportion < 0 then
+					return min
+				else
+					return max
+				end
 			end
 		end
 
-		if i > #group then
-			return result
+		while proportion > share * i do
+			i = i + 1
+		end
+
+		if proportion - (share * (i - 1)) > share / 2 and i ~= size then
+			return group[i + 1]
 		else
-			if xi - result < group[i] - xi and math.random() > 0.1 then
-				return result
-			elseif xi - result < group[i] - xi then
-				return group[i]
-			elseif math.random() > 0.1 then
-				return group[i]
-			else
-				return result
-			end
+			return group[i]
 		end
 	end
-
-	return x
 end
 
 local normalize
@@ -387,27 +405,41 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 			for k = 1, dim do
 				if( math.random() <= params[crPos] or k == index or winV == 3) then
 					local ui2
-					if( winV == 0) then -- rand\1
-						ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
-					elseif (winV == 1) then -- best\1
-						ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
-					elseif (winV == 2) then -- rand\2
-						ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
-					elseif (winV == 3) then -- current-to-rand
-						ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+					if paramListInfo[paramList[k]].group == true then
+						if( winV == 0) then -- rand\1
+							ui2 = oobTrea(mutation, fP(solution1[k], varMatrix, k) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)), varMatrix, k)
+						elseif (winV == 1) then -- best\1
+							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (fP(solution1[k], varMatrix, k) - fP(solution2[k], varMatrix, k)), varMatrix, k)
+						elseif (winV == 2) then -- rand\2
+							ui2 = oobTrea(mutation, fP(solution1[k], varMatrix, k) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)) + params[fPos] * (fP(solution3[k], varMatrix, k) - fP(solution4[k], varMatrix, k)), varMatrix, k)
+						elseif (winV == 3) then -- current-to-rand
+							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (fP(solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(solution2[k], varMatrix, k) - fP(solution3[k], varMatrix, k)), varMatrix, k)
+						end
+					else
+						if( winV == 0) then -- rand\1
+							ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+						elseif (winV == 1) then -- best\1
+							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
+						elseif (winV == 2) then -- rand\2
+							ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
+						elseif (winV == 3) then -- current-to-rand
+							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+						end
 					end
 
 					if paramListInfo[paramList[k]].step == true then
 						local ui3
-						if math.random() > 0.5 then
-							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)), varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
+						local uiErr = ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)
+						if uiErr  < (paramListInfo[paramList[k]].stepValue / 2) then
+							ui3 =  oobTrea(mutation, (ui2 - uiErr), varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
 						else
-							ui3 =  oobTrea(mutation, (ui2 - ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)) + paramListInfo[paramList[k]].stepValue, varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
+							ui3 =  oobTrea(mutation, (ui2 - uiErr) + paramListInfo[paramList[k]].stepValue, varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
 						end
 
 						table.insert(ui, ui3)
 					elseif paramListInfo[paramList[k]].group == true then
-						table.insert(ui, aproxGroup(ui2, varMatrix, k))
+						local ui3 = aproxGroup(ui2, varMatrix, k)
+						table.insert(ui, ui3)
 					else
 						table.insert(ui, ui2)
 					end

@@ -9,8 +9,8 @@ MyModel = Model{
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
 		}
-	end
-}
+	end}
+	
 local varMatrix = {{1,10}, {1,10}}
 local dim = 2
 local paramList = {"x", "y"}
@@ -28,11 +28,10 @@ return{
 		size = 30,
 		maxGen = 100,
 		threshold = 1,
-		fit = function(model, parameters)
-			local m = model(parameters)
-			m:execute()
-			return m.value
+		fit = function(model)
+			return model.value
 		end}
+
 		unitTest:assertEquals(c2.fit, 4)
 		unitTest:assertEquals(c2.instance.x, 1)
 		unitTest:assertEquals(c2.instance.y, 1)
