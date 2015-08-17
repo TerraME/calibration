@@ -429,11 +429,12 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 
 					if paramListInfo[paramList[k]].step == true then
 						local ui3
-						local uiErr = ((ui2 - varMatrix[k][1]) % paramListInfo[paramList[k]].stepValue)
-						if uiErr  < (paramListInfo[paramList[k]].stepValue / 2) then
-							ui3 =  oobTrea(mutation, (ui2 - uiErr), varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
+						local step = paramListInfo[paramList[k]].stepValue
+						local uiErr = ((ui2 - varMatrix[k][1]) % step)
+						if uiErr  < (step / 2) then
+							ui3 =  oobTrea(mutation, (ui2 - uiErr), varMatrix, k, true, step)
 						else
-							ui3 =  oobTrea(mutation, (ui2 - uiErr) + paramListInfo[paramList[k]].stepValue, varMatrix, k, true, paramListInfo[paramList[k]].stepValue)
+							ui3 =  oobTrea(mutation, (ui2 - uiErr) + step, varMatrix, k, true, step)
 						end
 
 						table.insert(ui, ui3)
