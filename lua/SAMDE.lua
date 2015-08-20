@@ -30,25 +30,18 @@ metaTableSAMDE_ = {
 function SAMDE(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	mandatoryTableArgument(data, "size", "number")
-	mandatoryTableArgument(data, "maxGen", "number")
-	mandatoryTableArgument(data, "threshold", "number")
-	if data.mutation ~= nil and type(data.mutation) ~= "number" then
-		incompatibleTypeError("mutation", "number", data.mutation)
-	end
-
 	if data.fit == nil or type(data.fit) ~= "function" then
 		customError("Function 'fit' was not implemented.")
 	end
 
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "mutation", "size", "crossing", "threshold"})
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold"})
 	checkParameters(data.model, data)
 	local best = {fit, instance, generations}
 	if data.maximize == nil then
 		data.maximize = false
 	end
 
-	best = SAMDECalibrate(data.parameters, data.model, data.finalTime, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.mutation)
+	best = SAMDECalibrate(data.parameters, data.model, data.finalTime, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)

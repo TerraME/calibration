@@ -45,9 +45,6 @@ end}
 local c4 = SAMDE{
 	model = MyModelSamde,
 	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{min = 1, max = 10, step = 0.3}},
-	size = 30,
-	maxGen = 100,
-	threshold = 1,
 	fit = function(model)
 		return model.value
 end}
@@ -57,7 +54,6 @@ local c5 = SAMDE{
 	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{min = 1, max = 10, step = 0.3}},
 	size = 30,
 	maxGen = 100,
-	mutation = 0.3,
 	threshold = 1,
 	fit = function(model)
 		return model.value

@@ -118,7 +118,7 @@ local function repareP(parameter)
 	return p
 end
 
-local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
+local function oobTrea(xi, varMatrix, k, step, stepValue)
 	local lim = varMatrix[k]
 	local minVar = lim[1]
 	local maxVar = lim[2]
@@ -129,7 +129,7 @@ local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
 	end
 
 	if(x < minVar) then
-		if(math.random() < mutation) then
+		if(math.random() < 0.5) then
 			x = minVar
 		elseif step == true then
 			x = (2 * minVar - x)
@@ -140,7 +140,7 @@ local function oobTrea(mutation, xi, varMatrix, k, step, stepValue)
 	end
 
 	if(x > maxVar) then
-		if(math.random() < mutation)  then
+		if(math.random() < 0.5)  then
 			x = maxVar
 		elseif step == true then
 			x = (2 * maxVar - x)
@@ -272,8 +272,7 @@ end
 -- @arg size size Determines the size of the populations used in the SaMDE algorithm
 -- (recommended size: (10*dim)).
 -- @arg maxGen maxGen If a model generation reach this value, the function stops.
--- @arg threshold threshol If a model fitness reach this value, the function stops.
--- @arg mutation Affects the probability a mutation will occur (default is 0.5).
+-- @arg threshold threshold If a model fitness reach this value, the function stops.
 -- @usage 
 -- local fit = function(model, parameters)
 --		local m = model(parameters)
@@ -282,11 +281,7 @@ end
 -- end
 --
 -- local best = SAMDECalibrate({x = Choice{min = 1, max = 10, step = 2}, finalTime = 1}, MyModel, 1, fit(), false, 30, 100, 0)
-function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, maxGen, threshold, mutation)
-	if mutation == nil then
-		mutation = 0.5
-	end
-
+function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, maxGen, threshold)
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
@@ -333,6 +328,10 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 		dim = dim + 1
 		end
 	end)
+	if size == nil then
+		size = #paramList * 10
+	end
+
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
@@ -357,10 +356,11 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 	end
 
 	local thresholdStop = false
-	local generation = 0
+	local generationStop = false
+	local generation = 1
 	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop ,dim, maxPopulation, varMatrix) > 0.001) and generation < maxGen and thresholdStop == false) do
-		generation = generation + 1
+	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix) > 0.001) and generationStop == false and thresholdStop == false) do
+		
 		local popAux = {}
 		for j = 1, maxPopulation do
 			local params = copyParameters(pop[j], dim)
@@ -407,23 +407,23 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 					local ui2
 					if paramListInfo[paramList[k]].group == true then
 						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(mutation, fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - fP(paramListInfo, paramList, solution2[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(bestInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - fP(paramListInfo, paramList, solution2[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(mutation, fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)) + params[fPos] * (fP(paramListInfo, paramList, solution3[k], varMatrix, k) - fP(paramListInfo, paramList, solution4[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)) + params[fPos] * (fP(paramListInfo, paramList, solution3[k], varMatrix, k) - fP(paramListInfo, paramList, solution4[k], varMatrix, k)), varMatrix, k)
 						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(indexInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
 						end
 					else
 						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(mutation, bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
+							ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
 						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(mutation, solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
+							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
 						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(mutation, indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
+							ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
 						end
 					end
 
@@ -432,9 +432,9 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 						local step = paramListInfo[paramList[k]].stepValue
 						local uiErr = ((ui2 - varMatrix[k][1]) % step)
 						if uiErr  < (step / 2) then
-							ui3 =  oobTrea(mutation, (ui2 - uiErr), varMatrix, k, true, step)
+							ui3 =  oobTrea((ui2 - uiErr), varMatrix, k, true, step)
 						else
-							ui3 =  oobTrea(mutation, (ui2 - uiErr) + step, varMatrix, k, true, step)
+							ui3 =  oobTrea((ui2 - uiErr) + step, varMatrix, k, true, step)
 						end
 
 						table.insert(ui, ui3)
@@ -492,15 +492,24 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 			pop[j] = copy(popAux[j])
 		end
 		
-		if maximize == true then
-			if bestCost > threshold then
-				thresholdStop = true
+		if threshold ~= nil then 
+			if maximize == true then
+				if bestCost > threshold then
+					thresholdStop = true
+				end
+			else
+				if bestCost < threshold then
+					thresholdStop = true
+				end
 			end
-		else
-			if bestCost < threshold then
-				thresholdStop = true
+		end
+
+		generation = generation + 1
+		if maxGen ~= nil then
+			if generation > maxGen then
+				generationStop = true
 			end
-		end	
+		end
 	end
 
 	local bestVariablesChoice = {}

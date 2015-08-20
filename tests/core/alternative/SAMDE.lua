@@ -65,65 +65,6 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Argument 'extraParameter' is unnecessary. Do you mean 'parameters'?")		
-		error_func = function()
-			local c = SAMDE{
-				model = MyModel,
-				maxGen = 100,
-				threshold = 1,
-				fit = function(model)
-					return model.value
-				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
-			}
-			c:fit(model, parameters)
-		end
-
-		unitTest:assertError(error_func, "Argument 'size' is mandatory.")
-		error_func = function()
-			local c = SAMDE{
-				model = MyModel,
-				size = 30,
-				threshold = 1,
-				fit = function(model)
-					return model.value
-				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
-			}
-			c:fit(model, parameters)
-		end
-
-		unitTest:assertError(error_func, "Argument 'maxGen' is mandatory.")	
-		error_func = function()
-			local c = SAMDE{
-				model = MyModel,
-				size = 30,
-				maxGen = 100,
-				fit = function(model)
-					return model.value
-				end,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}}
-			}
-			c:fit(model, parameters)
-		end
-
-		unitTest:assertError(error_func, "Argument 'threshold' is mandatory.")
-		local mutationTest = "test"
-		error_func = function()
-			local c = SAMDE{
-				model = MyModel,
-				size = 30,
-				maxGen = 100,
-				fit = function(model)
-					return model.value
-				end,
-				threshold = 0,
-				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
-				mutation = mutationTest
-			}
-			c:fit(model, parameters)
-		end
-
-		unitTest:assertError(error_func, incompatibleTypeMsg("mutation", "number", mutationTest))
 	end
 }
 
