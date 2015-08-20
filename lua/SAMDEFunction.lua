@@ -412,14 +412,15 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 				if( math.random() <= params[crPos] or k == index or winV == 3) then
 					local ui2
 					if paramListInfo[k].group == true then
+						local prop = paramListInfo[k].proportion
 						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(paramListInfo[k].proportion[solution1[k]] + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]), varMatrix, k)
+							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]])
 						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(bestInd[k] + params[fPos] * (paramListInfo[k].proportion[solution1[k]] - paramListInfo[k].proportion[solution2[k]]), varMatrix, k)
+							ui2 = prop[bestInd[k]] + params[fPos] * (prop[solution1[k]] - prop[solution2[k]])
 						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(paramListInfo[k].proportion[solution1[k]] + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]) + params[fPos] * (paramListInfo[k].proportion[solution3[k]] - paramListInfo[k].proportion[solution4[k]]), varMatrix, k)
+							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) + params[fPos] * (prop[solution3[k]] - prop[solution4[k]])
 						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(indexInd[k] + params[fPos] * (paramListInfo[k].proportion[solution1[k]] - indexInd[k]) + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]), varMatrix, k)
+							ui2 = prop[indexInd[k]] + params[fPos] * (prop[solution1[k]] - prop[indexInd[k]]) + params[fPos] * (prop[solution2[k]] - prop[solution3[k]])
 						end
 					else
 						if( winV == 0) then -- rand\1
