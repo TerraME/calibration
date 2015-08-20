@@ -204,15 +204,15 @@ function normalize(x, varMatrix, i, paramListInfo)
 	local interval = varMatrix[i]
 	local total
 	local value
+	local newValue
 	if paramListInfo[i].group == false then
 		total = interval[2] - interval[1]
 		value = x - interval[1]
+		newValue = ((value * 100) / total) / 100
 	else
-		total = interval[#interval] - interval[1]
-		value = x - interval[1]
+		newValue = paramListInfo[i].proportion[x]
 	end
-
-	local newValue = ((value * 100) / total) / 100
+	
 	return newValue
 end
 
