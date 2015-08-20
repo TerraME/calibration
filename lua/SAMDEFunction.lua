@@ -26,7 +26,7 @@ local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
 		local ind = {}
 		for j = 1, dim do
 			local value
-			if paramInfo[paramList[j]].group == false then
+			if paramInfo[j].group == false then
 				local lim = varMatrix[j]
 				local minVar = lim[1]
 				local maxVar = lim[2]
@@ -154,12 +154,10 @@ local function oobTrea(xi, varMatrix, k, step, stepValue)
 end
 
 -- Find Proportion function
-local function fP(paramListInfo, paramList, parameter, varMatrix, k)
-	local group = varMatrix[k]
+local function fP(idx, group)
 	local size = #group
 	if size > 1 then
-		local i = paramListInfo[paramList[k]].index[parameter]
-		return (i / size)
+		return (idx / size)
 	else
 		return 1
 	end
@@ -289,14 +287,14 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
 		if idx ~= "finalTime" then
 			table.insert(paramList, idx)
-			paramListInfo[idx] = {}
+			table.insert(paramListInfo, {})
 			if attribute.min ~= nil then
-				paramListInfo[idx].group = false
+				paramListInfo[#paramListInfo].group = false
 				if attribute.step ~= nil then
-					paramListInfo[idx].step = true
-					paramListInfo[idx].stepValue = attribute.step
+					paramListInfo[#paramListInfo].step = true
+					paramListInfo[#paramListInfo].stepValue = attribute.step
 				else 
-					paramListInfo[idx].step = false
+					paramListInfo[#paramListInfo].step = false
 				end
 
 				if attribute.max ~=nil then
@@ -306,22 +304,22 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 				end
 
 			elseif attribute.max ~= nil then
-					paramListInfo[idx].group = false
+					paramListInfo[#paramListInfo].group = false
 					if attribute.step ~= nil then
-						paramListInfo[idx].step = true
-						paramListInfo[idx].stepValue = attribute.step
+						paramListInfo[#paramListInfo].step = true
+						paramListInfo[#paramListInfo].stepValue = attribute.step
 					else 
-						paramListInfo[idx].step = false
+						paramListInfo[#paramListInfo].step = false
 					end
 
 					table.insert(varMatrix, { -1*math.huge(), attribute.max})
 			else
-				paramListInfo[idx].step = false
-				paramListInfo[idx].group = true
-				paramListInfo[idx].index = {}
+				paramListInfo[#paramListInfo].step = false
+				paramListInfo[#paramListInfo].group = true
+				paramListInfo[#paramListInfo].proportion = {}
 				table.insert(varMatrix, attribute.values)
 				forEachOrderedElement(attribute.values, function(idx2, att2, typ2)
-					paramListInfo[idx].index[att2] = idx2
+					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values)
 				end)
 			end
 
@@ -405,15 +403,15 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 			for k = 1, dim do
 				if( math.random() <= params[crPos] or k == index or winV == 3) then
 					local ui2
-					if paramListInfo[paramList[k]].group == true then
+					if paramListInfo[k].group == true then
 						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(paramListInfo[k].proportion[solution1[k]] + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]), varMatrix, k)
 						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(bestInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - fP(paramListInfo, paramList, solution2[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(bestInd[k] + params[fPos] * (paramListInfo[k].proportion[solution1[k]] - paramListInfo[k].proportion[solution2[k]]), varMatrix, k)
 						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(fP(paramListInfo, paramList, solution1[k], varMatrix, k) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)) + params[fPos] * (fP(paramListInfo, paramList, solution3[k], varMatrix, k) - fP(paramListInfo, paramList, solution4[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(paramListInfo[k].proportion[solution1[k]] + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]) + params[fPos] * (paramListInfo[k].proportion[solution3[k]] - paramListInfo[k].proportion[solution4[k]]), varMatrix, k)
 						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(indexInd[k] + params[fPos] * (fP(paramListInfo, paramList, solution1[k], varMatrix, k) - indexInd[k]) + params[fPos] * (fP(paramListInfo, paramList, solution2[k], varMatrix, k) - fP(paramListInfo, paramList, solution3[k], varMatrix, k)), varMatrix, k)
+							ui2 = oobTrea(indexInd[k] + params[fPos] * (paramListInfo[k].proportion[solution1[k]] - indexInd[k]) + params[fPos] * (paramListInfo[k].proportion[solution2[k]] - paramListInfo[k].proportion[solution3[k]]), varMatrix, k)
 						end
 					else
 						if( winV == 0) then -- rand\1
@@ -427,9 +425,9 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 						end
 					end
 
-					if paramListInfo[paramList[k]].step == true then
+					if paramListInfo[k].step == true then
 						local ui3
-						local step = paramListInfo[paramList[k]].stepValue
+						local step = paramListInfo[k].stepValue
 						local uiErr = ((ui2 - varMatrix[k][1]) % step)
 						if uiErr  < (step / 2) then
 							ui3 =  oobTrea((ui2 - uiErr), varMatrix, k, true, step)
@@ -438,7 +436,7 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 						end
 
 						table.insert(ui, ui3)
-					elseif paramListInfo[paramList[k]].group == true then
+					elseif paramListInfo[k].group == true then
 						local ui3 = aproxGroup(ui2, varMatrix, k)
 						table.insert(ui, ui3)
 					else
