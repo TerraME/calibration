@@ -501,11 +501,11 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 		
 		if threshold ~= nil then 
 			if maximize == true then
-				if bestCost > threshold then
+				if bestCost >= threshold then
 					thresholdStop = true
 				end
 			else
-				if bestCost < threshold then
+				if bestCost <= threshold then
 					thresholdStop = true
 				end
 			end
