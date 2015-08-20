@@ -133,18 +133,18 @@ local function oobTrea(xi, varMatrix, k, step, stepValue)
 			x = minVar
 		elseif step == true then
 			x = (2 * minVar - x)
-			x = x - ((x - minVar) %  stepValue)
+			x = x - ((x - minVar) % stepValue)
 		else
 			x = 2 * minVar - x;
 		end
 	end
 
 	if(x > maxVar) then
-		if(math.random() < 0.5)  then
+		if(math.random() < 0.5) then
 			x = maxVar
 		elseif step == true then
 			x = (2 * maxVar - x)
-			x = x - ((x - minVar) %  stepValue)
+			x = x - ((x - minVar) % stepValue)
 		else
 			x = 2 * maxVar - x
 		end
@@ -176,7 +176,7 @@ aproxGroup = function(proportion, varMatrix, k)
 	else
 		if proportion < 0 or proportion > 1 then
 			if math.random() < 0.5 then
-				local result =  aproxGroup(math.random(), varMatrix, k)
+				local result = aproxGroup(math.random(), varMatrix, k)
 				return result
 			else
 				if proportion < 0 then
@@ -200,16 +200,24 @@ aproxGroup = function(proportion, varMatrix, k)
 end
 
 local normalize
-function normalize(x, varMatrix, i)
+function normalize(x, varMatrix, i, paramListInfo)
 	local interval = varMatrix[i]
-	local total = interval[2] - interval[1]
-	local value = x - interval[1]
+	local total
+	local value
+	if paramListInfo[i].group == false then
+		total = interval[2] - interval[1]
+		value = x - interval[1]
+	else
+		total = interval[#interval] - interval[1]
+		value = x - interval[1]
+	end
+
 	local newValue = ((value * 100) / total) / 100
 	return newValue
 end
 
-local function distance(x, y, varMatrix, i)
-	local dist = normalize(x, varMatrix, i) - normalize(y, varMatrix, i)
+local function distance(x, y, varMatrix, i, paramListInfo)
+	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo)
 	dist = math.abs(dist)
 	return dist
 end
@@ -225,7 +233,7 @@ local function maxVector(vector, dim)
 	return valueMax
 end
 
-local function maxDiversity(pop, dim, maxPopulation, varMatrix)
+local function maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo)
 	local varMax = {}
 	local varMin = {}
 	local vector = pop[1]
@@ -249,7 +257,7 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix)
 
 	local dist = {}
 	for i = 1, dim do
-		local value = distance(varMax[i], varMin[i], varMatrix, i)
+		local value = distance(varMax[i], varMin[i], varMatrix, i, paramListInfo)
 		table.insert(dist, value)
 	end
 
@@ -264,7 +272,7 @@ end
 -- @arg modelParameters Table containing the model parameters.
 -- @arg model model The model that will be calibrated by the function.
 -- @arg finalTime finalTime to be used in the model.
--- @arg fit fit() A function  that receive a model as a parameter and determines the fitness value of such model.
+-- @arg fit fit() A function that receive a model as a parameter and determines the fitness value of such model.
 -- @arg maximize maximize An optional paramaters that determines if the models fitness values must be
 -- maximized instead of minimized, default is false.
 -- @arg size size Determines the size of the populations used in the SaMDE algorithm
@@ -357,7 +365,7 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 	local generationStop = false
 	local generation = 1
 	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix) > 0.001) and generationStop == false and thresholdStop == false) do
+	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo) > 0.001) and generationStop == false and thresholdStop == false) do
 		
 		local popAux = {}
 		for j = 1, maxPopulation do
@@ -429,10 +437,10 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 						local ui3
 						local step = paramListInfo[k].stepValue
 						local uiErr = ((ui2 - varMatrix[k][1]) % step)
-						if uiErr  < (step / 2) then
-							ui3 =  oobTrea((ui2 - uiErr), varMatrix, k, true, step)
+						if uiErr < (step / 2) then
+							ui3 = oobTrea((ui2 - uiErr), varMatrix, k, true, step)
 						else
-							ui3 =  oobTrea((ui2 - uiErr) + step, varMatrix, k, true, step)
+							ui3 = oobTrea((ui2 - uiErr) + step, varMatrix, k, true, step)
 						end
 
 						table.insert(ui, ui3)
