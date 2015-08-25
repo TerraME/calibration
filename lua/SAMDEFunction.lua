@@ -6,11 +6,15 @@
 GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
-local function evaluate(ind, dim, model, paramList, fit)
+local function evaluate(ind, dim, model, paramList, fit, singleParameters)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
 	end
+
+	forEachOrderedElement(singleParameters, function (idx, att, typ)
+		solution[idx] = att
+	end) 
 
 	local m = model(solution)
 	m:execute()
@@ -291,10 +295,11 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 	local paramList = {}
 	local dim = 0
 	local paramListInfo = {}
+	local singleParameters = {}
 	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
-		table.insert(paramList, idx)
-		table.insert(paramListInfo, {})
-		if atype ~= "number" then	
+		if atype == "Choice" then
+			table.insert(paramList, idx)
+			table.insert(paramListInfo, {})
 			if attribute.min ~= nil then
 				paramListInfo[#paramListInfo].group = false
 				if attribute.step ~= nil then
@@ -329,16 +334,13 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values)
 				end)
 			end
-		else
-			paramListInfo[#paramListInfo].step = false
-			paramListInfo[#paramListInfo].group = true
-			paramListInfo[#paramListInfo].proportion = {}
-			table.insert(varMatrix, {attribute})
-			paramListInfo[#paramListInfo].proportion[attribute] = 1
-		end
 
-		dim = dim + 1
+			dim = dim + 1
+		else
+			singleParameters[idx] = attribute
+		end
 	end)
+
 	if size == nil then
 		size = #paramList * 10
 	end
@@ -347,11 +349,11 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 	local costPop = {}
 	local maxPopulation = size
 	pop = initPop(maxPopulation, varMatrix, dim, paramList, paramListInfo)
-	local bestCost = evaluate(pop[1], dim, model, paramList, fit)
+	local bestCost = evaluate(pop[1], dim, model, paramList, fit, singleParameters)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
 	for i = 2, maxPopulation do
-		local fitness = evaluate(pop[i], dim, model, paramList, fit)
+		local fitness = evaluate(pop[i], dim, model, paramList, fit, singleParameters)
 		table.insert(costPop, fitness)
 		if maximize == true then
 			if(fitness > bestCost) then
@@ -470,7 +472,7 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 				end
 			end
 
-			local score = evaluate(ui, dim, model, paramList, fit)
+			local score = evaluate(ui, dim, model, paramList, fit, singleParameters)
 			if maximize == true then
 				if(score > costPop[j]) then
 					table.insert(popAux,copy(ui))
