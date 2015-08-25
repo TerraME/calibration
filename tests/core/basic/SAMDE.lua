@@ -40,7 +40,7 @@ end}
 
 local c2 = SAMDE{
 	model = myModelSamde,
-	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
+	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}, finalTime = 1},
 	size = 30,
 	maxGen = 100,
 	threshold = 1,

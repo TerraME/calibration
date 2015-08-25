@@ -6,12 +6,12 @@
 GLOBAL_RANDOM_SEED = os.time()
 NUMEST = 4
 PARAMETERS = 3
-local function evaluate(ind, dim, model, paramList, fit, finalTime)
+local function evaluate(ind, dim, model, paramList, fit)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
 	end
-	solution["finalTime"] = finalTime
+
 	local m = model(solution)
 	m:execute()
 	local err = fit(m)
@@ -271,7 +271,6 @@ end
 -- generations = number of generations it took to the genetic algorithm reach this model}.
 -- @arg modelParameters Table containing the model parameters.
 -- @arg model model The model that will be calibrated by the function.
--- @arg finalTime finalTime to be used in the model.
 -- @arg fit fit() A function that receive a model as a parameter and determines the fitness value of such model.
 -- @arg maximize maximize An optional paramaters that determines if the models fitness values must be
 -- maximized instead of minimized, default is false.
@@ -286,16 +285,16 @@ end
 -- 		return m.result
 -- end
 --
--- local best = SAMDECalibrate({x = Choice{min = 1, max = 10, step = 2}, finalTime = 1}, MyModel, 1, fit(), false, 30, 100, 0)
-function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, maxGen, threshold)
+-- local best = SAMDECalibrate({x = Choice{min = 1, max = 10, step = 2}, finalTime = 1}, MyModel, fit(), false, 30, 100, 0)
+function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold)
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
 	local paramListInfo = {}
 	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
-		if idx ~= "finalTime" then
-			table.insert(paramList, idx)
-			table.insert(paramListInfo, {})
+		table.insert(paramList, idx)
+		table.insert(paramListInfo, {})
+		if atype ~= "number" then	
 			if attribute.min ~= nil then
 				paramListInfo[#paramListInfo].group = false
 				if attribute.step ~= nil then
@@ -330,9 +329,15 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values)
 				end)
 			end
+		else
+			paramListInfo[#paramListInfo].step = false
+			paramListInfo[#paramListInfo].group = true
+			paramListInfo[#paramListInfo].proportion = {}
+			table.insert(varMatrix, {attribute})
+			paramListInfo[#paramListInfo].proportion[attribute] = 1
+		end
 
 		dim = dim + 1
-		end
 	end)
 	if size == nil then
 		size = #paramList * 10
@@ -465,7 +470,7 @@ function SAMDECalibrate(modelParameters, model, finalTime, fit, maximize, size, 
 				end
 			end
 
-			local score = evaluate(ui, dim, model, paramList, fit, finalTime)
+			local score = evaluate(ui, dim, model, paramList, fit)
 			if maximize == true then
 				if(score > costPop[j]) then
 					table.insert(popAux,copy(ui))
