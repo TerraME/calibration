@@ -74,25 +74,23 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
 					if typ2 ~= "table" then
-						-- print("THE DARK SECRET LIES WITHIN THESE LINES")
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
-						-- print("THATS MY DESIRE")
 						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
 						end)
 					end
 				end)
-				local currentDir = currentDir()
+				local testDir = currentDir()
 				mkDir(stringSimulations)
-				chDir(stringSimulations)
+				chDir(testDir..s..stringSimulations)
 				if data.output ~= nil then
 					data.output(m)
 				end
 
-				chDir(currentDir)
+				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
@@ -136,21 +134,20 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
-						-- print("IN THE END, IT DOESNT EVEN MATTER")
 						forEachOrderedElement(att2, function(idx3, att3, typ3)
 							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
 						end)
 					end
 				end)
-				local currentDir = currentDir()
+				local testDir = currentDir()
 				mkDir(stringSimulations)
-				chDir(stringSimulations)
+				chDir(testDir..s..stringSimulations)
 				if data.output ~= nil then
 					data.output(m)
 				end
 
-				chDir(currentDir)
+				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else  -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions)
@@ -271,7 +268,7 @@ function MultipleRuns(data)
 			else
 				local checkingArgument = {}
 				checkingArgument[idx] = idx
-				verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output"})
+				verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output", "folder"})
 			end
 		end)
 		checkParameters(data.model, data)
@@ -290,6 +287,18 @@ function MultipleRuns(data)
 				end
 			end)
 		end
+
+
+		local folderName = folder
+		if folderName == nil then
+			folderName = "Tests"
+		end
+
+		s = package.config:sub(1, 1)
+		local firstDir = currentDir()
+		print(firstDir)
+		mkDir(folderName) 
+		chDir(firstDir..s..folderName) 
 
 		local variables = {}	
 		switch(data, "strategy"):caseof{
@@ -327,14 +336,14 @@ function MultipleRuns(data)
 	    				end
  
     					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-						local currentDir = currentDir()
+						local testDir = currentDir()
 						mkDir(""..(#resultTable.simulations).."") 
-						chDir(""..(#resultTable.simulations).."") 
+						chDir(testDir..s..""..(#resultTable.simulations).."") 
 						if data.output ~= nil then 
 							data.output(m)
 						end
 
-						chDir(currentDir) 
+						chDir(testDir)
 						forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
 							if resultTable[idx2] == nil then
 								resultTable[idx2] = {}
@@ -362,14 +371,14 @@ function MultipleRuns(data)
 					end
     				
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
-					local currentDir = currentDir ()
+					local testDir = currentDir()
 					mkDir(""..(#resultTable.simulations).."") 
-					chDir(""..(#resultTable.simulations).."") 
+					chDir(testDir..s..""..(#resultTable.simulations).."") 
 					if data.output ~= nil then 
 						data.output(m) 
 					end
 
-					chDir(currentDir) 
+					chDir(testDir)
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 						if typ2 ~= "table" then
 							sampleParams[idx2] = m.idx2
@@ -409,14 +418,14 @@ function MultipleRuns(data)
 					end
 
     				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
-    				local currentDir = currentDir ()
+    				local testDir = currentDir()
 					mkDir(""..(idx).."") 
-					chDir(""..(idx).."") 
+					chDir(testDir..s..""..(idx).."") 
 					if data.output ~= nil then 
 						data.output(m) 
 					end
 
-					chDir(currentDir)  
+					chDir(testDir) 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 						if resultTable[idx2] == nil then 
 							resultTable[idx2] = {}
@@ -432,6 +441,13 @@ function MultipleRuns(data)
 	forEachOrderedElement(resultTable, function(idx, att, type)
 		data[idx] = att
 	end)
+
+	print(firstDir)
+	print("--")
+	print(currentDir())
+	chDir(firstDir) 
+	print(currentDir())
+	print("//")
 	return data
 end
 
