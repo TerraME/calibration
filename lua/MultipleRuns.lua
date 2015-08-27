@@ -227,11 +227,17 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
----Type to repeatly execute a model according to a choosen strategy,
--- returns an object of type MultipleRuns with it's functions and a set of tables.
--- @arg data A table containing: A model constructor, with the model that will be calibrated;
--- A table with the parameters to be tested; An optional quantity variable; 
--- An optional user defined output function.
+--- Type to repeatly execute a model according to a choosen strategy,
+-- returns a multipleRuns type table with the tests results.
+-- @arg data A table containing the described values.
+---- @tabular Data
+-- Variables  & Description \
+-- "model" & A model. \
+-- "parameters" & A table with the parameters to be tested; An optional quantity variable. \
+-- "output" & An optional user defined output function. \
+-- "folder" & Name of the folder where the tests will be saved. \
+-- "strategy" & Strategy to be used when testing the model. \
+-- "quantity" & Quantity of repeated runs for repeated ans sample strategy.
 -- @usage c = MultipleRuns{
 --  	model = MyModel,
 --		quantity = 5,
