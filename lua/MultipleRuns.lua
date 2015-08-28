@@ -235,7 +235,8 @@ metaTableMultipleRuns_ = {
 -- "model" & A model. \
 -- "parameters" & A table with the parameters to be tested; An optional quantity variable. \
 -- "output" & An optional user defined output function. \
--- "folder" & Name of the folder where the tests will be saved. \
+-- "folderName" & Name of the folder where the tests will be saved. \
+-- "folderPath" & Path of the folder where the tests will be saved. \
 -- "strategy" & Strategy to be used when testing the model. \
 -- "quantity" & Quantity of repeated runs for repeated ans sample strategy.
 -- @usage c = MultipleRuns{
@@ -297,12 +298,11 @@ function MultipleRuns(data)
 		end)
 	end
 
-	-- print(tmpDir())
 	if data.folderPath ~= nil then
 		if type(data.folderPath) ~= "string" then
 			incompatibleTypeError("folderPath", "string", data.folderPath)
 		end
-		
+
 		chDir(data.folderPath)
 	end
 
@@ -448,18 +448,12 @@ function MultipleRuns(data)
 			end)
 		end
 	}
-	-- print("4")
 	setmetatable(data, metaTableMultipleRuns_)
 	forEachOrderedElement(resultTable, function(idx, att, type)
 		data[idx] = att
 	end)
 
-	-- print(firstDir)
-	-- print("--")
-	-- print(currentDir())
 	chDir(firstDir) 
-	-- print(currentDir())
-	-- print("//")
 	return data
 end
 
