@@ -286,6 +286,8 @@ function MultipleRuns(data)
 		end)
 	end
 
+	-- Setting the folder for the tests results to be saved:
+
 	local firstDir  = currentDir()
 	local folderDir =  firstDir 
 
@@ -294,22 +296,26 @@ function MultipleRuns(data)
 			incompatibleTypeError("folderPath", "string", data.folderPath)
 		end
 
-		chDir(data.folderPath)
+		if not chDir(data.folderPath) then
+			customError("Invalid folder path")
+		end
+
 		folderDir = currentDir()
 	end
 
 	local folder = data.folderName
 	if folder == nil then
 		folder = "MultipleRunsTests"
+		mkDir(folder)
 	else
-		if type(folder) ~= "string" then
-			incompatibleTypeError("folderName", "string", folderName)
+		if not mkDir(folder) then
+			chDir(firstDir)
+			customError("Invalid folder name")
 		end
 	end
 
 	--set the folder for test results to be saved.
 	local s = package.config:sub(1, 1)
-	mkDir(folder)
 	chDir(folderDir..s..folder) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
