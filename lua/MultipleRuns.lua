@@ -311,7 +311,9 @@ function MultipleRuns(data)
 	if folder == nil then
 		folder = "MultipleRunsTests"
 	else
-		incompatibleTypeError("folderName", "string", folderName)
+		if type(folder) ~= "string" then
+			incompatibleTypeError("folderName", "string", folderName)
+		end
 	end
 
 	--set the folder for test results to be saved.
