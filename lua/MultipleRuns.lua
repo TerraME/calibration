@@ -241,7 +241,8 @@ metaTableMultipleRuns_ = {
 -- @usage c = MultipleRuns{
 --  	model = MyModel,
 --		quantity = 5,
---		folder = "Tests",
+--		folderName = "Tests",
+--		folderPath = currentDir(),
 --		parameters = {
 --			x = {-100, -1, 0, 1, 2, 100},
 --			y = { min = 1, max = 10, step = 1},
@@ -266,7 +267,6 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	local firstDir = currentDir()
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
@@ -276,7 +276,7 @@ function MultipleRuns(data)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output", "folder"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output", "folderName", "folderPath"})
 		end
 	end)
 
@@ -297,21 +297,27 @@ function MultipleRuns(data)
 		end)
 	end
 
-	local folderName = folder
-	if folderName == nil then
-		folderName = "Tests"
+	-- print(tmpDir())
+	if data.folderPath ~= nil then
+		if type(data.folderPath) ~= "string" then
+			incompatibleTypeError("folderPath", "string", data.folderPath)
+		end
+		
+		chDir(data.folderPath)
 	end
 
+	local firstDir = currentDir()
+	local folder = data.folderName
+	if folder == nil then
+		folder = "MultipleRunsTests"
+	else
+		incompatibleTypeError("folderName", "string", folderName)
+	end
+
+	--set the folder for test results to be saved.
 	local s = package.config:sub(1, 1)
-
-	-- print("what")
-	-- print(firstDir)
-	-- print("2")
-	mkDir(folderName) 
-	if not chDir(firstDir..s..folderName) then
-		-- print("what")
-	end
-	-- print("3")
+	mkDir(folder)
+	chDir(firstDir..s..folder) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 	-- Prepares the variables and executes the model according to each strategy.
