@@ -286,7 +286,8 @@ function MultipleRuns(data)
 		end)
 	end
 
-	local firstDir = currentDir()
+	local firstDir  = currentDir()
+	local folderDir =  firstDir 
 
 	if data.folderPath ~= nil then
 		if type(data.folderPath) ~= "string" then
@@ -294,6 +295,7 @@ function MultipleRuns(data)
 		end
 
 		chDir(data.folderPath)
+		folderDir = currentDir()
 	end
 
 	local folder = data.folderName
@@ -308,7 +310,7 @@ function MultipleRuns(data)
 	--set the folder for test results to be saved.
 	local s = package.config:sub(1, 1)
 	mkDir(folder)
-	chDir(firstDir..s..folder) 
+	chDir(folderDir..s..folder) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 	-- Prepares the variables and executes the model according to each strategy.
