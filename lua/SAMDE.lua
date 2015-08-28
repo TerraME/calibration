@@ -9,16 +9,14 @@ metaTableSAMDE_ = {
 --- Type to calibrate a model, returns a SAMDE type with the fittest individual,
 -- the fit value and the number of generations.
 -- @arg data a table containing the described variables.
--- @tabular Data
--- Variables  & Description \
--- "model" & A model. \
--- "parameters" & A table of parameters to be calibrated. \
--- "fit" & A function that receives a Model and calibrated parameters
---  to calculate the instance fitness value. \
--- "size" & the population size for each generation. \
--- "maxGen" & If a model generation reach this value, the function stops. \
--- "threshold" & If a model fitness reach this value, the function stops. \
--- "maximize" & An optional paramaters that determines if the models fitness values
+-- @arg data.model  A model.
+-- @arg data.parameters  A table of parameters to be calibrated.
+-- @arg data.fit  A function that receives a Model and calibrated parameters
+--  to calculate the instance fitness value.
+-- @arg data.size  the population size for each generation.
+-- @arg data.maxGen  If a model generation reach this value, the function stops.
+-- @arg data.threshold  If a model fitness reach this value, the function stops.
+-- @arg data.maximize  An optional paramaters that determines if the models fitness values
 --  must be must be maximized instead of minimized, default is false. 
 -- @usage c = SAMDE{
 --     model = MyModel,
