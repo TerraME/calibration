@@ -292,10 +292,6 @@ function MultipleRuns(data)
 	local folderDir =  firstDir 
 
 	if data.folderPath ~= nil then
-		if type(data.folderPath) ~= "string" then
-			incompatibleTypeError("folderPath", "string", data.folderPath)
-		end
-
 		if not chDir(data.folderPath) then
 			customError("Invalid folder path")
 		end
