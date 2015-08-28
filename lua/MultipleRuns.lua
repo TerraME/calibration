@@ -230,16 +230,16 @@ metaTableMultipleRuns_ = {
 --- Type to repeatly execute a model according to a choosen strategy,
 -- returns a multipleRuns type table with the tests results.
 -- @arg data A table containing the described values.
----- @tabular Data
--- Variables  & Description \
--- "model" & A model. \
--- "parameters" & A table with the parameters to be tested; An optional quantity variable. \
--- "output" & An optional user defined output function. \
--- "folderName" & Name of the folder where the tests will be saved. \
--- "folderPath" & Path of the folder where the tests will be saved. \
--- "strategy" & Strategy to be used when testing the model. \
--- "quantity" & Quantity of repeated runs for repeated ans sample strategy.
--- @usage c = MultipleRuns{
+-- @arg data.model  A model.
+-- @arg data.parameters  A table with the parameters to be tested; An optional quantity variable.
+-- @arg data.output  An optional user defined output function.
+-- @arg data.folderName  Name of the folder where the tests will be saved.
+-- @arg data.folderPath  Path of the folder where the tests will be saved.
+-- @arg data.strategy  Strategy to be used when testing the model.
+-- @arg data.quantity  Quantity of repeated runs for repeated ans sample strategy.
+-- @usage
+--		import("calibration")
+--		c = MultipleRuns{
 --  	model = MyModel,
 --		quantity = 5,
 --		folderName = "Tests",
@@ -253,18 +253,6 @@ metaTableMultipleRuns_ = {
 --			return model.value
 --		end}
 -- }
--- The model below:
--- r = MultipleRuns{
---    model = MyModel,
---    parameters = {water = 10, rain = 20, finalTime = 1},
---    quantity = 10,
---    finalTime = 10
--- }
--- should return a table with the values:
--- r.simulations == {"1", "2", "...", "10"}
--- r.water = {10, 10, 10, ..., 10}
--- r.rain = {20, 20, 20, ... 20}
--- type(r) == "MultipleRuns"
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
