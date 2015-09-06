@@ -59,6 +59,30 @@ return{
 			local m4 =MultipleRuns{
 				folderPath = tmpDir(),
 				model = MyModel,
+				strategy = "repeated",
+				parameters = {x = 2, y = 5},
+				output = function(model)
+					return model.value
+			end}
+		end
+		
+		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
+		error_func = function()
+			local m4 =MultipleRuns{
+				folderPath = tmpDir(),
+				model = MyModel,
+				strategy = "sample",
+				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = 5},
+				output = function(model)
+					return model.value
+			end}
+		end
+		
+		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
+		error_func = function()
+			local m4 =MultipleRuns{
+				folderPath = tmpDir(),
+				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
 				output = function(model)
