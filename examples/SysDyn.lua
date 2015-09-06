@@ -24,7 +24,7 @@ yeast = SysDynModel{
     ref        =    0,
     diff       =    0,
     capacity   =  665.0,
-    rate       =    Choice{min = 1, max = 2},
+    rate       =    Choice{min = 0, max = 2.5},
     finalTime  =    9,
     rms        = 0,
     changes = function (model, time)
@@ -43,10 +43,15 @@ yeast = SysDynModel{
 
 local c1 = SAMDE{
 	model = yeast,
-	parameters = {rate = Choice{min = 1, max = 1.5}},
+	parameters = {rate = Choice{min = 0, max = 2.5}},
+    maxGen = 30,
 	fit = function(model)
 		return math.sqrt (model.rms)
 end}
 
-print ("rate "..c1.instance.rate.." rms error "..c1.fit)
+if math.abs(c1.instance.rate - 2.27) < 0.2 and c1.fit <205 then
+    print ("rate aprox 2.27 (0.2 precision) and rms error below 205")
+else
+    print ("rate "..c1.instance.rate.." rms error "..c1.fit)
+end
    
