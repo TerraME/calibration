@@ -304,7 +304,7 @@ function MultipleRuns(data)
 		folder = "MultipleRunsTests"
 		mkDir(folder)
 	else
-		if not mkDir(folder) then
+		if type(folder) ~= "string" or not mkDir(folder) then
 			chDir(firstDir)
 			customError("Invalid folder name")
 		end

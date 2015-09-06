@@ -54,6 +54,33 @@ return{
 		unitTest:assertError(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
 		error_func = function()
 			local m4 = MultipleRuns{
+				folderPath = "bug",
+				model = MyModel,
+				strategy = "repeated",
+				parameters = {x = 2, y = 5},
+				quantity = 3,
+				output = function(model)
+					return model.value
+			end}
+		end
+		
+		unitTest:assertError(error_func, "Invalid folder path")
+		error_func = function()
+			local m4 = MultipleRuns{
+				folderPath = tmpDir(),
+				folderName = 42,
+				model = MyModel,
+				strategy = "repeated",
+				parameters = {x = 2, y = 5},
+				quantity = 3,
+				output = function(model)
+					return model.value
+			end}
+		end
+		
+		unitTest:assertError(error_func, "Invalid folder name")
+		error_func = function()
+			local m4 = MultipleRuns{
 				folderPath = tmpDir(),
 				model = MyModel,
 				strategy = "repeated",
