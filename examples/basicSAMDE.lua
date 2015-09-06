@@ -1,5 +1,9 @@
 -- @example Basic example for testing SAMDE type, 
 -- using a simple equation and variating it's x and y parameters.
+if not isLoaded("calibration") then
+	import("calibration")
+end
+
 local MyModelSamde = Model{
 	x = Choice{min = 1, max = 10},
 	y = Choice{min = 1, max = 10},
