@@ -44,7 +44,7 @@ yeast = SysDynModel{
 local c1 = SAMDE{
 	model = yeast,
 	parameters = {rate = Choice{min = 0, max = 2.5}},
-    maxGen = 30,
+    maxGen = 49,
 	fit = function(model)
 		return math.sqrt (model.rms)
 end}
