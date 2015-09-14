@@ -65,8 +65,18 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
-	for i = cs1.minRow, (cs1.maxRow - dim + 1) do -- for each line
-		for j = cs1.minCol, (cs1.maxCol - dim + 1) do -- for each column
+	local maxRow =cs1.maxRow
+	local maxCol =cs1.maxCol
+	if maxRow < dim - 1 then
+		maxRow = dim
+	end
+
+	if maxCol < dim - 1 then
+		maxCol = dim
+	end
+
+	for i = cs1.minRow, (maxRow - dim + 1) do -- for each line
+		for j = cs1.minCol, (maxCol - dim + 1) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
@@ -124,7 +134,6 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
 		end
 	end
 
-		-- print(dim..": "..squareTotalFit/forCounter)
 	return squareTotalFit / forCounter 
 	-- returns the fitness of all the squares divided by the number of squares.
 end
@@ -137,8 +146,18 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute)
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
-	for i = cs1.minRow, (cs1.maxRow - dim + 1) do -- for each line
-		for j = cs1.minCol, (cs1.maxCol - dim + 1) do -- for each column
+	local maxRow =cs1.maxRow
+	local maxCol =cs1.maxCol
+	if maxRow < dim - 1 then
+		maxRow = dim
+	end
+
+	if maxCol < dim - 1 then
+		maxCol = dim
+	end
+
+	for i = cs1.minRow, (maxRow - dim + 1) do -- for each line
+		for j = cs1.minCol, (maxCol - dim + 1) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
@@ -155,28 +174,24 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute)
 			}
 			local counter1 = 0
 			local counter2 = 0
-			local eachCellCounter = 0
 			forEachCell(t1, function(cell1) 
 					local value1 = cell1[attribute]
 		    		counter1 = counter1 + value1
-		    		eachCellCounter = eachCellCounter + value1
 			end)
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
 		    		counter2 = counter2 + value2
-		    		eachCellCounter = eachCellCounter + value2	
 			end)
 
 			local dif = 0
 			dif = math.abs(counter1 - counter2)
-			squareDif = dif / (eachCellCounter)
+			squareDif = dif / (counter2 + counter1)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
-			squareTotalFit = squareTotalFit + squareFit 
-			-- calculates the fitness of all dimxdim squares
+			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
 	end
 
-	return squareTotalFit / forCounter
+	return squareTotalFit / forCounter 
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
@@ -205,67 +220,43 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 	mandatoryArgument(2, "CellularSpace", cs2)
 	mandatoryArgument(3, "string", attribute)
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
+
+	local k = 0.1 -- value that determinate weigth for each square calibration
+	local exp = 1 -- that will be used in the final fitness calibration
+	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
+	-- the fitness of the 1x1 square.
+	local largerSquare = 0
+	local minSquare = 0
+	if cs1.maxRow > cs1.maxCol then
+	-- Determines of the size of the smallest square possible containig all the map elements.
+		largerSquare = cs1.maxRow
+	else
+		largerSquare = cs1.maxCol
+	end
+
+	if cs1.minRow < cs1.minCol then
+	--Determines if the model starts at [0] or [1].
+		minSquare = cs1.minRow
+	else
+		minSquare = cs1.minCol
+	end
+
+	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous)
 	if continuous == true then
-		local k = 0.1 -- value that determinate weigth for each square calibration
-		local exp = 1
-		local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous) 
-
-		-- fitnessSum is the Sum of all the fitness from each square ixi ,
-		-- it is being initialized as the fitnisess of the 1x1 square.
-		local largerSquare = 0
-		local minSquare = 0
-		if cs1.maxRow > cs1.maxCol then
-		-- Determines of the size of the smallest square possible containig all the map elements.
-			largerSquare = cs1.maxRow
-		else
-			largerSquare = cs1.maxCol
-		end
-
-		if cs1.minRow < cs1.minCol then
-		--Determines if the model starts at [0] or [1].
-			minSquare = cs1.minRow
-		else
-			minSquare = cs1.minCol
-		end
-
-		for i = 2, (largerSquare - minSquare + 1) do 
+		for i = 2, (largerSquare + 1) do 
 		-- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
 			exp = exp + math.exp(-k * (i - 1))
 		end
-		
-		local fitness = fitnessSum / exp
-		return fitness
+
 	else
-		local k = 0.1 -- value that determinate weigth for each square calibration
-		local exp = 1 -- that will be used in the final fitness calibration
-		local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute) 
-		-- print("1: "..fitnessSum)
-		-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
-		-- the fitness of the 1x1 square.
-		local largerSquare = 0
-		local minSquare = 0
-		if cs1.maxRow > cs1.maxCol then
-		-- Determines of the size of the smallest square possible containig all the map elements.
-			largerSquare = cs1.maxRow
-		else
-			largerSquare = cs1.maxCol
-		end
-
-		if cs1.minRow < cs1.minCol then
-		--Determines if the model starts at [0] or [1].
-			minSquare = cs1.minRow
-		else
-			minSquare = cs1.minCol
-		end
-
-		for i = 2, (largerSquare - minSquare + 1) do 
+		for i = 2, (largerSquare + 1) do 
 			-- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
 			exp = exp + math.exp(-k * (i - 1))
 		end
-
-		local fitness = fitnessSum / exp
-		return fitness
 	end
+
+	local fitness = fitnessSum / exp
+	return fitness
 end
