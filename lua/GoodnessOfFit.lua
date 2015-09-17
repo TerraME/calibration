@@ -65,8 +65,18 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
 	local dim = step + 1
-	for i = cs1.minRow, (maxRow - step + cs1.minRow) do -- for each line
-		for j = cs1.minCol, (maxCol - step + cs1.minCol) do -- for each column
+	local lastRow = (maxRow - step + cs1.minRow)
+	local lastCol = (maxCol - step + cs1.minCol)
+	if step > maxCol + cs1.minCol then
+		lastCol = 0
+	end
+
+	if step > maxRow + cs1.minRow then
+		lastRow = 0
+	end
+
+	for i = cs1.minRow, lastRow  do -- for each line
+		for j = cs1.minCol, lastCol do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
@@ -137,8 +147,18 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 	local t1, t2
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
-	for i = cs1.minRow, (maxRow - step + cs1.minRow) do -- for each line
-		for j = cs1.minCol, (maxCol - step + cs1.minCol) do -- for each column
+	local lastRow = (maxRow - step + cs1.minRow)
+	local lastCol = (maxCol - step + cs1.minCol)
+	if step > maxCol + cs1.minCol then
+		lastCol = 0
+	end
+
+	if step > maxRow + cs1.minRow then
+		lastRow = 0
+	end
+
+	for i = cs1.minRow, lastRow  do -- for each line
+		for j = cs1.minCol, lastCol do -- for each column
 			forCounter = forCounter + 1	
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
@@ -171,6 +191,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 			squareDif = dif / (counter2 + counter1)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
+
 		end
 	end
 

@@ -48,12 +48,12 @@ return{
 		local result2 = multiLevel(cs, cs2, "Costanza", true)
 		local result4 = multiLevel(cs12, cs22, "Costanza", true)
 		local result6 = multiLevel(sugar, sugar2, "maxsugar", true)
-		unitTest:assertEquals(result, 0.78, 0.01) 
-		unitTest:assertEquals(result2, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
-		unitTest:assertEquals(result3, 0.79, 0.01) 
-		unitTest:assertEquals(result4, 0.85, 0.01)
+		unitTest:assertEquals(result, 0.86, 0.01) 
+		unitTest:assertEquals(result2, 0.94, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
+		unitTest:assertEquals(result3, 0.86, 0.01) 
+		unitTest:assertEquals(result4, 0.94, 0.01)
 		unitTest:assertEquals(result5, 1, 0.01)
-		unitTest:assertEquals(result6, 0,44, 0.01)
+		unitTest:assertEquals(result6, 0.64, 0.01)
 	end
 }
 
