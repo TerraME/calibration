@@ -126,7 +126,6 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 		end
 	end
 
-print("STP:"..step.."DIM: "..dim.." FIT: "..squareTotalFit/forCounter)
 	return squareTotalFit / forCounter 
 	-- returns the fitness of all the squares divided by the number of squares.
 end
@@ -134,16 +133,13 @@ end
 local continuousSquareBySquare = function(step, cs1, cs2, attribute)
  -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
-	local squareDif = 0
-	local squareFit = 0
-	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
 	for i = cs1.minRow, (maxRow - step + cs1.minRow) do -- for each line
 		for j = cs1.minCol, (maxCol - step + cs1.minCol) do -- for each column
-			forCounter = forCounter + 1
+			forCounter = forCounter + 1	
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
@@ -169,6 +165,8 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 			end)
 
 			local dif = 0
+			local squareDif = 0
+			local squareFit = 0
 			dif = math.abs(counter1 - counter2)
 			squareDif = dif / (counter2 + counter1)
 			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
@@ -226,7 +224,6 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 		minSquare = cs1.minCol
 	end
 
-	print("mc "..cs1.maxCol.." mr "..cs1.maxRow)
 	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous)
 	if continuous == true then
 		for i = 1, (largerSquare) do 
