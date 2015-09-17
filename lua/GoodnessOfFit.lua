@@ -57,39 +57,29 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	end
 end
 
-local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
+local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
  -- function that returns the fitness of a particular dimxdim Costanza square.
-	local squareTotalFit = 0
-	local squareDif = 0
-	local squareFit = 0
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
-	if maxRow < dim - 1 then
-		maxRow = dim
-	end
-
-	if maxCol < dim - 1 then
-		maxCol = dim
-	end
-
-	for i = cs1.minRow, (maxRow - dim + 1) do -- for each line
-		for j = cs1.minCol, (maxCol - dim + 1) do -- for each column
+	local dim = step + 1
+	for i = cs1.minRow, (maxRow - step + cs1.minRow) do -- for each line
+		for j = cs1.minCol, (maxCol - step + cs1.minCol) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + j)
-				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x <= step + j - cs1.minCol)
+				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i) end
 			}
 			t2 = Trajectory{ 
 			-- select all elements belonging to the dim x dim  square  in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + j)
-				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x <= step + j - cs1.minCol)
+				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = {}
 			local counter2 = {}
@@ -123,6 +113,8 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
 					end
 			end)
 
+			local squareDif = 0
+			local squareFit = 0
 			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
@@ -134,11 +126,12 @@ local newDiscreteSquareBySquare = function(dim, cs1, cs2, attribute)
 		end
 	end
 
+print("STP:"..step.."DIM: "..dim.." FIT: "..squareTotalFit/forCounter)
 	return squareTotalFit / forCounter 
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
-local continuousSquareBySquare = function(dim, cs1, cs2, attribute)
+local continuousSquareBySquare = function(step, cs1, cs2, attribute)
  -- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local squareDif = 0
@@ -148,29 +141,21 @@ local continuousSquareBySquare = function(dim, cs1, cs2, attribute)
 	local t1, t2
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
-	if maxRow < dim - 1 then
-		maxRow = dim
-	end
-
-	if maxCol < dim - 1 then
-		maxCol = dim
-	end
-
-	for i = cs1.minRow, (maxRow - dim + 1) do -- for each line
-		for j = cs1.minCol, (maxCol - dim + 1) do -- for each column
+	for i = cs1.minRow, (maxRow - step + cs1.minRow) do -- for each line
+		for j = cs1.minCol, (maxCol - step + cs1.minCol) do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x < dim + j)
-				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x <= step + j - cs1.minCol)
+				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i) end
 			}
 			t2 = Trajectory{ 
 			-- select all elements belonging to the dim x dim  square  in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x < dim + j)
-				 and (cell.y < dim + i) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x <= step + j - cs1.minCol)
+				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = 0
 			local counter2 = 0
@@ -241,16 +226,17 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 		minSquare = cs1.minCol
 	end
 
+	print("mc "..cs1.maxCol.." mr "..cs1.maxRow)
 	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous)
 	if continuous == true then
-		for i = 2, (largerSquare + 1) do 
+		for i = 1, (largerSquare) do 
 		-- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
 			exp = exp + math.exp(-k * (i - 1))
 		end
 
 	else
-		for i = 2, (largerSquare + 1) do 
+		for i = 1, (largerSquare) do 
 			-- increase the square size and calculate fitness for each square.
 			fitnessSum = fitnessSum + (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
 			exp = exp + math.exp(-k * (i - 1))
