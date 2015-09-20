@@ -249,15 +249,15 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 	if continuous == true then
 		for i = 1, (largerSquare) do 
 		-- increase the square size and calculate fitness for each square.
-			fitnessSum = fitnessSum + (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
-			exp = exp + math.exp(-k * (i - 1))
+			fitnessSum = fitnessSum + (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			exp = exp + math.exp(-k * math.pow(2 , i - 1))
 		end
 
 	else
 		for i = 1, (largerSquare) do 
 			-- increase the square size and calculate fitness for each square.
-			fitnessSum = fitnessSum + (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * (i - 1)))
-			exp = exp + math.exp(-k * (i - 1))
+			fitnessSum = fitnessSum + (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			exp = exp + math.exp(-k * math.pow(2 , i - 1))
 		end
 	end
 
