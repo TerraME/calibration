@@ -1,3 +1,5 @@
+-- @example Basic example for testing MultipleRuns and SAMDE types,
+-- using a SysDyn model.
 import("sysdyn")
 import("calibration")
 data = {}

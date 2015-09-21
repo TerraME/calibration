@@ -1,7 +1,7 @@
 
 --@header Goodness-of-fit metrics.
 
---- Compares two continuous CelluarSpace pixel by pixel and returns
+--- Compares tw CelluarSpace pixel by pixel and returns
 -- a number with the average precision between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't.
 -- If both maps are equal, the final result will be 1.
@@ -199,7 +199,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
---- Compares two discrete CelluarSpace according to the calibration method described in Costanza's
+--- Compares two CelluarSpace according to the calibration method described in Costanza's
 -- paper and returns a number with the average precision between the values of both CelluarSpace.
 -- If discrete:
 -- The precision is calculated by comparing the CelluarSpace using the pixelByPixel 

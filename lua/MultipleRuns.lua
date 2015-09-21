@@ -227,8 +227,6 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
---- Type to repeatly execute a model according to a choosen strategy,
--- returns a multipleRuns type table with the tests results.
 -- @arg data A table containing the described values.
 -- @arg data.model  A model.
 -- @arg data.parameters  A table with the parameters to be tested; An optional quantity variable.
@@ -236,6 +234,49 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName  Name of the folder where the tests will be saved.
 -- @arg data.folderPath  Path of the folder where the tests will be saved.
 -- @arg data.strategy  Strategy to be used when testing the model.
+-- @tabular Strategy
+-- Strategy  & Description \
+-- "Factorial" & Test all possibilities of the model parameters combinations. Example:
+-- MultipleRuns{
+--     model = MyModel,
+--     parameters = {
+--         water = choice{min = 10, max = 20, step = 1},
+--         rain = choice{min = 10, max = 20, step = 2}
+--     }
+-- }
+-- This should run the model 66 times with all the possibilities for the parameters.\
+-- "Repeated" & Example:
+-- MultipleRuns{
+--     model = MyModel,
+--     parameters = {
+--         water = choose{min = 10, max = 20, step = 1},
+--         rain = choose{min = 10, max = 20, step = 2},
+--         step = 5
+--     },
+--     quantity = 5
+-- }
+-- This should run the model 5 times selecting random values for the defined parameters (if they are choice, otherwise use the only available value).\
+-- "Sample" & Example:
+-- x = MultipleRuns{
+--     model = MyModel,
+--     parameters = {
+--         scenario1 = {water = 10, rain = 20},
+--         scenario2 = {water = 5, rain = 10}
+--     },
+--     finalTime = 10
+-- }
+-- This should run the model 2 times with the same parameters defined in the vector of parameters.\
+-- "Selected" & Example:
+-- r = MultipleRuns{
+--     model = MyModel,
+--     parameters = {water = 10, rain = 20},
+--     quantity = 10,
+--     finalTime = 10
+-- }
+-- This should run the model 10 times with the same parameters.
+-- MultipleRuns should return an object with type MultipleRuns and the tables:
+-- ".simulations": with the name of each simulations executed;
+-- One extra table for each parameter used in the argument "parameters", with the parameter value used for the respective simulation.
 -- @arg data.quantity  Quantity of repeated runs for repeated ans sample strategy.
 -- @usage
 --		import("calibration")
