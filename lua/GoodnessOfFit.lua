@@ -62,17 +62,26 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
+	-- These variable are adjustments so the function works on
+	-- cellular spaces with different formats and starting points.
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
 	local dim = step + 1
 	local lastRow = (maxRow - step + cs1.minRow)
 	local lastCol = (maxCol - step + cs1.minCol)
-	if step > maxCol + cs1.minCol then
+	local stepx = step
+	local stepy = step
+	if step > maxCol then
 		lastCol = 0
+		stepx = step - (step - maxCol)
 	end
 
-	if step > maxRow + cs1.minRow then
+	if step > maxRow then
 		lastRow = 0
+		stepy = step - (step - maxRow)
+		if stepx == step - 1 then
+			return -1
+		end
 	end
 
 	for i = cs1.minRow, lastRow  do -- for each line
@@ -81,15 +90,15 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x <= step + j - cs1.minCol)
-				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x <= stepx + j)
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
 			t2 = Trajectory{ 
 			-- select all elements belonging to the dim x dim  square  in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x <= step + j - cs1.minCol)
-				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x <= stepx + j)
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = {}
 			local counter2 = {}
@@ -145,16 +154,25 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
+	-- These variable are adjustments so the function works on
+	-- cellular spaces with different formats and starting points.
 	local maxRow =cs1.maxRow
 	local maxCol =cs1.maxCol
 	local lastRow = (maxRow - step + cs1.minRow)
 	local lastCol = (maxCol - step + cs1.minCol)
-	if step > maxCol + cs1.minCol then
+	local stepx = step
+	local stepy = step
+	if step > maxCol then
 		lastCol = 0
+		stepx = step - (step - maxCol)
 	end
 
-	if step > maxRow + cs1.minRow then
+	if step > maxRow then
 		lastRow = 0
+		stepy = step - (step - maxRow)
+		if stepx == step - 1 then
+			return -1
+		end
 	end
 
 	for i = cs1.minRow, lastRow  do -- for each line
@@ -163,15 +181,15 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x <= step + j - cs1.minCol)
-				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i) end
+				select = function(cell) return (cell.x <= stepx + j)
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i) end
 			}
 			t2 = Trajectory{ 
 			-- select all elements belonging to the dim x dim  square  in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x <= step + j - cs1.minCol)
-				 and (cell.y <= step + i - cs1.minRow) and (cell.x >= j) and (cell.y >=  i ) end
+				select = function(cell) return (cell.x <= stepx + j)
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i ) end
 			}
 			local counter1 = 0
 			local counter2 = 0
@@ -249,15 +267,21 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 	if continuous == true then
 		for i = 1, (largerSquare) do 
 		-- increase the square size and calculate fitness for each square.
-			fitnessSum = fitnessSum + (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
-			exp = exp + math.exp(-k * math.pow(2 , i - 1))
+			local fitSquare = (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			if fitSquare ~= -1 then
+				fitnessSum = fitnessSum + fitSquare
+				exp = exp + math.exp(-k * math.pow(2 , i - 1))
+			end
 		end
 
 	else
 		for i = 1, (largerSquare) do 
 			-- increase the square size and calculate fitness for each square.
-			fitnessSum = fitnessSum + (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
-			exp = exp + math.exp(-k * math.pow(2 , i - 1))
+			local fitSquare = (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			if fitSquare ~= -1 then
+				fitnessSum = fitnessSum + fitSquare
+				exp = exp + math.exp(-k * math.pow(2 , i - 1))
+			end
 		end
 	end
 
