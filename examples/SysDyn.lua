@@ -13,11 +13,9 @@ data [6] = 594.4
 data [7] = 640.8
 data [8] = 655.9
 data [9] = 661.8
-
 local oldChart = Chart
 Chart = function() end
-yeast = SysDynModel{ 
-    
+yeast = SysDynModel{    
     cells      =    9.6,
     ref        =    0,
     diff       =    0,
@@ -38,18 +36,25 @@ yeast = SysDynModel{
                      }
         }
 }
-
 local c1 = SAMDE{
 	model = yeast,
-	parameters = {rate = Choice{min = 0, max = 2.5}},
+	parameters = {rate = Choice{min = 1, max = 2.5}},
+    seed = 9,
 	fit = function(model)
 		return math.sqrt (model.rms)
 end}
-Chart = oldChart
 
-if math.abs(c1.instance.rate - 2.27) < 0.2 and c1.fit <205 then
-    print ("rate aprox 2.27 (0.2 precision) and rms error below 205")
-else
-    print ("rate "..c1.instance.rate.." rms error "..c1.fit)
+print ("rate "..c1.instance.rate.." rms error "..c1.fit)
+Chart = oldChart
+local diff = 0
+local results = {dif = diff}
+Chart{
+    target = results,
+    select = {"dif"}
+}
+results:notify(0)
+for i =1, 9 do
+    diff = data[i]*c1.fit - data[i]
+    results.dif = diff
+    results:notify(i)
 end
-   

@@ -3,9 +3,9 @@
 ----           Implement by: Rodolfo A. Lopes            ----
 ---		 Adapted for TerraME by Antonio G. O. Junior	 ----
 -------------------------------------------------------------
-GLOBAL_RANDOM_SEED = os.time()
-NUMEST = 4
-PARAMETERS = 3
+local rand = Random()
+local NUMEST = 4
+local PARAMETERS = 3
 local function evaluate(ind, dim, model, paramList, fit, singleParameters)
 	local solution = {}
 	for i = 1, dim do
@@ -23,7 +23,6 @@ local function evaluate(ind, dim, model, paramList, fit, singleParameters)
 end
 
 local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
-	math.randomseed(GLOBAL_RANDOM_SEED)
 	-- print("initializing population ...");
 	local popInit = {}
 	for i = 1, popTam do
@@ -34,16 +33,16 @@ local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
 				local lim = varMatrix[j]
 				local minVar = lim[1]
 				local maxVar = lim[2]
-				value = minVar + (math.random() * (maxVar - minVar))
+				value = minVar + (rand:number() * (maxVar - minVar))
 			else
-				value = varMatrix[j][math.random(1,#varMatrix[j])]
+				value = varMatrix[j][rand:integer(1,#varMatrix[j])]
 			end
 
 			table.insert(ind, value)
 		end
 
 		for j = (dim + 1), (dim + NUMEST * PARAMETERS) do
-			local value = math.random()
+			local value = rand:number()
 			table.insert(ind, value)
 		end
 
@@ -57,13 +56,13 @@ local function g3Rand(i,popTam)
 	local rands = {}
 	local a,b,c
 	repeat
-		a = math.random(1, popTam)
+		a = rand:integer(1, popTam)
 	until a ~= i
 	repeat
-		b = math.random(1, popTam)
+		b = rand:integer(1, popTam)
 	until ( (a ~= b) and (b ~= i))
 	repeat
-		c = math.random(1, popTam)
+		c = rand:integer(1, popTam)
 	until ( (a ~= c) and (b ~= c) and (c ~= i))
 	table.insert(rands, a)
 	table.insert(rands, b)
@@ -75,16 +74,16 @@ local function g4Rand(i, popTam)
 	local rands = {}
 	local a, b , c, d
 	repeat
-		a = math.random(1, popTam)
+		a = rand:integer(1, popTam)
 	until a ~= i
 	repeat
-		b = math.random(1, popTam)
+		b = rand:integer(1, popTam)
 	until ( (a ~= b) and (b ~= i))
 	repeat
-		c = math.random(1, popTam)
+		c = rand:integer(1, popTam)
 	until ( (a ~= c) and (b ~= c) and (c ~= i))
 	repeat
-		d = math.random(1, popTam)
+		d = rand:integer(1, popTam)
 	until ( (a ~= d) and (b ~= d) and (c ~= d) and (d ~= i))
 	table.insert(rands, a)
 	table.insert(rands, b)
@@ -133,7 +132,7 @@ local function oobTrea(xi, varMatrix, k, step, stepValue)
 	end
 
 	if(x < minVar) then
-		if(math.random() < 0.5) then
+		if(rand:number() < 0.5) then
 			x = minVar
 		elseif step == true then
 			x = (2 * minVar - x)
@@ -144,7 +143,7 @@ local function oobTrea(xi, varMatrix, k, step, stepValue)
 	end
 
 	if(x > maxVar) then
-		if(math.random() < 0.5) then
+		if(rand:number() < 0.5) then
 			x = maxVar
 		elseif step == true then
 			x = (2 * maxVar - x)
@@ -179,8 +178,8 @@ aproxGroup = function(proportion, varMatrix, k)
 		return group[1]
 	else
 		if proportion < 0 or proportion > 1 then
-			if math.random() < 0.5 then
-				local result = aproxGroup(math.random(), varMatrix, k)
+			if rand:number() < 0.5 then
+				local result = aproxGroup(rand:number(), varMatrix, k)
 				return result
 			else
 				if proportion < 0 then
@@ -290,7 +289,11 @@ end
 -- end
 --
 -- local best = SAMDECalibrate({x = Choice{min = 1, max = 10, step = 2}, finalTime = 1}, MyModel, fit(), false, 30, 100, 0)
-function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold)
+function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold, seed)
+	if seed ~= nil then
+		rand:reSeed(seed)
+	end
+
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
@@ -377,7 +380,7 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 		local popAux = {}
 		for j = 1, maxPopulation do
 			local params = copyParameters(pop[j], dim)
-			local F = 0.7 + (math.random() * 0.3)
+			local F = 0.7 + (rand:number() * 0.3)
 			local rands = g3Rand(j, maxPopulation)
 			local solution1, solution2, solution3
 			solution1 = pop[rands[1]]
@@ -392,7 +395,7 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 				sumV = sumV + params[k]
 			end
 			
-			local _rand = math.random()
+			local _rand = rand:number()
 			local p = 0
 			local winV = 0
 			for k = 1, NUMEST do
@@ -413,10 +416,10 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 			solution3 = pop[rand4[3]]
 			solution4 = pop[rand4[4]]
 			local indexInd = pop[j]
-			local index = math.random(1, dim)
+			local index = rand:integer(1, dim)
 			local ui = {}
 			for k = 1, dim do
-				if( math.random() <= params[crPos] or k == index or winV == 3) then
+				if( rand:number() <= params[crPos] or k == index or winV == 3) then
 					local ui2
 					if paramListInfo[k].group == true then
 						local prop = paramListInfo[k].proportion
@@ -465,7 +468,7 @@ function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, thr
 			end
 			
 			for k = 1, (NUMEST * PARAMETERS) do
-				if( math.random() <= params[crPos] ) then
+				if( rand:number() <= params[crPos] ) then
 					table.insert(ui, params[k])
 				else
 					table.insert(ui, indexInd[dim + k])

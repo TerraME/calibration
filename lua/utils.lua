@@ -181,6 +181,8 @@ function checkParameters(tModel, tParameters)
 					   	end
 					end)
 				end
+	    	elseif idx == "seed" and mtype ~= "number" then
+	    		incompatibleTypeError("seed", "number", att)
 	    	end
 	    end
 	end)

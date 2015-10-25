@@ -32,14 +32,14 @@ function SAMDE(data)
 		customError("Function 'fit' was not implemented.")
 	end
 
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold"})
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "seed"})
 	checkParameters(data.model, data)
 	local best = {fit, instance, generations}
 	if data.maximize == nil then
 		data.maximize = false
 	end
 
-	best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
+	best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.seed)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)
