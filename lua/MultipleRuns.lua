@@ -227,24 +227,11 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
--- @arg data A table containing the described values.
--- @arg data.model  A model.
--- @arg data.parameters  A table with the parameters to be tested; An optional quantity variable.
--- @arg data.output  An optional user defined output function.
--- @arg data.folderName  Name of the folder where the tests will be saved.
--- @arg data.folderPath  Path of the folder where the tests will be saved.
--- @arg data.strategy  Strategy to be used when testing the model.
+---Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
 -- @tabular Strategy
 -- Strategy  & Description \
--- "Factorial" & Test all possibilities of the model parameters combinations. Example:
--- MultipleRuns{
---     model = MyModel,
---     parameters = {
---         water = choice{min = 10, max = 20, step = 1},
---         rain = choice{min = 10, max = 20, step = 2}
---     }
--- }
--- This should run the model 66 times with all the possibilities for the parameters.\
+-- "Factorial" & Test all possibilities of the model parameters combinations. 
+-- The parameter "quantity" is optional and the default value is 1.\
 -- "Repeated" & Example:
 -- MultipleRuns{
 --     model = MyModel,
@@ -277,23 +264,48 @@ metaTableMultipleRuns_ = {
 -- MultipleRuns should return an object with type MultipleRuns and the tables:
 -- ".simulations": with the name of each simulations executed;
 -- One extra table for each parameter used in the argument "parameters", with the parameter value used for the respective simulation.
--- @arg data.quantity  Quantity of repeated runs for repeated ans sample strategy.
 -- @usage
---		import("calibration")
---		c = MultipleRuns{
---  	model = MyModel,
---		quantity = 5,
---		folderName = "Tests",
---		folderPath = currentDir(),
---		parameters = {
---			x = {-100, -1, 0, 1, 2, 100},
---			y = { min = 1, max = 10, step = 1},
---			finalTime = 1
---	 	},
---		output = function(model)
---			return model.value
---		end}
--- }
+-- 		import("calibration")
+-- 		c = MultipleRuns{
+-- 			model = MyModel,
+--			strategy = "Sample",
+-- 			quantity = 5,
+-- 			folderName = "Tests",
+-- 			folderPath = currentDir(),
+-- 			parameters = {
+-- 				x = Choice{-100, -1, 0, 1, 2, 100},
+-- 				y = Choice{min = 1, max = 10, step = 1},
+-- 				finalTime = 1
+-- 		 	},
+-- 			output = function(model)
+-- 				return model.value
+-- 			end
+-- 		}
+--
+-- 		Factorial Example:
+--
+-- 		MultipleRuns{
+-- 			model = MyModel,
+--			strategy = "factorial",
+-- 			parameters = {
+-- 		    	water = Choice{min = 10, max = 20, step = 1},
+-- 		   		rain = Choice{min = 10, max = 20, step = 2},
+--				finalTime = 1
+-- 			},
+-- 			quantity = 2
+-- 		}
+-- 		This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
+--
+--		Repeated Example:
+--
+-- @arg data A table containing the described values.
+-- @arg data.quantity  Quantity of repeated runs for repeated, factorial and sample strategy.
+-- @arg data.model  A model.
+-- @arg data.parameters  A table with the parameters to be tested; An optional quantity variable.
+-- @arg data.output  An optional user defined output function.
+-- @arg data.folderName  Name of the folder where the tests will be saved.
+-- @arg data.folderPath  Path of the folder where the tests will be saved.
+-- @arg data.strategy  Strategy to be used when testing the model.
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")

@@ -280,6 +280,7 @@ end
 -- @arg size size Determines the size of the populations used in the SaMDE algorithm
 -- (recommended size: (10*dim)).
 -- @arg maxGen maxGen If a model generation reach this value, the function stops.
+-- @arg seed Optional seed parameter for Random function, default value is os.time().
 -- @arg threshold threshold If a model fitness reach this value, the function stops.
 -- @usage 
 -- local fit = function(model, parameters)

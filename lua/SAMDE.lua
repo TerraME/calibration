@@ -16,7 +16,8 @@ metaTableSAMDE_ = {
 -- @arg data.size  the population size for each generation.
 -- @arg data.maxGen  If a model generation reach this value, the function stops.
 -- @arg data.threshold  If a model fitness reach this value, the function stops.
--- @arg data.maximize  An optional paramaters that determines if the models fitness values
+-- @arg data.maximize  An optional paramaters that determines if the models fitness values.
+-- @arg data.seed Optional seed parameter for Random(), default is system time.
 --  must be must be maximized instead of minimized, default is false. 
 -- @usage c = SAMDE{
 --     model = MyModel,
