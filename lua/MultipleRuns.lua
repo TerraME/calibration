@@ -228,47 +228,21 @@ metaTableMultipleRuns_ = {
 }
 
 ---Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
+-- MultipleRuns should return an object with type MultipleRuns and the tables:
+-- ".simulations": with a name for each test executed;
+-- One extra table for each parameter used in the argument "parameters", with that parameter value in each test.
 -- @tabular Strategy
 -- Strategy  & Description \
 -- "Factorial" & Test all possibilities of the model parameters combinations. 
 -- The parameter "quantity" is optional and the default value is 1.\
--- "Repeated" & Example:
--- MultipleRuns{
---     model = MyModel,
---     parameters = {
---         water = choose{min = 10, max = 20, step = 1},
---         rain = choose{min = 10, max = 20, step = 2},
---         step = 5
---     },
---     quantity = 5
--- }
--- This should run the model 5 times selecting random values for the defined parameters (if they are choice, otherwise use the only available value).\
--- "Sample" & Example:
--- x = MultipleRuns{
---     model = MyModel,
---     parameters = {
---         scenario1 = {water = 10, rain = 20},
---         scenario2 = {water = 5, rain = 10}
---     },
---     finalTime = 10
--- }
--- This should run the model 2 times with the same parameters defined in the vector of parameters.\
--- "Selected" & Example:
--- r = MultipleRuns{
---     model = MyModel,
---     parameters = {water = 10, rain = 20},
---     quantity = 10,
---     finalTime = 10
--- }
--- This should run the model 10 times with the same parameters.
--- MultipleRuns should return an object with type MultipleRuns and the tables:
--- ".simulations": with the name of each simulations executed;
--- One extra table for each parameter used in the argument "parameters", with the parameter value used for the respective simulation.
+-- "Repeated" & Test the model with defined parameters quantity times.\
+-- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
+-- "Selected" & This should test the model in each of the selected combinations of parameters. 
 -- @usage
 -- 		import("calibration")
 -- 		c = MultipleRuns{
 -- 			model = MyModel,
---			strategy = "Sample",
+-- 			strategy = "sample",
 -- 			quantity = 5,
 -- 			folderName = "Tests",
 -- 			folderPath = currentDir(),
@@ -281,23 +255,57 @@ metaTableMultipleRuns_ = {
 -- 				return model.value
 -- 			end
 -- 		}
---
--- 		Factorial Example:
---
+--		
+-- 		-- Factorial Example:
+--	
 -- 		MultipleRuns{
 -- 			model = MyModel,
---			strategy = "factorial",
+-- 			strategy = "factorial",
 -- 			parameters = {
 -- 		    	water = Choice{min = 10, max = 20, step = 1},
 -- 		   		rain = Choice{min = 10, max = 20, step = 2},
---				finalTime = 1
+-- 				finalTime = 1
 -- 			},
 -- 			quantity = 2
 -- 		}
--- 		This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
+-- 		-- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
+--		
+-- 		-- Repeated Example:
+--		
+-- 		r = MultipleRuns{
+-- 		    model = MyModel,
+--			strategy = "repeated",
+-- 		    parameters = Choice{water = 10, rain = 20, finalTime = 1},
+-- 		    quantity = 10,
+-- 		}
+-- 		-- This should run the model 10 times with the same parameters.
 --
---		Repeated Example:
+--		-- Sample Example:
 --
+-- 		MultipleRuns{
+-- 		    model = MyModel,
+--			strategy  = "sample",
+-- 		    parameters = {
+-- 		        water = Choice{min = 10, max = 20, step = 1},
+-- 		        rain = Choice{min = 10, max = 20, step = 2},
+--				finalTime = 10,
+-- 		    },
+-- 		    quantity = 5
+-- 		}
+-- 		-- This should run the model 5 times selecting random values from the defined parameters
+--		-- (if they are choice, otherwise use the only available value).
+--
+--		-- Selected Example:
+--
+-- 		x = MultipleRuns{
+-- 		    model = MyModel,
+--			strategy = "selected",
+-- 		    parameters = {
+-- 		        scenario1 = {water = 10, rain = 20, finalTime = 10},
+-- 		        scenario2 = {water = 5, rain = 10, finalTime = 10}
+-- 		    }
+-- 		}
+-- 		-- This should run the model 2 times with the same parameters defined in the vector of parameters.
 -- @arg data A table containing the described values.
 -- @arg data.quantity  Quantity of repeated runs for repeated, factorial and sample strategy.
 -- @arg data.model  A model.
