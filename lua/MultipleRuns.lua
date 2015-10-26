@@ -239,6 +239,7 @@ metaTableMultipleRuns_ = {
 -- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
 -- "Selected" & This should test the model in each of the selected combinations of parameters. 
 -- @usage
+--		-- Complete Example:
 -- 		import("calibration")
 -- 		c = MultipleRuns{
 -- 			model = MyModel,
@@ -253,7 +254,10 @@ metaTableMultipleRuns_ = {
 -- 		 	},
 -- 			output = function(model)
 -- 				return model.value
--- 			end
+-- 			end,
+--			additionalFunction = function(model)
+--				return model.value/2
+--			end
 -- 		}
 --		
 -- 		-- Factorial Example:
@@ -307,13 +311,13 @@ metaTableMultipleRuns_ = {
 -- 		}
 -- 		-- This should run the model 2 times with the same parameters defined in the vector of parameters.
 -- @arg data A table containing the described values.
--- @arg data.quantity  Quantity of repeated runs for repeated, factorial and sample strategy.
--- @arg data.model  A model.
--- @arg data.parameters  A table with the parameters to be tested; An optional quantity variable.
--- @arg data.output  An optional user defined output function.
--- @arg data.folderName  Name of the folder where the tests will be saved.
--- @arg data.folderPath  Path of the folder where the tests will be saved.
--- @arg data.strategy  Strategy to be used when testing the model.
+-- @arg data.quantity Quantity of repeated runs for repeated, factorial and sample strategy.
+-- @arg data.model A model.
+-- @arg data.parameters A table with the parameters to be tested; An optional quantity variable.
+-- @arg data.output An optional user defined output function.
+-- @arg data.folderName Name of the folder where the tests will be saved.
+-- @arg data.folderPath Path of the folder where the tests will be saved.
+-- @arg data.strategy Strategy to be used when testing the model.
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
