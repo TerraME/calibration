@@ -234,10 +234,11 @@ end
 -- @arg cs1 First Cellular Space.
 -- @arg cs2 Second Cellular Space.
 -- @arg attribute An attribute present in both cellular space, which values should be compared.
--- @arg continuous Boolean that indicates if the model to be calibrated is continuous
+-- @arg continuous Boolean that indicates if the model to be calibrated is continuous.
+-- @arg graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
 -- @usage multiLevel(cs1, cs2, "attribute")
-multiLevel = function(cs1, cs2, attribute, continuous)
+multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 	mandatoryArgument(1, "CellularSpace", cs1)
 	mandatoryArgument(2, "CellularSpace", cs2)
 	mandatoryArgument(3, "string", attribute)
@@ -264,12 +265,27 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 	end
 
 	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous)
+	local fitChart = {sqrFit = fitnessSum}
+	if graphics == true then
+		Chart{
+			title = "MultiLevel Results",
+		    target = fitChart,
+		    select = {"sqrFit"}
+		}
+		fitChart:notify(0)
+	end
+
 	if continuous == true then
 		for i = 1, (largerSquare) do 
 		-- increase the square size and calculate fitness for each square.
-			local fitSquare = (continuousSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			local fitSquare = continuousSquareBySquare(i, cs1, cs2, attribute)
 			if fitSquare ~= -1 then
-				fitnessSum = fitnessSum + fitSquare
+				if graphics == true then
+					fitChart.sqrFit = fitSquare
+		    		fitChart:notify(i)
+				end
+
+				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
 				exp = exp + math.exp(-k * math.pow(2 , i - 1))
 			end
 		end
@@ -277,9 +293,14 @@ multiLevel = function(cs1, cs2, attribute, continuous)
 	else
 		for i = 1, (largerSquare) do 
 			-- increase the square size and calculate fitness for each square.
-			local fitSquare = (newDiscreteSquareBySquare(i, cs1, cs2, attribute) * math.exp(-k * math.pow(2 , i - 1)))
+			local fitSquare = newDiscreteSquareBySquare(i, cs1, cs2, attribute) 
 			if fitSquare ~= -1 then
-				fitnessSum = fitnessSum + fitSquare
+				if graphics == true then
+					fitChart.sqrFit = fitSquare
+		    		fitChart:notify(i)
+				end
+
+				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
 				exp = exp + math.exp(-k * math.pow(2 , i - 1))
 			end
 		end

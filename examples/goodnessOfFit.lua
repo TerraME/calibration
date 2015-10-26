@@ -10,7 +10,7 @@ local cs12 = CellularSpace{
 	attrname = "Costanza"
 }
 
-local result = multiLevel(cs12, cs22, "Costanza")
-local result2 = multiLevel(cs12, cs22, "Costanza", true)
+local result = multiLevel(cs12, cs22, "Costanza",false, true)
+local result2 = multiLevel(cs12, cs22, "Costanza", true, true)
 print("result"..result)
 print("result2"..result2)
