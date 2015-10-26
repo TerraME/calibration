@@ -229,8 +229,8 @@ metaTableMultipleRuns_ = {
 
 ---Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
 -- MultipleRuns should return an object with type MultipleRuns and the tables:
--- ".simulations": with a name for each test executed;
--- One extra table for each parameter used in the argument "parameters", with that parameter value in each test.
+-- ".simulations": with a name for each test executed and
+-- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
 -- @tabular Strategy
 -- Strategy  & Description \
 -- "Factorial" & Test all possibilities of the model parameters combinations. 
