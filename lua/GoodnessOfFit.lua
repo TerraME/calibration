@@ -38,7 +38,7 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 
 			verify(type(cell2[attribute2]) == "number", "cell2["..attribute2.."] is not a number")
 
-	    	dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
+			dif = dif + (math.abs(cell1[attribute1] - cell2[attribute2]))
 			counter = counter + 1
 		end)
 		return (1 - dif / counter)
@@ -46,8 +46,8 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 		forEachCellPair(cs1, cs2, function(cell1, cell2)
 			verify(type(cell1[attribute1]) == "number" or type(cell1[attribute1]) == "string", "cell1["..attribute1.."] must be a number or string")
 			verify(type(cell2[attribute2]) == "number" or type(cell2[attribute2]) == "string", "cell2["..attribute2.."] must be a number or string")
-    		
-    		if cell1[attribute1] == cell2[attribute2] then
+			
+			if cell1[attribute1] == cell2[attribute2] then
 				equal = equal + 1		
 			end
 
@@ -84,21 +84,21 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 		end
 	end
 
-	for i = cs1.minRow, lastRow  do -- for each line
+	for i = cs1.minRow, lastRow do -- for each line
 		for j = cs1.minCol, lastCol do -- for each column
 			forCounter = forCounter + 1
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
+			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i) end
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i) end
 			}
 			t2 = Trajectory{ 
-			-- select all elements belonging to the dim x dim  square  in cs1, 
+			-- select all elements belonging to the dim x dim square in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i ) end
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i ) end
 			}
 			local counter1 = {}
 			local counter2 = {}
@@ -108,7 +108,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 
 					local value1 = cell1[attribute]
 					eachCellCounter = eachCellCounter + 1
-		    		if counter1[value1] == nil then
+					if counter1[value1] == nil then
 						counter1[value1] = 1
 					else
 						counter1[value1] = counter1[value1] + 1
@@ -121,7 +121,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
-		    		if counter2[value2] == nil then
+					if counter2[value2] == nil then
 							counter2[value2] = 1
 					else
 						counter2[value2] = counter2[value2] + 1
@@ -140,7 +140,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 			end)
 
 			squareDif = dif / (2 * eachCellCounter)
-			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
+			squareFit = 1 - squareDif -- calculate a particular dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 		end
 	end
@@ -175,31 +175,31 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 		end
 	end
 
-	for i = cs1.minRow, lastRow  do -- for each line
+	for i = cs1.minRow, lastRow do -- for each line
 		for j = cs1.minCol, lastCol do -- for each column
 			forCounter = forCounter + 1	
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim  square  in cs1,
+			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i) end
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i) end
 			}
 			t2 = Trajectory{ 
-			-- select all elements belonging to the dim x dim  square  in cs1, 
+			-- select all elements belonging to the dim x dim square in cs1, 
 			-- starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >=  i ) end
+				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i ) end
 			}
 			local counter1 = 0
 			local counter2 = 0
-			forEachCell(t1, function(cell1) 
+			forEachCell(t1, function(cell1)
 					local value1 = cell1[attribute]
-		    		counter1 = counter1 + value1
+					counter1 = counter1 + value1
 			end)
 			forEachCell(t2, function(cell2) 
 					local value2 = cell2[attribute]
-		    		counter2 = counter2 + value2
+					counter2 = counter2 + value2
 			end)
 
 			local dif = 0
@@ -207,7 +207,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 			local squareFit = 0
 			dif = math.abs(counter1 - counter2)
 			squareDif = dif / (counter2 + counter1)
-			squareFit = 1 - squareDif -- calculate a particular  dimxdim square fitness
+			squareFit = 1 - squareDif -- calculate a particular dimxdim square fitness
 			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
 
 		end
@@ -269,8 +269,8 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 	if graphics == true then
 		Chart{
 			title = "MultiLevel Results",
-		    target = fitChart,
-		    select = {"sqrFit"}
+			target = fitChart,
+		 	select = {"sqrFit"}
 		}
 		fitChart:notify(0)
 	end
@@ -282,7 +282,7 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 			if fitSquare ~= -1 then
 				if graphics == true then
 					fitChart.sqrFit = fitSquare
-		    		fitChart:notify(i)
+					fitChart:notify(i)
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
@@ -297,7 +297,7 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 			if fitSquare ~= -1 then
 				if graphics == true then
 					fitChart.sqrFit = fitSquare
-		    		fitChart:notify(i)
+					fitChart:notify(i)
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
