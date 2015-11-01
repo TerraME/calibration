@@ -10,7 +10,7 @@ local cs12 = CellularSpace{
 	attrname = "Costanza"
 }
 
-local result = multiLevel(cs12, cs22, "Costanza", false, true)
-local result2 = multiLevel(cs12, cs22, "Costanza", true, true)
+local result = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza", continuous = false, graphics = true}
+local result2 = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza", continuous = true, graphics = true}
 print("result"..result)
 print("result2"..result2)

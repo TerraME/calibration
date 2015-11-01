@@ -231,18 +231,20 @@ end
 -- The precision of each square is (1 - difference).
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
 -- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
--- @arg cs1 First Cellular Space.
--- @arg cs2 Second Cellular Space.
--- @arg attribute An attribute present in both cellular space, which values should be compared.
--- @arg continuous Boolean that indicates if the model to be calibrated is continuous.
--- @arg graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
+-- @arg data A table with the described values.
+-- @arg data cs1 First Cellular Space.
+-- @arg data cs2 Second Cellular Space.
+-- @arg data attribute An attribute present in both cellular space, which values should be compared.
+-- @arg data continuous Boolean that indicates if the model to be calibrated is continuous.
+-- @arg data graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
 -- @usage multiLevel(cs1, cs2, "attribute")
-multiLevel = function(cs1, cs2, attribute, continuous, graphics)
-	mandatoryArgument(1, "CellularSpace", cs1)
-	mandatoryArgument(2, "CellularSpace", cs2)
-	mandatoryArgument(3, "string", attribute)
-	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
+multiLevel = function(data)
+	mandatoryArgument(1, "table", data)
+	mandatoryTableArgument(data, "cs1", "CellularSpace")
+	mandatoryTableArgument(data, "cs2", "CellularSpace")
+	mandatoryTableArgument(data, "attribute", "string")
+	verify(#data.cs1 == #data.cs2, "Number of cells in both cellular spaces must be equal")
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
@@ -250,23 +252,23 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 	-- the fitness of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
-	if cs1.maxRow > cs1.maxCol then
+	if data.cs1.maxRow > data.cs1.maxCol then
 	-- Determines of the size of the smallest square possible containig all the map elements.
-		largerSquare = cs1.maxRow
+		largerSquare = data.cs1.maxRow
 	else
-		largerSquare = cs1.maxCol
+		largerSquare = data.cs1.maxCol
 	end
 
-	if cs1.minRow < cs1.minCol then
+	if data.cs1.minRow < data.cs1.minCol then
 	--Determines if the model starts at [0] or [1].
-		minSquare = cs1.minRow
+		minSquare = data.cs1.minRow
 	else
-		minSquare = cs1.minCol
+		minSquare = data.cs1.minCol
 	end
 
-	local fitnessSum = pixelByPixel(cs1, cs2, attribute, attribute, continuous)
+	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)
 	local fitChart = {sqrFit = fitnessSum}
-	if graphics == true then
+	if data.graphics == true then
 		Chart{
 			title = "MultiLevel Results",
 			target = fitChart,
@@ -275,12 +277,12 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 		fitChart:notify(0)
 	end
 
-	if continuous == true then
+	if data.continuous == true then
 		for i = 1, (largerSquare) do 
 		-- increase the square size and calculate fitness for each square.
-			local fitSquare = continuousSquareBySquare(i, cs1, cs2, attribute)
+			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
-				if graphics == true then
+				if data.graphics == true then
 					fitChart.sqrFit = fitSquare
 					fitChart:notify(i)
 				end
@@ -293,9 +295,9 @@ multiLevel = function(cs1, cs2, attribute, continuous, graphics)
 	else
 		for i = 1, (largerSquare) do 
 			-- increase the square size and calculate fitness for each square.
-			local fitSquare = newDiscreteSquareBySquare(i, cs1, cs2, attribute) 
+			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute) 
 			if fitSquare ~= -1 then
-				if graphics == true then
+				if data.graphics == true then
 					fitChart.sqrFit = fitSquare
 					fitChart:notify(i)
 				end

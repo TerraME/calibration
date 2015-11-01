@@ -39,17 +39,22 @@ return{
 		local error_func = function()
 			multiLevel()
 		end
-		
+
 		unitTest:assertError(error_func, mandatoryArgumentMsg(1))
+		local error_func = function()
+			multiLevel{}
+		end
+		
+		unitTest:assertError(error_func, mandatoryArgumentMsg("cs1"))
 		error_func = function()
-			multiLevel(cs)
+			multiLevel{cs1 = cs}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(2))
+		unitTest:assertError(error_func, mandatoryArgumentMsg("cs2"))
 		error_func = function()
-			multiLevel(cs,cs)
+			multiLevel{cs1 = cs, cs2 = cs}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(3))
+		unitTest:assertError(error_func, mandatoryArgumentMsg("attribute"))
 	end
 }

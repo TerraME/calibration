@@ -41,13 +41,13 @@ return{
 			sep      = ";"
 		}
 		-- Discrete Tests:
-		local result = multiLevel(cs, cs2, "Costanza")
-		local result3 = multiLevel(cs12, cs22, "Costanza")
-		local result5 = multiLevel(sugar, sugar, "maxsugar")
+		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}
+		local result3 = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza"}
+		local result5 = multiLevel{cs1 = sugar, cs2 = sugar, attribute = "maxsugar"}
 		-- Continuous Tests:
-		local result2 = multiLevel(cs, cs2, "Costanza", true)
-		local result4 = multiLevel(cs12, cs22, "Costanza", true)
-		local result6 = multiLevel(sugar, sugar2, "maxsugar", true)
+		local result2 = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = true}
+		local result4 = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza", continuous = true}
+		local result6 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar", continuous = true}
 		unitTest:assertEquals(result, 0.84, 0.01) 
 		unitTest:assertEquals(result2, 0.91, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
 		unitTest:assertEquals(result3, 0.83, 0.01) 
