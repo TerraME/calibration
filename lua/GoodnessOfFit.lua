@@ -238,7 +238,7 @@ end
 -- @arg data.continuous Boolean that indicates if the model to be calibrated is continuous.
 -- @arg data.graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
--- @usage multiLevel(cs1, cs2, "attribute")
+-- @usage multiLevel{cs1, cs2, "attribute"}
 multiLevel = function(data)
 	mandatoryArgument(1, "table", data)
 	mandatoryTableArgument(data, "cs1", "CellularSpace")
