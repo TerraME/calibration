@@ -232,11 +232,11 @@ end
 -- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
 -- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @arg data A table with the described values.
--- @arg data cs1 First Cellular Space.
--- @arg data cs2 Second Cellular Space.
--- @arg data attribute An attribute present in both cellular space, which values should be compared.
--- @arg data continuous Boolean that indicates if the model to be calibrated is continuous.
--- @arg data graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
+-- @arg data.cs1 First Cellular Space.
+-- @arg data.cs2 Second Cellular Space.
+-- @arg data.attribute An attribute present in both cellular space, which values should be compared.
+-- @arg data.continuous Boolean that indicates if the model to be calibrated is continuous.
+-- @arg data.graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
 -- @usage multiLevel(cs1, cs2, "attribute")
 multiLevel = function(data)
