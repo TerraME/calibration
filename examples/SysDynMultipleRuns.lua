@@ -1,7 +1,13 @@
 -- @example Basic example for testing MultipleRuns type
 -- using a SysDyn model.
-import("sysdyn")
-import("calibration")
+if not isLoaded("sysdyn") then
+   import("sysdyn")
+end
+
+if not isLoaded("calibration") then
+    import("calibration")
+end
+
 data = {}
 data [0] = 9.6
 data [1] = 29.0
