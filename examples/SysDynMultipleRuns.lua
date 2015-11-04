@@ -42,7 +42,7 @@ yeast = SysDynModel{
                      }
         }
 }
-local results = {dif = 0}
+local results = {model_fitness = 0}
 local c1 = MultipleRuns{
     model = yeast,
     folderPath = tmpDir(),
@@ -50,13 +50,13 @@ local c1 = MultipleRuns{
     parameters = {rate = Choice{min = 0, max = 2.5, step = 0.1}},
     fit = function(model)
         local rms = math.sqrt (model.rms)
-        results.dif = rms
+        results.model_fitness = rms
         Chart = oldChart
         if model.rate == 0 then
            Chart{
-            title = "Results",
+            title = "SysDyn MultipleRuns Results",
             target = results,
-            select = {"dif"}
+            select = {"model_fitness"}
             }
         end
 
