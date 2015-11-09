@@ -1,3 +1,18 @@
+local testAddFunctions
+testAddFunctions = function(resultTable, addFunctions, data, m)
+	if addFunctions ~= nil then
+		local returnValueF
+		forEachOrderedElement(addFunctions, function(idxF, attF, typF)
+			returnValueF = data[idxF](m)
+			if resultTable[idxF] == nil then
+				resultTable[idxF] = {}
+			end
+
+			resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
+		end)
+	end
+end
+
 local parametersOrganizer
 -- The possible values for each parameter is being put in a table indexed by numbers.
 -- example:
@@ -59,17 +74,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
-				if addFunctions ~= nil then
-					local returnValueF
-					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = data[idxF](m)
-						if resultTable[idxF] == nil then
-							resultTable[idxF] = {}
-						end
-
-						resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
-					end)
-				end
+				
 
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
@@ -86,10 +91,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local testDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(testDir..s..stringSimulations)
-				if data.output ~= nil then
-					data.output(m)
-				end
-
+				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else  -- else, go to the next parameter to test it with it's range of values.
@@ -117,17 +119,6 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 			if a == #Params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
-				if addFunctions ~= nil then
-					local returnValueF
-					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF(m)
-						if resultTable.idxF == nil then
-							resultTable.idxF = {}
-						end
-						resultTable.idxF[#resultTable.idxF + 1] = returnValueF
-					end)
-				end
-
 				local stringSimulations = ""
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
 					if typ2 ~= "table" then
@@ -143,10 +134,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				local testDir = currentDir()
 				mkDir(stringSimulations)
 				chDir(testDir..s..stringSimulations)
-				if data.output ~= nil then
-					data.output(m)
-				end
-
+				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else  -- else, go to the next parameter to test it with each of it possible values.
@@ -325,12 +313,12 @@ function MultipleRuns(data)
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	forEachOrderedElement(data, function(idx, att, typ)
-		if type(att) == "function" and idx ~= "output" then
+		if type(att) == "function" then
 			addFunctions[idx] = att 
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "output", "folderName", "folderPath"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "folderPath"})
 		end
 	end)
 
@@ -358,6 +346,7 @@ function MultipleRuns(data)
 
 	if data.folderPath ~= nil then
 		if not chDir(data.folderPath) then
+			chDir(firstDir)
 			customError("Invalid folder path")
 		end
 
@@ -396,26 +385,11 @@ function MultipleRuns(data)
 			local m = data.model(data.parameters)
 			for i = 1, data.quantity do
 					m:execute() 
-					if addFunctions ~= nil then 
-    					local returnValueF
-						forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-							if resultTable.idxF == nil then 
-								resultTable.idxF = {}
-							end
-
-							returnValueF = attF(m)
-							resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-						end)
-    				end
-
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					local testDir = currentDir()
 					mkDir(""..(#resultTable.simulations).."") 
 					chDir(testDir..s..""..(#resultTable.simulations).."") 
-					if data.output ~= nil then 
-						data.output(m)
-					end
-
+					testAddFunctions(resultTable, addFunctions, data, m)
 					chDir(testDir)
 					forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
@@ -430,26 +404,11 @@ function MultipleRuns(data)
 			for i = 1, data.quantity do
 				local sampleParams = {}
 				local m = randomModel(data.model, data.parameters)
-				if addFunctions ~= nil then 
-    				local returnValueF
-					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF(m)
-						if resultTable.idxF == nil then  
-							resultTable.idxF = {}
-						end
-
-						resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-					end)
-				end
-				
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
 				local testDir = currentDir()
 				mkDir(""..(#resultTable.simulations).."") 
 				chDir(testDir..s..""..(#resultTable.simulations).."") 
-				if data.output ~= nil then 
-					data.output(m) 
-				end
-
+				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir)
 				forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 					if typ2 ~= "table" then
@@ -477,26 +436,11 @@ function MultipleRuns(data)
 			forEachOrderedElement(data.parameters, function(idx, att, atype)
 				local m = data.model(att)
 				m:execute()
-				if addFunctions ~= nil then 
-    				local returnValueF
-					forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-						returnValueF = attF(m)
-						if resultTable.idxF == nil then 
-							resultTable.idxF = {}
-						end
-
-						resultTable.idxF[#resultTable.idxF + 1] = returnValueF 
-					end)
-				end
-
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
 				local testDir = currentDir()
 				mkDir(""..(idx).."") 
 				chDir(testDir..s..""..(idx).."") 
-				if data.output ~= nil then 
-					data.output(m) 
-				end
-
+				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir) 
 				forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 					if resultTable[idx2] == nil then 
