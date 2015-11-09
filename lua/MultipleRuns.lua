@@ -111,6 +111,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				end
 				variables[Params[a].table][Params[a].id] = attribute
 			end
+			
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2, atype2)
 				mVariables[idx2] = attribute2
