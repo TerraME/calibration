@@ -1,7 +1,7 @@
 
 --@header Goodness-of-fit metrics.
 
---- Compares tw CelluarSpace pixel by pixel and returns
+--- Compares two CelluarSpace pixel by pixel and returns
 -- a number with the average precision between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't.
 -- If both maps are equal, the final result will be 1.

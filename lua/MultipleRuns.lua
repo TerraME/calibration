@@ -379,7 +379,28 @@ function MultipleRuns(data)
 					end)
 				end
 			end)
-			resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s)
+			if data.quantity == nil then
+				data.quantity = 1
+			end
+
+			local factorialResultTable = {}
+			for i = 1, data.quantity do
+				if data.quantity > 1 then
+					mkDir("factorial_quantity"..i)
+					chDir(currentDir()..s.."factorial_quantity"..i)
+				end
+
+				factorialResultTable[i] = resultTable 
+				factorialResultTable[i] = factorialRecursive(data, Params, 1, variables, factorialResultTable[i], addFunctions, s, i)
+			end
+
+			if data.quantity > 1 then
+				resultTable = factorialResultTable
+			else
+				resultTable = factorialResultTable[1]
+			end
+
+			factorialResultTable = nil
 		end,
 		repeated = function()
 			local m = data.model(data.parameters)

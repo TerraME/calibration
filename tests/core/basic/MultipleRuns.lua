@@ -133,6 +133,23 @@ MultipleRuns = function(unitTest)
 			return model.value
 		end
 	}
+	local mQuant = MultipleRuns{
+		folderPath = tmpDir(),
+		model = MyModel,
+		strategy = "factorial",
+		quantity = 2,
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
 	local mMan = MultipleRuns{
 		folderPath = tmpDir(),
 		model = MyModel2,
@@ -301,6 +318,8 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
+	unitTest:assertEquals(mQuant:get(1)[1].simulations, 'finalTime_1_x_-100_y_1_')
+	unitTest:assertEquals(mQuant:get(1)[2].simulations, 'finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mMan:get(1).x, -100)
 	unitTest:assertEquals(mMan:get(1).y2, 1)
 	unitTest:assertEquals(mMan:get(1).simulations, 'finalTime_1_x_-100_y2_1_')
