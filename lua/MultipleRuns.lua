@@ -153,7 +153,10 @@ MultipleRuns_ = {
 	-- that is executed each time the model runs.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
-	-- @usage m = multipleRuns = {...
+	-- @usage
+	-- import("calibration")
+	-- m = multipleRuns = {
+	-- model = Model,
 	-- output = function(model)
 	-- 	return model.value
 	-- end}
@@ -163,7 +166,9 @@ MultipleRuns_ = {
 	--- Function that returns the result of the Multiple Runs Instance.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg number The number of the desired execution.
-	-- @usage m = multipleRuns = {...}
+	-- @usage
+	-- import("calibration")
+	-- m = multipleRuns = {...}
 	-- m:get(1).x == -100
 	get = function(data, number)
 		mandatoryArgument(1, "number", number)
@@ -191,7 +196,9 @@ MultipleRuns_ = {
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg name The name of the .csv file.
 	-- @arg separator The choosen separator to be used in the .csv file.
-	-- @usage m = multipleRuns = {...}
+	-- @usage
+	-- import("calibration") 
+	-- m = multipleRuns = {...}
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
@@ -220,21 +227,33 @@ metaTableMultipleRuns_ = {
 -- MultipleRuns should return an object with type MultipleRuns and the tables:
 -- ".simulations": with a name for each test executed and
 -- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
--- @tabular Strategy
+-- @tabular data
 -- Strategy  & Description \
--- "Factorial" & Test all possibilities of the model parameters combinations. 
--- The parameter "quantity" is optional and the default value is 1.\
+-- "Factorial" & Test all possibilities of the model parameters combinations, 
+-- the parameter "quantity" is optional and the default value is 1.\
 -- "Repeated" & Test the model with defined parameters quantity times.\
 -- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
 -- "Selected" & This should test the model in each of the selected combinations of parameters. 
 -- @usage
 --		-- Complete Example:
 -- 		import("calibration")
+-- 		local MyModel = Model{
+-- 			x = Choice{-100, -1, 0, 1, 2, 100},
+-- 			y = Choice{min = 1, max = 10, step = 1},
+-- 			finalTime = 1,
+-- 			init = function(self)
+-- 				self.timer = Timer{
+-- 					Event{action = function()
+-- 						self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 					end}
+-- 			}
+-- 			end
+-- 		}
 -- 		c = MultipleRuns{
 -- 			model = MyModel,
 -- 			strategy = "sample",
 -- 			quantity = 5,
--- 			folderName = "Tests",
+-- 			
 -- 			folderPath = currentDir(),
 -- 			parameters = {
 -- 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -268,7 +287,7 @@ metaTableMultipleRuns_ = {
 -- 		r = MultipleRuns{
 -- 		    model = MyModel,
 --			strategy = "repeated",
--- 		    parameters = Choice{water = 10, rain = 20, finalTime = 1},
+-- 		    parameters = {water = 10, rain = 20, finalTime = 1},
 -- 		    quantity = 10,
 -- 		}
 -- 		-- This should run the model 10 times with the same parameters.

@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+	    
+	    	<title>Calibration metrics and algorithms</title>
+	    
+	    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="product">
+				<div id="product_logo">
+					<a href="http://www.terrame.org">
+					<img src='../img/terrame.png'/><br/></div></a>
+				<div id="product_name"><big><b></b></big></div>
+				<div id="product_description"></div>
+			</div> <!-- id="product" -->
+
+			<div id="main">
+				<div id="navigation">
+					<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<h1>calibration</h1>
+<ul>
+	
+		<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+<!-- Module list -->
+
+
+<!-- Models list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+
+
+<!-- Types list -->
+
+	
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+		<h1>Types</h1>
+	
+
+	<ul>
+		
+		
+					<li>
+						<a href="../files/MultipleRuns.html">MultipleRuns</a>
+					</li>
+				
+			
+		
+					<li>
+						<a href="../files/SAMDE.html">SAMDE</a>
+					</li>
+				
+			
+		
+		
+		
+		
+		
+		
+		
+		
+	</ul>
+
+
+<!-- Files list -->
+
+	
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+
+	
+		<h1>Functions</h1>
+	
+
+	<ul>
+		
+					<li>
+						<a href="../files/GoodnessOfFit.html">GoodnessOfFit</a>
+					</li>
+				
+			
+		
+		
+		
+					<li>
+						<a href="../files/SAMDEFunction.html">SAMDEFunction</a>
+					</li>
+				
+			
+		
+		
+		
+		
+		
+		
+					<li><strong>utils</strong></li>
+				
+			
+		
+	</ul>
+
+
+<!-- Examples -->
+
+	
+		<h1><a href="../files/examples.html">Examples</a></h1>
+	
+
+
+
+<!-- Data -->
+
+	
+		<h1><a href="../files/data.html">Data</a></h1>
+	
+
+
+
+<!-- Font -->
+
+
+
+				</div> <!-- id="navigation" -->
+
+				<div id="content">
+					<h1>utils
+					
+					
+					</h1>
+
+					
+						<span class="description"></span>
+					
+					
+					
+					
+
+					
+						
+
+						
+							<h2 class="function_list">Functions</h2>
+							<table class="function_list">
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#checkParameters">checkParameters</a>&nbsp;
+<td class="summary">Function to be used by Multiple Runs and Calibration to check if all possibilites of models can be instantiated before starting to test the model.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#randomModel">randomModel</a>&nbsp;
+<td class="summary">Function that returns a random model instance from a set of parameters.</td>
+									</tr>
+								
+							
+						
+						</table>
+					
+
+					
+
+					<!--<br/>
+					<br/>-->
+
+					
+						
+						<dl class="function">
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="checkParameters">
+
+	</a><strong>checkParameters</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function to be used by Multiple Runs and Calibration to check if all possibilites of models can be instantiated before starting to test the model.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: A Paramater with the model to be instantiated.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: A table of parameters, from a <a href=../files/MultipleRuns.html>MultipleRuns</a> or Calibration type.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="function">checkParameters</span>(<span class="id">myModel</span>, <span class="id">MultipleRunsParameters</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="randomModel">
+
+	</a><strong>randomModel</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function that returns a random model instance from a set of parameters. Each Choice argument will be instantiated with a random value from the available choices. The other arguments will be instantiated with their exact values. This function can be used by SaMDE as well as by <a href=../files/MultipleRuns.html>MultipleRuns</a>.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: A Paramater with the model to be instantiated.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: A table of parameters. Multiple Runs or Calibration instance .
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="function">randomModel</span>(<span class="id">myModel</span>, <span class="id">MultipleRunsParameters</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+						</dl>
+					
+
+					
+
+				</div> <!-- id="content" -->
+			</div> <!-- id="main" -->
+
+			<div id="about">
+				<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+			</div> <!-- id="about" -->
+
+		</div> <!-- id="container" -->	
+	</body>
+</html>
+
