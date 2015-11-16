@@ -6,7 +6,6 @@ metaTableSAMDE_ = {
 	__index = SAMDE_
 }
 
-local calibrate = require("packages.calibration.lua.SAMDEFunction")
 --- Type to calibrate a model, returns a SAMDE type with the fittest individual,
 -- the fit value and the number of generations.
 -- @arg data a table containing the described variables.
@@ -31,8 +30,20 @@ local calibrate = require("packages.calibration.lua.SAMDEFunction")
 -- 	}
 -- 	end
 -- }
--- @usage c = SAMDE{
---     model = MyModel,
+-- @usage
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{min = 1, max = 10},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2
+-- 			end}
+-- 		}
+-- end}
+-- c = SAMDE{
+--     model = myModel,
 --     parameters = {x = Choice{min = 1, max = 9, step = 2}, finalTime = 1},
 --     fit = function(model)
 --     		return model.value
@@ -53,7 +64,7 @@ function SAMDE(data)
 		data.maximize = false
 	end
 
-	best = calibrate.SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.seed)
+	best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold, data.seed)
 	forEachOrderedElement(best, function(idx, att, type)
 		data[idx] = att
 	end)

@@ -284,8 +284,20 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code><span class="id">c</span> = <span class="function">SAMDE</span>{
-    <span class="id">model</span> = <span class="id">MyModel</span>,
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
+	<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span>
+			<span class="reserved">end</span>}
+		}
+<span class="reserved">end</span>}
+<span class="id">c</span> = <span class="function">SAMDE</span>{
+    <span class="id">model</span> = <span class="id">myModel</span>,
     <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">9</span>, <span class="id">step</span> = <span class="number">2</span>}, <span class="id">finalTime</span> = <span class="number">1</span>},
     <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>)
     		<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>

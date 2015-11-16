@@ -268,7 +268,7 @@ local function maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo)
 	return valueMax
 end
 
--- Function used by SAMDE type that implements the SaMDE genetic algorithm
+--- Function used by SAMDE type that implements the SaMDE genetic algorithm
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.
@@ -283,9 +283,23 @@ end
 -- @arg seed Optional seed parameter for Random function, default value is os.time().
 -- @arg threshold threshold If a model fitness reach this value, the function stops.
 -- @usage 
--- local best = SAMDECalibrate({x = Choice{min = 1, max = 9, step = 2}, finalTime = 1}, MyModel, fit())
-local calibrate = {}
-function calibrate.SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold, seed)
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{min = 1, max = 10},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x
+-- 			end}
+-- 		}
+-- end}
+-- funtion fit(model)
+--	return model.value
+-- end
+-- local best = SAMDECalibrate({x = Choice{min = 1, max = 9, step = 2}, finalTime = 1}, myModel, fit())
+
+function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold, seed)
 	if seed ~= nil then
 		rand:reSeed(seed)
 	end
@@ -535,5 +549,3 @@ function calibrate.SAMDECalibrate(modelParameters, model, fit, maximize, size, m
 	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation}
 	return finalTable
 end
-
-return calibrate
