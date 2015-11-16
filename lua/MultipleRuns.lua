@@ -391,8 +391,8 @@ function MultipleRuns(data)
 			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "folderPath"})
 		end
 	end)
-
-	checkParameters(data.model, data)
+	local utils = require("packages.calibration.lua.utils")
+	utils.checkParameters(data.model, data)
 	local Params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.

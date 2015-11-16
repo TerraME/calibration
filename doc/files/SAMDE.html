@@ -261,7 +261,7 @@
     
   
     <li>
-	  <strong>seed</strong>: Optional seed parameter for Random(), default is system time. must be must be maximized instead of minimized, default is false.
+	  <strong>seed</strong>: Optional seed parameter for Random(), default is system time. must be must be maximized instead of minimized, default is false. local MyModel = Model{ x = Choice{min = 1, max = 10, step = 1}, finalTime = 1, init = function(self) self.timer = Timer{ Event{action = function() self.value = 2 * self.x ^2 - 3 * self.x + 4 end} } end }
     </li> 
     
   
@@ -286,9 +286,9 @@
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">c</span> = <span class="function">SAMDE</span>{
     <span class="id">model</span> = <span class="id">MyModel</span>,
-    <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">2</span>}, <span class="id">finalTime</span> = <span class="number">1</span>},
-    <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>, <span class="id">parameter</span>)
-    		...	
+    <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">9</span>, <span class="id">step</span> = <span class="number">2</span>}, <span class="id">finalTime</span> = <span class="number">1</span>},
+    <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+    		<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
     <span class="reserved">end</span>
 }</code></pre>
 
