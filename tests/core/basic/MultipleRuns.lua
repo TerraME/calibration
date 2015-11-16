@@ -119,6 +119,7 @@ MultipleRuns = function(unitTest)
 	-- print("M")
 	local m = MultipleRuns{
 		folderPath = tmpDir(),
+		folderName = "Test",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {

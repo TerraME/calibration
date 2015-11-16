@@ -375,8 +375,8 @@
 			<span class="id">model</span> = <span class="id">MyModel</span>,
 			<span class="id">strategy</span> = <span class="string">"factorial"</span>,
 			<span class="id">parameters</span> = {
-		    	<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
-		   		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
+				<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
+		 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
 				<span class="id">finalTime</span> = <span class="number">1</span>
 			},
 			<span class="id">quantity</span> = <span class="number">2</span>
@@ -386,24 +386,24 @@
 		<span class="comment">-- Repeated Example:</span>
 	
 		<span class="id">r</span> = <span class="function">MultipleRuns</span>{
-		    <span class="id">model</span> = <span class="id">MyModel</span>,
+			<span class="id">model</span> = <span class="id">MyModel</span>,
 		<span class="id">strategy</span> = <span class="string">"repeated"</span>,
-		    <span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
-		    <span class="id">quantity</span> = <span class="number">10</span>,
+			<span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
+			<span class="id">quantity</span> = <span class="number">10</span>,
 		}
 		<span class="comment">-- This should run the model 10 times with the same parameters.</span>
 
 	<span class="comment">-- Sample Example:</span>
 
 		<span class="function">MultipleRuns</span>{
-		    <span class="id">model</span> = <span class="id">MyModel</span>,
-		<span class="id">strategy</span>  = <span class="string">"sample"</span>,
-		    <span class="id">parameters</span> = {
-		        <span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
-		        <span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+		<span class="id">strategy</span> = <span class="string">"sample"</span>,
+			<span class="id">parameters</span> = {
+				<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
+		 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
 			<span class="id">finalTime</span> = <span class="number">10</span>,
-		    },
-		    <span class="id">quantity</span> = <span class="number">5</span>
+			},
+			<span class="id">quantity</span> = <span class="number">5</span>
 		}
 		<span class="comment">-- This should run the model 5 times selecting random values from the defined parameters</span>
 	<span class="comment">-- (if they are choice, otherwise use the only available value).</span>
@@ -411,12 +411,12 @@
 	<span class="comment">-- Selected Example:</span>
 
 		<span class="id">x</span> = <span class="function">MultipleRuns</span>{
-		    <span class="id">model</span> = <span class="id">MyModel</span>,
+			<span class="id">model</span> = <span class="id">MyModel</span>,
 		<span class="id">strategy</span> = <span class="string">"selected"</span>,
-		    <span class="id">parameters</span> = {
-		        <span class="id">scenario1</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">10</span>},
-		        <span class="id">scenario2</span> = {<span class="id">water</span> = <span class="number">5</span>, <span class="id">rain</span> = <span class="number">10</span>, <span class="id">finalTime</span> = <span class="number">10</span>}
-		    }
+			<span class="id">parameters</span> = {
+				<span class="id">scenario1</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">10</span>},
+		 		<span class="id">scenario2</span> = {<span class="id">water</span> = <span class="number">5</span>, <span class="id">rain</span> = <span class="number">10</span>, <span class="id">finalTime</span> = <span class="number">10</span>}
+			}
 		}
 		<span class="comment">-- This should run the model 2 times with the same parameters defined in the vector of parameters.</span></code></pre>
 
@@ -509,8 +509,26 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="id">m</span> = <span class="id">multipleRuns</span> = {...}
-<span class="id">m</span>:<span class="function">get</span>(<span class="number">1</span>).<span class="id">x</span> == <span class="number">-100</span></code></pre>
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="id">m</span> = <span class="id">multipleRuns</span> = {
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+	<span class="reserved">end</span>}
+<span class="id">m</span>:<span class="function">get</span>(<span class="number">1</span>).<span class="id">x</span> == <span class="number">4</span></code></pre>
 
 
 
@@ -562,11 +580,25 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
 <span class="id">m</span> = <span class="id">multipleRuns</span> = {
-<span class="id">model</span> = <span class="id">Model</span>,
-<span class="function">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="function">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
 	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
-<span class="reserved">end</span>}</code></pre>
+	<span class="reserved">end</span>}</code></pre>
 
 
 
@@ -622,8 +654,26 @@
 
 <h3>Usage</h3>
 <pre class="example"><code>
-<span class="id">import</span>(<span class="string">"calibration"</span>) 
-<span class="id">m</span> = <span class="id">multipleRuns</span> = {...}
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="id">m</span> = <span class="id">multipleRuns</span> = {
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+	<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+	<span class="reserved">end</span>}
 <span class="id">m</span>:<span class="function">saveCSV</span>(<span class="string">"myCSVFile"</span>, <span class="string">";"</span>)</code></pre>
 
 
