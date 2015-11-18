@@ -14,7 +14,7 @@ end
 
 -- The possible values for each parameter is being put in a table indexed by numbers.
 -- example:
--- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+-- Params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
 local function parametersOrganizer(mainTable, idx, attribute, atype, Params)
 	local range = true
@@ -45,12 +45,12 @@ end
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
 -- Params: Table with all the parameters and it's ranges or values indexed by number.
--- Example: Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
+-- Example: Params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-factorialRecursive  = function(data, Params, a, variables, resultTable, addFunctions, s)
+factorialRecursive = function(data, Params, a, variables, resultTable, addFunctions, s)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -92,7 +92,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
-			else  -- else, go to the next parameter to test it with it's range of values.
+			else -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s)
 			end
 		end
@@ -136,7 +136,7 @@ factorialRecursive  = function(data, Params, a, variables, resultTable, addFunct
 				testAddFunctions(resultTable, addFunctions, data, m)
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
-			else  -- else, go to the next parameter to test it with each of it possible values.
+			else -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s)
 			end
 		end)
@@ -156,6 +156,26 @@ MultipleRuns_ = {
 	-- output = function(model)
 	-- 	return model.value
 	-- end}
+	-- import("calibration")
+	-- MyModel = Model{
+	-- x = Choice{-100, -1, 0, 1, 2, 100},
+	-- 	finalTime = 1,
+	-- 	init = function(self)
+	-- 	self.timer = Timer{
+	-- 		Event{action = function()
+	-- 			self.value = x
+	-- 		end}
+	-- 	}
+	-- 	end
+	-- }
+	-- m = multipleRuns = {
+	-- 	model = MyModel,
+	-- 	strategy = "repeated",
+	-- 	parameters = {x = 4},
+	--	quantity = 3,
+	-- 	output = function(model)
+	--		return model.value
+	-- 	end}
 	output = function(data, model)
 		return nil
 	end,
@@ -165,6 +185,28 @@ MultipleRuns_ = {
 	-- @usage -- DONTRUN
 	-- m = multipleRuns = {...}
 	-- m:get(1).x == -100
+	-- @usage
+	-- import("calibration")
+	-- MyModel = Model{
+	-- x = Choice{-100, -1, 0, 1, 2, 100},
+	-- 	finalTime = 1,
+	-- 	init = function(self)
+	-- 	self.timer = Timer{
+	-- 		Event{action = function()
+	-- 			self.value = x
+	-- 		end}
+	-- 	}
+	-- 	end
+	-- }
+	-- m = multipleRuns = {
+	-- 	model = MyModel,
+	-- 	strategy = "repeated",
+	-- 	parameters = {x = 4},
+	--	quantity = 3,
+	-- 	output = function(model)
+	--		return model.value
+	-- 	end}
+	-- m:get(1).x == 4
 	get = function(data, number)
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
@@ -193,6 +235,27 @@ MultipleRuns_ = {
 	-- @arg separator The choosen separator to be used in the .csv file.
 	-- @usage -- DONTRUN
 	-- m = multipleRuns = {...}
+	-- @usage
+	-- import("calibration")
+	-- MyModel = Model{
+	-- x = Choice{-100, -1, 0, 1, 2, 100},
+	-- 	finalTime = 1,
+	-- 	init = function(self)
+	-- 	self.timer = Timer{
+	-- 		Event{action = function()
+	-- 			self.value = x
+	-- 		end}
+	-- 	}
+	-- 	end
+	-- }
+	-- m = multipleRuns = {
+	-- 	model = MyModel,
+	-- 	strategy = "repeated",
+	--	quantity = 3,
+	-- 	parameters = {x = 4},
+	-- 	output = function(model)
+	--		return model.value
+	-- 	end}
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
@@ -223,13 +286,33 @@ metaTableMultipleRuns_ = {
 -- ".simulations": with a name for each test executed and
 -- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
 -- @usage -- DONTRUN
+-- @tabular data
+-- Strategy & Description \
+-- "Factorial" & Test all possibilities of the model parameters combinations, 
+-- the parameter "quantity" is optional and the default value is 1.\
+-- "Repeated" & Test the model with defined parameters quantity times.\
+-- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
+-- "Selected" & This should test the model in each of the selected combinations of parameters. 
+-- @usage
 --		-- Complete Example:
 -- 		import("calibration")
+-- 		local MyModel = Model{
+-- 			x = Choice{-100, -1, 0, 1, 2, 100},
+-- 			y = Choice{min = 1, max = 10, step = 1},
+-- 			finalTime = 1,
+-- 			init = function(self)
+-- 				self.timer = Timer{
+-- 					Event{action = function()
+-- 						self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 					end}
+-- 			}
+-- 			end
+-- 		}
 -- 		c = MultipleRuns{
 -- 			model = MyModel,
 -- 			strategy = "sample",
 -- 			quantity = 5,
--- 			folderName = "Tests",
+-- 			
 -- 			folderPath = currentDir(),
 -- 			parameters = {
 -- 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -250,8 +333,8 @@ metaTableMultipleRuns_ = {
 -- 			model = MyModel,
 -- 			strategy = "factorial",
 -- 			parameters = {
--- 		    	water = Choice{min = 10, max = 20, step = 1},
--- 		   		rain = Choice{min = 10, max = 20, step = 2},
+-- 				water = Choice{min = 10, max = 20, step = 1},
+-- 		 		rain = Choice{min = 10, max = 20, step = 2},
 -- 				finalTime = 1
 -- 			},
 -- 			quantity = 2
@@ -261,24 +344,24 @@ metaTableMultipleRuns_ = {
 -- 		-- Repeated Example:
 --		
 -- 		r = MultipleRuns{
--- 		    model = MyModel,
+-- 			model = MyModel,
 --			strategy = "repeated",
--- 		    parameters = Choice{water = 10, rain = 20, finalTime = 1},
--- 		    quantity = 10,
+-- 			parameters = {water = 10, rain = 20, finalTime = 1},
+-- 			quantity = 10,
 -- 		}
 -- 		-- This should run the model 10 times with the same parameters.
 --
 --		-- Sample Example:
 --
 -- 		MultipleRuns{
--- 		    model = MyModel,
---			strategy  = "sample",
--- 		    parameters = {
--- 		        water = Choice{min = 10, max = 20, step = 1},
--- 		        rain = Choice{min = 10, max = 20, step = 2},
+-- 			model = MyModel,
+--			strategy = "sample",
+-- 			parameters = {
+-- 				water = Choice{min = 10, max = 20, step = 1},
+-- 		 		rain = Choice{min = 10, max = 20, step = 2},
 --				finalTime = 10,
--- 		    },
--- 		    quantity = 5
+-- 			},
+-- 			quantity = 5
 -- 		}
 -- 		-- This should run the model 5 times selecting random values from the defined parameters
 --		-- (if they are choice, otherwise use the only available value).
@@ -286,12 +369,12 @@ metaTableMultipleRuns_ = {
 --		-- Selected Example:
 --
 -- 		x = MultipleRuns{
--- 		    model = MyModel,
+-- 			model = MyModel,
 --			strategy = "selected",
--- 		    parameters = {
--- 		        scenario1 = {water = 10, rain = 20, finalTime = 10},
--- 		        scenario2 = {water = 5, rain = 10, finalTime = 10}
--- 		    }
+-- 			parameters = {
+-- 				scenario1 = {water = 10, rain = 20, finalTime = 10},
+-- 		 		scenario2 = {water = 5, rain = 10, finalTime = 10}
+-- 			}
 -- 		}
 -- 		-- This should run the model 2 times with the same parameters defined in the vector of parameters.
 -- @arg data.quantity Quantity of runs that must be executed with the same parameters.
@@ -351,8 +434,8 @@ function MultipleRuns(data)
 
 	-- Setting the folder for the tests results to be saved:
 
-	local firstDir  = currentDir()
-	local folderDir =  firstDir 
+	local firstDir = currentDir()
+	local folderDir = firstDir 
 
 	if data.folderPath ~= nil then
 		if not chDir(data.folderPath) then
@@ -455,7 +538,7 @@ function MultipleRuns(data)
 					end
 				end)
 				forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
-					if resultTable[idx2] == nil then  
+					if resultTable[idx2] == nil then 
 						resultTable[idx2] = {}
 					end
 

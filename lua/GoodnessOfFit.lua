@@ -21,6 +21,7 @@
 -- @arg continuous boolean that indicates if the model is continuous
 -- (default: false, discrete model).
 -- @usage -- DONTRUN
+-- import("calibration")
 -- pixelByPixel(cs1, cs2, "attribute1", "attribute2")
 function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
@@ -241,6 +242,10 @@ end
 -- (Default = False, discrete model).
 -- @usage -- DONTRUN
 -- multiLevel{cs1, cs2, "attribute"}
+-- import("calibration")
+-- local cell = Cell{a = 0.8, b = 0.7}
+-- local cs = CellularSpace{xdim = 10, instance = cell} 
+-- multiLevel{cs1 = cs, cs2 = cs, attribute = "attribute", continuous = false, graphics = false}
 multiLevel = function(data)
 	mandatoryArgument(1, "table", data)
 	mandatoryTableArgument(data, "cs1", "CellularSpace")

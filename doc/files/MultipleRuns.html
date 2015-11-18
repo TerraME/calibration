@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+	    
+	    	<title>Calibration metrics and algorithms</title>
+	    
+	    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="product">
+				<div id="product_logo">
+					<a href="http://www.terrame.org">
+					<img src='../img/terrame.png'/><br/></div></a>
+				<div id="product_name"><big><b></b></big></div>
+				<div id="product_description"></div>
+			</div> <!-- id="product" -->
+
+			<div id="main">
+				<div id="navigation">
+					<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<h1>calibration</h1>
+<ul>
+	
+		<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+<!-- Module list -->
+
+
+<!-- Models list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+
+
+<!-- Types list -->
+
+	
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+		<h1>Types</h1>
+	
+
+	<ul>
+		
+		
+					<li><strong>MultipleRuns</strong></li>
+				
+			
+		
+					<li>
+						<a href="../files/SAMDE.html">SAMDE</a>
+					</li>
+				
+			
+		
+		
+		
+		
+		
+		
+		
+		
+	</ul>
+
+
+<!-- Files list -->
+
+	
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+
+	
+		<h1>Functions</h1>
+	
+
+	<ul>
+		
+					<li>
+						<a href="../files/GoodnessOfFit.html">GoodnessOfFit</a>
+					</li>
+				
+			
+		
+		
+		
+					<li>
+						<a href="../files/SAMDEFunction.html">SAMDEFunction</a>
+					</li>
+				
+			
+		
+		
+		
+		
+		
+		
+					<li>
+						<a href="../files/utils.html">utils</a>
+					</li>
+				
+			
+		
+	</ul>
+
+
+<!-- Examples -->
+
+	
+		<h1><a href="../files/examples.html">Examples</a></h1>
+	
+
+
+
+<!-- Data -->
+
+	
+		<h1><a href="../files/data.html">Data</a></h1>
+	
+
+
+
+<!-- Font -->
+
+
+
+				</div> <!-- id="navigation" -->
+
+				<div id="content">
+					<h1>MultipleRuns
+					
+					
+					</h1>
+
+					
+						<span class="description"></span>
+					
+					
+					
+					
+
+					
+						
+						<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+
+<span class="description">Type to test a model with different strategies, returns a <a href=../files/MultipleRuns.html>MultipleRuns</a> varibles with the results. MultipleRuns should return an object with type MultipleRuns and the tables: ".simulations": with a name for each test executed and one extra table for each parameter used in the argument "parameters", with that parameter value in each test.</span>
+
+
+	 
+			<table class="arg_tab">
+			
+				<tr>
+					
+							<th>
+							Strategy
+							</th>
+						
+							<th>
+							Description
+							</th>
+						
+				<tr>
+					
+							<td>
+							"Factorial"
+							</td>
+						
+							<td>
+							Test all possibilities of the model parameters combinations, the parameter "quantity" is optional and the default value is 1.
+							</td>
+						
+				<tr>
+					
+							<td>
+							"Repeated"
+							</td>
+						
+							<td>
+							Test the model with defined parameters quantity times.
+							</td>
+						
+				<tr>
+					
+							<td>
+							"Sample"
+							</td>
+						
+							<td>
+							This should test the model quantity times, each time with a random combination of the possible parameters.
+							</td>
+						
+				<tr>
+					
+							<td>
+							"Selected"
+							</td>
+						
+							<td>
+							This should test the model in each of the selected combinations of parameters.
+							</td>
+						
+				</tr>    
+			</table>
+		
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>folderName</strong>: Name of the folder where the tests will be saved.
+    </li> 
+    
+  
+    <li>
+	  <strong>folderPath</strong>: Path of the folder where the tests will be saved.
+    </li> 
+    
+  
+    <li>
+	  <strong>model</strong>: A model.
+    </li> 
+    
+  
+    <li>
+	  <strong>output</strong>: An optional user defined output function.
+    </li> 
+    
+  
+    <li>
+	  <strong>parameters</strong>: A table with the parameters to be tested; An optional quantity variable.
+    </li> 
+    
+  
+    <li>
+	  <strong>quantity</strong>: Quantity of repeated runs for repeated, factorial and sample strategy.
+    </li> 
+    
+  
+    <li>
+	  <strong>strategy</strong>: Strategy to be used when testing the model.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+	<span class="comment">-- Complete Example:</span>
+		<span class="id">import</span>(<span class="string">"calibration"</span>)
+		<span class="reserved">local</span> <span class="id">MyModel</span> = <span class="id">Model</span>{
+			<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+			<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+			<span class="id">finalTime</span> = <span class="number">1</span>,
+			<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+				<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+					<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+						<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+					<span class="reserved">end</span>}
+			}
+			<span class="reserved">end</span>
+		}
+		<span class="id">c</span> = <span class="function">MultipleRuns</span>{
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+			<span class="id">strategy</span> = <span class="string">"sample"</span>,
+			<span class="id">quantity</span> = <span class="number">5</span>,
+			
+			<span class="id">folderPath</span> = <span class="id">currentDir</span>(),
+			<span class="id">parameters</span> = {
+				<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+				<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+				<span class="id">finalTime</span> = <span class="number">1</span>
+		 	},
+			<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+				<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+			<span class="reserved">end</span>,
+		<span class="id">additionalFunction</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+			<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>/<span class="number">2</span>
+		<span class="reserved">end</span>
+		}
+	
+		<span class="comment">-- Factorial Example:</span>
+
+		<span class="function">MultipleRuns</span>{
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+			<span class="id">strategy</span> = <span class="string">"factorial"</span>,
+			<span class="id">parameters</span> = {
+				<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
+		 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
+				<span class="id">finalTime</span> = <span class="number">1</span>
+			},
+			<span class="id">quantity</span> = <span class="number">2</span>
+		}
+		<span class="comment">-- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.</span>
+	
+		<span class="comment">-- Repeated Example:</span>
+	
+		<span class="id">r</span> = <span class="function">MultipleRuns</span>{
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+		<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+			<span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
+			<span class="id">quantity</span> = <span class="number">10</span>,
+		}
+		<span class="comment">-- This should run the model 10 times with the same parameters.</span>
+
+	<span class="comment">-- Sample Example:</span>
+
+		<span class="function">MultipleRuns</span>{
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+		<span class="id">strategy</span> = <span class="string">"sample"</span>,
+			<span class="id">parameters</span> = {
+				<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
+		 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
+			<span class="id">finalTime</span> = <span class="number">10</span>,
+			},
+			<span class="id">quantity</span> = <span class="number">5</span>
+		}
+		<span class="comment">-- This should run the model 5 times selecting random values from the defined parameters</span>
+	<span class="comment">-- (if they are choice, otherwise use the only available value).</span>
+
+	<span class="comment">-- Selected Example:</span>
+
+		<span class="id">x</span> = <span class="function">MultipleRuns</span>{
+			<span class="id">model</span> = <span class="id">MyModel</span>,
+		<span class="id">strategy</span> = <span class="string">"selected"</span>,
+			<span class="id">parameters</span> = {
+				<span class="id">scenario1</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">10</span>},
+		 		<span class="id">scenario2</span> = {<span class="id">water</span> = <span class="number">5</span>, <span class="id">rain</span> = <span class="number">10</span>, <span class="id">finalTime</span> = <span class="number">10</span>}
+			}
+		}
+		<span class="comment">-- This should run the model 2 times with the same parameters defined in the vector of parameters.</span></code></pre>
+
+
+
+
+</dd>
+
+
+						
+						
+
+						
+							<h2 class="function_list">Functions</h2>
+							<table class="function_list">
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#get">get</a>&nbsp;
+<td class="summary">Function that returns the result of the Multiple Runs Instance.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#output">output</a>&nbsp;
+<td class="summary">Optional function defined by the user, that is executed each time the model runs.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#saveCSV">saveCSV</a>&nbsp;
+<td class="summary">Function that saves the result of the Multiple Runs instance in a .csv file.</td>
+									</tr>
+								
+							
+						
+						</table>
+					
+
+					
+
+					<!--<br/>
+					<br/>-->
+
+					
+						
+						<dl class="function">
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="get">
+
+	</a><strong>get</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function that returns the result of the Multiple Runs Instance.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: The number of the desired execution.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="id">m</span> = <span class="id">multipleRuns</span> = {
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+	<span class="reserved">end</span>}
+<span class="id">m</span>:<span class="function">get</span>(<span class="number">1</span>).<span class="id">x</span> == <span class="number">4</span></code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="output">
+
+	</a><strong>output</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Optional function defined by the user, that is executed each time the model runs.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: The instance of the Model that was executed.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="id">m</span> = <span class="id">multipleRuns</span> = {
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="function">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+	<span class="reserved">end</span>}</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="saveCSV">
+
+	</a><strong>saveCSV</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function that saves the result of the Multiple Runs instance in a .csv file.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: The name of the .csv file.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: The choosen separator to be used in the .csv file.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="id">MyModel</span> = <span class="id">Model</span>{
+<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+	<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+		<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+			<span class="id">self</span>.<span class="id">value</span> = <span class="id">x</span>
+		<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="id">m</span> = <span class="id">multipleRuns</span> = {
+	<span class="id">model</span> = <span class="id">MyModel</span>,
+	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
+<span class="id">quantity</span> = <span class="number">3</span>,
+	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">4</span>},
+	<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
+	<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
+	<span class="reserved">end</span>}
+<span class="id">m</span>:<span class="function">saveCSV</span>(<span class="string">"myCSVFile"</span>, <span class="string">";"</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+						</dl>
+					
+
+					
+
+				</div> <!-- id="content" -->
+			</div> <!-- id="main" -->
+
+			<div id="about">
+				<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+			</div> <!-- id="about" -->
+
+		</div> <!-- id="container" -->	
+	</body>
+</html>
+
