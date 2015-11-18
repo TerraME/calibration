@@ -217,18 +217,12 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
----Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
+--- Type to execute a Model with different parameters.
+-- It returns a MultipleRuns varibles with the results.
 -- MultipleRuns should return an object with type MultipleRuns and the tables:
 -- ".simulations": with a name for each test executed and
 -- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
--- @tabular Strategy
--- Strategy  & Description \
--- "Factorial" & Test all possibilities of the model parameters combinations. 
--- The parameter "quantity" is optional and the default value is 1.\
--- "Repeated" & Test the model with defined parameters quantity times.\
--- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
--- "Selected" & This should test the model in each of the selected combinations of parameters. 
--- @usage
+-- @usage -- DONTRUN
 --		-- Complete Example:
 -- 		import("calibration")
 -- 		c = MultipleRuns{
@@ -300,14 +294,28 @@ metaTableMultipleRuns_ = {
 -- 		    }
 -- 		}
 -- 		-- This should run the model 2 times with the same parameters defined in the vector of parameters.
--- @arg data A table containing the described values.
--- @arg data.quantity Quantity of repeated runs for repeated, factorial and sample strategy.
--- @arg data.model A model.
--- @arg data.parameters A table with the parameters to be tested; An optional quantity variable.
+-- @arg data.quantity Quantity of runs that must be executed with the same parameters.
+-- The default value is 1.
+-- @arg data.model The Model to be instantiated and executed several times.
+-- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
+-- of the parameters of the Model with a subset of the available values.
 -- @arg data.output An optional user defined output function.
--- @arg data.folderName Name of the folder where the tests will be saved.
+-- @arg data.folderName Name of the folder where the simulations output will be saved.
 -- @arg data.folderPath Path of the folder where the tests will be saved.
--- @arg data.strategy Strategy to be used when testing the model.
+-- @arg data.strategy Strategy to be used when testing the model. See the table below:
+-- @tabular strategy
+-- Strategy  & Description & Mandatory arguments & Optional arguments \
+-- "factorial" & Simulate the Model with all combinations of the argument parameters. 
+-- & parameters, model & quantity, output, folderName, folderPath \
+-- "repeated" & Simulate the Model a given number of times with the defined parameters. & model,
+-- quantity, parameters &
+-- output, folderName, folderPath \
+-- "sample" & Run the model with a random combination of the possible parameters & parameters,
+-- quantity, model & output, folderName, folderPath \
+-- "selected" & This should test the Model with a given set of parameters values. In this case,
+-- the argument parameters must be a named table, where each position is another table describing
+-- the parameters to be used in such simulation. &
+-- model, parameters & output, folderName, folderPath, quantity 
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
