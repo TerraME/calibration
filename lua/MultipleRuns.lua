@@ -1,5 +1,4 @@
-local testAddFunctions
-testAddFunctions = function(resultTable, addFunctions, data, m)
+local function testAddFunctions(resultTable, addFunctions, data, m)
 	if addFunctions ~= nil then
 		local returnValueF
 		forEachOrderedElement(addFunctions, function(idxF, attF, typF)
@@ -13,12 +12,11 @@ testAddFunctions = function(resultTable, addFunctions, data, m)
 	end
 end
 
-local parametersOrganizer
 -- The possible values for each parameter is being put in a table indexed by numbers.
 -- example:
 -- Params = {{id = "x", min =  1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-parametersOrganizer = function(mainTable, idx, attribute, atype, Params)
+local function parametersOrganizer(mainTable, idx, attribute, atype, Params)
 	local range = true
 	local steps = 1
 	local parameterElements = {}
@@ -153,7 +151,8 @@ MultipleRuns_ = {
 	-- that is executed each time the model runs.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
-	-- @usage m = multipleRuns = {...
+	-- @usage -- DONTRUN
+	-- m = multipleRuns = {...
 	-- output = function(model)
 	-- 	return model.value
 	-- end}
@@ -163,7 +162,8 @@ MultipleRuns_ = {
 	--- Function that returns the result of the Multiple Runs Instance.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg number The number of the desired execution.
-	-- @usage m = multipleRuns = {...}
+	-- @usage -- DONTRUN
+	-- m = multipleRuns = {...}
 	-- m:get(1).x == -100
 	get = function(data, number)
 		mandatoryArgument(1, "number", number)
@@ -191,7 +191,8 @@ MultipleRuns_ = {
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg name The name of the .csv file.
 	-- @arg separator The choosen separator to be used in the .csv file.
-	-- @usage m = multipleRuns = {...}
+	-- @usage -- DONTRUN
+	-- m = multipleRuns = {...}
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)

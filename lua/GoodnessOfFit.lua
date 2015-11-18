@@ -20,7 +20,8 @@
 -- @arg attribute2 attribute from the second cellular space that should be compared.
 -- @arg continuous boolean that indicates if the model is continuous
 -- (default: false, discrete model).
--- @usage pixelByPixel(cs1, cs2, "attribute1", "attribute2")
+-- @usage -- DONTRUN
+-- pixelByPixel(cs1, cs2, "attribute1", "attribute2")
 function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
 	mandatoryArgument(2, "CellularSpace", cs2)
@@ -238,7 +239,8 @@ end
 -- @arg data.continuous Boolean that indicates if the model to be calibrated is continuous.
 -- @arg data.graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
--- @usage multiLevel{cs1, cs2, "attribute"}
+-- @usage -- DONTRUN
+-- multiLevel{cs1, cs2, "attribute"}
 multiLevel = function(data)
 	mandatoryArgument(1, "table", data)
 	mandatoryTableArgument(data, "cs1", "CellularSpace")

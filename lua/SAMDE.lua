@@ -19,7 +19,8 @@ metaTableSAMDE_ = {
 -- @arg data.maximize  An optional paramaters that determines if the models fitness values.
 -- @arg data.seed Optional seed parameter for Random(), default is system time.
 --  must be must be maximized instead of minimized, default is false. 
--- @usage c = SAMDE{
+-- @usage DONTRUN
+-- c = SAMDE{
 --     model = MyModel,
 --     parameters = {x = Choice{min = 1, max = 10, step = 2}, finalTime = 1},
 --     fit = function(model, parameter)

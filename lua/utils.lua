@@ -74,7 +74,8 @@ end
 -- starting to test the model.
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
--- @usage checkParameters(myModel, MultipleRunsParameters)
+-- @usage -- DONTRUN
+-- checkParameters(myModel, MultipleRunsParameters)
 function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "model", "Model")
 	mandatoryTableArgument(tParameters, "parameters", "table")
@@ -195,7 +196,8 @@ end
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters.
 -- Multiple Runs or Calibration instance .
--- @usage randomModel(myModel, MultipleRunsParameters)
+-- @usage -- DONTRUN
+-- randomModel(myModel, MultipleRunsParameters)
 function randomModel(tModel, tParameters)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
