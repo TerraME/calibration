@@ -149,7 +149,6 @@ MultipleRuns_ = {
 	type_ = "MultipleRuns",
 	--- Optional function defined by the user,
 	-- that is executed each time the model runs.
-	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
 	-- @usage -- DONTRUN
 	-- m = multipleRuns = {...
@@ -176,16 +175,18 @@ MultipleRuns_ = {
 	-- 	output = function(model)
 	--		return model.value
 	-- 	end}
-	output = function(data, model)
+	output = function(self, model)
 		return nil
 	end,
-	--- Function that returns the result of the Multiple Runs Instance.
-	-- @arg data The data of the MultipleRuns object.
-	-- @arg number The number of the desired execution.
+	--- Function that returns the result of a given MultipleRuns instance.
+	-- Note that, although in the description below output has only one argument, 
+	-- the signature has two arguments, the first one being the MultipleRuns itself. 
+	-- @arg number The number of the desired execution. TODO: what does this 
+	-- number mean? First, second, third simulation?
 	-- @usage -- DONTRUN
 	-- m = multipleRuns = {...}
 	-- m:get(1).x == -100
-	-- @usage
+	--
 	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
@@ -207,13 +208,14 @@ MultipleRuns_ = {
 	--		return model.value
 	-- 	end}
 	-- m:get(1).x == 4
-	get = function(data, number)
+	get = function(self, number)
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
-		forEachOrderedElement(data, function(idx, att, typ)
+
+		forEachOrderedElement(self, function(idx, att, typ)
 			if typ == "table" then
-				if data[idx][number] ~= nil then		
-					getTable[idx] = data[idx][number]
+				if self[idx][number] ~= nil then		
+					getTable[idx] = self[idx][number]
 				else
 					forEachOrderedElement(att, function(idx2, att2, typ2)
 						if typ2 == "table" then
@@ -221,22 +223,23 @@ MultipleRuns_ = {
 								getTable[idx] = {}
 							end
 
-							getTable[idx][idx2] = data[idx][idx2][number]
+							getTable[idx][idx2] = self[idx][idx2][number]
 						end
 					end)
 				end
 			end
 		end)
+
 		return getTable
 	end,
-	--- Function that saves the result of the Multiple Runs instance in a .csv file.
-	-- @arg data The data of the MultipleRuns object.
-	-- @arg name The name of the .csv file.
-	-- @arg separator The choosen separator to be used in the .csv file.
+	--- Save the results of MultipleRuns to a CSV file. Each simulation
+	-- will be stored as a line in the file. (TODO: which attributes from
+	-- the model instances will be saved? All them? Are the parameters
+	-- saved too?).
+	-- @arg name The name of the CSV file.
+	-- @arg separator The chosen separator to be used in the CSV file.
 	-- @usage -- DONTRUN
 	-- m = multipleRuns = {...}
-	-- @usage
-	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
 	-- 	finalTime = 1,
@@ -257,11 +260,12 @@ MultipleRuns_ = {
 	--		return model.value
 	-- 	end}
 	-- m:saveCSV("myCSVFile", ";")
-	saveCSV = function(data, name, separator)
+	saveCSV = function(self, name, separator)
 		mandatoryArgument(2, "string", separator)
 		mandatoryArgument(1, "string", name)
 		local CSVTable = {}
-		forEachOrderedElement(data, function(idx, att, typ)
+
+		forEachOrderedElement(self, function(idx, att, typ)
 			if typ == "table" and idx ~= "parameters" then
 				local counter = 0
 				forEachOrderedElement(att, function(idx2, att2, typ2)
@@ -269,31 +273,32 @@ MultipleRuns_ = {
 					if CSVTable[counter] == nil then
 						CSVTable[counter] = {}
 					end
+
 					CSVTable[counter][idx] = idx2
 				end)
 			end
 		end)
+
 		CSVwrite(CSVTable, name..".csv", separator)
 	end
 }
+
 metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
 --- Type to execute a Model with different parameters.
 -- It returns a MultipleRuns varibles with the results.
--- MultipleRuns should return an object with type MultipleRuns and the tables:
--- ".simulations": with a name for each test executed and
--- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
+-- @output simulations A table with the Model instances
+-- after the simulation. (TODO: It is indexed by numbers
+-- according to the execution order.)
+-- @output parameters A table with the parameters to instantiate 
+-- the Model. (TODO: If MultipleRuns
+-- is executed twice with the same parameters, this table
+-- will be the same, even if the simulations produce different
+-- outputs. - To guarantee that the algorithm must always call
+-- forEachOrderedElement. Is it true?)
 -- @usage -- DONTRUN
--- @tabular data
--- Strategy & Description \
--- "Factorial" & Test all possibilities of the model parameters combinations, 
--- the parameter "quantity" is optional and the default value is 1.\
--- "Repeated" & Test the model with defined parameters quantity times.\
--- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
--- "Selected" & This should test the model in each of the selected combinations of parameters. 
--- @usage
 --		-- Complete Example:
 -- 		import("calibration")
 -- 		local MyModel = Model{
@@ -382,7 +387,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.model The Model to be instantiated and executed several times.
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
--- @arg data.output An optional user defined output function.
+-- @arg data.output An optional user-defined output function. See MultipleRuns:output().
 -- @arg data.folderName Name of the folder where the simulations output will be saved.
 -- @arg data.folderPath Path of the folder where the tests will be saved.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -416,6 +421,7 @@ function MultipleRuns(data)
 	end)
 
 	checkParameters(data.model, data)
+
 	local Params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
@@ -433,7 +439,6 @@ function MultipleRuns(data)
 	end
 
 	-- Setting the folder for the tests results to be saved:
-
 	local firstDir = currentDir()
 	local folderDir = firstDir 
 
@@ -462,7 +467,7 @@ function MultipleRuns(data)
 	chDir(folderDir..s..folder) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
-	-- Prepares the variables and executes the model according to each strategy.
+		-- Prepares the variables and executes the model according to each strategy.
 		factorial = function()
 			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
 				resultTable[idx] = {}
@@ -537,6 +542,7 @@ function MultipleRuns(data)
 						end)
 					end
 				end)
+
 				forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
 					if resultTable[idx2] == nil then 
 						resultTable[idx2] = {}
