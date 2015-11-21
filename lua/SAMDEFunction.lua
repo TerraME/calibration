@@ -282,7 +282,7 @@ end
 -- @arg maxGen maxGen If a model generation reach this value, the function stops.
 -- @arg seed Optional seed parameter for Random function, default value is os.time().
 -- @arg threshold threshold If a model fitness reach this value, the function stops.
--- @usage 
+-- @usage DONTRUN
 -- local fit = function(model, parameters)
 --		local m = model(parameters)
 --		m:execute()
