@@ -153,8 +153,7 @@ MultipleRuns_ = {
 	-- that is executed each time the model runs.
 	-- @arg data The data of the MultipleRuns object.
 	-- @arg model The instance of the Model that was executed.
-	-- @usage
-	-- import("calibration")
+	-- @usage	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
 	-- 	finalTime = 1,
@@ -166,13 +165,13 @@ MultipleRuns_ = {
 	-- 	}
 	-- 	end
 	-- }
-	-- m = multipleRuns = {
+	-- m = MultipleRuns{
 	-- 	model = MyModel,
 	-- 	strategy = "repeated",
-	-- 	parameters = {x = 4},
-	--	quantity = 3,
+	-- 	parameters = {x = 2},
+	-- 	quantity = 3,
 	-- 	output = function(model)
-	--		return model.value
+	-- 		print(model.x)
 	-- 	end}
 	output = function(data, model)
 		return nil
@@ -193,15 +192,16 @@ MultipleRuns_ = {
 	-- 	}
 	-- 	end
 	-- }
-	-- m = multipleRuns = {
+	-- m = MultipleRuns{
 	-- 	model = MyModel,
-	-- 	strategy = "repeated",
-	-- 	parameters = {x = 4},
-	--	quantity = 3,
+	-- 	strategy = "sample",
+	-- 	parameters = {x = Choice{-100, -1, 0, 1,2,100}},
+	-- 	quantity = 3,
 	-- 	output = function(model)
-	--		return model.value
+	-- 		print(model.x)
 	-- 	end}
-	-- m:get(1).x == 4
+	-- -- Get the X value in the first execution
+	-- result = m:get(1).x
 	get = function(data, number)
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
@@ -241,14 +241,15 @@ MultipleRuns_ = {
 	-- 	}
 	-- 	end
 	-- }
-	-- m = multipleRuns = {
+	-- m = MultipleRuns{
 	-- 	model = MyModel,
 	-- 	strategy = "repeated",
-	--	quantity = 3,
-	-- 	parameters = {x = 4},
+	-- 	parameters = {x = 2},
+	-- 	quantity = 3,
 	-- 	output = function(model)
-	--		return model.value
+	-- 		print(model.x)
 	-- 	end}
+	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
@@ -273,7 +274,7 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
----Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
+--- Type to test a model with different strategies, returns a MultipleRuns varibles with the results.
 -- MultipleRuns should return an object with type MultipleRuns and the tables:
 -- ".simulations": with a name for each test executed and
 -- one extra table for each parameter used in the argument "parameters", with that parameter value in each test.
@@ -285,89 +286,91 @@ metaTableMultipleRuns_ = {
 -- "Sample" & This should test the model quantity times, each time with a random combination of the possible parameters.\
 -- "Selected" & This should test the model in each of the selected combinations of parameters. 
 -- @usage
---		-- Complete Example:
--- 		import("calibration")
--- 		local MyModel = Model{
--- 			x = Choice{-100, -1, 0, 1, 2, 100},
--- 			y = Choice{min = 1, max = 10, step = 1},
--- 			finalTime = 1,
--- 			init = function(self)
--- 				self.timer = Timer{
--- 					Event{action = function()
--- 						self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 					end}
--- 			}
--- 			end
--- 		}
--- 		c = MultipleRuns{
--- 			model = MyModel,
--- 			strategy = "sample",
--- 			quantity = 5,
--- 			
--- 			folderPath = currentDir(),
--- 			parameters = {
--- 				x = Choice{-100, -1, 0, 1, 2, 100},
--- 				y = Choice{min = 1, max = 10, step = 1},
--- 				finalTime = 1
--- 		 	},
--- 			output = function(model)
--- 				return model.value
--- 			end,
---			additionalFunction = function(model)
---				return model.value/2
---			end
--- 		}
---		
--- 		-- Factorial Example:
---	
--- 		MultipleRuns{
--- 			model = MyModel,
--- 			strategy = "factorial",
--- 			parameters = {
--- 				water = Choice{min = 10, max = 20, step = 1},
--- 		 		rain = Choice{min = 10, max = 20, step = 2},
--- 				finalTime = 1
--- 			},
--- 			quantity = 2
--- 		}
--- 		-- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
---		
--- 		-- Repeated Example:
---		
--- 		r = MultipleRuns{
--- 			model = MyModel,
---			strategy = "repeated",
--- 			parameters = {water = 10, rain = 20, finalTime = 1},
--- 			quantity = 10,
--- 		}
--- 		-- This should run the model 10 times with the same parameters.
---
---		-- Sample Example:
---
--- 		MultipleRuns{
--- 			model = MyModel,
---			strategy = "sample",
--- 			parameters = {
--- 				water = Choice{min = 10, max = 20, step = 1},
--- 		 		rain = Choice{min = 10, max = 20, step = 2},
---				finalTime = 10,
--- 			},
--- 			quantity = 5
--- 		}
--- 		-- This should run the model 5 times selecting random values from the defined parameters
---		-- (if they are choice, otherwise use the only available value).
---
---		-- Selected Example:
---
--- 		x = MultipleRuns{
--- 			model = MyModel,
---			strategy = "selected",
--- 			parameters = {
--- 				scenario1 = {water = 10, rain = 20, finalTime = 10},
--- 		 		scenario2 = {water = 5, rain = 10, finalTime = 10}
--- 			}
--- 		}
--- 		-- This should run the model 2 times with the same parameters defined in the vector of parameters.
+-- -- Complete Example:
+-- import("calibration")
+-- local MyModel = Model{
+-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+-- 	y = Choice{min = 1, max = 10, step = 1},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- c = MultipleRuns{
+-- 	model = MyModel,
+-- 	strategy = "sample",
+-- 	quantity = 5,
+-- 	folderPath = currentDir(),
+-- 	parameters = {
+-- 		x = Choice{-100, -1, 0, 1, 2, 100},
+-- 		y = Choice{min = 1, max = 10, step = 1},
+-- 		finalTime = 1
+--  	},
+-- 	output = function(model)
+-- 		return model.value
+-- 	end,
+-- 	additionalFunction = function(model)
+-- 		return model.value/2
+-- 	end
+-- }
+-- -- Factorial Example:
+-- MultipleRuns{
+-- 	model = MyModel,
+-- 	strategy = "factorial",
+-- 	parameters = {
+-- 		water = Choice{min = 10, max = 20, step = 1},
+--  		rain = Choice{min = 10, max = 20, step = 2},
+-- 		finalTime = 1
+-- 	},
+-- 	quantity = 2
+-- }
+-- -- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
+-- -- Repeated Example:
+-- local RainModel = Model{
+-- 	water = Choice{min = 0, max = 100},
+-- 	rain = Choice{min = 0, max = 20},
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.water = self.water + (self.rain - 150)
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- r = MultipleRuns{
+-- 	model = RainModel,
+-- 	strategy = "repeated",
+-- 	parameters = {water = 10, rain = 20, finalTime = 1},
+-- 	quantity = 10,
+-- }
+-- -- This should run the model 10 times with the same parameters.
+-- -- Sample Example:
+-- MultipleRuns{
+-- 	model = MyModel,
+-- 	strategy = "sample",
+-- 	parameters = {
+-- 		water = Choice{min = 10, max = 20, step = 1},
+--  		rain = Choice{min = 10, max = 20, step = 2},
+-- 		finalTime = 10,
+-- 	},
+-- 	quantity = 5
+-- }
+-- -- This should run the model 5 times selecting random values from the defined parameters
+-- -- (if they are choice, otherwise use the only available value).
+-- -- Selected Example:
+-- x = MultipleRuns{
+-- 	model = RainModel,
+-- 	strategy = "selected",
+-- 	parameters = {
+-- 		scenario1 = {water = 10, rain = 20, finalTime = 10},
+--  		scenario2 = {water = 5, rain = 10, finalTime = 10}
+-- 	}
+-- }
+-- -- This should run the model 2 times with the same parameters defined in the vector of parameters.
 -- @arg data A table containing the described values.
 -- @arg data.quantity Quantity of repeated runs for repeated, factorial and sample strategy.
 -- @arg data.model A model.

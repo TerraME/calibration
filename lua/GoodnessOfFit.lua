@@ -22,7 +22,9 @@
 -- (default: false, discrete model).
 -- @usage
 -- import("calibration")
--- pixelByPixel(cs1, cs2, "attribute1", "attribute2")
+-- local cell = Cell{a = 0.8, b = 0.7}
+-- local cs = CellularSpace{xdim = 10, instance = cell}
+-- pixelByPixel(cs, cs, "a", "b")
 function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	mandatoryArgument(1, "CellularSpace", cs1)
 	mandatoryArgument(2, "CellularSpace", cs2)
@@ -242,9 +244,15 @@ end
 -- (Default = False, discrete model).
 -- @usage
 -- import("calibration")
--- local cell = Cell{a = 0.8, b = 0.7}
--- local cs = CellularSpace{xdim = 10, instance = cell} 
--- multiLevel{cs1 = cs, cs2 = cs, attribute = "attribute", continuous = false, graphics = false}
+-- local cs = CellularSpace{
+-- 			database = file("Costanza.map", "calibration"),
+-- 			attrname = "Costanza"
+-- 		}
+-- local cs2 = CellularSpace{
+-- 				database = file("Costanza2.map", "calibration"),
+-- 				attrname = "Costanza"
+-- 		}
+-- multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = false, graphics = true}
 multiLevel = function(data)
 	mandatoryArgument(1, "table", data)
 	mandatoryTableArgument(data, "cs1", "CellularSpace")
