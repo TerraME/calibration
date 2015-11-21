@@ -59,6 +59,8 @@
 	
 		
 	
+		
+	
 
 	
 
@@ -75,6 +77,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -116,6 +120,7 @@
 		
 		
 		
+		
 	</ul>
 
 
@@ -133,6 +138,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -169,6 +176,7 @@
 					</li>
 				
 			
+		
 		
 		
 		
@@ -226,7 +234,7 @@
 
 
 
-<span class="description">Type to calibrate a model, returns a SAMDE type with the fittest individual, the fit value and the number of generations.</span>
+<span class="description">Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the fittest individual (a Model), its fit value, and the number of generations of the simulation.</span>
 
 
 
@@ -236,27 +244,27 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>fit</strong>: A function that receives a Model and calibrated parameters to calculate the instance fitness value.
+	  <strong>fit</strong>: A user-defined function that gets a Model as argument and returns how good is the result of such Model. This value is executed after the simulation of the model, which means that the attribute values are the results. TODO: Which kind of values are possible to be returned by this function? A value between 0 and 1?
     </li> 
     
   
     <li>
-	  <strong>maxGen</strong>: If a model generation reach this value, the function stops.
+	  <strong>maxGen</strong>: The maximum number of generations. If the simulation reaches this value, it stops and returns the Model that has the fittest result? TODO.
     </li> 
     
   
     <li>
-	  <strong>maximize</strong>: An optional paramaters that determines if the models fitness values.
+	  <strong>maximize</strong>: An optional paramaters that determines if the fit will be maximized (true) or minimized (false, default value).
     </li> 
     
   
     <li>
-	  <strong>model</strong>: A model.
+	  <strong>model</strong>: A Model.
     </li> 
     
   
     <li>
-	  <strong>parameters</strong>: A table of parameters to be calibrated.
+	  <strong>parameters</strong>: A table with the possible parameter values. They can be values or Choices. All Choices will be calibrated.
     </li> 
     
   
@@ -266,12 +274,12 @@
     
   
     <li>
-	  <strong>size</strong>: the population size for each generation.
+	  <strong>size</strong>: The (TODO: maximum?) population size in each generation.
     </li> 
     
   
     <li>
-	  <strong>threshold</strong>: If a model fitness reach this value, the function stops.
+	  <strong>threshold</strong>: If the fitness of a model reaches this value, SAMDE stops and returns such model.
     </li> 
     
   
@@ -284,7 +292,8 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code><span class="id">c</span> = <span class="function">SAMDE</span>{
+<pre class="example"><code><span class="comment">-- DONTRUN</span>
+<span class="id">c</span> = <span class="function">SAMDE</span>{
     <span class="id">model</span> = <span class="id">MyModel</span>,
     <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">2</span>}, <span class="id">finalTime</span> = <span class="number">1</span>},
     <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>, <span class="id">parameter</span>)

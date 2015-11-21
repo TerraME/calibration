@@ -59,6 +59,8 @@
 	
 		
 	
+		
+	
 
 	
 
@@ -75,6 +77,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -116,6 +120,7 @@
 		
 		
 		
+		
 	</ul>
 
 
@@ -133,6 +138,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -169,6 +176,7 @@
 					</li>
 				
 			
+		
 		
 		
 		
@@ -226,65 +234,10 @@
 
 
 
-<span class="description">Type to test a model with different strategies, returns a <a href=../files/MultipleRuns.html>MultipleRuns</a> varibles with the results. MultipleRuns should return an object with type MultipleRuns and the tables: ".simulations": with a name for each test executed and one extra table for each parameter used in the argument "parameters", with that parameter value in each test.</span>
+<span class="description">Type to execute a Model with different parameters. It returns a <a href=../files/MultipleRuns.html>MultipleRuns</a> varibles with the results.</span>
 
 
-	 
-			<table class="arg_tab">
-			
-				<tr>
-					
-							<th>
-							Strategy
-							</th>
-						
-							<th>
-							Description
-							</th>
-						
-				<tr>
-					
-							<td>
-							"Factorial"
-							</td>
-						
-							<td>
-							Test all possibilities of the model parameters combinations, the parameter "quantity" is optional and the default value is 1.
-							</td>
-						
-				<tr>
-					
-							<td>
-							"Repeated"
-							</td>
-						
-							<td>
-							Test the model with defined parameters quantity times.
-							</td>
-						
-				<tr>
-					
-							<td>
-							"Sample"
-							</td>
-						
-							<td>
-							This should test the model quantity times, each time with a random combination of the possible parameters.
-							</td>
-						
-				<tr>
-					
-							<td>
-							"Selected"
-							</td>
-						
-							<td>
-							This should test the model in each of the selected combinations of parameters.
-							</td>
-						
-				</tr>    
-			</table>
-		
+	
 
 
 <!-- Function arguments -->
@@ -292,7 +245,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>folderName</strong>: Name of the folder where the tests will be saved.
+	  <strong>folderName</strong>: Name of the folder where the simulations output will be saved.
     </li> 
     
   
@@ -302,33 +255,174 @@
     
   
     <li>
-	  <strong>model</strong>: A model.
+	  <strong>model</strong>: The Model to be instantiated and executed several times.
     </li> 
     
   
     <li>
-	  <strong>output</strong>: An optional user defined output function.
+	  <strong>output</strong>: An optional user-defined output function. See <a href=../files/MultipleRuns.html#output>output()</a>.
     </li> 
     
   
     <li>
-	  <strong>parameters</strong>: A table with the parameters to be tested; An optional quantity variable.
+	  <strong>parameters</strong>: A table with the parameters to be tested. These parameters must be a subset of the parameters of the Model with a subset of the available values.
     </li> 
     
   
     <li>
-	  <strong>quantity</strong>: Quantity of repeated runs for repeated, factorial and sample strategy.
+	  <strong>quantity</strong>: Quantity of runs that must be executed with the same parameters. The default value is 1.
     </li> 
     
   
     <li>
-	  <strong>strategy</strong>: Strategy to be used when testing the model.
+	  <strong>strategy</strong>: Strategy to be used when testing the model. See the table below:
     </li> 
+    
+      </span>
+      <!-- Strategy of the argument -->
+       
+      <table class="arg_tab">
+	  
+      
+        <tr>
+        
+          
+            <th>
+            Strategy
+            </th>
+          
+          
+            <th>
+            Description
+            </th>
+          
+          
+            <th>
+            Mandatory arguments
+            </th>
+          
+          
+            <th>
+            Optional arguments
+            </th>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "factorial"
+            </td>
+          
+          
+            <td>
+            Simulate the Model with all combinations of the argument parameters.
+            </td>
+          
+          
+            <td>
+            model, parameters
+            </td>
+          
+          
+            <td>
+            folderName, folderPath, output, quantity
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "repeated"
+            </td>
+          
+          
+            <td>
+            Simulate the Model a given number of times with the defined parameters.
+            </td>
+          
+          
+            <td>
+            model, parameters, quantity
+            </td>
+          
+          
+            <td>
+            folderName, folderPath, output
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "sample"
+            </td>
+          
+          
+            <td>
+            Run the model with a random combination of the possible parameters
+            </td>
+          
+          
+            <td>
+            model, parameters, quantity
+            </td>
+          
+          
+            <td>
+            folderName, folderPath, output
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "selected"
+            </td>
+          
+          
+            <td>
+            This should test the Model with a given set of parameters values. In this case, the argument parameters must be a named table, where each position is another table describing the parameters to be used in such simulation.
+            </td>
+          
+          
+            <td>
+            model, parameters
+            </td>
+          
+          
+            <td>
+            folderName, folderPath, output, quantity
+            </td>
+          
+        
+        </tr>    
+      </table>
+      <span class="arg">
     
   
   </span></ul>
 
 
+
+<!-- Outputs of the function -->
+<p>Attributes of MultipleRuns that can be used as <b>read-only</b> by the modeler:</p>
+<ul>
+<span class="output">
+	
+	<li>
+	  <strong>parameters</strong>: A table with the parameters to instantiate the Model. (TODO: If MultipleRuns is executed twice with the same parameters, this table will be the same, even if the simulations produce different outputs. - To guarantee that the algorithm must always call forEachOrderedElement. Is it true?)
+	</li>
+	
+	<li>
+	  <strong>simulations</strong>: A table with the Model instances after the simulation. (TODO: It is indexed by numbers according to the execution order.)
+	</li>
+	
+</span>
+</ul>
 
 
 
@@ -438,7 +532,7 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#get">get</a>&nbsp;
-<td class="summary">Function that returns the result of the Multiple Runs Instance.</td>
+<td class="summary">Function that returns the result of a given <a href=files/MultipleRuns.html>MultipleRuns</a> instance.</td>
 									</tr>
 								
 							
@@ -452,7 +546,7 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#saveCSV">saveCSV</a>&nbsp;
-<td class="summary">Function that saves the result of the Multiple Runs instance in a .csv file.</td>
+<td class="summary">Save the results of <a href=files/MultipleRuns.html>MultipleRuns</a> to a CSV file.</td>
 									</tr>
 								
 							
@@ -481,7 +575,7 @@
 <dd>
 
 
-<span class="description">Function that returns the result of the Multiple Runs Instance.</span>
+<span class="description">Function that returns the result of a given <a href=../files/MultipleRuns.html>MultipleRuns</a> instance. Note that, although in the description below output has only one argument, the signature has two arguments, the first one being the MultipleRuns itself.</span>
 
 
 
@@ -491,12 +585,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
-    </li> 
-    
-  
-    <li>
-	  <strong>#2</strong>: The number of the desired execution.
+	  <strong>#1</strong>: The number of the desired execution. TODO: what does this number mean? First, second, third simulation?
     </li> 
     
   
@@ -563,12 +652,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
-    </li> 
-    
-  
-    <li>
-	  <strong>#2</strong>: The instance of the Model that was executed.
+	  <strong>#1</strong>: The instance of the Model that was executed.
     </li> 
     
   
@@ -581,7 +665,8 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code><span class="comment">-- import("calibration")</span>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
 <span class="id">MyModel</span> = <span class="id">Model</span>{
 <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
 	<span class="id">finalTime</span> = <span class="number">1</span>,
@@ -622,7 +707,7 @@
 <dd>
 
 
-<span class="description">Function that saves the result of the Multiple Runs instance in a .csv file.</span>
+<span class="description">Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV file. Each simulation will be stored as a line in the file. (TODO: which attributes from the model instances will be saved? All them? Are the parameters saved too?).</span>
 
 
 
@@ -632,17 +717,12 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The data of the <a href=../files/MultipleRuns.html>MultipleRuns</a> object.
+	  <strong>#1</strong>: The name of the CSV file.
     </li> 
     
   
     <li>
-	  <strong>#2</strong>: The name of the .csv file.
-    </li> 
-    
-  
-    <li>
-	  <strong>#3</strong>: The choosen separator to be used in the .csv file.
+	  <strong>#2</strong>: The chosen separator to be used in the CSV file.
     </li> 
     
   
