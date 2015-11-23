@@ -491,8 +491,8 @@ function MultipleRuns(data)
 			factorialResultTable = nil
 		end,
 		repeated = function()
-			local m = data.model(data.parameters)
 			for i = 1, data.quantity do
+					local m = data.model(data.parameters)
 					m:execute() 
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					local testDir = currentDir()
