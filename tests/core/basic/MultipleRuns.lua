@@ -71,7 +71,23 @@ local MyModel4 = Model{
 
 return{
 output = function(unitTest)
-	unitTest:assert(true)
+	local m = MultipleRuns{
+		folderName = tmpDir()..s.."saveCSVTests",
+		model = MyModel,
+		strategy = "factorial",
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(model)
+			return "test"
+		end,
+		output = function(model)
+			return model.value
+		end
+	}
+	unitTest:assert(m:get(1).output == 20305)
 end,
 get = function (unitTest)
 	local m = MultipleRuns{
