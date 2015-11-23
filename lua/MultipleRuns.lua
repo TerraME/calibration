@@ -177,8 +177,7 @@ MultipleRuns_ = {
 	--- Function that returns the result of a given MultipleRuns instance.
 	-- Note that, although in the description below output has only one argument, 
 	-- the signature has two arguments, the first one being the MultipleRuns itself. 
-	-- @arg number The number of the desired execution. TODO: what does this 
-	-- number mean? First, second, third simulation?
+	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
 	-- @usage
 	-- import("calibration")
 	-- MyModel = Model{
@@ -227,10 +226,10 @@ MultipleRuns_ = {
 
 		return getTable
 	end,
-	--- Save the results of MultipleRuns to a CSV file. Each simulation
-	-- will be stored as a line in the file. (TODO: which attributes from
-	-- the model instances will be saved? All them? Are the parameters
-	-- saved too?).
+	--- Save the results of MultipleRuns to a CSV file.
+	-- Each line represents the values in a different simulation.
+	-- The columns are each of the parameters passed to MultipleRuns
+	-- and the return values of all additional functions including output().
 	-- @arg name The name of the CSV file.
 	-- @arg separator The chosen separator to be used in the CSV file.
 	-- @usage
@@ -256,12 +255,12 @@ MultipleRuns_ = {
 	-- 	end}
 	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
-	saveCSV = function(self, name, separator)
+	saveCSV = function(data, name, separator)
 		mandatoryArgument(2, "string", separator)
 		mandatoryArgument(1, "string", name)
 		local CSVTable = {}
 
-		forEachOrderedElement(self, function(idx, att, typ)
+		forEachOrderedElement(data, function(idx, att, typ)
 			if typ == "table" and idx ~= "parameters" then
 				local counter = 0
 				forEachOrderedElement(att, function(idx2, att2, typ2)
@@ -270,7 +269,7 @@ MultipleRuns_ = {
 						CSVTable[counter] = {}
 					end
 
-					CSVTable[counter][idx] = idx2
+					CSVTable[counter][idx] = att2
 				end)
 			end
 		end)
@@ -286,14 +285,16 @@ metaTableMultipleRuns_ = {
 --- Type to execute a Model with different parameters.
 -- It returns a MultipleRuns varibles with the results.
 -- @output simulations A table with the Model instances
--- after the simulation. (TODO: It is indexed by numbers
--- according to the execution order.)
--- @output parameters A table with the parameters to instantiate 
--- the Model. (TODO: If MultipleRuns
+-- after the simulation. It is indexed by numbers
+-- according to the execution order.
+-- @output parameters A table with parameters used to instantiate the model
+-- in this simulation.
+-- (If MultipleRuns
 -- is executed twice with the same parameters, this table
 -- will be the same, even if the simulations produce different
--- outputs. - To guarantee that the algorithm must always call
--- forEachOrderedElement. Is it true?)
+-- outputs. - To guarantee that, the algorithm must always call
+-- forEachOrderedElement. Is it true?
+-- ANSWER: Yes it's true.)
 -- @usage
 -- -- Complete Example:
 -- import("calibration")

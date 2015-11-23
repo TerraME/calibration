@@ -59,8 +59,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -77,8 +75,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -120,7 +116,6 @@
 		
 		
 		
-		
 	</ul>
 
 
@@ -138,8 +133,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -176,7 +169,6 @@
 					</li>
 				
 			
-		
 		
 		
 		
@@ -246,11 +238,6 @@
 
     <li>
 	  <strong>folderName</strong>: Name of the folder where the simulations output will be saved.
-    </li> 
-    
-  
-    <li>
-	  <strong>folderPath</strong>: Path of the folder where the tests will be saved.
     </li> 
     
   
@@ -326,7 +313,7 @@
           
           
             <td>
-            folderName, folderPath, output, quantity
+            folderName, output, quantity
             </td>
           
         
@@ -349,7 +336,7 @@
           
           
             <td>
-            folderName, folderPath, output
+            folderName, output
             </td>
           
         
@@ -372,7 +359,7 @@
           
           
             <td>
-            folderName, folderPath, output
+            folderName, output
             </td>
           
         
@@ -395,7 +382,7 @@
           
           
             <td>
-            folderName, folderPath, output, quantity
+            folderName, output, quantity
             </td>
           
         
@@ -414,11 +401,11 @@
 <span class="output">
 	
 	<li>
-	  <strong>parameters</strong>: A table with the parameters to instantiate the Model. (TODO: If MultipleRuns is executed twice with the same parameters, this table will be the same, even if the simulations produce different outputs. - To guarantee that the algorithm must always call forEachOrderedElement. Is it true?)
+	  <strong>parameters</strong>: A table with parameters used to instantiate the model in this simulation. (If MultipleRuns is executed twice with the same parameters, this table will be the same, even if the simulations produce different outputs. - To guarantee that, the algorithm must always call forEachOrderedElement. Is it true? ANSWER: Yes it's true.)
 	</li>
 	
 	<li>
-	  <strong>simulations</strong>: A table with the Model instances after the simulation. (TODO: It is indexed by numbers according to the execution order.)
+	  <strong>simulations</strong>: A table with the Model instances after the simulation. It is indexed by numbers according to the execution order.
 	</li>
 	
 </span>
@@ -448,7 +435,6 @@
 	<span class="id">model</span> = <span class="id">MyModel</span>,
 	<span class="id">strategy</span> = <span class="string">"sample"</span>,
 	<span class="id">quantity</span> = <span class="number">5</span>,
-	<span class="id">folderPath</span> = <span class="id">currentDir</span>(),
 	<span class="id">parameters</span> = {
 		<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
 		<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
@@ -585,7 +571,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The number of the desired execution. TODO: what does this number mean? First, second, third simulation?
+	  <strong>#1</strong>: Index of the desired execution in the MultipleRuns.simulations returned.
     </li> 
     
   
@@ -707,7 +693,7 @@
 <dd>
 
 
-<span class="description">Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV file. Each simulation will be stored as a line in the file. (TODO: which attributes from the model instances will be saved? All them? Are the parameters saved too?).</span>
+<span class="description">Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV file. Each line represents the values in a different simulation. The columns are each of the parameters passed to MultipleRuns and the return values of all additional functions including output().</span>
 
 
 
@@ -717,12 +703,17 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The name of the CSV file.
+	  <strong>#1</strong>: 
     </li> 
     
   
     <li>
-	  <strong>#2</strong>: The chosen separator to be used in the CSV file.
+	  <strong>#2</strong>: The name of the CSV file.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: The chosen separator to be used in the CSV file.
     </li> 
     
   

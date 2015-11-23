@@ -97,7 +97,7 @@ end,
 saveCSV = function(unitTest)
 unitTest:assert(true)
 	local m = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
+		folderName = tmpDir()..s.."saveCSVTests",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -114,8 +114,8 @@ unitTest:assert(true)
 	}
 	m:saveCSV("results", ";")
 	local myTable = CSVread("results.csv", ";")
-	unitTest:assert(myTable[1]["x"] == 1)
-	unitTest:assert(myTable[1]["additionalF"] == 1)
+	unitTest:assert(myTable[1]["x"] == -100)
+	unitTest:assert(myTable[1]["additionalF"] == "test")
 end,
 MultipleRuns = function(unitTest)
 	-- print("M")
