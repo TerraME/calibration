@@ -313,7 +313,6 @@ metaTableMultipleRuns_ = {
 -- 	model = MyModel,
 -- 	strategy = "sample",
 -- 	quantity = 5,
--- 	folderPath = currentDir(),
 -- 	parameters = {
 -- 		x = Choice{-100, -1, 0, 1, 2, 100},
 -- 		y = Choice{min = 1, max = 10, step = 1},
@@ -387,21 +386,20 @@ metaTableMultipleRuns_ = {
 -- of the parameters of the Model with a subset of the available values.
 -- @arg data.output An optional user-defined output function. See MultipleRuns:output().
 -- @arg data.folderName Name of the folder where the simulations output will be saved.
--- @arg data.folderPath Path of the folder where the tests will be saved.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
--- & parameters, model & quantity, output, folderName, folderPath \
+-- & parameters, model & quantity, output, folderName \
 -- "repeated" & Simulate the Model a given number of times with the defined parameters. & model,
 -- quantity, parameters &
--- output, folderName, folderPath \
+-- output, folderName \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- quantity, model & output, folderName, folderPath \
+-- quantity, model & output, folderName \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, folderPath, quantity 
+-- model, parameters & output, folderName, quantity 
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -414,7 +412,7 @@ function MultipleRuns(data)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "folderPath"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName"})
 		end
 	end)
 
@@ -439,16 +437,6 @@ function MultipleRuns(data)
 	-- Setting the folder for the tests results to be saved:
 	local firstDir = currentDir()
 	local folderDir = firstDir 
-
-	if data.folderPath ~= nil then
-		if not chDir(data.folderPath) then
-			chDir(firstDir)
-			customError("Invalid folder path")
-		end
-
-		folderDir = currentDir()
-	end
-
 	local folder = data.folderName
 	if folder == nil then
 		folder = "MultipleRunsTests"
@@ -456,13 +444,14 @@ function MultipleRuns(data)
 	else
 		if type(folder) ~= "string" or not mkDir(folder) then
 			chDir(firstDir)
+						print(folder)
 			customError("Invalid folder name")
 		end
 	end
 
-	--set the folder for test results to be saved.
-	local s = package.config:sub(1, 1)
-	chDir(folderDir..s..folder) 
+	chDir(folder)
+	folderDir = currentDir()
+	local s = package.config:sub(1, 1) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.

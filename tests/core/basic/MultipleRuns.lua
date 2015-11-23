@@ -1,3 +1,9 @@
+-- Getting the TerraME tmp folder
+local first = currentDir()
+chDir(tmpDir())
+local tmp = currentDir()
+chDir(first)
+-- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
 	y = Choice{min = 1, max = 10, step = 1},
@@ -73,7 +79,7 @@ output = function(unitTest)
 end,
 get = function (unitTest)
 	local m = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -95,7 +101,7 @@ end,
 saveCSV = function(unitTest)
 unitTest:assert(true)
 	local m = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -118,8 +124,7 @@ end,
 MultipleRuns = function(unitTest)
 	-- print("M")
 	local m = MultipleRuns{
-		folderPath = tmpDir(),
-		folderName = "Test",
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -135,7 +140,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mQuant = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "factorial",
 		quantity = 2,
@@ -152,7 +157,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mMan = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel2,
 		strategy = "factorial",
 		parameters = {
@@ -168,7 +173,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mTab = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel3,
 		strategy = "factorial",
 		parameters = {
@@ -187,7 +192,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mTab2 = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel3Inv,
 		strategy = "factorial",
 		parameters = {
@@ -203,7 +208,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mSingle = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel4,
 		strategy = "factorial",
 		parameters = {
@@ -220,7 +225,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m2 = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "selected",
 		parameters = {
@@ -235,7 +240,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m2Tab = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel3,
 		strategy = "selected",
 		parameters = {
@@ -247,7 +252,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m3 = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "repeated",
 		parameters = {x = 2, y = 5},
@@ -260,7 +265,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m3Tab = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel3,
 		strategy = "repeated",
 		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
@@ -270,7 +275,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m4 = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel,
 		strategy = "sample",
 		parameters = {
@@ -286,7 +291,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m4Single = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel4,
 		strategy = "sample",
 		parameters = {
@@ -301,7 +306,7 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m4Tab = MultipleRuns{
-		folderPath = tmpDir(),
+		folderName = tmp..package.config:sub(1, 1).."MultipleRunsTests"..package.config:sub(1, 1),
 		model = MyModel3,
 		strategy = "sample",
 		parameters = {
