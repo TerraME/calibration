@@ -23,7 +23,6 @@ local c2 = SAMDE{
 	threshold = 1,
 	parameters = {x = Choice{min = 1, max = 10}, y = Choice{min = 1, max = 10}},
 	fit = function(model)
-		model:execute()
 		return model.value
 	end
 }

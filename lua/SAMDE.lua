@@ -9,6 +9,9 @@ metaTableSAMDE_ = {
 --- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the
 -- fittest individual (a Model), its fit value, and the number of generations of the
 -- simulation.
+-- @output fit The best fitness result returned by the SAMDE Algorithm.
+-- @output instance The instance of the model with the best fitness.
+-- @output generation The number of generations created by the generit algorithm until it stopped.
 -- @arg data.model A Model.
 -- @arg data.parameters A table with the possible parameter values. They can be
 -- values or Choices. All Choices will be calibrated.
