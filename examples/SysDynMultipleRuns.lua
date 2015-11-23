@@ -45,7 +45,7 @@ yeast = SysDynModel{
 local results = {model_fitness = 0}
 local c1 = MultipleRuns{
     model = yeast,
-    folderPath = tmpDir(),
+    folderName = tmpDir(),
     strategy = "factorial",
     parameters = {rate = Choice{min = 0, max = 2.5, step = 0.1}},
     fit = function(model)

@@ -435,6 +435,7 @@ function MultipleRuns(data)
 	end
 
 	-- Setting the folder for the tests results to be saved:
+	local s = package.config:sub(1, 1) 
 	local firstDir = currentDir()
 	local folderDir = firstDir 
 	local folder = data.folderName
@@ -442,16 +443,17 @@ function MultipleRuns(data)
 		folder = "MultipleRunsTests"
 		mkDir(folder)
 	else
-		if type(folder) ~= "string" or not mkDir(folder) then
-			chDir(firstDir)
-						print(folder)
-			customError("Invalid folder name")
+		local mkDirValue, mkDirError = mkDir(folder)
+		if not mkDirValue then
+			if mkDirError ~= "File exists" then
+				chDir(firstDir)
+				customError("Invalid folder name: "..mkDirError)
+			end
 		end
 	end
 
 	chDir(folder)
 	folderDir = currentDir()
-	local s = package.config:sub(1, 1) 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.

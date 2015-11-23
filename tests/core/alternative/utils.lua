@@ -1,3 +1,4 @@
+local s = package.config:sub(1, 1)
 -- Getting the TerraME tmp folder
 local first = currentDir()
 chDir(tmpDir())
@@ -50,7 +51,7 @@ return{
 	checkParameters = function(unitTest)
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "repeated",
 				parameters = {x = 2, y = 5, seed = 1001},
@@ -63,7 +64,7 @@ return{
 		unitTest:assertError(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "repeated",
 				parameters = {x = 2, y = 5},
@@ -75,7 +76,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "sample",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = 5},
@@ -87,7 +88,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
@@ -99,7 +100,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'y.step' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = {-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -111,7 +112,7 @@ return{
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -124,7 +125,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'test' is unnecessary.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{min = 2, max = 5, step = 1}, y = Choice{min = 2, max = 5, step = 1}},
@@ -136,7 +137,7 @@ return{
 		unitTest:assertError(error_func, "Parameter x should not be a range of values")
 			error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1}},
@@ -148,7 +149,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y must have min and max values")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 0, max = 10, step = 1}},
@@ -160,7 +161,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 			error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 11, step = 1}},
@@ -172,7 +173,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 0.5}},
@@ -184,7 +185,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y step is out of the model range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 0, max = 10, step = 1}},
@@ -196,7 +197,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1.5, max = 9.5, step = 1}},
@@ -208,7 +209,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 11, step = 1}},
@@ -220,7 +221,7 @@ return{
 		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -234,7 +235,7 @@ return{
 		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -247,7 +248,7 @@ return{
 		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -260,7 +261,7 @@ return{
 		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 99}, y = Choice{min = 1, max = 10, step = 1}},
@@ -272,7 +273,7 @@ return{
 		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -284,7 +285,7 @@ return{
 		unitTest:assertError(error_func, "Parameter -100 in #1 is smaller than x min value")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 100}},
@@ -296,7 +297,7 @@ return{
 		unitTest:assertError(error_func, "Parameter 100 in #2 is bigger than y max value")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 1.5}},
@@ -308,7 +309,7 @@ return{
 		unitTest:assertError(error_func, "Parameter 1.5 in #2 is out of y range")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{2.5, 3}},
@@ -320,7 +321,7 @@ return{
 		unitTest:assertError(error_func, "Parameter 2.5 in #1 is out of y range")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{1,2,3}},
@@ -332,7 +333,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'y' is mandatory.")
 			error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
@@ -344,7 +345,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'x.step' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "selected",
 				parameters = {x = -100, y = 10},
@@ -356,7 +357,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
 		error_func = function()
 			local m4 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "selected",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -368,7 +369,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "selected",
 				parameters = {
@@ -386,7 +387,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel3,
 				strategy = "selected",
 				parameters = {
@@ -404,7 +405,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel3,
 				strategy = "selected",
 				parameters = {
@@ -421,7 +422,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel3,
 				strategy = "selected",
 				parameters = {
@@ -438,7 +439,7 @@ return{
 		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
 		error_func = function()
 			local m2 =MultipleRuns{
-				folderName = tmp..package.config:sub(1, 1).."UtilsAlternativeTests"..package.config:sub(1, 1),
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel3,
 				strategy = "factorial",
 				parameters = {
