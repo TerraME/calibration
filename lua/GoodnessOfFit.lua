@@ -20,7 +20,7 @@
 -- @arg attribute2 attribute from the second cellular space that should be compared.
 -- @arg continuous boolean that indicates if the model is continuous
 -- (default: false, discrete model).
--- @usage -- DONTRUN
+-- @usage
 -- import("calibration")
 -- local cell = Cell{a = 0.8, b = 0.7}
 -- local cs = CellularSpace{xdim = 10, instance = cell}
@@ -242,8 +242,7 @@ end
 -- @arg data.continuous Boolean that indicates if the model to be calibrated is continuous.
 -- @arg data.graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
 -- (Default = False, discrete model).
--- @usage -- DONTRUN
--- multiLevel{cs1, cs2, "attribute"}
+-- @usage
 -- import("calibration")
 -- local cs = CellularSpace{
 -- 			database = file("Costanza.map", "calibration"),

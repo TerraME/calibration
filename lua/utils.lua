@@ -193,11 +193,25 @@ end
 -- Each Choice argument will be instantiated with a random value from the available choices.
 -- The other arguments will be instantiated with their exact values.
 -- This function can be used by SaMDE as well as by MultipleRuns.
--- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A table of parameters.
+-- @arg tModel The Model to be instantiated.
+-- @arg tParameters A table of possible parameters for the model.
 -- Multiple Runs or Calibration instance .
--- @usage -- DONTRUN
--- randomModel(myModel, MultipleRunsParameters)
+-- @usage
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+-- 	y = Choice{min = 1, max = 10, step = 1},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- local parameters = {x = Choice{-100,- 1, 0, 1, 2, 100}, y = Choice{min = 1, max = 8, step = 1}}
+-- randomModel(myModel, parameters)
 function randomModel(tModel, tParameters)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)

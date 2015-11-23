@@ -255,12 +255,12 @@ MultipleRuns_ = {
 	-- 	end}
 	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
-	saveCSV = function(data, name, separator)
+	saveCSV = function(self, name, separator)
 		mandatoryArgument(2, "string", separator)
 		mandatoryArgument(1, "string", name)
 		local CSVTable = {}
 
-		forEachOrderedElement(data, function(idx, att, typ)
+		forEachOrderedElement(self, function(idx, att, typ)
 			if typ == "table" and idx ~= "parameters" then
 				local counter = 0
 				forEachOrderedElement(att, function(idx2, att2, typ2)
@@ -386,7 +386,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
 -- @arg data.output An optional user-defined output function. See MultipleRuns:output().
--- @arg data.folderName Name of the folder where the simulations output will be saved.
+-- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \

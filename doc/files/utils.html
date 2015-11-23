@@ -326,12 +326,12 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: A Paramater with the model to be instantiated.
+	  <strong>#1</strong>: The Model to be instantiated.
     </li> 
     
   
     <li>
-	  <strong>#2</strong>: A table of parameters. Multiple Runs or Calibration instance .
+	  <strong>#2</strong>: A table of possible parameters for the model. Multiple Runs or Calibration instance .
     </li> 
     
   
@@ -344,8 +344,22 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code><span class="comment">-- DONTRUN</span>
-<span class="function">randomModel</span>(<span class="id">myModel</span>, <span class="id">MultipleRunsParameters</span>)</code></pre>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
+	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+			<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>,- <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">8</span>, <span class="id">step</span> = <span class="number">1</span>}}
+<span class="function">randomModel</span>(<span class="id">myModel</span>, <span class="id">parameters</span>)</code></pre>
 
 
 

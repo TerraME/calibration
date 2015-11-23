@@ -12,12 +12,10 @@ metaTableSAMDE_ = {
 -- @arg data.model A Model.
 -- @arg data.parameters A table with the possible parameter values. They can be
 -- values or Choices. All Choices will be calibrated.
--- @arg data.fit A user-defined function that gets a Model as argument and 
--- returns how good is the result of such Model. This value is executed after
--- the simulation of the model, which means that the attribute values are the results.
--- TODO: Which kind of values are possible
--- to be returned by this function? A value between 0 and 1?
--- @arg data.size The (TODO: maximum?) population size in each generation.
+-- @arg data.fit A user-defined function that gets a model instance as argument and 
+-- returns a numeric value of that particular model fitness,
+-- this value will be minimized or maximized by SAMDE according to the maximize parameter. 
+-- @arg data.size The maximum population size in each generation.
 -- @arg data.maxGen The maximum number of generations. If the simulation reaches this value,
 -- it stops and returns the Model that has the fittest result? TODO.
 -- @arg data.threshold If the fitness of a model reaches this value, SAMDE stops and
@@ -26,12 +24,25 @@ metaTableSAMDE_ = {
 -- or minimized (false, default value).
 -- @arg data.seed Optional seed parameter for Random(), default is system time.
 --  must be must be maximized instead of minimized, default is false. 
--- @usage -- DONTRUN
+-- @usage
+-- import("calibration")
+-- local MyModel = Model{
+-- 	x = Choice{min = -100, max = 100},
+-- 	y = Choice{min = 1, max = 10},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
 -- c = SAMDE{
 --     model = MyModel,
---     parameters = {x = Choice{min = 1, max = 10, step = 2}, finalTime = 1},
---     fit = function(model, parameter)
---     		...	
+--     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1},
+--     fit = function(model)
+--     		return model.value
 --     end
 -- }
 function SAMDE(data)
