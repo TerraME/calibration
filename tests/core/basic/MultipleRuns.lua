@@ -95,7 +95,6 @@ get = function (unitTest)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
 end,
 saveCSV = function(unitTest)
-unitTest:assert(true)
 	local m = MultipleRuns{
 		folderName = tmpDir()..s.."saveCSVTests",
 		model = MyModel,
