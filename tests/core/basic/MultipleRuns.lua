@@ -116,6 +116,7 @@ unitTest:assert(true)
 	local myTable = CSVread("results.csv", ";")
 	unitTest:assert(myTable[1]["x"] == -100)
 	unitTest:assert(myTable[1]["additionalF"] == "test")
+	unitTest:assert(myTable[1]["output"] == 20305)
 end,
 MultipleRuns = function(unitTest)
 	-- print("M")
