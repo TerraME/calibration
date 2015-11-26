@@ -69,6 +69,28 @@ local testGroupOfValues = function (att, Param, idx)
 	end)
 end
 
+--- Function to create a copy of a given parameter, returns the copy.
+-- @arg mtable The parameter to be copied
+-- @usage
+-- import("calibration")
+-- local original = {param = 42}
+-- local copy = clone(original) 
+function clone(mtable)
+    mandatoryArgument(1, "table", mtable)
+
+    local result = {}
+
+    forEachElement(mtable, function(idx, value, mtype)
+        if mtype == "table" then
+            result[idx] = clone(value)
+        else
+            result[idx] = value
+        end
+    end)
+
+    return result
+end
+
 ---Function to be used by Multiple Runs and Calibration to check
 -- if all possibilites of models can be instantiated before
 -- starting to test the model.

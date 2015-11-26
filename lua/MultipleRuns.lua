@@ -492,10 +492,7 @@ function MultipleRuns(data)
 		end,
 		repeated = function()			
 			for i = 1, data.quantity do
-					local repeatedParam = {}
-					forEachOrderedElement(data.parameters, function(idx, att, typ)
-						repeatedParam[idx] = att
-					end)
+					local repeatedParam = clone(data.parameters)
 					local m = data.model(repeatedParam)
 					m:execute() 
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""

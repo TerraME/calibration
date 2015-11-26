@@ -25,6 +25,11 @@ randomModel = function(unitTest)
 	local rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
 end,
+clone = function(unitTest)
+	local original = {x = 42}
+	local copy = clone(original)
+	unitTest:assertEquals(copy.x, 42)
+end,
 checkParameters = function(unitTest)
 	-- The tests for the checkParameter function are the same as the alternative Multiple Runs tests that use it.
 	unitTest:assert(true)
