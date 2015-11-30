@@ -5,12 +5,12 @@
 -- a number with the average precision between the values in each cell of both CelluarSpace.
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't.
 -- If both maps are equal, the final result will be 1.
--- If it's continuous:
+-- If the cellular spaces are continuous:
 -- The difference is calculated by subtracting the value of a cell in the first cellular space,
 -- with the value of the same cell in the second cellular space. 
 -- And the precision of each cell is (1 - difference).
 -- The final result is the sum of the precisions divided by the number of cells
--- If it's discrete:
+-- If the cellular spaces are discrete:
 -- This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal.
 -- The final result is the sum of the precisions divided by the number of cells in the CelluarSpace.
 -- in the CelluarSpace.
@@ -223,18 +223,6 @@ end
 
 --- Compares two CelluarSpace according to the calibration method described in Costanza's
 -- paper and returns a number with the average precision between the values of both CelluarSpace.
--- If discrete:
--- The precision is calculated by comparing the CelluarSpace using the pixelByPixel 
--- function, each time considering a square ixi as a single pixel in the function,
--- without overlaping squares and not ignoring pixels that does not fit the ixi square.
--- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow),
--- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
--- If continuous:
--- The difference is calculated by comparing the CelluarSpace using the pixelByPixel
--- function, each time considering a square ixi as a single pixel in the function.
--- The precision of each square is (1 - difference).
--- The final result is the sum of the precisions, for ixi from 1x1 until (maxCol)x(maxRow), 
--- divided by (maxCol * maxRow). If both maps are equal, the final result will be 1.
 -- @arg data A table with the described values.
 -- @arg data.cs1 First Cellular Space.
 -- @arg data.cs2 Second Cellular Space.
