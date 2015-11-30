@@ -381,13 +381,13 @@ metaTableMultipleRuns_ = {
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
 -- @arg data.output An optional user-defined output function. See MultipleRuns:output().
--- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
--- @arg data.strategy Strategy to be used when testing the model. See the table below:
--- @tabular strategy
 -- The type also supports additional user-defined fucntions,
 -- such as output() that receives a Model instance after each simulation,
 -- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
+-- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
+-- @arg data.strategy Strategy to be used when testing the model. See the table below:
+-- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
 -- & parameters, model & quantity, output, folderName \
