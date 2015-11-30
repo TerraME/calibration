@@ -282,19 +282,14 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
---- Type to execute a Model with different parameters.
--- It returns a MultipleRuns varibles with the results.
+-- The Multiple Runs type has various model execution strategies, that can be used by the modeler
+-- to compare the results of a model and analyze it's behaviour in different scenarios.
+-- It returns a MultipleRuns table with the results.
 -- @output simulations A table with the Model instances
 -- after the simulation. It is indexed by numbers
 -- according to the execution order.
 -- @output parameters A table with parameters used to instantiate the model
 -- in this simulation.
--- (If MultipleRuns
--- is executed twice with the same parameters, this table
--- will be the same, even if the simulations produce different
--- outputs. - To guarantee that, the algorithm must always call
--- forEachOrderedElement. Is it true?
--- ANSWER: Yes it's true.)
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
@@ -389,6 +384,10 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @tabular strategy
+-- The type also supports additional user-defined fucntions,
+-- such as output() that receives a Model instance after each simulation,
+-- to be created and passed as parameters to the multiple runs type.
+-- They may have any name the modeler chooses.
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
 -- & parameters, model & quantity, output, folderName \

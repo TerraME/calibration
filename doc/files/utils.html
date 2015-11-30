@@ -57,8 +57,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -70,13 +68,9 @@
 		
 	
 		
-			
-		
 	
 		
 			
-		
-	
 		
 	
 		
@@ -99,18 +93,12 @@
 	<ul>
 		
 		
-					<li>
-						<a href="../files/MultipleRuns.html">MultipleRuns</a>
-					</li>
-				
-			
 		
 					<li>
 						<a href="../files/SAMDE.html">SAMDE</a>
 					</li>
 				
 			
-		
 		
 		
 		
@@ -130,11 +118,9 @@
 		
 	
 		
-	
-		
-	
-		
 			
+		
+	
 		
 	
 		
@@ -164,13 +150,12 @@
 				
 			
 		
-		
-		
 					<li>
-						<a href="../files/SAMDEFunction.html">SAMDEFunction</a>
+						<a href="../files/MultipleRuns.html">MultipleRuns</a>
 					</li>
 				
 			
+		
 		
 		
 		
@@ -230,6 +215,13 @@
 									<tr>
 										<td class="name" nowrap><a href="#checkParameters">checkParameters</a>&nbsp;
 <td class="summary">Function to be used by Multiple Runs and Calibration to check if all possibilites of models can be instantiated before starting to test the model.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#clone">clone</a>&nbsp;
+<td class="summary">Function to create a copy of a given parameter, returns the copy.</td>
 									</tr>
 								
 							
@@ -295,6 +287,54 @@
 <h3>Usage</h3>
 <pre class="example"><code><span class="comment">-- DONTRUN</span>
 <span class="function">checkParameters</span>(<span class="id">myModel</span>, <span class="id">MultipleRunsParameters</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="clone">
+
+	</a><strong>clone</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function to create a copy of a given parameter, returns the copy.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: The parameter to be copied
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">original</span> = {<span class="id">param</span> = <span class="number">42</span>}
+<span class="reserved">local</span> <span class="id">copy</span> = <span class="function">clone</span>(<span class="id">original</span>) </code></pre>
 
 
 

@@ -57,8 +57,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -70,13 +68,9 @@
 		
 	
 		
-			
-		
 	
 		
 			
-		
-	
 		
 	
 		
@@ -99,16 +93,12 @@
 	<ul>
 		
 		
-					<li><strong>MultipleRuns</strong></li>
-				
-			
 		
 					<li>
 						<a href="../files/SAMDE.html">SAMDE</a>
 					</li>
 				
 			
-		
 		
 		
 		
@@ -128,11 +118,9 @@
 		
 	
 		
-	
-		
-	
-		
 			
+		
+	
 		
 	
 		
@@ -162,13 +150,10 @@
 				
 			
 		
-		
-		
-					<li>
-						<a href="../files/SAMDEFunction.html">SAMDEFunction</a>
-					</li>
+					<li><strong>MultipleRuns</strong></li>
 				
 			
+		
 		
 		
 		
@@ -220,295 +205,6 @@
 					
 
 					
-						
-						<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-
-
-<span class="description">Type to execute a Model with different parameters. It returns a <a href=../files/MultipleRuns.html>MultipleRuns</a> varibles with the results.</span>
-
-
-	
-
-
-<!-- Function arguments -->
-  <h3>Arguments</h3>
-<ul><span class="arg">
-
-    <li>
-	  <strong>folderName</strong>: Name or file path of the folder where the simulations output will be saved.
-    </li> 
-    
-  
-    <li>
-	  <strong>model</strong>: The Model to be instantiated and executed several times.
-    </li> 
-    
-  
-    <li>
-	  <strong>output</strong>: An optional user-defined output function. See <a href=../files/MultipleRuns.html#output>output()</a>.
-    </li> 
-    
-  
-    <li>
-	  <strong>parameters</strong>: A table with the parameters to be tested. These parameters must be a subset of the parameters of the Model with a subset of the available values.
-    </li> 
-    
-  
-    <li>
-	  <strong>quantity</strong>: Quantity of runs that must be executed with the same parameters. The default value is 1.
-    </li> 
-    
-  
-    <li>
-	  <strong>strategy</strong>: Strategy to be used when testing the model. See the table below:
-    </li> 
-    
-      </span>
-      <!-- Strategy of the argument -->
-       
-      <table class="arg_tab">
-	  
-      
-        <tr>
-        
-          
-            <th>
-            Strategy
-            </th>
-          
-          
-            <th>
-            Description
-            </th>
-          
-          
-            <th>
-            Mandatory arguments
-            </th>
-          
-          
-            <th>
-            Optional arguments
-            </th>
-          
-        
-        <tr>
-        
-          
-            <td>
-            "factorial"
-            </td>
-          
-          
-            <td>
-            Simulate the Model with all combinations of the argument parameters.
-            </td>
-          
-          
-            <td>
-            model, parameters
-            </td>
-          
-          
-            <td>
-            folderName, output, quantity
-            </td>
-          
-        
-        <tr>
-        
-          
-            <td>
-            "repeated"
-            </td>
-          
-          
-            <td>
-            Simulate the Model a given number of times with the defined parameters.
-            </td>
-          
-          
-            <td>
-            model, parameters, quantity
-            </td>
-          
-          
-            <td>
-            folderName, output
-            </td>
-          
-        
-        <tr>
-        
-          
-            <td>
-            "sample"
-            </td>
-          
-          
-            <td>
-            Run the model with a random combination of the possible parameters
-            </td>
-          
-          
-            <td>
-            model, parameters, quantity
-            </td>
-          
-          
-            <td>
-            folderName, output
-            </td>
-          
-        
-        <tr>
-        
-          
-            <td>
-            "selected"
-            </td>
-          
-          
-            <td>
-            This should test the Model with a given set of parameters values. In this case, the argument parameters must be a named table, where each position is another table describing the parameters to be used in such simulation.
-            </td>
-          
-          
-            <td>
-            model, parameters
-            </td>
-          
-          
-            <td>
-            folderName, output, quantity
-            </td>
-          
-        
-        </tr>    
-      </table>
-      <span class="arg">
-    
-  
-  </span></ul>
-
-
-
-<!-- Outputs of the function -->
-<p>Attributes of MultipleRuns that can be used as <b>read-only</b> by the modeler:</p>
-<ul>
-<span class="output">
-	
-	<li>
-	  <strong>parameters</strong>: A table with parameters used to instantiate the model in this simulation. (If MultipleRuns is executed twice with the same parameters, this table will be the same, even if the simulations produce different outputs. - To guarantee that, the algorithm must always call forEachOrderedElement. Is it true? ANSWER: Yes it's true.)
-	</li>
-	
-	<li>
-	  <strong>simulations</strong>: A table with the Model instances after the simulation. It is indexed by numbers according to the execution order.
-	</li>
-	
-</span>
-</ul>
-
-
-
-
-
-<h3>Usage</h3>
-<pre class="example"><code>
-<span class="comment">-- Complete Example:</span>
-<span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">MyModel</span> = <span class="id">Model</span>{
-	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-	<span class="id">finalTime</span> = <span class="number">1</span>,
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
-}
-<span class="id">c</span> = <span class="function">MultipleRuns</span>{
-	<span class="id">model</span> = <span class="id">MyModel</span>,
-	<span class="id">strategy</span> = <span class="string">"sample"</span>,
-	<span class="id">quantity</span> = <span class="number">5</span>,
-	<span class="id">parameters</span> = {
-		<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-		<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-		<span class="id">finalTime</span> = <span class="number">1</span>
- 	},
-	<span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
-		<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
-	<span class="reserved">end</span>,
-	<span class="id">additionalFunction</span> = <span class="reserved">function</span>(<span class="id">model</span>)
-		<span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>/<span class="number">2</span>
-	<span class="reserved">end</span>
-}
-<span class="comment">-- Factorial Example:</span>
-<span class="function">MultipleRuns</span>{
-	<span class="id">model</span> = <span class="id">MyModel</span>,
-	<span class="id">strategy</span> = <span class="string">"factorial"</span>,
-	<span class="id">parameters</span> = {
-		<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
- 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
-		<span class="id">finalTime</span> = <span class="number">1</span>
-	},
-	<span class="id">quantity</span> = <span class="number">2</span>
-}
-<span class="comment">-- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.</span>
-<span class="comment">-- Repeated Example:</span>
-<span class="reserved">local</span> <span class="id">RainModel</span> = <span class="id">Model</span>{
-	<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">0</span>, <span class="id">max</span> = <span class="number">100</span>},
-	<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">0</span>, <span class="id">max</span> = <span class="number">20</span>},
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">water</span> = <span class="id">self</span>.<span class="id">water</span> + (<span class="id">self</span>.<span class="id">rain</span> - <span class="number">150</span>)
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
-}
-<span class="id">r</span> = <span class="function">MultipleRuns</span>{
-	<span class="id">model</span> = <span class="id">RainModel</span>,
-	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
-	<span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
-	<span class="id">quantity</span> = <span class="number">10</span>,
-}
-<span class="comment">-- This should run the model 10 times with the same parameters.</span>
-<span class="comment">-- Sample Example:</span>
-<span class="function">MultipleRuns</span>{
-	<span class="id">model</span> = <span class="id">MyModel</span>,
-	<span class="id">strategy</span> = <span class="string">"sample"</span>,
-	<span class="id">parameters</span> = {
-		<span class="id">water</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">1</span>},
- 		<span class="id">rain</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
-		<span class="id">finalTime</span> = <span class="number">10</span>,
-	},
-	<span class="id">quantity</span> = <span class="number">5</span>
-}
-<span class="comment">-- This should run the model 5 times selecting random values from the defined parameters</span>
-<span class="comment">-- (if they are choice, otherwise use the only available value).</span>
-<span class="comment">-- Selected Example:</span>
-<span class="id">x</span> = <span class="function">MultipleRuns</span>{
-	<span class="id">model</span> = <span class="id">RainModel</span>,
-	<span class="id">strategy</span> = <span class="string">"selected"</span>,
-	<span class="id">parameters</span> = {
-		<span class="id">scenario1</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">10</span>},
- 		<span class="id">scenario2</span> = {<span class="id">water</span> = <span class="number">5</span>, <span class="id">rain</span> = <span class="number">10</span>, <span class="id">finalTime</span> = <span class="number">10</span>}
-	}
-}
-<span class="comment">-- This should run the model 2 times with the same parameters defined in the vector of parameters.</span></code></pre>
-
-
-
-
-</dd>
-
-
-						
 						
 
 						
@@ -597,7 +293,7 @@
 	}
 	<span class="reserved">end</span>
 }
-<span class="id">m</span> = <span class="function">MultipleRuns</span>{
+<span class="id">m</span> = <span class="id">MultipleRuns</span>{
 	<span class="id">model</span> = <span class="id">MyModel</span>,
 	<span class="id">strategy</span> = <span class="string">"sample"</span>,
 	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>,<span class="number">2</span>,<span class="number">100</span>}},
@@ -664,7 +360,7 @@
 	}
 	<span class="reserved">end</span>
 }
-<span class="id">m</span> = <span class="function">MultipleRuns</span>{
+<span class="id">m</span> = <span class="id">MultipleRuns</span>{
 	<span class="id">model</span> = <span class="id">MyModel</span>,
 	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
 	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
@@ -734,7 +430,7 @@
 	}
 	<span class="reserved">end</span>
 }
-<span class="id">m</span> = <span class="function">MultipleRuns</span>{
+<span class="id">m</span> = <span class="id">MultipleRuns</span>{
 	<span class="id">model</span> = <span class="id">MyModel</span>,
 	<span class="id">strategy</span> = <span class="string">"repeated"</span>,
 	<span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
