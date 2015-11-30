@@ -50,9 +50,7 @@ local factorialRecursive
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-factorialRecursive = function(data, Params, a, variables, resultTable, addFunctions, s, quantity)
-	print(s)
-	print(quantity)
+factorialRecursive = function(data, Params, a, variables, resultTable, addFunctions, s, quantity, repeated)
 	if Params[a].ranged == true then -- if the parameter uses a range of values
 		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -75,9 +73,8 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
 				local stringSimulations = ""
-				print(quantity)
-				if quantity > 1 then
-					stringSimulations = "Repeated_Execution_"..quantity.."_"
+				if repeated == true then
+					stringSimulations = quantity.."_execution_"
 				end
 
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
@@ -98,7 +95,7 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity)
+				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
 			end
 		end
 
@@ -124,8 +121,8 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
 				local stringSimulations = ""
-				if quantity > 1 then
-					stringSimulations = "Repeated_Execution_"..quantity.."_"
+				if repeated == true then
+					stringSimulations = quantity.."_execution_"
 				end
 
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
@@ -146,7 +143,7 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity)
+				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
 			end
 		end)
 	end
@@ -475,12 +472,15 @@ function MultipleRuns(data)
 					end)
 				end
 			end)
+			local repeated = false
 			if data.quantity == nil then
 				data.quantity = 1
+			elseif data.quantity > 1 then
+				repeated = true
 			end
 
 			for i = 1, data.quantity do
-				resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s, i)
+				resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 		end,
 		repeated = function()			
