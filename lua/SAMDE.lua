@@ -528,8 +528,8 @@ metaTableSAMDE_ = {
 }
 
 --- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the
--- fittest individual (a Model), its fit value, and the number of generations of the
--- simulation.
+-- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm 
+-- to reach the result.
 -- SaMDE paper is available at: 
 -- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ).
 -- @output fit The best fitness result returned by the SAMDE Algorithm.
