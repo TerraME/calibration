@@ -282,7 +282,7 @@ metaTableMultipleRuns_ = {
 	__index = MultipleRuns_
 }
 
--- The Multiple Runs type has various model execution strategies, that can be used by the modeler
+--- The Multiple Runs type has various model execution strategies, that can be used by the modeler
 -- to compare the results of a model and analyze it's behaviour in different scenarios.
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table with the Model instances

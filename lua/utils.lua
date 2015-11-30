@@ -70,7 +70,7 @@ local testGroupOfValues = function (att, Param, idx)
 end
 
 --- Function to create a copy of a given parameter, returns the copy.
--- @arg mtable The parameter to be copied
+-- @arg mtable The parameter to be copied.
 -- @usage
 -- import("calibration")
 -- local original = {param = 42}
