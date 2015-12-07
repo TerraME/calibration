@@ -1,6 +1,13 @@
-local TestRangedvalues = function(att, Param, idx)
+--- Function to be used by Multiple Runs and SAMDE, to test if a Choice type
+-- range of possible values is valid to be used as a given Model parameter.
+-- @arg values A table with the group of values to be cheked.
+-- @arg idx  The index of the parameter to be checked in the parameters table.
+-- @arg Param The table containing the valid set of parameters in a model.
+-- @usage -- DONTRUN
+-- checkParametersRange(myModel, MultipleRunsParameters)
+function checkParametersRange(values, idx, Param)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
-	if att.min == nil and att.max == nil then
+	if values.min == nil and values.max == nil then
 		customError("Parameter "..idx.." should not be a range of values")
 	end
 
@@ -8,34 +15,41 @@ local TestRangedvalues = function(att, Param, idx)
 		customError("Parameter "..idx.." must have min and max values")
 	end
 
-	if att.min ~= nil then
-		if att.min > Param.min then
+	if values.min ~= nil then
+		if values.min > Param.min then
 			customError("Parameter "..idx.." min is out of the model range.")
 		end
 	end
 
-	if att.max ~= nil then
-		if att.max < Param.max then
+	if values.max ~= nil then
+		if values.max < Param.max then
 			customError("Parameter "..idx.." max is out of the model range.")
 		end
 	end
 
-	if att.step ~= nil then
+	if values.step ~= nil then
 		if Param.step == nil then
 			customError("Argument '"..idx..".step' is mandatory.")
-		elseif Param.step % att.step ~= 0 then
+		elseif Param.step % values.step ~= 0 then
 			customError("Parameter "..idx.." step is out of the model range.")
 		end
 
-		if att.min ~= nil then
-			if (Param.min - att.min) % att.step ~= 0 then
+		if values.min ~= nil then
+			if (Param.min - values.min) % values.step ~= 0 then
 				customError("Parameter "..idx.." min is out of the model range.")
 			end
 		end		
 	end
 end
 
-local testSingleValue = function(mParam, idx, idx2, value)
+--- Function to be used by Multiple Runs and SAMDE to test if a
+-- value is valid to be used as a given Model parameter.
+-- @arg values A table with the group of values to be cheked.
+-- @arg idx  The index of the parameter to be checked in the parameters table.
+-- @arg Param The table containing the valid set of parameters in a model.
+-- @usage -- DONTRUN
+-- checkParametersSingle(myModel, MultipleRunsParameters)
+function checkParameterSingle(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
 		if value < mParam.min then
@@ -62,10 +76,17 @@ local testSingleValue = function(mParam, idx, idx2, value)
 	end
 end
 
-local testGroupOfValues = function (att, Param, idx) 
+--- Function to be used by Multiple Runs and SAMDE,
+-- to test if a Choice type table of possible values is valid to be used as a given Model parameter.
+-- @arg values A table with the group of values to be cheked.
+-- @arg idx  The index of the parameter to be checked in the parameters table.
+-- @arg Param The table containing the valid set of parameters in a model.
+-- @usage -- DONTRUN
+-- checkParametersSet(myModel, MultipleRunsParameters)
+function checkParametersSet(values, idx, Param) 
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
-		testSingleValue(att, idx, idx2, att2)
+		checkParameterSingle(values, idx, idx2, att2)
 	end)
 end
 
@@ -125,10 +146,10 @@ function checkParameters(tModel, tParameters)
 						
 						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
-			    			TestRangedvalues(att, Param, idx)	
+			    			checkParametersRange(att, idx, Param)	
 				    	else
 				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 testGroupOfValues(att, Param, idx)
+				    		 checkParametersSet(att, idx, Param)
 				    	end
 
 				   	elseif tParameters.strategy == "selected" then
@@ -141,10 +162,10 @@ function checkParameters(tModel, tParameters)
 				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 				   			end
 
-				   			testSingleValue(att, idx, 1, sParam[idx]) 
+				   			checkParameterSingle(att, idx, 1, sParam[idx]) 
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
-				   		testSingleValue(att, idx, 0, tParameters.parameters[idx]) 
+				   		checkParameterSingle(att, idx, 0, tParameters.parameters[idx]) 
 				   	elseif type(Param) == "table" then
 				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 				   	end
@@ -179,10 +200,10 @@ function checkParameters(tModel, tParameters)
 							
 							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
-				    			TestRangedvalues(attt, Param, idxt)
+				    			checkParametersRange(attt, idxt, Param)
 					    	else
 					    	-- if parameter Multiple Runs/Calibration is a grop of values
-					    		 testGroupOfValues(attt, Param, idxt)
+					    		 checkParametersSet(attt, idxt, Param)
 					    	end
 
 					   	elseif tParameters.strategy == "selected" then
@@ -195,10 +216,10 @@ function checkParameters(tModel, tParameters)
 					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 					   			end
 
-					   			testSingleValue(attt, idxt, 1, sParam[idx][idxt])
+					   			checkParameterSingle(attt, idxt, 1, sParam[idx][idxt])
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
-					   		testSingleValue(attt, idxt, 0, tParameters.parameters[idx][idxt])
+					   		checkParameterSingle(attt, idxt, 0, tParameters.parameters[idx][idxt])
 					   	elseif type(Param) == "table" and type(attt) == "Choice" then
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end

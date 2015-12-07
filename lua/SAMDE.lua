@@ -6,7 +6,7 @@
 local rand = Random()
 local NUMEST = 4
 local PARAMETERS = 3
-local function evaluate(ind, dim, model, paramList, fit, singleParameters)
+local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 	local solution = {}
 	for i = 1, dim do
 		solution[paramList[i]] = ind[i]
@@ -22,7 +22,7 @@ local function evaluate(ind, dim, model, paramList, fit, singleParameters)
 	return err
 end
 
-local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
+local initPop = function(popTam, varMatrix, dim, paramList, paramInfo)
 	-- print("initializing population ...");
 	local popInit = {}
 	for i = 1, popTam do
@@ -52,7 +52,7 @@ local function initPop(popTam, varMatrix, dim, paramList, paramInfo)
 	return popInit
 end
 
-local function g3Rand(i,popTam)
+local g3Rand = function(i,popTam)
 	local rands = {}
 	local a,b,c
 	repeat
@@ -70,7 +70,7 @@ local function g3Rand(i,popTam)
 	return rands
 end
 
-local function g4Rand(i, popTam)
+local g4Rand = function(i, popTam)
 	local rands = {}
 	local a, b , c, d
 	repeat
@@ -101,7 +101,7 @@ local function copy(tab)
 	return result
 end
 
-local function copyParameters(tab,dim)
+local copyParameters = function(tab,dim)
 	local result = {}
 	for i = dim + 1, #tab do
 		table.insert(result, tab[i])
@@ -110,7 +110,7 @@ local function copyParameters(tab,dim)
 	return result
 end
 
-local function repareP(parameter)
+local repareP = function(parameter)
 	local p = parameter
 	if( p < 0) then
 		p = - p
@@ -121,7 +121,7 @@ local function repareP(parameter)
 	return p
 end
 
-local function oobTrea(xi, varMatrix, k, step, stepValue)
+local oobTrea = function(xi, varMatrix, k, step, stepValue)
 	local lim = varMatrix[k]
 	local minVar = lim[1]
 	local maxVar = lim[2]
@@ -157,7 +157,7 @@ local function oobTrea(xi, varMatrix, k, step, stepValue)
 end
 
 -- Find Proportion function
-local function fP(idx, group)
+local fP = function(idx, group)
 	local size = #group
 	if size > 1 then
 		return (idx / size)
@@ -203,7 +203,7 @@ aproxGroup = function(proportion, varMatrix, k)
 end
 
 local normalize
-function normalize(x, varMatrix, i, paramListInfo)
+normalize = function(x, varMatrix, i, paramListInfo)
 	local interval = varMatrix[i]
 	local total
 	local value
@@ -219,13 +219,13 @@ function normalize(x, varMatrix, i, paramListInfo)
 	return newValue
 end
 
-local function distance(x, y, varMatrix, i, paramListInfo)
+local distance = function(x, y, varMatrix, i, paramListInfo)
 	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo)
 	dist = math.abs(dist)
 	return dist
 end
 
-local function maxVector(vector, dim)
+local maxVector = function(vector, dim)
 	local valueMax = vector[1]
 	for i = 2, dim do
 		if(vector[i] > valueMax) then
@@ -236,7 +236,7 @@ local function maxVector(vector, dim)
 	return valueMax
 end
 
-local function maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo)
+local maxDiversity = function(pop, dim, maxPopulation, varMatrix, paramListInfo)
 	local varMax = {}
 	local varMin = {}
 	local vector = pop[1]
@@ -272,7 +272,7 @@ end
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.
-local function SAMDECalibrate(modelParameters, model, fit, maximize, size, maxGen, threshold)
+local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold)
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
