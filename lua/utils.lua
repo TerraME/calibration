@@ -124,16 +124,6 @@ function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "parameters", "table")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
-	if tParameters.strategy == "repeated" then
-		mandatoryTableArgument(tParameters, "quantity", "number")
-		if tParameters.parameters.seed ~= nil or tParameters.model().seed ~= nil then
-				customError("Models using repeated strategy cannot use seed or all results will be the same.")
-		end
-
-	elseif tParameters.strategy == "sample" then
-		mandatoryTableArgument(tParameters, "quantity", "number")
-	end
-
 	forEachElement(tModel(), function(idx, att, mtype)
 		if mtype ~= "function" then
 	    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then

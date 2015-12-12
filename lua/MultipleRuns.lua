@@ -423,7 +423,6 @@ function MultipleRuns(data)
 	end)
 
 	checkParameters(data.model, data)
-
 	local Params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
@@ -483,7 +482,12 @@ function MultipleRuns(data)
 				resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 		end,
-		repeated = function()			
+		repeated = function()
+			mandatoryTableArgument(data, "quantity", "number")
+			if data.parameters.seed ~= nil or data.model().seed ~= nil then
+				customError("Models using repeated strategy cannot use seed or all results will be the same.")
+			end
+
 			for i = 1, data.quantity do
 					local repeatedParam = clone(data.parameters)
 					local m = data.model(repeatedParam)
@@ -504,6 +508,7 @@ function MultipleRuns(data)
 			end
 		end,
 		sample = function()
+			mandatoryTableArgument(data, "quantity", "number")
 			for i = 1, data.quantity do
 				local sampleParams = {}
 				local m = randomModel(data.model, data.parameters)
