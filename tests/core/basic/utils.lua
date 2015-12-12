@@ -33,7 +33,7 @@ end,
 checkParametersRange = function(unitTest)
 	unitTest:assert(true)
 end,
-checkParametersSingle = function(unitTest)
+checkParameterSingle = function(unitTest)
 	unitTest:assert(true)
 end,
 clone = function(unitTest)
