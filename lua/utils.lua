@@ -3,8 +3,22 @@
 -- @arg values A table with the group of values to be cheked.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg Param The table containing the valid set of parameters in a model.
--- @usage -- DONTRUN
--- checkParametersRange(myModel, MultipleRunsParameters)
+-- @usage
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+-- 	y = Choice{min = 1, max = 10, step = 1},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
+-- checkParametersRange({min = 3, max = 5}, y, myModel().y)
 function checkParametersRange(values, idx, Param)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if values.min == nil and values.max == nil then
@@ -44,11 +58,26 @@ end
 
 --- Function to be used by Multiple Runs and SAMDE to test if a
 -- value is valid to be used as a given Model parameter.
--- @arg values A table with the group of values to be cheked.
--- @arg idx  The index of the parameter to be checked in the parameters table.
--- @arg Param The table containing the valid set of parameters in a model.
--- @usage -- DONTRUN
--- checkParametersSingle(myModel, MultipleRunsParameters)
+-- @arg mParam The table containing the valid set of parameters in a model.
+-- @arg valuess A table with the group of valuess to be cheked.
+-- @arg idx  The name of the parameter to be checked in the parameters table.
+-- @arg idx2  The numerical index, of the parameter value to be checked, in the choosen parameter Choice table.
+-- @usage
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+-- 	y = Choice{min = 1, max = 10, step = 1},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
+-- checkParameterSingle(4, y, myModel().y)
 function checkParameterSingle(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
@@ -81,8 +110,22 @@ end
 -- @arg values A table with the group of values to be cheked.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg Param The table containing the valid set of parameters in a model.
--- @usage -- DONTRUN
--- checkParametersSet(myModel, MultipleRunsParameters)
+-- @usage
+-- import("calibration")
+-- local myModel = Model{
+-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+-- 	y = Choice{min = 1, max = 10, step = 1},
+-- 	finalTime = 1,
+-- 	init = function(self)
+-- 		self.timer = Timer{
+-- 			Event{action = function()
+-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+-- 			end}
+-- 	}
+-- 	end
+-- }
+-- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
+-- checkParametersSet({-100, 1, 2}, x, myModel().x)
 function checkParametersSet(values, idx, Param) 
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
