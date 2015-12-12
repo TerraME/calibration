@@ -565,6 +565,7 @@ function MultipleRuns(data)
 
 	chDir(folder)
 	folderDir = currentDir()
+	chDir(firstDir)
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
@@ -584,9 +585,12 @@ function MultipleRuns(data)
 				repeated = true
 			end
 
+			chDir(folderDir)
 			for i = 1, data.quantity do
 				resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
+
+			chDir(firstDir)
 		end,
 		repeated = function()
 			mandatoryTableArgument(data, "quantity", "number")
@@ -594,16 +598,16 @@ function MultipleRuns(data)
 				customError("Models using repeated strategy cannot use seed or all results will be the same.")
 			end
 
+			chDir(folderDir)
 			for i = 1, data.quantity do
 					local repeatedParam = clone(data.parameters)
 					local m = data.model(repeatedParam)
 					m:execute() 
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-					local testDir = currentDir()
 					mkDir(""..(#resultTable.simulations).."") 
-					chDir(testDir..s..""..(#resultTable.simulations).."") 
+					chDir(folderDir..s..""..(#resultTable.simulations).."") 
 					testAddFunctions(resultTable, addFunctions, data, m)
-					chDir(testDir)
+					chDir(folderDir)
 					forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
@@ -612,18 +616,19 @@ function MultipleRuns(data)
 						resultTable[idx2][#resultTable[idx2] + 1] = att2
 					end)
 			end
+			chDir(firstDir)
 		end,
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
+			chDir(folderDir)
 			for i = 1, data.quantity do
 				local sampleParams = {}
 				local m = randomModel(data.model, data.parameters)
-				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1).."" 
-				local testDir = currentDir()
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				mkDir(""..(#resultTable.simulations).."") 
-				chDir(testDir..s..""..(#resultTable.simulations).."") 
+				chDir(folderDir..s..""..(#resultTable.simulations).."") 
 				testAddFunctions(resultTable, addFunctions, data, m)
-				chDir(testDir)
+				chDir(folderDir)
 				forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 					if typ2 ~= "table" then
 						sampleParams[idx2] = m.idx2
@@ -646,17 +651,19 @@ function MultipleRuns(data)
 					resultTable[idx2][#resultTable[idx2] + 1] = att2 
 				end)
 			end
+
+			chDir(firstDir)
 		end,
 		selected = function()
+			chDir(folderDir)
 			forEachOrderedElement(data.parameters, function(idx, att, atype)
 				local m = data.model(att)
 				m:execute()
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
-				local testDir = currentDir()
 				mkDir(""..(idx).."") 
-				chDir(testDir..s..""..(idx).."") 
+				chDir(folderDir..s..""..(idx).."") 
 				testAddFunctions(resultTable, addFunctions, data, m)
-				chDir(testDir) 
+				chDir(folderDir) 
 				forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 					if resultTable[idx2] == nil then 
 						resultTable[idx2] = {}
@@ -665,6 +672,8 @@ function MultipleRuns(data)
 					resultTable[idx2][#resultTable[idx2] + 1] = att2 
 				end)
 			end)
+
+			chDir(firstDir)
 		end
 	}
 	setmetatable(data, metaTableMultipleRuns_)
