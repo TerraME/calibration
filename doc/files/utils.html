@@ -213,8 +213,22 @@
 							
 								
 									<tr>
-										<td class="name" nowrap><a href="#checkParameters">checkParameters</a>&nbsp;
-<td class="summary">Function to be used by Multiple Runs and Calibration to check if all possibilites of models can be instantiated before starting to test the model.</td>
+										<td class="name" nowrap><a href="#checkParameterSingle">checkParameterSingle</a>&nbsp;
+<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a> to test if a value is valid to be used as a given Model parameter.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#checkParametersRange">checkParametersRange</a>&nbsp;
+<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a>, to test if a Choice type range of possible values is valid to be used as a given Model parameter.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#checkParametersSet">checkParametersSet</a>&nbsp;
+<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a>, to test if a Choice type table of possible values is valid to be used as a given Model parameter.</td>
 									</tr>
 								
 							
@@ -249,15 +263,15 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 
-<dt><h2><a name="checkParameters">
+<dt><h2><a name="checkParameterSingle">
 
-	</a><strong>checkParameters</strong>&nbsp;
+	</a><strong>checkParameterSingle</strong>&nbsp;
 
 </h2></dt>
 <dd>
 
 
-<span class="description">Function to be used by Multiple Runs and Calibration to check if all possibilites of models can be instantiated before starting to test the model.</span>
+<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a> to test if a value is valid to be used as a given Model parameter.</span>
 
 
 
@@ -267,12 +281,22 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: A Paramater with the model to be instantiated.
+	  <strong>#1</strong>: The table containing the valid set of parameters in a model.
     </li> 
     
   
     <li>
-	  <strong>#2</strong>: A table of parameters, from a <a href=../files/MultipleRuns.html>MultipleRuns</a> or Calibration type.
+	  <strong>#2</strong>: The name of the parameter to be checked in the parameters table.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: The numerical index, of the parameter value to be checked, in the choosen parameter Choice table.
+    </li> 
+    
+  
+    <li>
+	  <strong>#4</strong>: The value to be checked.
     </li> 
     
   
@@ -285,8 +309,162 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code><span class="comment">-- DONTRUN</span>
-<span class="function">checkParameters</span>(<span class="id">myModel</span>, <span class="id">MultipleRunsParameters</span>)</code></pre>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
+	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+			<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
+<span class="function">checkParameterSingle</span>(<span class="id">myModel</span>().<span class="id">x</span>, <span class="string">"x"</span>, <span class="number">2</span>, <span class="number">1</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="checkParametersRange">
+
+	</a><strong>checkParametersRange</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a>, to test if a Choice type range of possible values is valid to be used as a given Model parameter.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: A table with the group of values to be checked.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: The index of the parameter to be checked in the parameters table.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: The table containing the valid set of parameters in a model.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
+	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+			<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
+<span class="function">checkParametersRange</span>({<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}, <span class="string">"y"</span>, <span class="id">myModel</span>().<span class="id">y</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="checkParametersSet">
+
+	</a><strong>checkParametersSet</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a>, to test if a Choice type table of possible values is valid to be used as a given Model parameter.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: A table with the group of values to be checked.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: The index of the parameter to be checked in the parameters table.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: The table containing the valid set of parameters in a model.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code>
+<span class="id">import</span>(<span class="string">"calibration"</span>)
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
+	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+	<span class="id">finalTime</span> = <span class="number">1</span>,
+	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+			<span class="reserved">end</span>}
+	}
+	<span class="reserved">end</span>
+}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
+<span class="function">checkParametersSet</span>({<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="string">"x"</span>, <span class="id">myModel</span>().<span class="id">x</span>)</code></pre>
 
 
 

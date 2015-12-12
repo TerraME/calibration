@@ -1,6 +1,6 @@
 --- Function to be used by Multiple Runs and SAMDE, to test if a Choice type
 -- range of possible values is valid to be used as a given Model parameter.
--- @arg values A table with the group of values to be cheked.
+-- @arg values A table with the group of values to be checked.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg Param The table containing the valid set of parameters in a model.
 -- @usage
@@ -18,7 +18,7 @@
 -- 	end
 -- }
 -- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParametersRange({min = 3, max = 5}, y, myModel().y)
+-- checkParametersRange({min = 3, max = 5}, "y", myModel().y)
 function checkParametersRange(values, idx, Param)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if values.min == nil and values.max == nil then
@@ -59,7 +59,7 @@ end
 --- Function to be used by Multiple Runs and SAMDE to test if a
 -- value is valid to be used as a given Model parameter.
 -- @arg mParam The table containing the valid set of parameters in a model.
--- @arg valuess A table with the group of valuess to be cheked.
+-- @arg value The value to be checked.
 -- @arg idx  The name of the parameter to be checked in the parameters table.
 -- @arg idx2  The numerical index, of the parameter value to be checked, in the choosen parameter Choice table.
 -- @usage
@@ -77,7 +77,7 @@ end
 -- 	end
 -- }
 -- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParameterSingle(4, y, myModel().y)
+-- checkParameterSingle(myModel().x, "x", 2, 1)
 function checkParameterSingle(mParam, idx, idx2, value)
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
@@ -107,7 +107,7 @@ end
 
 --- Function to be used by Multiple Runs and SAMDE,
 -- to test if a Choice type table of possible values is valid to be used as a given Model parameter.
--- @arg values A table with the group of values to be cheked.
+-- @arg values A table with the group of values to be checked.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg Param The table containing the valid set of parameters in a model.
 -- @usage
@@ -125,7 +125,7 @@ end
 -- 	end
 -- }
 -- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParametersSet({-100, 1, 2}, x, myModel().x)
+-- checkParametersSet({-100, 1, 2}, "x", myModel().x)
 function checkParametersSet(values, idx, Param) 
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(Param.values, function(idx2, att2, type2)
