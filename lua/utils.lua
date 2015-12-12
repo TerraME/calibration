@@ -126,7 +126,7 @@ function checkParameters(tModel, tParameters)
 	-- range of values according to a Model.
 	forEachElement(tModel(), function(idx, att, mtype)
 		if mtype ~= "function" then
-	    	if idx ~= "init" and idx ~="finalTime" and idx ~= "seed" then
+	    	if idx ~= "init" and idx ~= "seed" then
 				local Param = tParameters.parameters[idx]
 				if mtype == "Choice" then
 					if type(Param) == "Choice" then
@@ -215,9 +215,7 @@ function checkParameters(tModel, tParameters)
 					   	end
 					end)
 				end
-	    	elseif idx == "seed" and mtype ~= "number" then
-	    		incompatibleTypeError("seed", "number", att)
-	    	end
+			end
 	    end
 	end)
 end
