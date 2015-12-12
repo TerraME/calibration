@@ -520,7 +520,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 end
 
 -- ========= SAMDE Type implemente by Antonio Gomes de Oliveira Junior =====
--- Function to be used by Multiple Runs and Calibration to check
+-- Function to be used by Calibration to check
 -- if all possibilites of models can be instantiated before
 -- starting to test the model.
 -- @arg tModel A Paramater with the model to be instantiated.
@@ -536,10 +536,6 @@ local function checkParameters(tModel, tParameters)
 				local Param = tParameters.parameters[idx]
 				if mtype == "Choice" then
 					if type(Param) == "Choice" then
-						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-						end
-						
 						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
 			    			checkParametersRange(att, idx, Param)	
@@ -548,20 +544,6 @@ local function checkParameters(tModel, tParameters)
 				    		 checkParametersSet(att, idx, Param)
 				    	end
 
-				   	elseif tParameters.strategy == "selected" then
-				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-				   			if sType ~= "table" then
-				   				customError("Parameters used in selected strategy must be in a table of scenarios")
-				   			end
-
-				   			if type(sParam[idx])  == "Choice" then
-				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-				   			end
-
-				   			checkParameterSingle(att, idx, 1, sParam[idx]) 
-				   		end)
-				   	elseif tParameters.strategy == "repeated" then
-				   		checkParameterSingle(att, idx, 0, tParameters.parameters[idx]) 
 				   	elseif type(Param) == "table" then
 				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 				   	end
@@ -590,10 +572,6 @@ local function checkParameters(tModel, tParameters)
 						end
 						
 						if type(Param) == "Choice" then
-							if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-								customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-							end
-							
 							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
 				    			checkParametersRange(attt, idxt, Param)
@@ -602,20 +580,6 @@ local function checkParameters(tModel, tParameters)
 					    		 checkParametersSet(attt, idxt, Param)
 					    	end
 
-					   	elseif tParameters.strategy == "selected" then
-					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-					   			if type(sParam[idx]) ~= "table" then
-					   				customError("Parameters used in selected strategy must be in a table of scenarios")
-					   			end
-
-					   			if type(sParam[idx][idxt]) == "Choice" then
-					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-					   			end
-
-					   			checkParameterSingle(attt, idxt, 1, sParam[idx][idxt])
-					   		end)
-					   	elseif tParameters.strategy == "repeated" then
-					   		checkParameterSingle(attt, idxt, 0, tParameters.parameters[idx][idxt])
 					   	elseif type(Param) == "table" and type(attt) == "Choice" then
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end

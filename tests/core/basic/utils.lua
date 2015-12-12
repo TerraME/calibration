@@ -25,6 +25,17 @@ randomModel = function(unitTest)
 	local rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
 end,
+-- These are error verification functions so it's impossible to test it without veryfing the errors,
+-- these functions verification are tested in the multipleRuns ans SaMDE alternative tests.
+checkParametersSet = function(unitTest)
+	unitTest:assert(true)
+end,
+checkParametersRange = function(unitTest)
+	unitTest:assert(true)
+end,
+checkParametersSingle = function(unitTest)
+	unitTest:assert(true)
+end,
 clone = function(unitTest)
 	local original = {x = 42}
 	local copy = clone(original)
