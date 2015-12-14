@@ -1,24 +1,33 @@
---- Function to be used by Multiple Runs and SAMDE, to test if a Choice type
--- range of possible values is valid to be used as a given Model parameter.
--- @arg values The table containing the valid set of parameters in a model.
--- @arg idx  The index of the parameter to be checked in the parameters table.
--- @arg Param A table with the group of values to be checked.
--- @usage
--- import("calibration")
--- local myModel = Model{
--- 	x = Choice{-100, -1, 0, 1, 2, 100},
--- 	y = Choice{min = 1, max = 10, step = 1},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+-- @header Useful functions that are used by MultipleRuns and SAMDE. It contains
+-- basic functions to work with Models, such as checking parameters and creating
+-- random instances of a given Model.
+
+--- Verify if a given parameter for a Model using min and max (and possibly range) 
+-- values is a valid subset for a given Model parameter.
+-- @arg values A Model to be instantiated.
+-- @arg idx  The name of the parameter to be verified in the Model.
+-- @arg Param A table with the values to be verified.
+-- @usage import("calibration")
+--
+-- myModel = Model{
+--     y = Choice{min = 1, max = 100, step = 1},
+--     finalTime = 1,
+--     init = function(self)
+--         self.timer = Timer{
+--             -- ...
+--         }
+--     end
 -- }
--- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParametersRange(myModel().y, "y", {min = 3, max = 5})
+--
+-- checkParametersRange(myModel().y, "y", {min = 30, max = 70, step = 2})
+-- -- change to the line below
+-- -- checkParametersRange(myModel, "y", {min = 30, max = 70, step = 2})
+--
+-- ok, err =  pcall(function()
+--     checkParametersRange(myModel().y, "y", {min = 20, max = 40})
+-- end)
+--
+-- print(err) -- Error: Argument 'y.step' is mandatory.
 function checkParametersRange(values, idx, Param)
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if values.min == nil and values.max == nil then
