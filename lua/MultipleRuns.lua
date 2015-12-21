@@ -20,10 +20,10 @@ local function checkParameters(tModel, tParameters)
 						
 						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
-			    			checkParametersRange(att, idx, Param)	
+			    			checkParametersRange(tModel, idx, Param)	
 				    	else
 				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 checkParametersSet(att, idx, Param)
+				    		 checkParametersSet(tModel, idx, Param)
 				    	end
 
 				   	elseif tParameters.strategy == "selected" then
@@ -36,10 +36,10 @@ local function checkParameters(tModel, tParameters)
 				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 				   			end
 
-				   			checkParameterSingle(att, idx, 1, sParam[idx]) 
+				   			checkParameterSingle(tModel, idx, 1, sParam[idx]) 
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
-				   		checkParameterSingle(att, idx, 0, tParameters.parameters[idx]) 
+				   		checkParameterSingle(tModel, idx, 0, tParameters.parameters[idx]) 
 				   	elseif type(Param) == "table" then
 				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 				   	end
@@ -74,10 +74,10 @@ local function checkParameters(tModel, tParameters)
 							
 							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
-				    			checkParametersRange(attt, idxt, Param)
+				    			checkParametersRange(tModel, idxt, Param, idx)
 					    	else
 					    	-- if parameter Multiple Runs/Calibration is a grop of values
-					    		 checkParametersSet(attt, idxt, Param)
+					    		 checkParametersSet(tModel, idxt, Param,idx)
 					    	end
 
 					   	elseif tParameters.strategy == "selected" then
@@ -90,10 +90,10 @@ local function checkParameters(tModel, tParameters)
 					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 					   			end
 
-					   			checkParameterSingle(attt, idxt, 1, sParam[idx][idxt])
+					   			checkParameterSingle(tModel, idxt, 1, sParam[idx][idxt], idx)
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then
-					   		checkParameterSingle(attt, idxt, 0, tParameters.parameters[idx][idxt])
+					   		checkParameterSingle(tModel, idxt, 0, tParameters.parameters[idx][idxt], idx)
 					   	elseif type(Param) == "table" and type(attt) == "Choice" then
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end
@@ -266,23 +266,23 @@ MultipleRuns_ = {
 	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 	finalTime = 1,
-	-- 	init = function(self)
-	-- 	self.timer = Timer{
-	-- 		Event{action = function()
-	-- 			self.value = x
-	-- 		end}
-	-- 	}
-	-- 	end
+	--  finalTime = 1,
+	--  init = function(self)
+	--  self.timer = Timer{
+	--    Event{action = function()
+	--      self.value = x
+	--    end}
+	--  }
+	--  end
 	-- }
 	-- m = MultipleRuns{
-	-- 	model = MyModel,
-	-- 	strategy = "repeated",
-	-- 	parameters = {x = 2},
-	-- 	quantity = 3,
-	-- 	output = function(model)
-	-- 		print(model.x)
-	-- 	end}
+	--   model = MyModel,
+	--   strategy = "repeated",
+	--   parameters = {x = 2},
+	--   quantity = 3,
+	--   output = function(model)
+	--     print(model.x)
+	-- end}
 	output = function(self, model)
 		return nil
 	end,
@@ -294,23 +294,23 @@ MultipleRuns_ = {
 	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 	finalTime = 1,
-	-- 	init = function(self)
-	-- 	self.timer = Timer{
-	-- 		Event{action = function()
-	-- 			self.value = x
-	-- 		end}
-	-- 	}
-	-- 	end
+	--   finalTime = 1,
+	--   init = function(self)
+	--     self.timer = Timer{
+	--       Event{action = function()
+	--         self.value = x
+	--       end}
+	--     }
+	--   end
 	-- }
 	-- m = MultipleRuns{
-	-- 	model = MyModel,
-	-- 	strategy = "sample",
-	-- 	parameters = {x = Choice{-100, -1, 0, 1,2,100}},
-	-- 	quantity = 3,
-	-- 	output = function(model)
-	-- 		print(model.x)
-	-- 	end}
+	--  model = MyModel,
+	--  strategy = "sample",
+	--  parameters = {x = Choice{-100, -1, 0, 1,2,100}},
+	--  quantity = 3,
+	--  output = function(model)
+	--    print(model.x)
+	--  end}
 	-- -- Get the X value in the first execution
 	-- result = m:get(1).x
 
@@ -348,23 +348,23 @@ MultipleRuns_ = {
 	-- import("calibration")
 	-- MyModel = Model{
 	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 	finalTime = 1,
-	-- 	init = function(self)
-	-- 	self.timer = Timer{
-	-- 		Event{action = function()
-	-- 			self.value = x
-	-- 		end}
-	-- 	}
-	-- 	end
+	--  finalTime = 1,
+	--  init = function(self)
+	--  self.timer = Timer{
+	--    Event{action = function()
+	--      self.value = x
+	--    end}
+	--  }
+	--  end
 	-- }
 	-- m = MultipleRuns{
-	-- 	model = MyModel,
-	-- 	strategy = "repeated",
-	-- 	parameters = {x = 2},
-	-- 	quantity = 3,
-	-- 	output = function(model)
-	-- 		print(model.x)
-	-- 	end}
+	--  model = MyModel,
+	--  strategy = "repeated",
+	--  parameters = {x = 2},
+	--  quantity = 3,
+	--  output = function(model)
+	--    print(model.x)
+	--  end}
 	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(self, name, separator)
@@ -406,85 +406,85 @@ metaTableMultipleRuns_ = {
 -- -- Complete Example:
 -- import("calibration")
 -- local MyModel = Model{
--- 	x = Choice{-100, -1, 0, 1, 2, 100},
--- 	y = Choice{min = 1, max = 10, step = 1},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+--   x = Choice{-100, -1, 0, 1, 2, 100},
+--   y = Choice{min = 1, max = 10, step = 1},
+--   finalTime = 1,
+--   init = function(self)
+--     self.timer = Timer{
+--       Event{action = function()
+--         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+--       end}
+--   }
+--   end
 -- }
 -- c = MultipleRuns{
--- 	model = MyModel,
--- 	strategy = "sample",
--- 	quantity = 5,
--- 	parameters = {
--- 		x = Choice{-100, -1, 0, 1, 2, 100},
--- 		y = Choice{min = 1, max = 10, step = 1},
--- 		finalTime = 1
---  	},
--- 	output = function(model)
--- 		return model.value
--- 	end,
--- 	additionalFunction = function(model)
--- 		return model.value/2
--- 	end
+--   model = MyModel,
+--   strategy = "sample",
+--   quantity = 5,
+--   parameters = {
+--     x = Choice{-100, -1, 0, 1, 2, 100},
+--     y = Choice{min = 1, max = 10, step = 1},
+--     finalTime = 1
+--    },
+--   output = function(model)
+--     return model.value
+--   end,
+--   additionalFunction = function(model)
+--     return model.value/2
+--   end
 -- }
 -- -- Factorial Example:
 -- MultipleRuns{
--- 	model = MyModel,
--- 	strategy = "factorial",
--- 	parameters = {
--- 		water = Choice{min = 10, max = 20, step = 1},
---  		rain = Choice{min = 10, max = 20, step = 2},
--- 		finalTime = 1
--- 	},
--- 	quantity = 2
+--   model = MyModel,
+--   strategy = "factorial",
+--   parameters = {
+--     water = Choice{min = 10, max = 20, step = 1},
+--      rain = Choice{min = 10, max = 20, step = 2},
+--     finalTime = 1
+--   },
+--   quantity = 2
 -- }
 -- -- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
 -- -- Repeated Example:
 -- local RainModel = Model{
--- 	water = Choice{min = 0, max = 100},
--- 	rain = Choice{min = 0, max = 20},
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.water = self.water + (self.rain - 150)
--- 			end}
--- 	}
--- 	end
+--   water = Choice{min = 0, max = 100},
+--   rain = Choice{min = 0, max = 20},
+--   init = function(self)
+--     self.timer = Timer{
+--       Event{action = function()
+--         self.water = self.water + (self.rain - 150)
+--       end}
+--   }
+--   end
 -- }
 -- r = MultipleRuns{
--- 	model = RainModel,
--- 	strategy = "repeated",
--- 	parameters = {water = 10, rain = 20, finalTime = 1},
--- 	quantity = 10,
+--   model = RainModel,
+--   strategy = "repeated",
+--   parameters = {water = 10, rain = 20, finalTime = 1},
+--   quantity = 10,
 -- }
 -- -- This should run the model 10 times with the same parameters.
 -- -- Sample Example:
 -- MultipleRuns{
--- 	model = MyModel,
--- 	strategy = "sample",
--- 	parameters = {
--- 		water = Choice{min = 10, max = 20, step = 1},
---  		rain = Choice{min = 10, max = 20, step = 2},
--- 		finalTime = 10,
--- 	},
--- 	quantity = 5
+--   model = MyModel,
+--   strategy = "sample",
+--   parameters = {
+--     water = Choice{min = 10, max = 20, step = 1},
+--      rain = Choice{min = 10, max = 20, step = 2},
+--     finalTime = 10,
+--   },
+--   quantity = 5
 -- }
 -- -- This should run the model 5 times selecting random values from the defined parameters
 -- -- (if they are choice, otherwise use the only available value).
 -- -- Selected Example:
 -- x = MultipleRuns{
--- 	model = RainModel,
--- 	strategy = "selected",
--- 	parameters = {
--- 		scenario1 = {water = 10, rain = 20, finalTime = 10},
---  		scenario2 = {water = 5, rain = 10, finalTime = 10}
--- 	}
+--   model = RainModel,
+--   strategy = "selected",
+--   parameters = {
+--     scenario1 = {water = 10, rain = 20, finalTime = 10},
+--      scenario2 = {water = 5, rain = 10, finalTime = 10}
+--   }
 -- }
 -- -- This should run the model 2 times with the same parameters defined in the vector of parameters.
 -- @arg data.quantity Quantity of runs that must be executed with the same parameters.

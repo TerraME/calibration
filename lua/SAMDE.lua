@@ -1,7 +1,7 @@
 -------------------------------------------------------------
 ----                 Algorithm SaMDE                     ----
 ----           Implement by: Rodolfo A. Lopes            ----
----		 Adapted for TerraME by Antonio G. O. Junior	 ----
+----    Adapted for TerraME by Antonio G. O. Junior      ----
 -------------------------------------------------------------
 local rand = Random()
 local NUMEST = 4
@@ -538,10 +538,10 @@ local function checkParameters(tModel, tParameters)
 					if type(Param) == "Choice" then
 						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
-			    			checkParametersRange(att, idx, Param)	
+			    			checkParametersRange(tModel, idx, Param)
 				    	else
 				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 checkParametersSet(att, idx, Param)
+				    		 checkParametersSet(tModel, idx, Param)
 				    	end
 
 				   	elseif type(Param) == "table" then
@@ -574,10 +574,10 @@ local function checkParameters(tModel, tParameters)
 						if type(Param) == "Choice" then
 							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
-				    			checkParametersRange(attt, idxt, Param)
+				    			checkParametersRange(tModel, idxt, Param, idx)
 					    	else
 					    	-- if parameter Multiple Runs/Calibration is a grop of values
-					    		 checkParametersSet(attt, idxt, Param)
+					    		 checkParametersSet(tModel, idxt, Param, idx)
 					    	end
 
 					   	elseif type(Param) == "table" and type(attt) == "Choice" then
@@ -622,22 +622,22 @@ metaTableSAMDE_ = {
 -- @usage
 -- import("calibration")
 -- local MyModel = Model{
--- 	x = Choice{min = -100, max = 100},
--- 	y = Choice{min = 1, max = 10},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+--   x = Choice{min = -100, max = 100},
+--   y = Choice{min = 1, max = 10},
+--   finalTime = 1,
+--   init = function(self)
+--     self.timer = Timer{
+--       Event{action = function()
+--         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+--       end}
+--   }
+--   end
 -- }
 -- c = SAMDE{
 --     model = MyModel,
 --     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1},
 --     fit = function(model)
---     		return model.value
+--         return model.value
 --     end
 -- }
 function SAMDE(data)

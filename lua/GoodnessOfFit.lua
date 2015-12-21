@@ -233,13 +233,13 @@ end
 -- @usage
 -- import("calibration")
 -- local cs = CellularSpace{
--- 			database = file("Costanza.map", "calibration"),
--- 			attrname = "Costanza"
--- 		}
+--   database = file("Costanza.map", "calibration"),
+--   attrname = "Costanza"
+-- }
 -- local cs2 = CellularSpace{
--- 				database = file("Costanza2.map", "calibration"),
--- 				attrname = "Costanza"
--- 		}
+--   database = file("Costanza2.map", "calibration"),
+--   attrname = "Costanza"
+-- }
 -- multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = false, graphics = true}
 multiLevel = function(data)
 	mandatoryArgument(1, "table", data)

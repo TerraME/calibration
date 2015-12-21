@@ -4,9 +4,11 @@
 
 --- Verify if a given parameter for a Model using min and max (and possibly range) 
 -- values is a valid subset for a given Model parameter.
--- @arg values A Model to be instantiated.
+-- @arg model A Model to be instantiated.
 -- @arg idx  The name of the parameter to be verified in the Model.
 -- @arg Param A table with the values to be verified.
+-- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- it's the parameter's table name.
 -- @usage import("calibration")
 --
 -- myModel = Model{
@@ -19,16 +21,20 @@
 --     end
 -- }
 --
--- checkParametersRange(myModel().y, "y", {min = 30, max = 70, step = 2})
--- -- change to the line below
--- -- checkParametersRange(myModel, "y", {min = 30, max = 70, step = 2})
---
+-- local parameters = {y = Choice{min = 20, max = 40}}
 -- ok, err =  pcall(function()
---     checkParametersRange(myModel().y, "y", {min = 20, max = 40})
+--     checkParametersRange(myModel, "y", parameters.y)
 -- end)
 --
 -- print(err) -- Error: Argument 'y.step' is mandatory.
-function checkParametersRange(values, idx, Param)
+function checkParametersRange(model, idx, Param, tableName)
+	local values
+	if tableName ~= nil then
+		values = model()[tableName][idx]
+	else
+		values = model()[idx]
+	end
+
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if values.min == nil and values.max == nil then
 		customError("Parameter "..idx.." should not be a range of values")
@@ -65,29 +71,40 @@ function checkParametersRange(values, idx, Param)
 	end
 end
 
---- Function to be used by Multiple Runs and SAMDE to test if a
--- value is valid to be used as a given Model parameter.
--- @arg mParam The table containing the valid set of parameters in a model.
+--- Verify if a given parameter for a Model 
+-- value is a valid subset for a given Model parameter.
+-- @arg model A model to be instantiated.
 -- @arg idx  The name of the parameter to be checked in the parameters table.
 -- @arg idx2  The numerical index, of the parameter value to be checked, in the choosen parameter Choice table.
 -- @arg value The value to be checked.
--- @usage
--- import("calibration")
--- local myModel = Model{
--- 	x = Choice{-100, -1, 0, 1, 2, 100},
--- 	y = Choice{min = 1, max = 10, step = 1},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+-- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- it's the parameter's table name.
+-- @usage import("calibration")
+--
+-- myModel = Model{
+--     x = Choice{-100, -1, 0, 1, 2, 100},
+--     finalTime = 1,
+--     init = function(self)
+--         self.timer = Timer{
+--             -- ...
+--         }
+--     end
 -- }
--- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParameterSingle(myModel().x, "x", 2, 1)
-function checkParameterSingle(mParam, idx, idx2, value)
+--
+-- local parameters = {x = Choice{-100, 5, 2}}
+-- ok, err =  pcall(function()
+--     checkParameterSingle(myModel, "x", 2, 5)
+-- end)
+--
+-- print(err) -- Error: Parameter 5 in #2 is out of the model x range.
+function checkParameterSingle(model, idx, idx2, value, tableName)
+	local mParam
+	if tableName ~= nil then
+		mParam = model()[tableName][idx]
+	else
+		mParam = model()[idx]
+	end
+
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
 		if value < mParam.min then
@@ -114,31 +131,36 @@ function checkParameterSingle(mParam, idx, idx2, value)
 	end
 end
 
---- Function to be used by Multiple Runs and SAMDE,
--- to test if a Choice type table of possible values is valid to be used as a given Model parameter.
--- @arg modelParam The table containing the valid set of parameters in a model.
+--- Verify if a given parameter for a Model using a table of
+-- values is a valid subset for a given Model parameter.
+-- @arg model A model to be instantiated.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg parameters A table with the group of parameter values to be checked.
+-- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- it's the parameter's table name.
 -- @usage
 -- import("calibration")
--- local myModel = Model{
--- 	x = Choice{-100, -1, 0, 1, 2, 100},
--- 	y = Choice{min = 1, max = 10, step = 1},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+--
+-- myModel = Model{
+--     x = Choice{-100, -1, 0, 1, 2, 100},
+--     finalTime = 1,
+--     init = function(self)
+--         self.timer = Timer{
+--             -- ...
+--         }
+--     end
 -- }
--- local parameters = {x = Choice{-100, 1, 2}, y = Choice{min = 3, max = 5}}
--- checkParametersSet({-100, 1, 2}, "x", myModel().x)
-function checkParametersSet(modelParam, idx, parameters) 
+--
+-- local parameters = {x = Choice{-100, 1, 3}}
+-- ok, err =  pcall(function()
+--    checkParametersSet(myModel, "x", parameters.x)
+-- end)
+--
+-- print(err) -- Error: Parameter 3 in #3 is out of the model x range.
+function checkParametersSet(model, idx, parameters, tableName) 
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(parameters.values, function(idx2, att2, type2)
-		checkParameterSingle(modelParam, idx, idx2, att2)
+		checkParameterSingle(model, idx, idx2, att2, tableName)
 	end)
 end
 
@@ -174,16 +196,16 @@ end
 -- @usage
 -- import("calibration")
 -- local myModel = Model{
--- 	x = Choice{-100, -1, 0, 1, 2, 100},
--- 	y = Choice{min = 1, max = 10, step = 1},
--- 	finalTime = 1,
--- 	init = function(self)
--- 		self.timer = Timer{
--- 			Event{action = function()
--- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
--- 			end}
--- 	}
--- 	end
+--   x = Choice{-100, -1, 0, 1, 2, 100},
+--   y = Choice{min = 1, max = 10, step = 1},
+--   finalTime = 1,
+--   init = function(self)
+--     self.timer = Timer{
+--       Event{action = function()
+--         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+--       end}
+--   }
+--   end
 -- }
 -- local parameters = {x = Choice{-100,- 1, 0, 1, 2, 100}, y = Choice{min = 1, max = 8, step = 1}}
 -- randomModel(myModel, parameters)
