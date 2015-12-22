@@ -198,7 +198,7 @@
 					</h1>
 
 					
-						<span class="description"></span>
+						<span class="description">Useful functions that are used by <a href=../files/MultipleRuns.html>MultipleRuns</a> and <a href=../files/SAMDE.html>SAMDE</a>. It contains basic functions to work with Models, such as checking parameters and creating random instances of a given Model.</span>
 					
 					
 					
@@ -214,21 +214,21 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#checkParameterSingle">checkParameterSingle</a>&nbsp;
-<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a> to test if a value is valid to be used as a given Model parameter.</td>
+<td class="summary">Verify if a given parameter for a Model value is a valid subset for a given Model parameter.</td>
 									</tr>
 								
 							
 								
 									<tr>
 										<td class="name" nowrap><a href="#checkParametersRange">checkParametersRange</a>&nbsp;
-<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a>, to test if a Choice type range of possible values is valid to be used as a given Model parameter.</td>
+<td class="summary">Verify if a given parameter for a Model using min and max (and possibly range) values is a valid subset for a given Model parameter.</td>
 									</tr>
 								
 							
 								
 									<tr>
 										<td class="name" nowrap><a href="#checkParametersSet">checkParametersSet</a>&nbsp;
-<td class="summary">Function to be used by Multiple Runs and <a href=files/SAMDE.html>SAMDE</a>, to test if a Choice type table of possible values is valid to be used as a given Model parameter.</td>
+<td class="summary">Verify if a given parameter for a Model using a table of values is a valid subset for a given Model parameter.</td>
 									</tr>
 								
 							
@@ -271,7 +271,7 @@
 <dd>
 
 
-<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a> to test if a value is valid to be used as a given Model parameter.</span>
+<span class="description">Verify if a given parameter for a Model value is a valid subset for a given Model parameter.</span>
 
 
 
@@ -281,7 +281,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: The table containing the valid set of parameters in a model.
+	  <strong>#1</strong>: A model to be instantiated.
     </li> 
     
   
@@ -300,6 +300,11 @@
     </li> 
     
   
+    <li>
+	  <strong>#5</strong>: Optional parameter to be used if the paramater 'idx' is inside another table, it's the parameter's table name.
+    </li> 
+    
+  
   </span></ul>
 
 
@@ -309,22 +314,24 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code>
-<span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
-	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-	<span class="id">finalTime</span> = <span class="number">1</span>,
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
+<pre class="example"><code><span class="id">import</span>(<span class="string">"calibration"</span>)
+
+<span class="id">myModel</span> = <span class="id">Model</span>{
+    <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+    <span class="id">finalTime</span> = <span class="number">1</span>,
+    <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+            <span class="comment">-- ...</span>
+        }
+    <span class="reserved">end</span>
 }
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
-<span class="function">checkParameterSingle</span>(<span class="id">myModel</span>().<span class="id">x</span>, <span class="string">"x"</span>, <span class="number">2</span>, <span class="number">1</span>)</code></pre>
+
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">5</span>, <span class="number">2</span>}}
+<span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
+    <span class="function">checkParameterSingle</span>(<span class="id">myModel</span>, <span class="string">"x"</span>, <span class="number">2</span>, <span class="number">5</span>)
+<span class="reserved">end</span>)
+
+<span class="id">print</span>(<span class="id">err</span>) <span class="comment">-- Error: Parameter 5 in #2 is out of the model x range.</span></code></pre>
 
 
 
@@ -346,7 +353,7 @@
 <dd>
 
 
-<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a>, to test if a Choice type range of possible values is valid to be used as a given Model parameter.</span>
+<span class="description">Verify if a given parameter for a Model using min and max (and possibly range) values is a valid subset for a given Model parameter.</span>
 
 
 
@@ -356,17 +363,22 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: A table with the group of values to be checked.
+	  <strong>#1</strong>: A Model to be instantiated.
     </li> 
     
   
     <li>
-	  <strong>#2</strong>: The index of the parameter to be checked in the parameters table.
+	  <strong>#2</strong>: The name of the parameter to be verified in the Model.
     </li> 
     
   
     <li>
-	  <strong>#3</strong>: The table containing the valid set of parameters in a model.
+	  <strong>#3</strong>: A table with the values to be verified.
+    </li> 
+    
+  
+    <li>
+	  <strong>#4</strong>: Optional parameter to be used if the paramater 'idx' is inside another table, it's the parameter's table name.
     </li> 
     
   
@@ -379,22 +391,24 @@
 
 
 <h3>Usage</h3>
-<pre class="example"><code>
-<span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
-	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-	<span class="id">finalTime</span> = <span class="number">1</span>,
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
+<pre class="example"><code><span class="id">import</span>(<span class="string">"calibration"</span>)
+
+<span class="id">myModel</span> = <span class="id">Model</span>{
+    <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">100</span>, <span class="id">step</span> = <span class="number">1</span>},
+    <span class="id">finalTime</span> = <span class="number">1</span>,
+    <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+            <span class="comment">-- ...</span>
+        }
+    <span class="reserved">end</span>
 }
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
-<span class="function">checkParametersRange</span>({<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}, <span class="string">"y"</span>, <span class="id">myModel</span>().<span class="id">y</span>)</code></pre>
+
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">20</span>, <span class="id">max</span> = <span class="number">40</span>}}
+<span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
+    <span class="function">checkParametersRange</span>(<span class="id">myModel</span>, <span class="string">"y"</span>, <span class="id">parameters</span>.<span class="id">y</span>)
+<span class="reserved">end</span>)
+
+<span class="id">print</span>(<span class="id">err</span>) <span class="comment">-- Error: Argument 'y.step' is mandatory.</span></code></pre>
 
 
 
@@ -416,7 +430,7 @@
 <dd>
 
 
-<span class="description">Function to be used by Multiple Runs and <a href=../files/SAMDE.html>SAMDE</a>, to test if a Choice type table of possible values is valid to be used as a given Model parameter.</span>
+<span class="description">Verify if a given parameter for a Model using a table of values is a valid subset for a given Model parameter.</span>
 
 
 
@@ -426,7 +440,7 @@
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: A table with the group of values to be checked.
+	  <strong>#1</strong>: A model to be instantiated.
     </li> 
     
   
@@ -436,7 +450,12 @@
     
   
     <li>
-	  <strong>#3</strong>: The table containing the valid set of parameters in a model.
+	  <strong>#3</strong>: A table with the group of parameter values to be checked.
+    </li> 
+    
+  
+    <li>
+	  <strong>#4</strong>: Optional parameter to be used if the paramater 'idx' is inside another table, it's the parameter's table name.
     </li> 
     
   
@@ -451,20 +470,23 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
-	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-	<span class="id">finalTime</span> = <span class="number">1</span>,
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
+
+<span class="id">myModel</span> = <span class="id">Model</span>{
+    <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+    <span class="id">finalTime</span> = <span class="number">1</span>,
+    <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+            <span class="comment">-- ...</span>
+        }
+    <span class="reserved">end</span>
 }
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">3</span>, <span class="id">max</span> = <span class="number">5</span>}}
-<span class="function">checkParametersSet</span>({<span class="number">-100</span>, <span class="number">1</span>, <span class="number">2</span>}, <span class="string">"x"</span>, <span class="id">myModel</span>().<span class="id">x</span>)</code></pre>
+
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">3</span>}}
+<span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
+   <span class="function">checkParametersSet</span>(<span class="id">myModel</span>, <span class="string">"x"</span>, <span class="id">parameters</span>.<span class="id">x</span>)
+<span class="reserved">end</span>)
+
+<span class="id">print</span>(<span class="id">err</span>) <span class="comment">-- Error: Parameter 3 in #3 is out of the model x range.</span></code></pre>
 
 
 
@@ -565,16 +587,16 @@
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
 <span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
-	<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-	<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
-	<span class="id">finalTime</span> = <span class="number">1</span>,
-	<span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-		<span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-			<span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-				<span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-			<span class="reserved">end</span>}
-	}
-	<span class="reserved">end</span>
+  <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+  <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+  <span class="id">finalTime</span> = <span class="number">1</span>,
+  <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
+    <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+      <span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+        <span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
+      <span class="reserved">end</span>}
+  }
+  <span class="reserved">end</span>
 }
 <span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>,- <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">8</span>, <span class="id">step</span> = <span class="number">1</span>}}
 <span class="function">randomModel</span>(<span class="id">myModel</span>, <span class="id">parameters</span>)</code></pre>

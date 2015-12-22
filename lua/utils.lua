@@ -7,7 +7,7 @@
 -- @arg model A Model to be instantiated.
 -- @arg idx  The name of the parameter to be verified in the Model.
 -- @arg Param A table with the values to be verified.
--- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- @arg tableName Optional parameter to be used if the paramater 'idx' is inside another table,
 -- it's the parameter's table name.
 -- @usage import("calibration")
 --
@@ -77,7 +77,7 @@ end
 -- @arg idx  The name of the parameter to be checked in the parameters table.
 -- @arg idx2  The numerical index, of the parameter value to be checked, in the choosen parameter Choice table.
 -- @arg value The value to be checked.
--- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- @arg tableName Optional parameter to be used if the paramater 'idx' is inside another table,
 -- it's the parameter's table name.
 -- @usage import("calibration")
 --
@@ -136,7 +136,7 @@ end
 -- @arg model A model to be instantiated.
 -- @arg idx  The index of the parameter to be checked in the parameters table.
 -- @arg parameters A table with the group of parameter values to be checked.
--- @arg tableName Optional parameter to be used f the paramater 'idx' is inside another table,
+-- @arg tableName Optional parameter to be used if the paramater 'idx' is inside another table,
 -- it's the parameter's table name.
 -- @usage
 -- import("calibration")

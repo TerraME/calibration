@@ -296,13 +296,13 @@
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
 <span class="reserved">local</span> <span class="id">cs</span> = <span class="id">CellularSpace</span>{
-			<span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza.map"</span>, <span class="string">"calibration"</span>),
-			<span class="id">attrname</span> = <span class="string">"Costanza"</span>
-		}
+  <span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza.map"</span>, <span class="string">"calibration"</span>),
+  <span class="id">attrname</span> = <span class="string">"Costanza"</span>
+}
 <span class="reserved">local</span> <span class="id">cs2</span> = <span class="id">CellularSpace</span>{
-				<span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza2.map"</span>, <span class="string">"calibration"</span>),
-				<span class="id">attrname</span> = <span class="string">"Costanza"</span>
-		}
+  <span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza2.map"</span>, <span class="string">"calibration"</span>),
+  <span class="id">attrname</span> = <span class="string">"Costanza"</span>
+}
 <span class="function">multiLevel</span>{<span class="id">cs1</span> = <span class="id">cs</span>, <span class="id">cs2</span> = <span class="id">cs2</span>, <span class="id">attribute</span> = <span class="string">"Costanza"</span>, <span class="id">continuous</span> = <span class="reserved">false</span>, <span class="id">graphics</span> = <span class="reserved">true</span>}</code></pre>
 
 
