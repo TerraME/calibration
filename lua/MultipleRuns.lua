@@ -397,11 +397,9 @@ metaTableMultipleRuns_ = {
 --- The Multiple Runs type has various model execution strategies, that can be used by the modeler
 -- to compare the results of a model and analyze it's behaviour in different scenarios.
 -- It returns a MultipleRuns table with the results.
--- @output simulations A table with the Model instances
--- after the simulation. It is indexed by numbers
--- according to the execution order.
--- @output parameters A table with parameters used to instantiate the model
--- in this simulation.
+-- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
+-- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
+-- @output "output" A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
