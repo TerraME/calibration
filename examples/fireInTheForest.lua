@@ -193,7 +193,7 @@ local results = SAMDE{
 		return (1 - trees/(total - model.empty))
 end}
 print ("end")
-print(results.fit
+print(results.fit)
 	
 -- 1762.6
 -- end
