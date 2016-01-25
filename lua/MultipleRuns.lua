@@ -4,7 +4,7 @@
 -- @arg tModel A Paramater with the model to be instantiated.
 -- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
 local function checkParameters(tModel, tParameters)
-	mandatoryTableArgument(tParameters, "model", "Model")
+	mandatoryArgument(1, "Model", tModel)
 	mandatoryTableArgument(tParameters, "parameters", "table")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
