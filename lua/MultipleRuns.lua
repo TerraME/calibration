@@ -47,16 +47,35 @@ local function checkParameters(tModel, tParameters)
 				elseif mtype == "Mandatory" then
 					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
 					local mandatory = false
-					forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
-						if idx2 == idx then
+					local mandArg = tParameters.parameters[idx]
+					if type(mandArg) ~= nil then
+						if type(mandArg) == "table" then
 							mandatory = true
 							forEachOrderedElement(att2, function(idx3, att3, typ3)
 								if typ3 ~= att.value then
 									mandatory = false
 								end
 							end)
+							
+						elseif type(mandArg) == "Choice" then
+							if mandArg.max ~= nil or mandArg.min ~= nil then
+								if "number" == att.value then 
+									mandatory = true
+								end
+							else
+								mandatory = true
+								forEachOrderedElement(att2, function(idx3, att3, typ3)
+									if typ3 ~= att.value then
+										mandatory = false
+									end
+								end)
+							end
+
+						elseif type(mandArg) == att.value then
+								mandatory = true
 						end
-					end)
+					end
+
 					if mandatory == false then
 						mandatoryTableArgument(tParameters.parameters, idx, att.value)
 					end
@@ -399,7 +418,7 @@ metaTableMultipleRuns_ = {
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
--- @output "output" A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
+-- @output output A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")

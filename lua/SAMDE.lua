@@ -551,20 +551,49 @@ local function checkParameters(tModel, tParameters)
 				elseif mtype == "Mandatory" then
 					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
 					local mandatory = false
-					forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
-						if idx2 == idx then
+					local mandArg = tParameters.parameters[idx]
+					if type(mandArg) ~= nil then
+						if type(mandArg) == "table" then
 							mandatory = true
 							forEachOrderedElement(att2, function(idx3, att3, typ3)
 								if typ3 ~= att.value then
 									mandatory = false
 								end
 							end)
+							
+						elseif type(mandArg) == "Choice" then
+							if mandArg.max ~= nil or mandArg.min ~= nil then
+								if "number" == att.value then 
+									mandatory = true
+								end
+							else
+								mandatory = true
+								forEachOrderedElement(att2, function(idx3, att3, typ3)
+									if typ3 ~= att.value then
+										mandatory = false
+									end
+								end)
+							end
+
+						elseif type(mandArg) == att.value then
+								mandatory = true
 						end
-					end)
+					end
+
 					if mandatory == false then
 						mandatoryTableArgument(tParameters.parameters, idx, att.value)
 					end
 
+					-- forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
+					-- 	if idx2 == idx then
+					-- 		mandatory = true
+					-- 		forEachOrderedElement(att2, function(idx3, att3, typ3)
+					-- 			if typ3 ~= att.value then
+					-- 				mandatory = false
+					-- 			end
+					-- 		end)
+					-- 	end
+					-- end)
 				elseif mtype == "table" then
 					forEachOrderedElement(att, function(idxt, attt, typt)
 						if tParameters.parameters[idx] ~= nil then

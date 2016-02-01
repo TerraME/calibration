@@ -6,17 +6,19 @@ local infection = Model{
 	susceptible = Mandatory("number"),
 	recovered = 0, 
 	days = Mandatory("number"),
-	finalTime = 100,
-	counter = 0,
+	finalTime = 13,
+	counter = 1,
 	chart = true,
+	finalInfected = {},
+	finalSusceptible = {},
+	finalRecovered = {},
 	init = function(self)
 		self.total = self.infected + self.susceptible + self.recovered
 		self.alpha = self.contagion * self.contacts / self.total
 		self.beta = 1/self.days
-		local results = {infected = {}, recovered = {}, susceptible = {}}
-		self.results.infected[self.counter] = self.infected
-		self.results.susceptible[self.counter] = self.susceptible
-		self.results.recovered[self.counter] = self.recovered
+		self.finalInfected[self.counter] = self.infected
+		self.finalSusceptible[self.counter] = self.susceptible
+		self.finalRecovered[self.counter] = self.recovered
 		local graph
 		if self.chart then
 			graph = {inf = self.infected}
@@ -33,9 +35,9 @@ local infection = Model{
 				self.infected = self.infected + self.alpha * self.infected * self.susceptible - self.beta * self.infected
 				self.recovered = self.recovered + self.beta * self.infected
 				self.counter = self.counter + 1
-				self.results.infected[self.counter] = self.infected
-				self.results.susceptible[self.counter] = self.susceptible
-				self.results.recovered[self.counter] = self.recovered
+				self.finalInfected[self.counter] = self.infected
+				self.finalSusceptible[self.counter] = self.susceptible
+				self.finalRecovered[self.counter] = self.recovered
 				if self.chart then
 					print(self.infected)
 					graph.inf = self.infected
@@ -58,7 +60,7 @@ local fluSimulation = SAMDE{
 	},
 	fit = function(model)
 		local dif = 0
-		forEachOrderedElement(model.results.infected, function(idx, att, typ)
+		forEachOrderedElement(model.finalInfected, function(idx, att, typ)
 			dif = dif + math.pow((att - fluData[idx]), 2)
 		end)
 		return dif
