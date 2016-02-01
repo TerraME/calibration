@@ -1,54 +1,11 @@
-import("ca")
+if not isLoaded("ca") then
+   import("ca")
+end
+
 import("calibration")
 local treesSum = 0
 local counter = 0
 
---- Template for Cellular Automata Model.
--- @arg data.dim A number with the x and y sizes of space.
--- @arg data.map A table with some parameters to visualize
--- the CellularSpace.
--- @tabular map
--- Map  & Description \
--- "select" & A string with the name of the attribute to be visualized. \
--- "value" &  A table with the possible values of the cellular automata. \
--- "color" & A table with the colors for the respective values.
--- @arg data.init A function that describes how a Cell will be initialized.
--- @arg data.changes A function that describes how each Cell is updated.
--- @usage import("ca")
---
--- Anneal = CellularAutomataModel{
---     finalTime = 30,
---     dim = 80,
---     init = function(cell)
---         if Random():number() > 0.5 then
---             cell.state = "L"
---         else
---             cell.state = "R"
---         end
---     end,
---     changes = function(cell)
---         local alive = countNeighbors(cell, "L")
---
---         if cell.state == "L" then alive = alive + 1 end
---
---         if alive <= 3 then
---             cell.state = "R"
---         elseif alive >= 6 then
---             cell.state = "L"
---         elseif alive == 4 then
---             cell.state = "L"
---         elseif alive == 5 then
---             cell.state = "R"
---         end
---     end,
---     map = {
---         select = "state",
---         value = {"L", "R"},
---         color = {"black", "white"}
---     }
--- }
---
--- Anneal:execute()
 function CellularAutomataModelCalibration(data)
 	mandatoryTableArgument(data, "changes", "function")
 	mandatoryTableArgument(data, "dim", "number")
@@ -102,12 +59,6 @@ function CellularAutomataModelCalibration(data)
 	return Model(data)
 end
 
-
--- A Model to simulate fire in the forest.
--- @arg data.finalTime A number with the final time of the simulation.
--- @arg data.dim A number with the x and y size of space.
--- @arg data.empty The percentage of empty cells in the beginning of the
--- simulation. It must be a value between 0 and 1, with default 0.1.
 local FireCalibration = CellularAutomataModelCalibration{
 	finalTime = 100,
 	empty = Choice{min = 0, max = 1, default = 0.1},

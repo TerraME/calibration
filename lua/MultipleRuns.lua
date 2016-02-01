@@ -56,7 +56,8 @@ local function checkParameters(tModel, tParameters)
 									mandatory = false
 								end
 							end)
-							
+						elseif type(mandArg) == att.value then
+								mandatory = true
 						elseif type(mandArg) == "Choice" then
 							if mandArg.max ~= nil or mandArg.min ~= nil then
 								if "number" == att.value then 
@@ -70,9 +71,6 @@ local function checkParameters(tModel, tParameters)
 									end
 								end)
 							end
-
-						elseif type(mandArg) == att.value then
-								mandatory = true
 						end
 					end
 
@@ -515,6 +513,8 @@ metaTableMultipleRuns_ = {
 -- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
+-- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
+-- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
@@ -532,6 +532,7 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
+	mandatoryTableArgument(data, "strategy", "string")
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
@@ -587,6 +588,7 @@ function MultipleRuns(data)
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
 		factorial = function()
+
 			forEachOrderedElement(data.parameters, function(idx, attribute, atype)
 				resultTable[idx] = {}
 				if atype == "table" then
@@ -617,6 +619,10 @@ function MultipleRuns(data)
 
 			chDir(folderDir)
 			for i = 1, data.quantity do
+					if data.showProgress then
+						print("Executing "..i.."/"..quantity..".")
+					end
+
 					local repeatedParam = clone(data.parameters)
 					local m = data.model(repeatedParam)
 					m:execute() 

@@ -12,7 +12,7 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 		solution[paramList[i]] = ind[i]
 	end
 
-	forEachOrderedElement(singleParameters, function (idx, att, typ)
+	forEachOrderedElement(singleParameters, function (idx, att, typ)		
 		solution[idx] = att
 	end) 
 
@@ -560,7 +560,8 @@ local function checkParameters(tModel, tParameters)
 									mandatory = false
 								end
 							end)
-							
+						elseif type(mandArg) == att.value then
+								mandatory = true							
 						elseif type(mandArg) == "Choice" then
 							if mandArg.max ~= nil or mandArg.min ~= nil then
 								if "number" == att.value then 
@@ -575,8 +576,7 @@ local function checkParameters(tModel, tParameters)
 								end)
 							end
 
-						elseif type(mandArg) == att.value then
-								mandatory = true
+						
 						end
 					end
 
