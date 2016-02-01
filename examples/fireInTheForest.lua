@@ -108,25 +108,6 @@ local FireCalibration = CellularAutomataModelCalibration{
 	end
 }
 
-local fireForest = MultipleRuns{
-	model = FireCalibration,
-	strategy = "repeated",
-	parameters = {empty = 0.5},
-	quantity = 5,
-	output = function(model)
-		local trees = 0
-		forEachCell(model.cs, function(cell)
-			if cell.state == "forest" then
-				trees = trees + 1
-			end
-		end)
-		counter = counter + 1
-		treesSum = (trees + treesSum)
-		return trees
-	end
-}
-
-print(treesSum/counter)
 local results = SAMDE{
 	model = FireCalibration,
 	parameters = {empty = Choice{min = 0, max = 1}},
@@ -143,9 +124,6 @@ local results = SAMDE{
 		end)
 		return (1 - trees/(total - model.empty))
 end}
-print ("end")
+
 print(results.fit)
-	
--- 1762.6
--- end
--- 0.35382580034567
+print ("end")	
