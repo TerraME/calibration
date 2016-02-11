@@ -532,7 +532,37 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	mandatoryTableArgument(data, "strategy", "string")
+	if data.strategy == nil then
+		local choiceStrg = false
+		forEachOrderedElement(data.parameters, function (idx, att, typ)
+			if typ == "table" then
+				forEachOrderedElement(att, function (idx2, att2, typ2)
+					if typ == "Choice" then
+						choiceStr = true
+					end
+				end)
+			else
+				if typ == "Choice" then
+					choiceStrg = true
+				end
+			end
+		end)
+
+		if data.quantity == nil then
+			if choiceStrg == true then
+				data.strategy = "factorial"
+			else
+				data.strategy = "selected"
+			end
+		else
+			if choiceStrg == true then
+				mandatoryTableArgument(data, "strategy", "string")
+			else
+				data.strategy = "repeated"
+			end
+		end
+	end		
+
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}

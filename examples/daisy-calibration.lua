@@ -191,7 +191,7 @@ Chart = mChart
 
 -- #ADDISSUE# Bug: note that sunLuminosity 1.6 is not executed
 forEachElement(m.sunLuminosity, function(idx, value)
---	print(value)
+	print(value)
 end)
 
 -- the code below could be encapsulated into a TerraME function

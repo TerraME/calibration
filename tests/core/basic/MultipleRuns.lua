@@ -222,7 +222,6 @@ MultipleRuns = function(unitTest)
 	local mSingle = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel4,
-		strategy = "factorial",
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1},
@@ -254,7 +253,6 @@ MultipleRuns = function(unitTest)
 	local m2Tab = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
-		strategy = "selected",
 		parameters = {
 			scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
 			scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
@@ -279,7 +277,6 @@ MultipleRuns = function(unitTest)
 	local m3Tab = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
-		strategy = "repeated",
 		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
 		quantity = 3,
 		output = function(model)
