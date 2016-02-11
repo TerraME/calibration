@@ -176,6 +176,7 @@ aproxGroup = function(proportion, varMatrix, k)
 	local i = 1
 	if size == 1 then
 		return group[1]
+
 	else
 		if proportion < 0 or proportion > 1 then
 			if rand:number() < 0.5 then
@@ -211,6 +212,10 @@ normalize = function(x, varMatrix, i, paramListInfo)
 	if paramListInfo[i].group == false then
 		total = interval[2] - interval[1]
 		value = x - interval[1]
+		if total == 0 then
+			total = 1
+		end
+
 		newValue = ((value * 100) / total) / 100
 	else
 		newValue = paramListInfo[i].proportion[x]
@@ -512,6 +517,10 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
+	forEachOrderedElement(singleParameters, function ( idx, att, typ)
+		bestVariablesChoice[idx] = att
+	end)
+	
 	local bestInstance = model(bestVariablesChoice)
 	bestInstance:execute()
 
