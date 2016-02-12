@@ -14,13 +14,13 @@ local infection = Model{
 	finalRecovered = {},
 	init = function(self)
 		self.total = self.infected + self.susceptible + self.recovered
-		self.alpha = self.contagion * self.contacts / self.total
-		self.beta = 1/self.days
+		self.alpha = self.contagion * ( self.contacts / self.total)
+		self.beta = 1 / self.days
 		self.finalInfected[self.counter] = self.infected
 		self.finalSusceptible[self.counter] = self.susceptible
 		self.finalRecovered[self.counter] = self.recovered
 		local graph
-		if self.chart then
+		if self.chart == true then
 			graph = {inf = self.infected}
 			Chart{
 				target = graph,
@@ -31,9 +31,9 @@ local infection = Model{
 	
 		self.timer = Timer{
 			Event{action = function()
-				self.susceptible = self.susceptible - self.alpha * self.infected * self.susceptible 
-				self.infected = self.infected + self.alpha * self.infected * self.susceptible - self.beta * self.infected
-				self.recovered = self.recovered + self.beta * self.infected
+				self.susceptible = self.susceptible - (self.alpha * self.infected * self.susceptible) 
+				self.infected = self.infected + (self.alpha * self.infected * self.susceptible) - (self.beta * self.infected)
+				self.recovered = self.recovered + (self.beta * self.infected)
 				self.counter = self.counter + 1
 				self.finalInfected[self.counter] = self.infected
 				self.finalSusceptible[self.counter] = self.susceptible
@@ -66,3 +66,20 @@ local fluSimulation = SAMDE{
 end}
 print("The smallest difference between fluData and the calibrated infection model is: ")
 print(fluSimulation.fit)
+print("best: ")
+local modelF = fluSimulation.instance
+		forEachOrderedElement(modelF.finalInfected, function(idx, att, typ)
+			print("finalInfected["..idx.."] = "..att)
+		end)
+		forEachOrderedElement(modelF.finalSusceptible, function(idx, att, typ)
+			print("finalSusceptible["..idx.."] = "..att)
+		end)
+		forEachOrderedElement(modelF.finalRecovered, function(idx, att, typ)
+			print("finalRecovered["..idx.."] = "..att)
+		end)
+		print("days: "..modelF.days)
+		print("contagion: "..modelF.contagion)
+		print("contacts: "..modelF.contacts)
+		print("total: "..modelF.total)
+		print("alpha: "..modelF.alpha)
+		print("beta: "..modelF.beta)
