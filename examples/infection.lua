@@ -1,4 +1,5 @@
 import("calibration")
+random = Random{seed = 1232}
 local infection = Model{
 	contacts = Mandatory("number"),
 	contagion = Choice{min = 0, max = 1},
@@ -53,9 +54,9 @@ local fluSimulation = SAMDE{
 	maxGen = 9, 
 	parameters = {
 		chart = false,
-		contacts = Choice{min = 3, max = 50},
+		contacts = Choice{min = 3, max = 50, step = 1},
 		contagion = Choice{min = 0, max = 1},
-		days = Choice{min = 1, max = 20}
+		days = Choice{min = 1, max = 20, step = 1}
 	},
 	fit = function(model)
 		local dif = 0

@@ -564,13 +564,13 @@ local function checkParameters(tModel, tParameters)
 					if type(mandArg) ~= nil then
 						if type(mandArg) == "table" then
 							mandatory = true
-							forEachOrderedElement(att2, function(idx3, att3, typ3)
+							forEachOrderedElement(mandArg, function(idx3, att3, typ3)
 								if typ3 ~= att.value then
 									mandatory = false
 								end
 							end)
 						elseif type(mandArg) == att.value then
-								mandatory = true							
+								mandatory = true
 						elseif type(mandArg) == "Choice" then
 							if mandArg.max ~= nil or mandArg.min ~= nil then
 								if "number" == att.value then 
@@ -578,14 +578,12 @@ local function checkParameters(tModel, tParameters)
 								end
 							else
 								mandatory = true
-								forEachOrderedElement(att2, function(idx3, att3, typ3)
+								forEachOrderedElement(mandArg.values, function(idx3, att3, typ3)
 									if typ3 ~= att.value then
 										mandatory = false
 									end
 								end)
 							end
-
-						
 						end
 					end
 
