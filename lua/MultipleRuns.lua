@@ -18,16 +18,16 @@ local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, i
 	   			checkParameterSingle(tModel, idx, 1, sParam[idx]) 
 	   		end)
 	   	else
-	   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-	   			if sType ~= "table" then
+			forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+	   			if type(sParam[idx]) ~= "table" then
 	   				customError("Parameters used in selected strategy must be in a table of scenarios")
 	   			end
 
-	   			if type(sParam[idx])  == "Choice" then
+	   			if type(sParam[idx][idxt]) == "Choice" then
 	   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 	   			end
 
-	   			checkParameterSingle(tModel, idx, 1, sParam[idx]) 
+	   			checkParameterSingle(tModel, idxt, 1, sParam[idx][idxt], idx)
 	   		end)
 	   	end
    	end
