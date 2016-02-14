@@ -43,6 +43,21 @@ local MyModel3 = Model{
 	}
 end
 }
+local MyModel4 = Model{
+	parameters3 = {
+		x = 1,
+		y = 2,
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
+			end}
+	}
+end
+}
+
 local error_func
 return{
 	MultipleRuns = function(unitTest)
@@ -510,6 +525,23 @@ return{
 			local m2 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel3,
+				strategy = "selected",
+				parameters = {
+					parameters3 = {x = 2, y = 5}
+		 		},
+				output = function(model)
+					return model.value
+				end,
+				additionalF = function(model)
+					return "test"
+			end}
+		end
+
+		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+				error_func = function()
+			local m2 =MultipleRuns{
+				folderName = tmpDir()..s.."UtilsAlternativeTests",
+				model = MyModel4,
 				strategy = "selected",
 				parameters = {
 					parameters3 = {x = 2, y = 5}

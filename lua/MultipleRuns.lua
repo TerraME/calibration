@@ -1,3 +1,22 @@
+-- checkParameters auxiliar function.
+local function checkMultipleRunsStrategyRules(tModel, tParameters, Param)
+	if type(Param) == "Choice" then
+		if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+			customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		end
+	elseif tParameters.strategy == "selected" then
+   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
+   			if type(sParam[idx]) ~= "table" then
+   				customError("Parameters used in selected strategy must be in a table of scenarios")
+   			end
+
+   			if type(sParam[idx][idxt]) == "Choice" then
+   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
+   			end
+   		end)
+   	end
+end
+
 -- Function to be used by Multiple Runs to check
 -- if all possibilites of models can be instantiated before
 -- starting to test the model.
@@ -12,12 +31,14 @@ local function checkParameters(tModel, tParameters)
 		if mtype ~= "function" then
 	    	if idx ~= "init" and idx ~= "seed" then
 				local Param = tParameters.parameters[idx]
+				-- check if all parameters fit the choosen strategy rules before
+				-- checking if it obeys the model rules.
+				if mtype ~= "table" then
+					checkMultipleRunsStrategyRules(tModel, tParameters, Param)
+				end
+
 				if mtype == "Choice" then
-					if type(Param) == "Choice" then
-						if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-							customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-						end
-						
+					if type(Param) == "Choice" then				
 						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
 			    			checkParametersRange(tModel, idx, Param)	
@@ -28,14 +49,6 @@ local function checkParameters(tModel, tParameters)
 
 				   	elseif tParameters.strategy == "selected" then
 				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-				   			if sType ~= "table" then
-				   				customError("Parameters used in selected strategy must be in a table of scenarios")
-				   			end
-
-				   			if type(sParam[idx])  == "Choice" then
-				   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-				   			end
-
 				   			checkParameterSingle(tModel, idx, 1, sParam[idx]) 
 				   		end)
 				   	elseif tParameters.strategy == "repeated" then
@@ -83,12 +96,11 @@ local function checkParameters(tModel, tParameters)
 						if tParameters.parameters[idx] ~= nil then
 							Param = tParameters.parameters[idx][idxt]
 						end
-						
+
+						-- check if all parameters fit the choosen strategy rules before
+						-- checking if it obeys the model rules.
+						checkMultipleRunsStrategyRules(tModel, tParameters, Param)	
 						if type(Param) == "Choice" then
-							if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
-								customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-							end
-							
 							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
 				    			checkParametersRange(tModel, idxt, Param, idx)
@@ -99,14 +111,6 @@ local function checkParameters(tModel, tParameters)
 
 					   	elseif tParameters.strategy == "selected" then
 					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
-					   			if type(sParam[idx]) ~= "table" then
-					   				customError("Parameters used in selected strategy must be in a table of scenarios")
-					   			end
-
-					   			if type(sParam[idx][idxt]) == "Choice" then
-					   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
-					   			end
-
 					   			checkParameterSingle(tModel, idxt, 1, sParam[idx][idxt], idx)
 					   		end)
 					   	elseif tParameters.strategy == "repeated" then

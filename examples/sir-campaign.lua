@@ -56,9 +56,7 @@ Chart = function() end
 
 local m = MultipleRuns{
 	model = SIR,
-	strategy = "factorial", -- #ADDISSUE# 
-							-- IF WE CHANGE THIS TO SELECTED IT DOESNT WORK
-							-- It should stop with an error
+	strategy = "factorial",
 	parameters = {
 		policy = Choice{min = 100, max = 4000, step = 10},
 	},
