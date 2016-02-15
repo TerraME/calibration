@@ -37,7 +37,7 @@ local m = MultipleRuns{
 		return model.cs:forest()
 	end
 }
-
+local sum = 0
 forEachElement(m.forest, function(idx, value)
 	sum = sum + value
 end)

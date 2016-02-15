@@ -32,9 +32,13 @@ local infection = Model{
 	
 		self.timer = Timer{
 			Event{action = function()
-				self.susceptible = self.susceptible - (self.alpha * self.infected * self.susceptible) 
-				self.infected = self.infected + (self.alpha * self.infected * self.susceptible) - (self.beta * self.infected)
-				self.recovered = self.recovered + (self.beta * self.infected)
+				local susceptible = math.floor(0.5 + self.susceptible - (self.alpha * self.infected * self.susceptible)) 
+				local infected = math.floor(0.5 + self.infected + (self.alpha * self.infected * self.susceptible) - (self.beta * self.infected))
+				local recovered = math.floor(0.5 + self.recovered + (self.beta * self.infected))
+				self.susceptible = susceptible
+				self.infected = infected
+				self.recovered = recovered
+				print("TOTAL: "..self.susceptible + self.infected + self.recovered)
 				self.counter = self.counter + 1
 				self.finalInfected[self.counter] = self.infected
 				self.finalSusceptible[self.counter] = self.susceptible
