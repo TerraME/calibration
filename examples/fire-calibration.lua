@@ -2,16 +2,11 @@ if not isLoaded("ca") then
    import("ca")
 end
 import("calibration")
-
-mChart = Chart
-Chart = function() end
-mMap = Map
-Map = function() end
-
 i = 0
 
 local m = MultipleRuns{
 	model = Fire,
+	hideGraphs = true,
 	strategy = "repeated", -- #ADDISSUE# se tirar este parametro, a mensagem
 	                        -- de erro diz que #2 is mandatory, 
 							-- deveria ser 'strategy is mandatory'
@@ -42,10 +37,6 @@ local m = MultipleRuns{
 		return model.cs:forest()
 	end
 }
-
-Chart = mChart
-
-sum = 0
 
 forEachElement(m.forest, function(idx, value)
 	sum = sum + value

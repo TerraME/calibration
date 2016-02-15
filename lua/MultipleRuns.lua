@@ -588,11 +588,22 @@ function MultipleRuns(data)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "hideGraphs"})
 		end
 	end)
 
 	checkParameters(data.model, data)
+
+	--If hideGraphs is true, hide Map and Chart graphs during the repeated models execution
+	local copyChart
+	local copyMap
+	if data.hideGraphs == true then
+		copyChart = Chart
+		copyMap = Map
+		Chart = function() end
+		Map = function() end
+	end
+
 	local Params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
@@ -751,5 +762,10 @@ function MultipleRuns(data)
 	end)
 
 	chDir(firstDir) 
+	if data.hideGraphs == true then
+		Map = copyMap
+		Chart = copyChart
+	end
+
 	return data
 end
