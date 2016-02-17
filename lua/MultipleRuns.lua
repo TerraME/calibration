@@ -153,9 +153,9 @@ end
 
 -- The possible values for each parameter is being put in a table indexed by numbers.
 -- example:
--- Params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
+-- params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
-local function parametersOrganizer(mainTable, idx, attribute, atype, Params)
+local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 	local range = true
 	local steps = 1
 	local parameterElements = {}
@@ -173,34 +173,36 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, Params)
 			steps = attribute.step
 		end
 
-		Params[#Params + 1] = {id = idx, min = attribute.min, 
+		params[#params + 1] = {id = idx, min = attribute.min, 
 		max = attribute.max, elements = parameterElements, ranged = range, step = steps, table = mainTable}
 	else
 		table.insert(parameterElements, attribute)
-		table.insert(Params, {id = idx, min = nil, max = nil, elements = parameterElements, ranged = false, step = 1, table = mainTable})
+		table.insert(params, {id = idx, min = nil, max = nil, elements = parameterElements, ranged = false, step = 1, table = mainTable})
 	end
 end
 
 local factorialRecursive
 -- function used in execute() to test the model with all the possible combinations of parameters.
--- Params: Table with all the parameters and it's ranges or values indexed by number.
--- Example: Params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
+-- params: Table with all the parameters and it's ranges or values indexed by number.
+-- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-factorialRecursive = function(data, Params, a, variables, resultTable, addFunctions, s, quantity, repeated)
-	if Params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = Params[a].min, Params[a].max, Params[a].step do	-- Testing the parameter with each value in it's range.
+factorialRecursive = function(data, params, a, variables, resultTable, addFunctions, s, quantity, repeated)
+	if params[a].ranged == true then -- if the parameter uses a range of values
+		local correctionValue = params[a].step / 10
+
+		for parameter = params[a].min, (params[a].max + correctionValue), params[a].step do	-- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
-			if Params[a].table == nil then
-				variables[Params[a].id] = parameter 
+			if params[a].table == nil then
+				variables[params[a].id] = parameter 
 			else
-				if variables[Params[a].table] == nil then
-					variables[Params[a].table] = {}
+				if variables[params[a].table] == nil then
+					variables[params[a].table] = {}
 				end
 
-				variables[Params[a].table][Params[a].id] = parameter
+				variables[params[a].table][params[a].id] = parameter
 			end
 
 			local mVariables = {} -- copy of the variables table to be used in the model.
@@ -208,7 +210,7 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				mVariables[idx] = attribute
 			end)
 
-			if a == #Params then -- if all parameters have already been given a value to be tested.
+			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
 				local stringSimulations = ""
@@ -234,21 +236,21 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
 			end
 		end
 
 	else -- if the parameter uses a table of multiple values
-		forEachOrderedElement(Params[a].elements, function (idx, attribute, atype) 
+		forEachOrderedElement(params[a].elements, function (idx, attribute, atype) 
 			-- Testing the parameter with each value in it's table.
 			-- Giving the variables table the current parameter and value being tested.
-			if Params[a].table == nil then
-				variables[Params[a].id] = attribute 
+			if params[a].table == nil then
+				variables[params[a].id] = attribute 
 			else
-				if variables[Params[a].table] == nil then
-					variables[Params[a].table] = {}
+				if variables[params[a].table] == nil then
+					variables[params[a].table] = {}
 				end
-				variables[Params[a].table][Params[a].id] = attribute
+				variables[params[a].table][params[a].id] = attribute
 			end
 			
 			local mVariables = {} -- copy of the variables table to be used in the model.
@@ -256,7 +258,7 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				mVariables[idx2] = attribute2
 			end)
 
-			if a == #Params then -- if all parameters have already been given a value to be tested.
+			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:execute()
 				local stringSimulations = ""
@@ -282,7 +284,7 @@ factorialRecursive = function(data, Params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, Params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
 			end
 		end)
 	end
@@ -604,17 +606,17 @@ function MultipleRuns(data)
 		Map = function() end
 	end
 
-	local Params = {} 
+	local params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
 	if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 		local mainTable = nil
 		forEachOrderedElement(data.parameters, function(idx, attribute, atype)
 			if atype ~= "table" then
-				parametersOrganizer(mainTable, idx, attribute, atype, Params)
+				parametersOrganizer(mainTable, idx, attribute, atype, params)
 			else
 				forEachOrderedElement(attribute, function(idx2, att2, typ2)
-					parametersOrganizer(idx, idx2, att2, typ2, Params) 
+					parametersOrganizer(idx, idx2, att2, typ2, params) 
 				end)
 			end
 		end)
@@ -663,7 +665,7 @@ function MultipleRuns(data)
 
 			chDir(folderDir)
 			for i = 1, data.quantity do
-				resultTable = factorialRecursive(data, Params, 1, variables, resultTable, addFunctions, s, i, repeated)
+				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 
 			chDir(firstDir)
@@ -702,7 +704,7 @@ function MultipleRuns(data)
 			mandatoryTableArgument(data, "quantity", "number")
 			chDir(folderDir)
 			for i = 1, data.quantity do
-				local sampleParams = {}
+				local sampleparams = {}
 				local m = randomModel(data.model, data.parameters)
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 				mkDir(""..(#resultTable.simulations).."") 
@@ -711,19 +713,19 @@ function MultipleRuns(data)
 				chDir(folderDir)
 				forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 					if typ2 ~= "table" then
-						sampleParams[idx2] = m.idx2
+						sampleparams[idx2] = m.idx2
 					else
-						if sampleParams[idx2] == nil then
-							sampleParams[idx2] = {}
+						if sampleparams[idx2] == nil then
+							sampleparams[idx2] = {}
 						end
 
 						forEachOrderedElement(att2, function(idx3, att3, typ3)
-							sampleParams[idx2][idx3] = m[idx2].idx3
+							sampleparams[idx2][idx3] = m[idx2].idx3
 						end)
 					end
 				end)
 
-				forEachOrderedElement(sampleParams, function (idx2, att2, typ2)
+				forEachOrderedElement(sampleparams, function (idx2, att2, typ2)
 					if resultTable[idx2] == nil then 
 						resultTable[idx2] = {}
 					end
