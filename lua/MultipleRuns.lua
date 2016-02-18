@@ -191,9 +191,13 @@ local factorialRecursive
 -- resultTable Table returned by multipleRuns as result
 factorialRecursive = function(data, params, a, variables, resultTable, addFunctions, s, quantity, repeated)
 	if params[a].ranged == true then -- if the parameter uses a range of values
-		local correctionValue = params[a].step / 10
+		local correctionValue = params[a].step / 100
 
 		for parameter = params[a].min, (params[a].max + correctionValue), params[a].step do	-- Testing the parameter with each value in it's range.
+			if parameter > params[a].max then
+				parameter = params[a].max
+			end
+
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
 				variables[params[a].id] = parameter 
