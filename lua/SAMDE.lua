@@ -34,6 +34,11 @@ local initPop = function(popTam, varMatrix, dim, paramList, paramInfo)
 				local minVar = lim[1]
 				local maxVar = lim[2]
 				value = minVar + (rand:number() * (maxVar - minVar))
+				if paramInfo[j].step then
+					local step = paramInfo[j].stepValue
+					value = value - (value % step)
+				end
+
 			else
 				value = varMatrix[j][rand:integer(1,#varMatrix[j])]
 			end
