@@ -57,6 +57,16 @@
 	
 		
 	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
 
 	
 
@@ -73,6 +83,16 @@
 	
 		
 			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
 		
 	
 		
@@ -111,6 +131,11 @@
 		
 		
 		
+		
+		
+		
+		
+		
 	</ul>
 
 
@@ -120,6 +145,16 @@
 	
 		
 			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
 		
 	
 		
@@ -152,6 +187,11 @@
 					</li>
 				
 			
+		
+		
+		
+		
+		
 		
 		
 		
@@ -243,6 +283,11 @@
   
     <li>
 	  <strong>quantity</strong>: Quantity of runs that must be executed with the same parameters. The default value is 1.
+    </li> 
+    
+  
+    <li>
+	  <strong>showProgress</strong>: If true, a message is printed on screen to show the models executions progress on repeated strategy, (Default is false).
     </li> 
     
   
@@ -386,11 +431,15 @@
 <span class="output">
 	
 	<li>
-	  <strong>parameters</strong>: A table with parameters used to instantiate the model in this simulation.
+	  <strong>output</strong>: A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
 	</li>
 	
 	<li>
-	  <strong>simulations</strong>: A table with the Model instances after the simulation. It is indexed by numbers according to the execution order.
+	  <strong>parameters</strong>: A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
+	</li>
+	
+	<li>
+	  <strong>simulations</strong>: A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 	</li>
 	
 </span>
@@ -461,6 +510,7 @@
   <span class="id">strategy</span> = <span class="string">"repeated"</span>,
   <span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
   <span class="id">quantity</span> = <span class="number">10</span>,
+  <span class="id">showProgress</span> = <span class="reserved">true</span>
 }
 <span class="comment">-- This should run the model 10 times with the same parameters.</span>
 <span class="comment">-- Sample Example:</span>

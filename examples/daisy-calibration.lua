@@ -1,3 +1,5 @@
+-- @example Daisy world example using multiple Runs factorial strategy.
+
 --[[
  Author:      Gilberto Camara
  Model name:  Daisyworld
@@ -23,8 +25,7 @@ occurs at 22.5 degrees Celsius, and daisies grow from a minimum of 5 C to
 a maximum of 40 C.
 --]]
 
----------------------------------------------------------------------------------------
-local function daisyGrowthRate(tempK) -- daisyGrowthRate as function of temperature
+local function daisyGrowthRate(tempK) -- daisyGrowthRate as function of temperature.
 	local gr = 0.0
 	local temp = tempK - 273
 	if temp > 5.0 and temp < 40.0 then 

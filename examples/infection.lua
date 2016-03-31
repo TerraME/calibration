@@ -1,3 +1,4 @@
+-- @example Infection example using SaMDE, simulates an infection spreading inside a school.
 import("calibration")
 random = Random{seed = 1232}
 local infection = Model{

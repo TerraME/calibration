@@ -499,6 +499,7 @@ metaTableMultipleRuns_ = {
 --   strategy = "repeated",
 --   parameters = {water = 10, rain = 20, finalTime = 1},
 --   quantity = 10,
+--   showProgress = true
 -- }
 -- -- This should run the model 10 times with the same parameters.
 -- -- Sample Example:
@@ -594,7 +595,7 @@ function MultipleRuns(data)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "hideGraphs"})
+			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "hideGraphs", "showProgress"})
 		end
 	end)
 
@@ -683,7 +684,7 @@ function MultipleRuns(data)
 			chDir(folderDir)
 			for i = 1, data.quantity do
 					if data.showProgress then
-						print("Executing "..i.."/"..quantity..".")
+						print("Executing "..i.."/"..data.quantity..".")
 					end
 
 					local repeatedParam = clone(data.parameters)

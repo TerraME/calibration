@@ -1,3 +1,4 @@
+-- @example Fire in the forest example using  multiple runs repeateated strategy.
 if not isLoaded("ca") then
    import("ca")
 end
