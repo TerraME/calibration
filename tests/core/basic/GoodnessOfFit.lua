@@ -17,42 +17,43 @@ return{
 	end,
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
-			database = file("Costanza.map", "calibration"),
+			database = filePath("Costanza.map", "calibration"),
+			attrname = "value",
 			attrname = "Costanza"
 		}
 		local cs2 = CellularSpace{
-				database = file("Costanza2.map", "calibration"),
+				database = filePath("Costanza2.map", "calibration"),
 				attrname = "Costanza"
 		}
 		local cs12 = CellularSpace{
-			database = file("Costanza1-2.map", "calibration"),
+			database = filePath("Costanza1-2.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs22 = CellularSpace{
-			database = file("Costanza2-2.map", "calibration"),
+			database = filePath("Costanza2-2.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs13 = CellularSpace{
-			database = file("Costanza1-3.map", "calibration"),
+			database = filePath("Costanza1-3.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs23 = CellularSpace{
-			database = file("Costanza2-3.map", "calibration"),
+			database = filePath("Costanza2-3.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local sugar = CellularSpace{
-			database = file("sugarScape.csv", "calibration"),
+			database = filePath("sugarScape.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar2 = CellularSpace{
-			database = file("sugarScape2.csv", "calibration"),
+			database = filePath("sugarScape2.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar3 = CellularSpace{
-			database = file("sugarScape3.csv", "calibration")
+			database = filePath("sugarScape3.csv", "calibration")
 		}
 		local sugar4 = CellularSpace{
-			database = file("sugarScape4.csv", "calibration")
+			database = filePath("sugarScape4.csv", "calibration")
 		}
 		-- Discrete Tests:
 		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}

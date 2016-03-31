@@ -30,9 +30,9 @@
 function checkParametersRange(model, idx, Param, tableName)
 	local values
 	if tableName ~= nil then
-		values = model()[tableName][idx]
+		values = model:getParameters()[tableName][idx]
 	else
-		values = model()[idx]
+		values = model:getParameters()[idx]
 	end
 
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
@@ -100,9 +100,9 @@ end
 function checkParameterSingle(model, idx, idx2, value, tableName)
 	local mParam
 	if tableName ~= nil then
-		mParam = model()[tableName][idx]
+		mParam = model:getParameters()[tableName][idx]
 	else
-		mParam = model()[idx]
+		mParam = model:getParameters()[idx]
 	end
 
 	--test if a value inside the accepted model range of values
@@ -234,7 +234,7 @@ function randomModel(tModel, tParameters)
 		end
 	end)
 	local m = tModel(sampleParams)
-	m:execute()
+	m:run()
 	return m
 end
 

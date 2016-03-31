@@ -39,7 +39,7 @@ local function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "parameters", "table")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
-	forEachElement(tModel(), function(idx, att, mtype)
+	forEachElement(tModel:getParameters(), function(idx, att, mtype)
 		if mtype ~= "function" then
 	    	if idx ~= "init" and idx ~= "seed" then
 				local Param = tParameters.parameters[idx]
@@ -182,7 +182,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 end
 
 local factorialRecursive
--- function used in execute() to test the model with all the possible combinations of parameters.
+-- function used in run() to test the model with all the possible combinations of parameters.
 -- params: Table with all the parameters and it's ranges or values indexed by number.
 -- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
 -- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
@@ -216,7 +216,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
-				m:execute()
+				m:run()
 				local stringSimulations = ""
 				if repeated == true then
 					stringSimulations = quantity.."_execution_"
@@ -264,7 +264,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
-				m:execute()
+				m:run()
 				local stringSimulations = ""
 				if repeated == true then
 					stringSimulations = quantity.."_execution_"
@@ -677,7 +677,7 @@ function MultipleRuns(data)
 		end,
 		repeated = function()
 			mandatoryTableArgument(data, "quantity", "number")
-			if data.parameters.seed ~= nil or data.model().seed ~= nil then
+			if data.parameters.seed ~= nil or data.model:getParameters().seed ~= nil then
 				customError("Models using repeated strategy cannot use seed or all results will be the same.")
 			end
 
@@ -689,7 +689,7 @@ function MultipleRuns(data)
 
 					local repeatedParam = clone(data.parameters)
 					local m = data.model(repeatedParam)
-					m:execute() 
+					m:run() 
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
 					mkDir(""..(#resultTable.simulations).."") 
 					chDir(folderDir..s..""..(#resultTable.simulations).."") 
@@ -745,7 +745,7 @@ function MultipleRuns(data)
 			chDir(folderDir)
 			forEachOrderedElement(data.parameters, function(idx, att, atype)
 				local m = data.model(att)
-				m:execute()
+				m:run()
 				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
 				mkDir(""..(idx).."") 
 				chDir(folderDir..s..""..(idx).."") 

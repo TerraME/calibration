@@ -17,7 +17,7 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 	end) 
 
 	local m = model(solution)
-	m:execute()
+	m:run()
 	local err = fit(m)
 	return err
 end
@@ -527,7 +527,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	end)
 	
 	local bestInstance = model(bestVariablesChoice)
-	bestInstance:execute()
+	bestInstance:run()
 
 	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation}
 	return finalTable
@@ -544,7 +544,7 @@ local function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "parameters", "table")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
-	forEachElement(tModel(), function(idx, att, mtype)
+	forEachElement(tModel:getParameters(), function(idx, att, mtype)
 		if mtype ~= "function" then
 	    	if idx ~= "init" and idx ~= "seed" then
 				local Param = tParameters.parameters[idx]

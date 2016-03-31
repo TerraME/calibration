@@ -461,7 +461,7 @@ return{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
 				model = MyModel,
 				strategy = "selected",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
+				parameters = {scenario1 = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}}},
 				output = function(model)
 					return model.value
 			end}
