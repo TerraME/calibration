@@ -195,7 +195,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 
 		for parameter = params[a].min, (params[a].max + correctionValue), params[a].step do	-- Testing the parameter with each value in it's range.
 			if parameter > params[a].max then
-				parameter = params[a].max
+				parameter = params[a]
 			end
 
 			-- Giving the variables table the current parameter and value being tested.
@@ -536,6 +536,7 @@ metaTableMultipleRuns_ = {
 -- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
+-- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -605,10 +606,7 @@ function MultipleRuns(data)
 	local copyChart
 	local copyMap
 	if data.hideGraphs == true then
-		copyChart = Chart
-		copyMap = Map
-		Chart = function() end
-		Map = function() end
+		disableGraphics()
 	end
 
 	local params = {} 
@@ -770,8 +768,7 @@ function MultipleRuns(data)
 
 	chDir(firstDir) 
 	if data.hideGraphs == true then
-		Map = copyMap
-		Chart = copyChart
+		enableGraphics()
 	end
 
 	return data

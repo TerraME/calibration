@@ -18,7 +18,6 @@ return{
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
 			database = filePath("Costanza.map", "calibration"),
-			attrname = "value",
 			attrname = "Costanza"
 		}
 		local cs2 = CellularSpace{
