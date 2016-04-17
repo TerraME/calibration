@@ -1,58 +1,42 @@
-
-return{
-	pixelByPixel = function(unitTest)
-		local cell = Cell{a = 0.8, b = 0.7}
-		local cs = CellularSpace{xdim = 10, instance = cell}
-		local result = pixelByPixel(cs, cs, "a", "b", true)
-		unitTest:assertEquals(result, 0.9, 0.0001)
-		local cell2 = Cell{a = "forest", b = "forest"}
-		local cs2 = CellularSpace{xdim = 10, instance = cell2}
-		local t = Trajectory{
-			target = cs2,
-			select = function(cell2) return cell2.x > 4 end
-		}
-		forEachCell(t, function(cell2) cell2.b = "deforested" end)
-		local result2 = pixelByPixel(cs2, cs2, "a", "b")
-		unitTest:assertEquals(result2, 0.5)
-	end,
-	multiLevel = function(unitTest)
-		local cs = CellularSpace{
-			file = filePath("Costanza.map", "calibration"),
+print(filePath("Costanza.map", "calibration"))
+import("calibration")
+	local cs = CellularSpace{
+			database = "C:\\TerraME\\bin\\packages\\calibration\\data\\Costanza.map",
 			attrname = "Costanza"
 		}
 		local cs2 = CellularSpace{
-			file = filePath("Costanza2.map", "calibration"),
-			attrname = "Costanza"
+				database = filePath("Costanza2.map", "calibration"),
+				attrname = "Costanza"
 		}
 		local cs12 = CellularSpace{
-			file = filePath("Costanza1-2.map", "calibration"),
+			database = filePath("Costanza1-2.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs22 = CellularSpace{
-			file = filePath("Costanza2-2.map", "calibration"),
+			database = filePath("Costanza2-2.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs13 = CellularSpace{
-			file = filePath("Costanza1-3.map", "calibration"),
+			database = filePath("Costanza1-3.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local cs23 = CellularSpace{
-			file = filePath("Costanza2-3.map", "calibration"),
+			database = filePath("Costanza2-3.map", "calibration"),
 			attrname = "Costanza"
 		}
 		local sugar = CellularSpace{
-			file = filePath("sugarScape.csv", "calibration"),
+			database = filePath("sugarScape.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar2 = CellularSpace{
-			file = filePath("sugarScape2.csv", "calibration"),
+			database = filePath("sugarScape2.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar3 = CellularSpace{
-			file = filePath("sugarScape3.csv", "calibration")
+			database = filePath("sugarScape3.csv", "calibration")
 		}
 		local sugar4 = CellularSpace{
-			file = filePath("sugarScape4.csv", "calibration")
+			database = filePath("sugarScape4.csv", "calibration")
 		}
 		-- Discrete Tests:
 		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}
@@ -76,7 +60,3 @@ return{
 		unitTest:assertEquals(result8, 1, 0.01)
 		unitTest:assertEquals(result9, 1, 0.01)
 		unitTest:assertEquals(result10, 1, 0.01)
-
-	end
-}
-

@@ -65,8 +65,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -83,8 +81,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -137,7 +133,6 @@
 		
 		
 		
-		
 	</ul>
 
 
@@ -147,8 +142,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -187,7 +180,6 @@
 					<li><strong>GoodnessOfFit</strong></li>
 				
 			
-		
 		
 		
 		
@@ -290,7 +282,9 @@
 <dd>
 
 
-<span class="description">Compares two CelluarSpace according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both CelluarSpace.</span>
+<span class="description">
+
+Compares two CelluarSpace according to the calibration method described in Costanza's paper and returns a number with the average precision between the values of both CelluarSpace.</span>
 
 
 
@@ -335,11 +329,11 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">cs</span> = <span class="id">CellularSpace</span>{
+<span class="reserved">local</span> <span class="id">cs</span> = <span class="function">CellularSpace</span>{
   <span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza.map"</span>, <span class="string">"calibration"</span>),
   <span class="id">attrname</span> = <span class="string">"Costanza"</span>
 }
-<span class="reserved">local</span> <span class="id">cs2</span> = <span class="id">CellularSpace</span>{
+<span class="reserved">local</span> <span class="id">cs2</span> = <span class="function">CellularSpace</span>{
   <span class="id">database</span> = <span class="id">file</span>(<span class="string">"Costanza2.map"</span>, <span class="string">"calibration"</span>),
   <span class="id">attrname</span> = <span class="string">"Costanza"</span>
 }
@@ -365,7 +359,9 @@
 <dd>
 
 
-<span class="description">Compares two CelluarSpace pixel by pixel and returns a number with the average precision between the values in each cell of both CelluarSpace. This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't. If both maps are equal, the final result will be 1. If the cellular spaces are continuous: The difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space. And the precision of each cell is (1 - difference). The final result is the sum of the precisions divided by the number of cells If the cellular spaces are discrete: This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal. The final result is the sum of the precisions divided by the number of cells in the CelluarSpace. in the CelluarSpace.</span>
+<span class="description">
+
+Compares two CelluarSpace pixel by pixel and returns a number with the average precision between the values in each cell of both CelluarSpace. This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't. If both maps are equal, the final result will be 1. If the cellular spaces are continuous: The difference is calculated by subtracting the value of a cell in the first cellular space, with the value of the same cell in the second cellular space. And the precision of each cell is (1 - difference). The final result is the sum of the precisions divided by the number of cells If the cellular spaces are discrete: This precision is either 1 or 0, it's 1 if both values are equal and 0 if they aren't equal. The final result is the sum of the precisions divided by the number of cells in the CelluarSpace. in the CelluarSpace.<br><br></span>
 
 
 
@@ -410,8 +406,8 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">cell</span> = <span class="id">Cell</span>{<span class="id">a</span> = <span class="number">0</span><span class="number">.8</span>, <span class="id">b</span> = <span class="number">0</span><span class="number">.7</span>}
-<span class="reserved">local</span> <span class="id">cs</span> = <span class="id">CellularSpace</span>{<span class="id">xdim</span> = <span class="number">10</span>, <span class="id">instance</span> = <span class="id">cell</span>}
+<span class="reserved">local</span> <span class="id">cell</span> = <span class="function">Cell</span>{<span class="id">a</span> = <span class="number">0.8</span>, <span class="id">b</span> = <span class="number">0.7</span>}
+<span class="reserved">local</span> <span class="id">cs</span> = <span class="function">CellularSpace</span>{<span class="id">xdim</span> = <span class="number">10</span>, <span class="id">instance</span> = <span class="id">cell</span>}
 <span class="function">pixelByPixel</span>(<span class="id">cs</span>, <span class="id">cs</span>, <span class="string">"a"</span>, <span class="string">"b"</span>)</code></pre>
 
 

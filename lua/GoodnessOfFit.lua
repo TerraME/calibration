@@ -68,28 +68,28 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 	local t1, t2
 	-- These variable are adjustments so the function works on
 	-- cellular spaces with different formats and starting points.
-	local maxRow =cs1.maxRow
-	local maxCol =cs1.maxCol
+	local yMax =cs1.yMax
+	local xMax =cs1.xMax
 	local dim = step + 1
-	local lastRow = (maxRow - step + cs1.minRow)
-	local lastCol = (maxCol - step + cs1.minCol)
+	local lastRow = (yMax - step + cs1.yMin)
+	local lastCol = (xMax - step + cs1.xMin)
 	local stepx = step
 	local stepy = step
-	if step > maxCol then
+	if step > xMax then
 		lastCol = 0
-		stepx = step - (step - maxCol)
+		stepx = step - (step - xMax)
 	end
 
-	if step > maxRow then
+	if step > yMax then
 		lastRow = 0
-		stepy = step - (step - maxRow)
+		stepy = step - (step - yMax)
 		if stepx == step - 1 then
 			return -1
 		end
 	end
 
-	for i = cs1.minRow, lastRow do -- for each line
-		for j = cs1.minCol, lastCol do -- for each column
+	for i = cs1.yMin, lastRow do -- for each line
+		for j = cs1.xMin, lastCol do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
@@ -160,27 +160,27 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 	local t1, t2
 	-- These variable are adjustments so the function works on
 	-- cellular spaces with different formats and starting points.
-	local maxRow =cs1.maxRow
-	local maxCol =cs1.maxCol
-	local lastRow = (maxRow - step + cs1.minRow)
-	local lastCol = (maxCol - step + cs1.minCol)
+	local yMax =cs1.yMax
+	local xMax =cs1.xMax
+	local lastRow = (yMax - step + cs1.yMin)
+	local lastCol = (xMax - step + cs1.xMin)
 	local stepx = step
 	local stepy = step
-	if step > maxCol then
+	if step > xMax then
 		lastCol = 0
-		stepx = step - (step - maxCol)
+		stepx = step - (step - xMax)
 	end
 
-	if step > maxRow then
+	if step > yMax then
 		lastRow = 0
-		stepy = step - (step - maxRow)
+		stepy = step - (step - yMax)
 		if stepx == step - 1 then
 			return -1
 		end
 	end
 
-	for i = cs1.minRow, lastRow do -- for each line
-		for j = cs1.minCol, lastCol do -- for each column
+	for i = cs1.yMin, lastRow do -- for each line
+		for j = cs1.xMin, lastCol do -- for each column
 			forCounter = forCounter + 1	
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
@@ -254,18 +254,18 @@ multiLevel = function(data)
 	-- the fitness of the 1x1 square.
 	local largerSquare = 0
 	local minSquare = 0
-	if data.cs1.maxRow > data.cs1.maxCol then
+	if data.cs1.yMax > data.cs1.xMax then
 	-- Determines of the size of the smallest square possible containig all the map elements.
-		largerSquare = data.cs1.maxRow
+		largerSquare = data.cs1.yMax
 	else
-		largerSquare = data.cs1.maxCol
+		largerSquare = data.cs1.xMax
 	end
 
-	if data.cs1.minRow < data.cs1.minCol then
+	if data.cs1.yMin < data.cs1.xMin then
 	--Determines if the model starts at [0] or [1].
-		minSquare = data.cs1.minRow
+		minSquare = data.cs1.yMin
 	else
-		minSquare = data.cs1.minCol
+		minSquare = data.cs1.xMin
 	end
 
 	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)

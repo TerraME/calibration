@@ -65,8 +65,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -83,8 +81,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -137,7 +133,6 @@
 		
 		
 		
-		
 	</ul>
 
 
@@ -147,8 +142,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -189,7 +182,6 @@
 					</li>
 				
 			
-		
 		
 		
 		
@@ -311,7 +303,9 @@
 <dd>
 
 
-<span class="description">Verify if a given parameter for a Model value is a valid subset for a given Model parameter.</span>
+<span class="description">
+
+Verify if a given parameter for a Model value is a valid subset for a given Model parameter.</span>
 
 
 
@@ -356,17 +350,17 @@
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span>(<span class="string">"calibration"</span>)
 
-<span class="id">myModel</span> = <span class="id">Model</span>{
-    <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+<span class="id">myModel</span> = <span class="function">Model</span>{
+    <span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
     <span class="id">finalTime</span> = <span class="number">1</span>,
     <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{
             <span class="comment">-- ...</span>
         }
     <span class="reserved">end</span>
 }
 
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">5</span>, <span class="number">2</span>}}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>, <span class="number">5</span>, <span class="number">2</span>}}
 <span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
     <span class="function">checkParameterSingle</span>(<span class="id">myModel</span>, <span class="string">"x"</span>, <span class="number">2</span>, <span class="number">5</span>)
 <span class="reserved">end</span>)
@@ -393,7 +387,9 @@
 <dd>
 
 
-<span class="description">Verify if a given parameter for a Model using min and max (and possibly range) values is a valid subset for a given Model parameter.</span>
+<span class="description">
+
+Verify if a given parameter for a Model using min and max (and possibly range) values is a valid subset for a given Model parameter.<br><br></span>
 
 
 
@@ -433,17 +429,17 @@
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span>(<span class="string">"calibration"</span>)
 
-<span class="id">myModel</span> = <span class="id">Model</span>{
-    <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">100</span>, <span class="id">step</span> = <span class="number">1</span>},
+<span class="id">myModel</span> = <span class="function">Model</span>{
+    <span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">100</span>, <span class="id">step</span> = <span class="number">1</span>},
     <span class="id">finalTime</span> = <span class="number">1</span>,
     <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{
             <span class="comment">-- ...</span>
         }
     <span class="reserved">end</span>
 }
 
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">20</span>, <span class="id">max</span> = <span class="number">40</span>}}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">20</span>, <span class="id">max</span> = <span class="number">40</span>}}
 <span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
     <span class="function">checkParametersRange</span>(<span class="id">myModel</span>, <span class="string">"y"</span>, <span class="id">parameters</span>.<span class="id">y</span>)
 <span class="reserved">end</span>)
@@ -470,7 +466,9 @@
 <dd>
 
 
-<span class="description">Verify if a given parameter for a Model using a table of values is a valid subset for a given Model parameter.</span>
+<span class="description">
+
+Verify if a given parameter for a Model using a table of values is a valid subset for a given Model parameter.<br><br></span>
 
 
 
@@ -511,17 +509,17 @@
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
 
-<span class="id">myModel</span> = <span class="id">Model</span>{
-    <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+<span class="id">myModel</span> = <span class="function">Model</span>{
+    <span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
     <span class="id">finalTime</span> = <span class="number">1</span>,
     <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-        <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
+        <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{
             <span class="comment">-- ...</span>
         }
     <span class="reserved">end</span>
 }
 
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">3</span>}}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>, <span class="number">1</span>, <span class="number">3</span>}}
 <span class="id">ok</span>, <span class="id">err</span> =  <span class="id">pcall</span>(<span class="reserved">function</span>()
    <span class="function">checkParametersSet</span>(<span class="id">myModel</span>, <span class="string">"x"</span>, <span class="id">parameters</span>.<span class="id">x</span>)
 <span class="reserved">end</span>)
@@ -548,7 +546,9 @@
 <dd>
 
 
-<span class="description">Function to create a copy of a given parameter, returns the copy.</span>
+<span class="description">
+
+Function to create a copy of a given parameter, returns the copy.<br><br></span>
 
 
 
@@ -596,7 +596,9 @@
 <dd>
 
 
-<span class="description">Function that returns a random model instance from a set of parameters. Each Choice argument will be instantiated with a random value from the available choices. The other arguments will be instantiated with their exact values. This function can be used by SaMDE as well as by <a href=../files/MultipleRuns.html>MultipleRuns</a>.</span>
+<span class="description">
+
+Function that returns a random model instance from a set of parameters. Each Choice argument will be instantiated with a random value from the available choices. The other arguments will be instantiated with their exact values. This function can be used by SaMDE as well as by <a href=../files/MultipleRuns.html>MultipleRuns</a>.<br><br></span>
 
 
 
@@ -626,19 +628,19 @@
 <h3>Usage</h3>
 <pre class="example"><code>
 <span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">myModel</span> = <span class="id">Model</span>{
-  <span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
-  <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
+<span class="reserved">local</span> <span class="id">myModel</span> = <span class="function">Model</span>{
+  <span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>},
+  <span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">1</span>},
   <span class="id">finalTime</span> = <span class="number">1</span>,
   <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-    <span class="id">self</span>.<span class="id">timer</span> = <span class="id">Timer</span>{
-      <span class="id">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
+    <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{
+      <span class="function">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
         <span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
       <span class="reserved">end</span>}
   }
   <span class="reserved">end</span>
 }
-<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="id">Choice</span>{<span class="number">-100</span>,- <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>}, <span class="id">y</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">8</span>, <span class="id">step</span> = <span class="number">1</span>}}
+<span class="reserved">local</span> <span class="id">parameters</span> = {<span class="id">x</span> = <span class="function">Choice</span>{<span class="number">-100</span>,- <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">100</span>}, <span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">8</span>, <span class="id">step</span> = <span class="number">1</span>}}
 <span class="function">randomModel</span>(<span class="id">myModel</span>, <span class="id">parameters</span>)</code></pre>
 
 

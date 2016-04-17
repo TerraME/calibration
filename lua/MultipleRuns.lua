@@ -556,6 +556,12 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
+	-- optionalTableArgument(data, "output", "table")
+	optionalTableArgument(data, "strategy", "string")
+	optionalTableArgument(data, "quantity", "number")
+	optionalTableArgument(data, "folderName", "string")
+	optionalTableArgument(data, "hideGraphs", "boolean")
+	optionalTableArgument(data, "showProgress", "boolean")
 	if data.strategy == nil then
 		local choiceStrg = false
 		forEachOrderedElement(data.parameters, function (idx, att, typ)
@@ -596,7 +602,8 @@ function MultipleRuns(data)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {"model", "strategy", "parameters", "quantity", "folderName", "hideGraphs", "showProgress"})
+			verifyUnnecessaryArguments(checkingArgument, {
+				"model", "output", "strategy", "parameters", "quantity", "folderName", "hideGraphs", "showProgress"})
 		end
 	end)
 
