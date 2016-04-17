@@ -195,7 +195,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 
 		for parameter = params[a].min, (params[a].max + correctionValue), params[a].step do	-- Testing the parameter with each value in it's range.
 			if parameter > params[a].max then
-				parameter = params[a]
+				parameter = params[a].max
 			end
 
 			-- Giving the variables table the current parameter and value being tested.
