@@ -1,2 +1,2 @@
-line = false,
+lines = false
 log = "win"

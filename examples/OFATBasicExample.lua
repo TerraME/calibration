@@ -3,7 +3,7 @@
 import("calibration")
 import("ca")
 abm = Wolfram
-testParameters = {rule = Choice{min = 0, max = 255, points = 11}}
+testParameters = {rule = {parameter = Choice{min = 0, max = 255}, points = 11}}
 referenceData = {
     folderName = tmpDir(),
     quantity = 2,
@@ -22,6 +22,6 @@ referenceData = {
     end
 }
 
-sensivityTest = OFATSensitivity(referenceData, testParameters)
+sensivityTest = sensitivityAnalysisOutput(referenceData, testParameters)
 
 print("END")

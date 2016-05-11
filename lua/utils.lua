@@ -239,8 +239,38 @@ function randomModel(tModel, tParameters)
 end
 
 --- Function that test the model and saves a results table with the model input and output
--- for OFAT Sensitivity Analysis
-function OFATSensitivity(data, testParameters, tableName, separator)
+-- for OFAT/OLS Sensitivity Analysis
+-- @arg data The table of all the parameters necessary to use a multipleRuns model,
+-- the parameters defined here will be used as the default parameter for the OFAT analysis.
+-- @arg testParammeters A table with all the parameters to be analysed, with the parameter test range and number of
+-- samples from this range. If no number of points is set, test all possible combinations.
+-- @arg tableName the name of the csv with the input/output results (Default: "results")
+-- @arg separator the separator to be used by the csv file. (Default: ";")
+-- @usage
+-- import("calibration")
+-- import("ca")
+-- abm = Wolfram
+-- testParameters = {rule = {parameter = Choice{min = 0, max = 255}, points = 11}}
+-- referenceData = {
+--     folderName = tmpDir(),
+--     quantity = 2,
+--     model = abm,
+--     -- hideGraphs = true,
+--     -- If this is true, observers are turned off but model does not work. I think this is a bug in terrame disableGraphs().
+--     parameters = {rule = Choice{0,10,25,50, 125, 200}},
+--     output = function ( model )
+--         counter = 0
+--         forEachOrderedElement(model.cs.cells, function(id, at, ty)
+--             if at.state == "alive" then
+--                 counter = counter + 1
+--             end
+--         end)
+--         return counter
+--     end
+-- }
+
+-- sensivityTest = sensitivityAnalysisOutput(referenceData, testParameters)
+function sensitivityAnalysisOutput(data, testParameters, tableName, separator)
 	mandatoryArgument(1, "table", data)
 	mandatoryArgument(2, "table", testParameters)
 	if tableName == nil then
@@ -256,24 +286,25 @@ function OFATSensitivity(data, testParameters, tableName, separator)
 
 	forEachOrderedElement(testParameters, function(parameter, att, typ)
 		rangePoints = {}
-		if att.min ~= nil or att.max ~= nil then
-			mandatoryTableArgument(att, "min", "number")
-			mandatoryTableArgument(att, "max", "number")
+		attChoice = att.parameter
+		if attChoice.min ~= nil or attChoice.max ~= nil then
+			mandatoryTableArgument(attChoice, "min", "number")
+			mandatoryTableArgument(attChoice, "max", "number")
 			mandatoryTableArgument(att, "points", "number")
-			rangePoints[1] = att.min
+			rangePoints[1] = attChoice.min
 			for i = 2, (att.points - 1) do
-			    rangePoints[i] = att.min + math.floor( i * (att.max - att.min) / (att.points))  
+			    rangePoints[i] = attChoice.min + math.floor( i * (attChoice.max - attChoice.min) / (att.points))  
 			end
 
-			rangePoints[att.points] = att.max
-		elseif att.values ~= nil then
-			mandatoryTableArgument(att, "values", "table")  
+			rangePoints[att.points] = attChoice.max
+		elseif attChoice.values ~= nil then
+			mandatoryTableArgument(attChoice, "values", "table")  
 			if att.points ~= nil then
 				for i = 1, att.points do
-					rangePoints[i] = att:sample()
+					rangePoints[i] = attChoice:sample()
 				end
 			else
-				rangePoints = att.values
+				rangePoints = attChoice.values
 			end
 		else
 			customError("testParameter["..parameter.."] does not have a 'max'/'min' range or a table of 'values'")
@@ -288,43 +319,3 @@ function OFATSensitivity(data, testParameters, tableName, separator)
 
 	
 end
-
--- @example Basic example for testing SAMDE type
--- using a SysDyn model.
--- import("calibration")
--- import("ca")
--- abm = Wolfram
--- testParameters = {"rule"}
--- minRule = 0
--- maxRule = 255
--- repetitions = 2
--- points = 9
--- rangePoints = {}
--- rangePoints[0] = minRule
--- for i = 1, points do
---     rangePoints[i] = minRule + math.floor( i * (maxRule - minRule) / (points + 1))  
--- end
--- rangePoints[points+1] = maxRule
--- forEachOrderedElement(testParameters, function(parameter, att, typ)
---     sensivityTest = MultipleRuns{
---         folderName = tmpDir(),
---         quantity = 2,
---         model = abm,
---         -- hideGraphs = true,
---         -- If this is true, observers are turned off but model does not work. I think this is a bug in terrame disableGraphs().
---         parameters = {parameter = Choice(rangePoints)},
---         strategy = "factorial",
---         output = function ( model )
---             counter = 0
---             forEachOrderedElement(model.cs.cells, function(id, at, ty)
---                 if at.state == "alive" then
---                     counter = counter + 1
---                 end
---             end)
---             return counter
---         end
---     }
--- end)
-
--- sensivityTest:saveCSV("results", ";")
-
