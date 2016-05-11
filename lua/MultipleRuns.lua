@@ -635,7 +635,7 @@ function MultipleRuns(data)
 	-- Setting the folder for the tests results to be saved:
 	local s = package.config:sub(1, 1) 
 	local firstDir = currentDir()
-	local folderDir = firstDir 
+	local folderDir = currentDir()
 	local folder = data.folderName
 	if folder == nil then
 		folder = "MultipleRunsTests"

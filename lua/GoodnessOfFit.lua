@@ -269,7 +269,7 @@ multiLevel = function(data)
 	end
 
 	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)
-	local fitChart = {sqrFit = fitnessSum}
+	local fitChart = Cell{sqrFit = fitnessSum}
 	if data.graphics == true then
 		Chart{
 			title = "MultiLevel Results",

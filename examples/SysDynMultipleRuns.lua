@@ -42,7 +42,7 @@ yeast = SysDynModel{
                      }
         }
 }
-local results = {model_fitness = 0}
+local results = Cell{model_fitness = 0}
 local c1 = MultipleRuns{
     model = yeast,
     folderName = tmpDir(),

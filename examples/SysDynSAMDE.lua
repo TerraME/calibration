@@ -52,7 +52,7 @@ end}
 print ("rate "..c1.instance.rate.." rms error "..c1.fit)
 Chart = oldChart
 local diff = 0
-local results = {dif = diff}
+local results = Cell{dif = diff}
 Chart{
     target = results,
     select = {"dif"}

@@ -11,6 +11,7 @@ referenceData = {
     -- hideGraphs = true,
     -- If this is true, observers are turned off but model does not work. I think this is a bug in terrame disableGraphs().
     parameters = {rule = Choice{0,10,25,50, 125, 200}},
+    hideGraphs = true,
     output = function ( model )
         counter = 0
         forEachOrderedElement(model.cs.cells, function(id, at, ty)
