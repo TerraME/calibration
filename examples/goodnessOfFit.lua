@@ -2,11 +2,11 @@
 -- Example described in the Costanza paper.
 import("calibration")
 local cs12 = CellularSpace{
-	database = file("Costanza.map", "calibration"),
+	file = filePath("Costanza.map", "calibration"),
 	attrname = "Costanza"
 }
 		local cs22 = CellularSpace{
-	database = file("Costanza2.map", "calibration"),
+	file = filePath("Costanza2.map", "calibration"),
 	attrname = "Costanza"
 }
 
