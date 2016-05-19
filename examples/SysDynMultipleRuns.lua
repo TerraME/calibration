@@ -19,8 +19,6 @@ data [6] = 594.4
 data [7] = 640.8
 data [8] = 655.9
 data [9] = 661.8
-local oldChart = Chart
-Chart = function() end
 yeast = SysDynModel{    
     cells      =    9.6,
     ref        =    0,
@@ -48,10 +46,10 @@ local c1 = MultipleRuns{
     folderName = tmpDir(),
     strategy = "factorial",
     parameters = {rate = Choice{min = 0, max = 2.5, step = 0.1}},
+    hideGraphs = true,
     fit = function(model)
         local rms = math.sqrt (model.rms)
         results.model_fitness = rms
-        Chart = oldChart
         if model.rate == 0 then
            Chart{
             title = "SysDyn MultipleRuns Results",
@@ -61,8 +59,6 @@ local c1 = MultipleRuns{
         end
 
         results:notify(model.rate)
-        Chart = function() end
         return rms
     end
 }
-Chart = oldChart

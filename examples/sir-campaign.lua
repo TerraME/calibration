@@ -51,11 +51,10 @@ SIR = Model{
 }
 
 import("calibration")
-mChart = Chart
-Chart = function() end
 
 local m = MultipleRuns{
 	model = SIR,
+	hideGraphs = true,
 	strategy = "factorial",
 	parameters = {
 		policy = Choice{min = 100, max = 4000, step = 10},
@@ -68,12 +67,6 @@ local m = MultipleRuns{
 	end
 
 }
-
--- ... here
-Chart = mChart
-
--- the code below could be encapsulated into a TerraME function
--- think about that.
 
 cell = Cell{
 	max = m.max[1],

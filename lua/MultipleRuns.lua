@@ -692,7 +692,7 @@ function MultipleRuns(data)
 						print("Executing "..i.."/"..data.quantity..".")
 					end
 
-					local repeatedParam = clone(data.parameters)
+					local repeatedParam = cloneValues(data.parameters)
 					local m = data.model(repeatedParam)
 					m:run() 
 					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""

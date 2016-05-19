@@ -10,7 +10,6 @@ local infection = Model{
 	days = Mandatory("number"),
 	finalTime = 13,
 	counter = 1,
-	chart = true,
 	finalInfected = {},
 	finalSusceptible = {},
 	finalRecovered = {},
@@ -22,14 +21,13 @@ local infection = Model{
 		self.finalSusceptible[self.counter] = self.susceptible
 		self.finalRecovered[self.counter] = self.recovered
 		local graph
-		if self.chart == true then
-			graph = {inf = self.infected}
-			Chart{
-				target = graph,
-		    	select = {"inf"}
-			}
-			graph:notify(0)
-		end
+
+		graph = {inf = self.infected}
+		Chart{
+			target = graph,
+	    	select = {"inf"}
+		}
+		graph:notify(0)
 	
 		self.timer = Timer{
 			Event{action = function()
@@ -56,8 +54,8 @@ local fluData = {3, 7, 25, 72, 222, 282, 256, 233, 189, 123, 70, 25, 11, 4}
 local fluSimulation = SAMDE{
 	model = infection,
 	maxGen = 9, 
+	hideGraphs = true,
 	parameters = {
-		chart = false,
 		contacts = Choice{min = 3, max = 50, step = 1},
 		contagion = Choice{min = 0, max = 1},
 		days = Choice{min = 1, max = 20, step = 1}

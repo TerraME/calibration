@@ -36,7 +36,10 @@ end,
 checkParameterSingle = function(unitTest)
 	unitTest:assert(true)
 end,
-clone = function(unitTest)
+sensitivityAnalysisOutput = function(unitTest)
+	unitTest:assert(true)
+end,
+cloneValues = function(unitTest)
 	local original = {x = 42}
 	local copy = clone(original)
 	unitTest:assertEquals(copy.x, 42)

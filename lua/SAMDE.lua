@@ -688,7 +688,11 @@ function SAMDE(data)
 		customError("Function 'fit' was not implemented.")
 	end
 
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold"})
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"})
+	if data.hideGraphs == true then
+		disableGraphics()
+	end
+
 	checkParameters(data.model, data)
 	local best = {fit, instance, generations}
 	if data.maximize == nil then

@@ -19,8 +19,6 @@ data [6] = 594.4
 data [7] = 640.8
 data [8] = 655.9
 data [9] = 661.8
-local oldChart = Chart
-Chart = function() end
 yeast = SysDynModel{    
     cells      =    9.6,
     ref        =    0,
@@ -43,6 +41,7 @@ yeast = SysDynModel{
         }
 }
 local c1 = SAMDE{
+    hideGraphs = true,
 	model = yeast,
 	parameters = {rate = Choice{min = 1, max = 2.5}},
 	fit = function(model)
@@ -50,7 +49,6 @@ local c1 = SAMDE{
 end}
 
 print ("rate "..c1.instance.rate.." rms error "..c1.fit)
-Chart = oldChart
 local diff = 0
 local results = Cell{dif = diff}
 Chart{

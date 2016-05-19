@@ -169,15 +169,15 @@ end
 -- @usage
 -- import("calibration")
 -- local original = {param = 42}
--- local copy = clone(original) 
-function clone(mtable)
+-- local copy = cloneValues(original) 
+function cloneValues(mtable)
     mandatoryArgument(1, "table", mtable)
 
     local result = {}
 
     forEachElement(mtable, function(idx, value, mtype)
         if mtype == "table" then
-            result[idx] = clone(value)
+            result[idx] = cloneValues(value)
         else
             result[idx] = value
         end
@@ -269,6 +269,52 @@ end
 --     end
 -- }
 
+-- Find Proportion function
+local fP = function(idx, group)
+	local size = #group
+	if size > 1 then
+		return (idx / size)
+	else
+		return 1
+	end
+end
+
+local aproxGroup 
+aproxGroup = function(proportion, group)
+	local max = group[#group]
+	local min = group[1]
+	local size = #group
+	local share = 1 / size
+	local i = 1
+	if size == 1 then
+		return group[1]
+
+	else
+		if proportion < 0 or proportion > 1 then
+			if rand:number() < 0.5 then
+				local result = aproxGroup(rand:number(), varMatrix, k)
+				return result
+			else
+				if proportion < 0 then
+					return min
+				else
+					return max
+				end
+			end
+		end
+
+		while proportion > share * i do
+			i = i + 1
+		end
+
+		if proportion - (share * (i - 1)) > share / 2 and i ~= size then
+			return group[i + 1]
+		else
+			return group[i]
+		end
+	end
+end
+
 -- sensivityTest = sensitivityAnalysisOutput(referenceData, testParameters)
 function sensitivityAnalysisOutput(data, testParameters, tableName, separator)
 	mandatoryArgument(1, "table", data)
@@ -290,18 +336,42 @@ function sensitivityAnalysisOutput(data, testParameters, tableName, separator)
 		if attChoice.min ~= nil or attChoice.max ~= nil then
 			mandatoryTableArgument(attChoice, "min", "number")
 			mandatoryTableArgument(attChoice, "max", "number")
-			mandatoryTableArgument(att, "points", "number")
-			rangePoints[1] = attChoice.min
-			for i = 2, (att.points - 1) do
-			    rangePoints[i] = attChoice.min + math.floor( i * (attChoice.max - attChoice.min) / (att.points))  
+			if att.points ~= nil then
+				mandatoryTableArgument(att, "points", "number")
+				
+				if att.random == true then
+					for i = 1, (att.points - 1) do
+			   			rangePoints[i] = attChoice:sample()
+					end
+				else
+					rangePoints[1] = attChoice.min
+					for i = 2, (att.points - 1) do
+			   			rangePoints[i] = attChoice.min + math.floor( i * (attChoice.max - attChoice.min) / (att.points))  
+					end
+
+					rangePoints[att.points] = attChoice.max
+				end
+			else
+				rangePoints = Choice{min = att.min,max = att.max, step = att.step}
 			end
 
-			rangePoints[att.points] = attChoice.max
 		elseif attChoice.values ~= nil then
 			mandatoryTableArgument(attChoice, "values", "table")  
 			if att.points ~= nil then
-				for i = 1, att.points do
-					rangePoints[i] = attChoice:sample()
+				if att.random == true then
+					for i = 1, att.points do
+						rangePoints[i] = attChoice:sample()
+					end
+				else
+					mandatoryTableArgument(att, "points", "number")
+					local size = #attChoice.values
+					if att.points > size then
+						customError("the number ("..att.points..") of test points in parameter "..parameter.." must not exceed the number ("..size..") of values in the test parameter Choice table")
+					end
+
+					for i = 1, att.points do
+						rangePoints[i] = aproxGroup(i/att.points, attChoice.values)
+					end
 				end
 			else
 				rangePoints = attChoice.values

@@ -160,19 +160,15 @@ Daisyworld = SysDynModel {
 	}}
 }
 
---#############################################################################
+
 
 import("calibration")
 
--- implement a way to hide this automatically as argument for MultipleRuns #ADDISSUE#
--- it should hide all observers, and then put them back...
-mChart = Chart
-Chart = function() end
 
 local m = MultipleRuns{
 	model = Daisyworld,
-	strategy = "factorial", -- #ADDISSUE# this value could be inferred
-	                        -- automatically from the other parameters
+	strategy = "factorial", 
+	hideGraphs = true,
 	parameters = {
 		sunLuminosity = Choice{min = 0.6, max = 1.6, step = 0.01},
 	},
