@@ -22,7 +22,7 @@ local infection = Model{
 		self.finalRecovered[self.counter] = self.recovered
 		local graph
 
-		graph = {inf = self.infected}
+		graph = Cell{inf = self.infected}
 		Chart{
 			target = graph,
 	    	select = {"inf"}
