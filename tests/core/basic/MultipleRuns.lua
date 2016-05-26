@@ -155,7 +155,7 @@ MultipleRuns = function(unitTest)
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "factorial",
-		quantity = 2,
+		repeats = 2,
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1},
@@ -266,7 +266,7 @@ MultipleRuns = function(unitTest)
 		model = MyModel,
 		strategy = "repeated",
 		parameters = {x = 2, y = 5},
-		quantity = 3,
+		repeats = 3,
 		output = function(model)
 			return model.value
 		end,
@@ -278,7 +278,7 @@ MultipleRuns = function(unitTest)
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
-		quantity = 3,
+		repeats = 3,
 		output = function(model)
 			return model.value
 		end
@@ -326,6 +326,7 @@ MultipleRuns = function(unitTest)
 			},
 		},
 		quantity = 5,
+		repeats = 2,
 		output = function(model)
 			return model.value
 		end
@@ -364,8 +365,9 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(m3Tab:get(1).simulations, "1")
 	unitTest:assert(m4:get(5).simulations == "5")
 	unitTest:assertEquals(m4:get(1).simulations, "1")
-	unitTest:assert(m4Tab:get(5).simulations == "5")
-	unitTest:assertEquals(m4Tab:get(1).simulations, "1")
+	unitTest:assert(m4Tab:get(5).simulations == "1_execution_5")
+	unitTest:assertEquals(m4Tab:get(6).simulations, "2_execution_1")
+	unitTest:assertEquals(m4Tab:get(1).simulations, "1_execution_1")
 	unitTest:assert(m4Single:get(5).simulations == "5")
 	unitTest:assertEquals(m4Single:get(1).simulations, "1")
 	unitTest:assertEquals(m:get(1).additionalF, "test")

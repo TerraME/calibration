@@ -67,7 +67,7 @@ return{
 				model = MyModel,
 				strategy = "repeated",
 				parameters = {x = 2, y = 5, seed = 1001},
-				quantity = 3,
+				repeats = 3,
 				output = function(model)
 					return model.value
 			end}
@@ -80,7 +80,7 @@ return{
 				model = MyModel,
 				strategy = "repeated",
 				parameters = {x = 2, y = 5},
-				quantity = 3,
+				repeats = 3,
 				output = function(model)
 					return model.value
 			end}
@@ -92,7 +92,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
 				strategy = "repeated",
-				quantity = 3,
+				repeats = 3,
 				output = function(model)
 					return model.value
 			end}
@@ -104,7 +104,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				strategy = "repeated",
 				parameters = {x = 2, y = 5, seed = 1001},
-				quantity = 3,
+				repeats = 3,
 				output = function(model)
 					return model.value
 			end}
@@ -180,7 +180,7 @@ return{
 				model = MyModel,
 				strategy = "repeated",
 				parameters = {x = 2, y = 5, seed = 1001},
-				quantity = 3,
+				repeats = 3,
 				output = function(model)
 					return model.value
 			end}
@@ -198,7 +198,7 @@ return{
 			end}
 		end
 		
-		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
+		unitTest:assertError(error_func, "Argument 'repeats' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",

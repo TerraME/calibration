@@ -9,7 +9,7 @@ local m = MultipleRuns{
 	model = Fire,
 	hideGraphs = true,
 	strategy = "repeated", 
-	quantity = 10,
+	repeats = 10,
 	parameters = {
 		empty = 0.3,
 		dim = 30
@@ -25,5 +25,5 @@ forEachElement(m.forest, function(idx, value)
 	sum = sum + value
 end)
 
-print("Average forest in the end of "..m.quantity.." simulations: "..sum / m.quantity)
+print("Average forest in the end of "..m.repeats.." simulations: "..sum / m.repeats)
 

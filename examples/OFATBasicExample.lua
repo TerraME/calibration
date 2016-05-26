@@ -7,7 +7,7 @@ abm = Wolfram
 testParameters = {rule = {parameter = Choice{min = 0, max = 255}, points = 11}}
 referenceData = {
     folderName = tmpDir(),
-    quantity = 2,
+    repeats = 2,
     model = abm,
     hideGraphs = true,
     -- If this is true, observers are turned off but model does not work. I think this is a bug in terrame disableGraphs().

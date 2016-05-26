@@ -189,7 +189,7 @@ local factorialRecursive
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-factorialRecursive = function(data, params, a, variables, resultTable, addFunctions, s, quantity, repeated)
+factorialRecursive = function(data, params, a, variables, resultTable, addFunctions, s, repeats, repeated)
 	if params[a].ranged == true then -- if the parameter uses a range of values
 		local correctionValue = params[a].step / 100
 
@@ -219,7 +219,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				m:run()
 				local stringSimulations = ""
 				if repeated == true then
-					stringSimulations = quantity.."_execution_"
+					stringSimulations = repeats.."_execution_"
 				end
 
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
@@ -240,7 +240,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeats, repeated)
 			end
 		end
 
@@ -267,7 +267,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				m:run()
 				local stringSimulations = ""
 				if repeated == true then
-					stringSimulations = quantity.."_execution_"
+					stringSimulations = repeats.."_execution_"
 				end
 
 				forEachOrderedElement(variables, function (idx2, att2, typ2)
@@ -288,7 +288,7 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				chDir(testDir)
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, quantity, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeats, repeated)
 			end
 		end)
 	end
@@ -318,7 +318,7 @@ MultipleRuns_ = {
 	--   model = MyModel,
 	--   strategy = "repeated",
 	--   parameters = {x = 2},
-	--   quantity = 3,
+	--   repeats = 3,
 	--   output = function(model)
 	--     print(model.x)
 	-- end}
@@ -400,7 +400,7 @@ MultipleRuns_ = {
 	--  model = MyModel,
 	--  strategy = "repeated",
 	--  parameters = {x = 2},
-	--  quantity = 3,
+	--  repeats = 3,
 	--  output = function(model)
 	--    print(model.x)
 	--  end}
@@ -479,9 +479,9 @@ metaTableMultipleRuns_ = {
 --      rain = Choice{min = 10, max = 20, step = 2},
 --     finalTime = 1
 --   },
---   quantity = 2
+--   repeats = 2
 -- }
--- -- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.
+-- -- This should run the model 2*66 times to test all the possibilities for the parameters repeats times.
 -- -- Repeated Example:
 -- local RainModel = Model{
 --   water = Choice{min = 0, max = 100},
@@ -498,7 +498,7 @@ metaTableMultipleRuns_ = {
 --   model = RainModel,
 --   strategy = "repeated",
 --   parameters = {water = 10, rain = 20, finalTime = 1},
---   quantity = 10,
+--   repeats = 10,
 --   showProgress = true
 -- }
 -- -- This should run the model 10 times with the same parameters.
@@ -525,8 +525,9 @@ metaTableMultipleRuns_ = {
 --   }
 -- }
 -- -- This should run the model 2 times with the same parameters defined in the vector of parameters.
--- @arg data.quantity Quantity of runs that must be executed with the same parameters.
+-- @arg data.repeats repeats of runs that must be executed with the same parameters.
 -- The default value is 1.
+-- @arg data.quantity number of samples to be created in sample strategy execution.
 -- @arg data.model The Model to be instantiated and executed several times.
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
@@ -543,22 +544,22 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
--- & parameters, model & quantity, output, folderName \
+-- & parameters, model & repeats, output, folderName \
 -- "repeated" & Simulate the Model a given number of times with the defined parameters. & model,
--- quantity, parameters &
+-- repeats, parameters &
 -- output, folderName \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- quantity, model & output, folderName \
+-- repeats, model & output, folderName \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, quantity 
+-- model, parameters & output, folderName, repeats 
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
 	-- optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
-	optionalTableArgument(data, "quantity", "number")
+	optionalTableArgument(data, "repeats", "number")
 	optionalTableArgument(data, "folderName", "string")
 	optionalTableArgument(data, "hideGraphs", "boolean")
 	optionalTableArgument(data, "showProgress", "boolean")
@@ -578,7 +579,7 @@ function MultipleRuns(data)
 			end
 		end)
 
-		if data.quantity == nil then
+		if data.repeats == nil then
 			if choiceStrg == true then
 				data.strategy = "factorial"
 			else
@@ -586,7 +587,11 @@ function MultipleRuns(data)
 			end
 		else
 			if choiceStrg == true then
-				mandatoryTableArgument(data, "strategy", "string")
+				if data.quantity ~= nil then
+					data.strategy = "sample"
+				else
+					data.strategy = "factorial"
+				end
 			else
 				data.strategy = "repeated"
 			end
@@ -603,7 +608,7 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "quantity", "folderName", "hideGraphs", "showProgress"})
+				"model", "output", "strategy", "parameters", "repeats", "folderName", "hideGraphs", "showProgress", "repeat", "quantity"})
 		end
 	end)
 
@@ -667,29 +672,29 @@ function MultipleRuns(data)
 				end
 			end)
 			local repeated = false
-			if data.quantity == nil then
-				data.quantity = 1
-			elseif data.quantity > 1 then
+			if data.repeats == nil then
+				data.repeats = 1
+			elseif data.repeats > 1 then
 				repeated = true
 			end
 
 			chDir(folderDir)
-			for i = 1, data.quantity do
+			for i = 1, data.repeats do
 				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 
 			chDir(firstDir)
 		end,
 		repeated = function()
-			mandatoryTableArgument(data, "quantity", "number")
+			mandatoryTableArgument(data, "repeats", "number")
 			if data.parameters.seed ~= nil or data.model:getParameters().seed ~= nil then
 				customError("Models using repeated strategy cannot use seed or all results will be the same.")
 			end
 
 			chDir(folderDir)
-			for i = 1, data.quantity do
+			for i = 1, data.repeats do
 					if data.showProgress then
-						print("Executing "..i.."/"..data.quantity..".")
+						print("Executing "..i.."/"..data.repeats..".")
 					end
 
 					local repeatedParam = cloneValues(data.parameters)
@@ -712,36 +717,48 @@ function MultipleRuns(data)
 		end,
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
+			local repeats
+			if data.repeats == nil then
+				repeats = 1
+			else 
+				repeats = data.repeats
+			end
 			chDir(folderDir)
-			for i = 1, data.quantity do
-				local sampleparams = {}
-				local m = randomModel(data.model, data.parameters)
-				resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
-				mkDir(""..(#resultTable.simulations).."") 
-				chDir(folderDir..s..""..(#resultTable.simulations).."") 
-				testAddFunctions(resultTable, addFunctions, data, m)
-				chDir(folderDir)
-				forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
-					if typ2 ~= "table" then
-						sampleparams[idx2] = m.idx2
-					else
-						if sampleparams[idx2] == nil then
-							sampleparams[idx2] = {}
+			for case = 1, repeats do
+				local stringSimulations = ""
+				if repeats > 1 then
+					stringSimulations = case.."_execution_"
+				end
+				for i = 1, data.quantity do
+					local sampleparams = {}
+					local m = randomModel(data.model, data.parameters)
+					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""
+					mkDir(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+					chDir(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+					testAddFunctions(resultTable, addFunctions, data, m)
+					chDir(folderDir)
+					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
+						if typ2 ~= "table" then
+							sampleparams[idx2] = m.idx2
+						else
+							if sampleparams[idx2] == nil then
+								sampleparams[idx2] = {}
+							end
+
+							forEachOrderedElement(att2, function(idx3, att3, typ3)
+								sampleparams[idx2][idx3] = m[idx2].idx3
+							end)
+						end
+					end)
+
+					forEachOrderedElement(sampleparams, function (idx2, att2, typ2)
+						if resultTable[idx2] == nil then 
+							resultTable[idx2] = {}
 						end
 
-						forEachOrderedElement(att2, function(idx3, att3, typ3)
-							sampleparams[idx2][idx3] = m[idx2].idx3
-						end)
-					end
-				end)
-
-				forEachOrderedElement(sampleparams, function (idx2, att2, typ2)
-					if resultTable[idx2] == nil then 
-						resultTable[idx2] = {}
-					end
-
-					resultTable[idx2][#resultTable[idx2] + 1] = att2 
-				end)
+						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+					end)
+				end
 			end
 
 			chDir(firstDir)
