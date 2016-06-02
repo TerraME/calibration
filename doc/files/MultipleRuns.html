@@ -65,6 +65,8 @@
 	
 		
 	
+		
+	
 
 	
 
@@ -77,6 +79,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -114,6 +118,7 @@
 					<li><strong>MultipleRuns</strong></li>
 				
 			
+		
 		
 					<li>
 						<a href="../files/SAMDE.html">SAMDE</a>
@@ -165,6 +170,8 @@
 		
 	
 		
+	
+		
 			
 		
 	
@@ -180,6 +187,7 @@
 					</li>
 				
 			
+		
 		
 		
 		
@@ -281,7 +289,12 @@ The Multiple Runs type has various model execution strategies, that can be used 
     
   
     <li>
-	  <strong>quantity</strong>: Quantity of runs that must be executed with the same parameters. The default value is 1.
+	  <strong>quantity</strong>: number of samples to be created in sample strategy execution.
+    </li> 
+    
+  
+    <li>
+	  <strong>repeats</strong>: repeats of runs that must be executed with the same parameters. The default value is 1.
     </li> 
     
   
@@ -342,7 +355,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            folderName, output, quantity
+            folderName, output, repeats
             </td>
           
         
@@ -360,7 +373,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            model, parameters, quantity
+            model, parameters, repeats
             </td>
           
           
@@ -383,7 +396,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            model, parameters, quantity
+            model, parameters, repeats
             </td>
           
           
@@ -411,7 +424,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            folderName, output, quantity
+            folderName, output, repeats
             </td>
           
         
@@ -490,9 +503,9 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
      <span class="id">rain</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
     <span class="id">finalTime</span> = <span class="number">1</span>
   },
-  <span class="id">quantity</span> = <span class="number">2</span>
+  <span class="id">repeats</span> = <span class="number">2</span>
 }
-<span class="comment">-- This should run the model 2*66 times to test all the possibilities for the parameters quantity times.</span>
+<span class="comment">-- This should run the model 2*66 times to test all the possibilities for the parameters repeats times.</span>
 <span class="comment">-- Repeated Example:</span>
 <span class="reserved">local</span> <span class="id">RainModel</span> = <span class="function">Model</span>{
   <span class="id">water</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">0</span>, <span class="id">max</span> = <span class="number">100</span>},
@@ -509,7 +522,7 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
   <span class="id">model</span> = <span class="id">RainModel</span>,
   <span class="id">strategy</span> = <span class="string">"repeated"</span>,
   <span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
-  <span class="id">quantity</span> = <span class="number">10</span>,
+  <span class="id">repeats</span> = <span class="number">10</span>,
   <span class="id">showProgress</span> = <span class="reserved">true</span>
 }
 <span class="comment">-- This should run the model 10 times with the same parameters.</span>
@@ -707,7 +720,7 @@ Optional function defined by the user, that is executed each time the model runs
   <span class="id">model</span> = <span class="id">MyModel</span>,
   <span class="id">strategy</span> = <span class="string">"repeated"</span>,
   <span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
-  <span class="id">quantity</span> = <span class="number">3</span>,
+  <span class="id">repeats</span> = <span class="number">3</span>,
   <span class="function">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
     <span class="id">print</span>(<span class="id">model</span>.<span class="id">x</span>)
 <span class="reserved">end</span>}</code></pre>
@@ -779,7 +792,7 @@ Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV
  <span class="id">model</span> = <span class="id">MyModel</span>,
  <span class="id">strategy</span> = <span class="string">"repeated"</span>,
  <span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
- <span class="id">quantity</span> = <span class="number">3</span>,
+ <span class="id">repeats</span> = <span class="number">3</span>,
  <span class="id">output</span> = <span class="reserved">function</span>(<span class="id">model</span>)
    <span class="id">print</span>(<span class="id">model</span>.<span class="id">x</span>)
  <span class="reserved">end</span>}

@@ -22,27 +22,14 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 	return err
 end
 
-local initPop = function(popTam, varMatrix, dim, paramList, paramInfo)
+local initPop = function(popTam, varMatrix, dim, paramList, paramInfo, parameters)
 	-- print("initializing population ...");
 	local popInit = {}
 	for i = 1, popTam do
 		local ind = {}
 		for j = 1, dim do
 			local value
-			if paramInfo[j].group == false then
-				local lim = varMatrix[j]
-				local minVar = lim[1]
-				local maxVar = lim[2]
-				value = minVar + (rand:number() * (maxVar - minVar))
-				if paramInfo[j].step then
-					local step = paramInfo[j].stepValue
-					value = value - ((value-lim[1]) % step)
-				end
-
-			else
-				value = varMatrix[j][rand:integer(1,#varMatrix[j])]
-			end
-
+			value = parameters[paramList[j]]:sample()
 			table.insert(ind, value)
 		end
 
@@ -282,7 +269,7 @@ end
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.
-local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold)
+local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold, parameters)
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
@@ -340,7 +327,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
-	pop = initPop(maxPopulation, varMatrix, dim, paramList, paramListInfo)
+	pop = initPop(maxPopulation, varMatrix, dim, paramList, paramListInfo, modelParameters)
 	local bestCost = evaluate(pop[1], dim, model, paramList, fit, singleParameters)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
