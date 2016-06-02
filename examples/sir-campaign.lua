@@ -14,7 +14,6 @@ SIR = Model{
 	infected = 2,
 	recovered = 0,
 	init = function(model)
-
 		Chart{
 			target = model,
 			select = {"susceptible", "infected", "recovered"}
@@ -68,24 +67,11 @@ local m = MultipleRuns{
 
 }
 
-cell = Cell{
-	max = m.max[1],
-	susceptible = m.susceptible[1],
-	policy = m.policy[1]
-}
+setmetatable(m, nil)
 
 c = Chart{
-	target = cell,
+	data = m,
+	select = {"max", "susceptible"},
 	xAxis = "policy",
 }
-
-cell:notify()
-
-for i = 2, #m.max do
-	cell.max = m.max[i]
-	cell.susceptible = m.susceptible[i]
-	cell.policy = m.policy[i]
-
-	cell:notify()
-end
 
