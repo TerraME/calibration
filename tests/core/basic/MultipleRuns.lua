@@ -264,7 +264,6 @@ MultipleRuns = function(unitTest)
 	local m3 = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
-		strategy = "repeated",
 		parameters = {x = 2, y = 5},
 		repeats = 3,
 		output = function(model)
@@ -361,8 +360,8 @@ MultipleRuns = function(unitTest)
 	unitTest:assert(m3:get(1).y == 5 and m3:get(2).y == 5 and m3:get(3).y == 5)
 	unitTest:assert(m3Tab:get(1).parameters3.x == 2 and m3Tab:get(2).parameters3.x == 2 and m3Tab:get(3).parameters3.x == 2)
 	unitTest:assert(m3Tab:get(1).parameters3.y == 5 and m3Tab:get(2).parameters3.y == 5 and m3Tab:get(3).parameters3.y == 5)
-	unitTest:assertEquals(m3:get(1).simulations, "1")
-	unitTest:assertEquals(m3Tab:get(1).simulations, "1")
+	unitTest:assertEquals(m3:get(1).simulations, "1_execution_scenario")
+	unitTest:assertEquals(m3Tab:get(1).simulations, "1_execution_scenario")
 	unitTest:assert(m4:get(5).simulations == "5")
 	unitTest:assertEquals(m4:get(1).simulations, "1")
 	unitTest:assert(m4Tab:get(5).simulations == "1_execution_5")

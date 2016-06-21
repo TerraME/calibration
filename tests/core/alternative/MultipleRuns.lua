@@ -63,22 +63,8 @@ return{
 	MultipleRuns = function(unitTest)
 		error_func = function()
 			local m4 = MultipleRuns{
-				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
-				model = MyModel,
-				strategy = "repeated",
-				parameters = {x = 2, y = 5, seed = 1001},
-				repeats = 3,
-				output = function(model)
-					return model.value
-			end}
-		end
-		
-		unitTest:assertError(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
-		error_func = function()
-			local m4 = MultipleRuns{
 				folderName = "!@#$$#$%??",
 				model = MyModel,
-				strategy = "repeated",
 				parameters = {x = 2, y = 5},
 				repeats = 3,
 				output = function(model)
@@ -91,7 +77,6 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				strategy = "repeated",
 				repeats = 3,
 				output = function(model)
 					return model.value
@@ -102,7 +87,6 @@ return{
 		error_func = function()
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
-				strategy = "repeated",
 				parameters = {x = 2, y = 5, seed = 1001},
 				repeats = 3,
 				output = function(model)
@@ -174,31 +158,6 @@ return{
 		end
 		
 		unitTest:assertError(error_func, "Argument 'x.step' is mandatory.")
-		error_func = function()
-			local m4 =MultipleRuns{
-				folderName = tmpDir()..s.."UtilsAlternativeTests",
-				model = MyModel,
-				strategy = "repeated",
-				parameters = {x = 2, y = 5, seed = 1001},
-				repeats = 3,
-				output = function(model)
-					return model.value
-			end}
-		end
-		
-		unitTest:assertError(error_func, "Models using repeated strategy cannot use seed or all results will be the same.")
-		error_func = function()
-			local m4 =MultipleRuns{
-				folderName = tmpDir()..s.."UtilsAlternativeTests",
-				model = MyModel,
-				strategy = "repeated",
-				parameters = {x = 2, y = 5},
-				output = function(model)
-					return model.value
-			end}
-		end
-		
-		unitTest:assertError(error_func, "Argument 'repeats' is mandatory.")
 		error_func = function()
 			local m4 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
@@ -467,7 +426,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
@@ -485,7 +444,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
@@ -503,7 +462,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
@@ -520,7 +479,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in repeated or selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
 		error_func = function()
 			local m2 =MultipleRuns{
 				folderName = tmpDir()..s.."UtilsAlternativeTests",
