@@ -54,7 +54,6 @@ import("calibration")
 local m = MultipleRuns{
 	model = SIR,
 	hideGraphs = true,
-	strategy = "factorial",
 	parameters = {
 		policy = Choice{min = 100, max = 4000, step = 10},
 	},
