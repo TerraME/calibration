@@ -70,7 +70,7 @@ local MyModel4 = Model{
 }
 
 return{
-additionalOutputFunction = function(unitTest)
+output = function(unitTest)
 	local m = MultipleRuns{
 		folderName = tmpDir()..s.."saveCSVTests",
 		model = MyModel,
@@ -83,9 +83,11 @@ additionalOutputFunction = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
-	unitTest:assert(m:get(1).value == 20305)
+	unitTest:assert(m:get(1).output == 20305)
 end,
 get = function (unitTest)
 	local m = MultipleRuns{
@@ -100,7 +102,9 @@ get = function (unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
@@ -119,13 +123,15 @@ saveCSV = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	m:saveCSV("results", ";")
 	local myTable = CSVread("results.csv", ";")
 	unitTest:assert(myTable[1]["x"] == -100)
 	unitTest:assert(myTable[1]["additionalF"] == "test")
-	unitTest:assert(myTable[1]["value"] == 20305)
+	unitTest:assert(myTable[1]["output"] == 20305)
 end,
 MultipleRuns = function(unitTest)
 	-- print("M")
@@ -141,7 +147,9 @@ MultipleRuns = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local mQuant = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -156,7 +164,9 @@ MultipleRuns = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local mMan = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -170,7 +180,9 @@ MultipleRuns = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local mTab = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -187,7 +199,9 @@ MultipleRuns = function(unitTest)
 		additionalF = function(model)
 			return (model.value)
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local mTab2 = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -217,7 +231,9 @@ MultipleRuns = function(unitTest)
 		additionalF = function(model)
 			return "test"
 		end,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local m2 = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -227,7 +243,9 @@ MultipleRuns = function(unitTest)
 			scenario1 = {x = 2, y = 5},
 			scenario2 = {x = 1, y = 3}
 		 },
-		output = {"value"},
+		output = function(model)
+			return model.value
+		end,
 		additionalF = function(model)
 			return "test"
 		end
@@ -239,14 +257,18 @@ MultipleRuns = function(unitTest)
 			scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
 			scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
 		 },
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local m3 = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		parameters = {x = 2, y = 5},
 		repeats = 3,
-		output = {"value"},
+		output = function(model)
+			return model.value
+		end,
 		additionalF = function(model)
 			return "test"
 		end
@@ -256,7 +278,9 @@ MultipleRuns = function(unitTest)
 		model = MyModel3,
 		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
 		repeats = 3,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local m4 = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -267,7 +291,9 @@ MultipleRuns = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1}
 		 },
 		quantity = 5,
-		output = {"value"},
+		output = function(model)
+			return model.value
+		end,
 		additionalF = function(model)
 			return "test"
 		end
@@ -283,7 +309,9 @@ MultipleRuns = function(unitTest)
 			finalTime = 1
 		 },
 		quantity = 5,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	local m4Tab = MultipleRuns{
 		folderName = tmpDir()..s.."MultipleRunsTests",
@@ -298,7 +326,9 @@ MultipleRuns = function(unitTest)
 		},
 		quantity = 5,
 		repeats = 2,
-		output = {"value"}
+		output = function(model)
+			return model.value
+		end
 	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)

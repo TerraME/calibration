@@ -294,10 +294,8 @@ end
 
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
-	--- Optional additional function defined by the user,
+	--- Optional function defined by the user,
 	-- that is executed each time the model runs.
-	-- Useful for saving and displaying each model results.
-	-- Function name is defined by the user.
 	-- @arg model The instance of the Model that was executed.
 	-- @usage
 	-- import("calibration")
@@ -316,15 +314,14 @@ MultipleRuns_ = {
 	--   model = MyModel,
 	--   parameters = {x = 2},
 	--   repeats = 3,
-	--   additionalOutputFunction = function(model)
+	--   output = function(model)
 	--     print(model.x)
 	-- end}
-	additionalOutputFunction = function(self, model)
-		return model.x
+	output = function(self, model)
+		return nil
 	end,
-	additionalOutputFunction = nil,
 	--- Function that returns the result of a given MultipleRuns instance.
-	-- Note that, although in the description below additionalOutputFunction has only one argument, 
+	-- Note that, although in the description below output has only one argument, 
 	-- the signature has two arguments, the first one being the MultipleRuns itself. 
 	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
 	-- @usage
@@ -345,7 +342,7 @@ MultipleRuns_ = {
 	--  strategy = "sample",
 	--  parameters = {x = Choice{-100, -1, 0, 1,2,100}},
 	--  quantity = 3,
-	--  additionlOutputFunction = function(model)
+	--  output = function(model)
 	--    print(model.x)
 	--  end}
 	-- -- Get the X value in the first execution
@@ -378,7 +375,7 @@ MultipleRuns_ = {
 	--- Save the results of MultipleRuns to a CSV file.
 	-- Each line represents the values in a different simulation.
 	-- The columns are each of the parameters passed to MultipleRuns
-	-- and the return values of all additional functions and parameters in the output table.
+	-- and the return values of all additional functions including output().
 	-- @arg name The name of the CSV file.
 	-- @arg separator The chosen separator to be used in the CSV file.
 	-- @usage
@@ -398,7 +395,7 @@ MultipleRuns_ = {
 	--  model = MyModel,
 	--  parameters = {x = 2},
 	--  repeats = 3,
-	--  additionalOutputFunction = function(model)
+	--  output = function(model)
 	--    print(model.x)
 	--  end}
 	-- -- Saves MultipleRuns results:
@@ -435,7 +432,7 @@ metaTableMultipleRuns_ = {
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
--- @output output A table with the return value of an additional function, and the values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
+-- @output output A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
@@ -460,7 +457,7 @@ metaTableMultipleRuns_ = {
 --     y = Choice{min = 1, max = 10, step = 1},
 --     finalTime = 1
 --    },
---   additionalOutputfunction = function(model)
+--   output = function(model)
 --     return model.value
 --   end,
 --   additionalFunction = function(model)
@@ -527,13 +524,11 @@ metaTableMultipleRuns_ = {
 -- @arg data.model The Model to be instantiated and executed several times.
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
--- @arg data.additionalOutputFunction An optional user-defined output function. See MultipleRuns:additionalOutputFunction().
+-- @arg data.output An optional user-defined output function. See MultipleRuns:output().
 -- The type also supports additional user-defined fucntions,
--- such as additionalOutputFunction() that receives a Model instance after each simulation,
+-- such as output() that receives a Model instance after each simulation,
 -- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
--- @arg data.output A table of model parameters. These parameters value in each model execution, are returned in a table by MultipleRuns.
--- It effectively creates an additionalOutputFunction that returns that parameter value in each execution. See MultipleRuns:additionalOutputFunction().
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
@@ -552,7 +547,7 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	optionalTableArgument(data, "output", "table")
+	-- optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
 	optionalTableArgument(data, "repeats", "number")
 	optionalTableArgument(data, "folderName", "string")
@@ -597,14 +592,6 @@ function MultipleRuns(data)
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
-	if data.output ~= nil then
-		forEachOrderedElement(data.output, function(idx, att, typ)
-			data[att] = function(model)
-				return model[att]
-			end
-		end)
-	end
-	
 	forEachOrderedElement(data, function(idx, att, typ)
 		if type(att) == "function" then
 			addFunctions[idx] = att 
