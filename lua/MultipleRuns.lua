@@ -599,6 +599,10 @@ function MultipleRuns(data)
 	local addFunctions = {}
 	if data.output ~= nil then
 		forEachOrderedElement(data.output, function(idx, att, typ)
+			if data[att] ~= nil then
+				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
+			end
+
 			data[att] = function(model)
 				return model[att]
 			end
@@ -607,6 +611,10 @@ function MultipleRuns(data)
 	
 	forEachOrderedElement(data, function(idx, att, typ)
 		if type(att) == "function" then
+			if addFunctions[idx] ~= nil then
+				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
+			end
+			
 			addFunctions[idx] = att 
 		else
 			local checkingArgument = {}

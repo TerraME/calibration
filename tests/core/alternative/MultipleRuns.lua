@@ -75,6 +75,30 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
+				parameters = {x = 2, y = 5},
+				repeats = 3,
+				output = {"value", "value"}}
+		end
+		
+		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
+		error_func = function()
+			local m4 = MultipleRuns{
+				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
+				model = MyModel,
+				parameters = {x = 2, y = 5},
+				repeats = 3,
+				output = {"value"},
+				value = function(model)
+					return model.value
+				end
+				}
+		end
+		
+		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
+		error_func = function()
+			local m4 = MultipleRuns{
+				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
+				model = MyModel,
 				repeats = 3,
 				output = {"value"}}
 		end
