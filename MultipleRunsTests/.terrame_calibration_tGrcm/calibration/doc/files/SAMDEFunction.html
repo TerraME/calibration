@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+	    
+	    	<title>Calibration metrics and algorithms</title>
+	    
+	    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="product">
+				<div id="product_logo">
+					<a href="http://www.terrame.org">
+					<img src='../img/terrame.png'/><br/></div></a>
+				<div id="product_name"><big><b></b></big></div>
+				<div id="product_description"></div>
+			</div> <!-- id="product" -->
+
+			<div id="main">
+				<div id="navigation">
+					<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<h1>calibration</h1>
+<ul>
+	
+		<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+<!-- Module list -->
+
+
+<!-- Models list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+
+
+<!-- Types list -->
+
+	
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+		<h1>Types</h1>
+	
+
+	<ul>
+		
+		
+					<li>
+						<a href="../files/MultipleRuns.html">MultipleRuns</a>
+					</li>
+				
+			
+		
+					<li>
+						<a href="../files/SAMDE.html">SAMDE</a>
+					</li>
+				
+			
+		
+		
+		
+		
+		
+		
+		
+		
+	</ul>
+
+
+<!-- Files list -->
+
+	
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+
+	
+		<h1>Functions</h1>
+	
+
+	<ul>
+		
+					<li>
+						<a href="../files/GoodnessOfFit.html">GoodnessOfFit</a>
+					</li>
+				
+			
+		
+		
+		
+					<li><strong>SAMDEFunction</strong></li>
+				
+			
+		
+		
+		
+		
+		
+		
+					<li>
+						<a href="../files/utils.html">utils</a>
+					</li>
+				
+			
+		
+	</ul>
+
+
+<!-- Examples -->
+
+	
+		<h1><a href="../files/examples.html">Examples</a></h1>
+	
+
+
+
+<!-- Data -->
+
+	
+		<h1><a href="../files/data.html">Data</a></h1>
+	
+
+
+
+<!-- Font -->
+
+
+
+				</div> <!-- id="navigation" -->
+
+				<div id="content">
+					<h1>SAMDEFunction
+					
+					
+					</h1>
+
+					
+						<span class="description"></span>
+					
+					
+					
+					
+
+					
+						
+
+						
+							<h2 class="function_list">Functions</h2>
+							<table class="function_list">
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#SAMDECalibrate">SAMDECalibrate</a>&nbsp;
+<td class="summary">Function used by <a href=files/SAMDE.html>SAMDE</a> type that implements the SaMDE genetic algorithm to calibrate a model according to a fit function, it returns a table with {fit = the best fitness value, instance = the instance of the best model, generations = number of generations it took to the genetic algorithm reach this model}.</td>
+									</tr>
+								
+							
+						
+						</table>
+					
+
+					
+
+					<!--<br/>
+					<br/>-->
+
+					
+						
+						<dl class="function">
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="SAMDECalibrate">
+
+	</a><strong>SAMDECalibrate</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">Function used by <a href=../files/SAMDE.html>SAMDE</a> type that implements the SaMDE genetic algorithm to calibrate a model according to a fit function, it returns a table with {fit = the best fitness value, instance = the instance of the best model, generations = number of generations it took to the genetic algorithm reach this model}.</span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: Table containing the model parameters.
+    </li> 
+    
+  
+    <li>
+	  <strong>#2</strong>: model The model that will be calibrated by the function.
+    </li> 
+    
+  
+    <li>
+	  <strong>#3</strong>: fit() A function that receive a model as a parameter and determines the fitness value of such model.
+    </li> 
+    
+  
+    <li>
+	  <strong>#4</strong>: maximize An optional paramaters that determines if the models fitness values must be maximized instead of minimized, default is false.
+    </li> 
+    
+  
+    <li>
+	  <strong>#5</strong>: size Determines the size of the populations used in the SaMDE algorithm (recommended size: (10*dim)).
+    </li> 
+    
+  
+    <li>
+	  <strong>#6</strong>: maxGen If a model generation reach this value, the function stops.
+    </li> 
+    
+  
+    <li>
+	  <strong>#7</strong>: threshold If a model fitness reach this value, the function stops.
+    </li> 
+    
+  
+    <li>
+	  <strong>#8</strong>: Optional seed parameter for Random function, default value is os.time().
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">DONTRUN</span>
+<span class="reserved">local</span> <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>, <span class="id">parameters</span>)
+	<span class="reserved">local</span> <span class="id">m</span> = <span class="id">model</span>(<span class="id">parameters</span>)
+	<span class="id">m</span>:<span class="id">execute</span>()
+		<span class="reserved">return</span> <span class="id">m</span>.<span class="id">result</span>
+<span class="reserved">end</span>
+
+<span class="reserved">local</span> <span class="id">best</span> = <span class="function">SAMDECalibrate</span>({<span class="id">x</span> = <span class="id">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>, <span class="id">step</span> = <span class="number">2</span>}, <span class="id">finalTime</span> = <span class="number">1</span>}, <span class="id">MyModel</span>, <span class="id">fit</span>(), <span class="reserved">false</span>, <span class="number">30</span>, <span class="number">100</span>, <span class="number">0</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+						</dl>
+					
+
+					
+
+				</div> <!-- id="content" -->
+			</div> <!-- id="main" -->
+
+			<div id="about">
+				<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+			</div> <!-- id="about" -->
+
+		</div> <!-- id="container" -->	
+	</body>
+</html>
+

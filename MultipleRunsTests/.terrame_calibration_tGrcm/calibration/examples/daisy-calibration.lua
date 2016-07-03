@@ -193,11 +193,27 @@ end)
 
 -- the code below could be encapsulated into a TerraME function
 -- think about that.
-setmetatable(m, nil)
+
+cell = Cell{
+	blackArea = m.black[1],
+	whiteArea = m.white[1],
+	emptyArea = m.empty[1],
+	sunLuminosity = m.sunLuminosity[1]
+}
 
 c = Chart{
-	target = m,
-	select = {"black", "white", "empty"},
-	xAxis = "sunLuminosity"
+	target = cell,
+	xAxis = "sunLuminosity",
 }
+
+cell:notify()
+
+for i = 2, #m.black do
+	cell.blackArea = m.black[i]
+	cell.whiteArea = m.white[i]
+	cell.emptyArea = m.empty[i]
+	cell.sunLuminosity = m.sunLuminosity[i]
+
+	cell:notify()
+end
 
