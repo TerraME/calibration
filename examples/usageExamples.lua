@@ -1,62 +1,104 @@
-print(filePath("Costanza.map", "calibration"))
+local s = package.config:sub(1, 1)
 import("calibration")
-	local cs = CellularSpace{
-			database = "C:\\TerraME\\bin\\packages\\calibration\\data\\Costanza.map",
-			attrname = "Costanza"
-		}
-		local cs2 = CellularSpace{
-				database = filePath("Costanza2.map", "calibration"),
-				attrname = "Costanza"
-		}
-		local cs12 = CellularSpace{
-			database = filePath("Costanza1-2.map", "calibration"),
-			attrname = "Costanza"
-		}
-		local cs22 = CellularSpace{
-			database = filePath("Costanza2-2.map", "calibration"),
-			attrname = "Costanza"
-		}
-		local cs13 = CellularSpace{
-			database = filePath("Costanza1-3.map", "calibration"),
-			attrname = "Costanza"
-		}
-		local cs23 = CellularSpace{
-			database = filePath("Costanza2-3.map", "calibration"),
-			attrname = "Costanza"
-		}
-		local sugar = CellularSpace{
-			database = filePath("sugarScape.csv", "calibration"),
-			sep      = ";"
-		}
-		local sugar2 = CellularSpace{
-			database = filePath("sugarScape2.csv", "calibration"),
-			sep      = ";"
-		}
-		local sugar3 = CellularSpace{
-			database = filePath("sugarScape3.csv", "calibration")
-		}
-		local sugar4 = CellularSpace{
-			database = filePath("sugarScape4.csv", "calibration")
-		}
-		-- Discrete Tests:
-		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}
-		local result3 = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza"}
-		local result5 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar"}
-		local result7 = multiLevel{cs1 = cs13, cs2 = cs23, attribute = "Costanza"}
-		local result9 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar"}
-		-- Continuous Tests:
-		local result2 = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = true}
-		local result4 = multiLevel{cs1 = cs12, cs2 = cs22, attribute = "Costanza", continuous = true}
-		local result6 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar", continuous = true}
-		local result8 = multiLevel{cs1 = cs13, cs2 = cs23, attribute = "Costanza", continuous = true}
-		local result10 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar", continuous = true}
-		unitTest:assertEquals(result, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
-		unitTest:assertEquals(result2, 0.91, 0.01) 
-		unitTest:assertEquals(result3, 0.83, 0.01) 
-		unitTest:assertEquals(result4, 0.91, 0.01)
-		unitTest:assertEquals(result5, 0.66, 0.01)
-		unitTest:assertEquals(result6, 0.62, 0.01)
-		unitTest:assertEquals(result7, 1, 0.01)
-		unitTest:assertEquals(result8, 1, 0.01)
-		unitTest:assertEquals(result9, 1, 0.01)
-		unitTest:assertEquals(result10, 1, 0.01)
+-- Creating Models
+print("potato")
+local MyModel = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y = Choice{min = 1, max = 10, step = 1},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+	}
+	end
+}
+local MyModel2 = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y2 = Mandatory("number"),
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y2
+			end}
+	}
+end
+}
+local MyModel3 = Model{
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100, 200},
+		y = Choice{min = 1, max = 10, step = 1},
+		z = Choice{-50, -3, 0, 1, 2, 50}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
+			end}
+	}
+end
+}
+-- It's here just so all lines are executed:
+local MyModel3Inv = Model{
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1},
+		f = Choice{1, 2 ,3}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.f ^2 - 3 * self.parameters3.f + 4 + self.parameters3.y
+			end}
+	}
+end
+}
+local MyModel4 = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y = Choice{min = 1, max = 10, step = 1},
+	z = Choice{-50, -3, 0, 1, 2, 50},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = self.z * 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+	}
+	end
+}
+
+
+	local m3 = MultipleRuns{
+		folderName = tmpDir()..s.."MultipleRunsTests",
+		model = MyModel,
+		parameters = {x = 2, y = 5},
+		repeats = 3,
+		output = function(model)
+			return model.value
+		end,
+		additionalF = function(model)
+			return "test"
+		end
+	}
+	local m3Tab = MultipleRuns{
+		folderName = tmpDir()..s.."MultipleRunsTests",
+		model = MyModel3,
+		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
+		repeats = 3,
+		output = function(model)
+			return model.value
+		end
+	}
+	print("potato")
+	print(m3:get(1).x == 2)
+	print(m3:get(2).x == 2)
+	print(m3:get(3).x == 2)
+	-- unitTest:assert(m3:get(1).y == 5 and m3:get(2).y == 5 and m3:get(3).y == 5)
+	-- unitTest:assert(m3Tab:get(1).parameters3.x == 2 and m3Tab:get(2).parameters3.x == 2 and m3Tab:get(3).parameters3.x == 2)
+	-- unitTest:assert(m3Tab:get(1).parameters3.y == 5 and m3Tab:get(2).parameters3.y == 5 and m3Tab:get(3).parameters3.y == 5)
+	-- unitTest:assertEquals(m3:get(1).simulations, "scenario")
+	-- unitTest:assertEquals(m3Tab:get(1).simulations, "scenario")

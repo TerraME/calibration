@@ -1,8 +1,8 @@
 -- checkParameters auxiliar function.
 local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, idxt)
 	if type(Param) == "Choice" then
-		if tParameters.strategy == "selected" then
-			customError("Parameters used in selected strategy cannot be a 'Choice'")
+		if tParameters.strategy == "selected" or tParameters.strategy == "repeated" then
+			customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 		end
 	elseif tParameters.strategy == "selected" then
 		if idxt == nil then
@@ -12,7 +12,7 @@ local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, i
 	   			end
 
 	   			if type(sParam[idx])  == "Choice" then
-	   				customError("Parameters used in selected strategy cannot be a 'Choice'")
+	   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 	   			end
 	   		end)
 	   	else
@@ -22,7 +22,7 @@ local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, i
 	   			end
 
 	   			if type(sParam[idx][idxt]) == "Choice" then
-	   				customError("Parameters used in selected strategy cannot be a 'Choice'")
+	   				customError("Parameters used in repeated or selected strategy cannot be a 'Choice'")
 	   			end
 	   		end)
 	   	end
@@ -62,7 +62,9 @@ local function checkParameters(tModel, tParameters)
 				   	elseif tParameters.strategy == "selected" then
 				   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
 				   			checkParameterSingle(tModel, idx, 1, sParam[idx]) 
-				   		end) 
+				   		end)
+				   	elseif tParameters.strategy == "repeated" then
+				   		checkParameterSingle(tModel, idx, 0, tParameters.parameters[idx]) 
 				   	elseif type(Param) == "table" then
 				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 				   	end
@@ -123,6 +125,8 @@ local function checkParameters(tModel, tParameters)
 					   		forEachOrderedElement(tParameters.parameters, function(scenario, sParam, sType)
 					   			checkParameterSingle(tModel, idxt, 1, sParam[idx][idxt], idx)
 					   		end)
+					   	elseif tParameters.strategy == "repeated" then
+					   		checkParameterSingle(tModel, idxt, 0, tParameters.parameters[idx][idxt], idx)
 					   	elseif type(Param) == "table" and type(attt) == "Choice" then
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end
@@ -294,10 +298,8 @@ end
 
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
-	--- Optional additional function defined by the user,
+	--- Optional function defined by the user,
 	-- that is executed each time the model runs.
-	-- Useful for saving and displaying each model results.
-	-- Function name is defined by the user.
 	-- @arg model The instance of the Model that was executed.
 	-- @usage
 	-- import("calibration")
@@ -314,17 +316,17 @@ MultipleRuns_ = {
 	-- }
 	-- m = MultipleRuns{
 	--   model = MyModel,
+	--   strategy = "repeated",
 	--   parameters = {x = 2},
 	--   repeats = 3,
-	--   additionalOutputFunction = function(model)
+	--   output = function(model)
 	--     print(model.x)
 	-- end}
-	additionalOutputFunction = function(self, model)
-		return model.x
+	output = function(self, model)
+		return nil
 	end,
-	additionalOutputFunction = nil,
 	--- Function that returns the result of a given MultipleRuns instance.
-	-- Note that, although in the description below additionalOutputFunction has only one argument, 
+	-- Note that, although in the description below output has only one argument, 
 	-- the signature has two arguments, the first one being the MultipleRuns itself. 
 	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
 	-- @usage
@@ -345,7 +347,7 @@ MultipleRuns_ = {
 	--  strategy = "sample",
 	--  parameters = {x = Choice{-100, -1, 0, 1,2,100}},
 	--  quantity = 3,
-	--  additionlOutputFunction = function(model)
+	--  output = function(model)
 	--    print(model.x)
 	--  end}
 	-- -- Get the X value in the first execution
@@ -378,7 +380,7 @@ MultipleRuns_ = {
 	--- Save the results of MultipleRuns to a CSV file.
 	-- Each line represents the values in a different simulation.
 	-- The columns are each of the parameters passed to MultipleRuns
-	-- and the return values of all additional functions and parameters in the output table.
+	-- and the return values of all additional functions including output().
 	-- @arg name The name of the CSV file.
 	-- @arg separator The chosen separator to be used in the CSV file.
 	-- @usage
@@ -396,9 +398,10 @@ MultipleRuns_ = {
 	-- }
 	-- m = MultipleRuns{
 	--  model = MyModel,
+	--  strategy = "repeated",
 	--  parameters = {x = 2},
 	--  repeats = 3,
-	--  additionalOutputFunction = function(model)
+	--  output = function(model)
 	--    print(model.x)
 	--  end}
 	-- -- Saves MultipleRuns results:
@@ -435,7 +438,7 @@ metaTableMultipleRuns_ = {
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
--- @output output A table with the return value of an additional function, and the values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
+-- @output output A table with the return value of an output function. A different table is created for each of the output functions and its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
@@ -460,7 +463,7 @@ metaTableMultipleRuns_ = {
 --     y = Choice{min = 1, max = 10, step = 1},
 --     finalTime = 1
 --    },
---   additionalOutputfunction = function(model)
+--   output = function(model)
 --     return model.value
 --   end,
 --   additionalFunction = function(model)
@@ -493,6 +496,7 @@ metaTableMultipleRuns_ = {
 -- }
 -- r = MultipleRuns{
 --   model = RainModel,
+--   strategy = "repeated",
 --   parameters = {water = 10, rain = 20, finalTime = 1},
 --   repeats = 10,
 --   showProgress = true
@@ -527,13 +531,11 @@ metaTableMultipleRuns_ = {
 -- @arg data.model The Model to be instantiated and executed several times.
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
--- @arg data.additionalOutputFunction An optional user-defined output function. See MultipleRuns:additionalOutputFunction().
+-- @arg data.output An optional user-defined output function. See MultipleRuns:output().
 -- The type also supports additional user-defined fucntions,
--- such as additionalOutputFunction() that receives a Model instance after each simulation,
+-- such as output() that receives a Model instance after each simulation,
 -- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
--- @arg data.output A table of model parameters. These parameters value in each model execution, are returned in a table by MultipleRuns.
--- It effectively creates an additionalOutputFunction that returns that parameter value in each execution. See MultipleRuns:additionalOutputFunction().
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
@@ -543,6 +545,9 @@ metaTableMultipleRuns_ = {
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
 -- & parameters, model & repeats, output, folderName \
+-- "repeated" & Simulate the Model a given number of times with the defined parameters. & model,
+-- repeats, parameters &
+-- output, folderName \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
 -- repeats, model & output, folderName \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
@@ -552,7 +557,7 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
-	optionalTableArgument(data, "output", "table")
+	-- optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
 	optionalTableArgument(data, "repeats", "number")
 	optionalTableArgument(data, "folderName", "string")
@@ -588,8 +593,7 @@ function MultipleRuns(data)
 					data.strategy = "factorial"
 				end
 			else
-				data.parameters = {scenario = data.parameters}
-				data.strategy = "selected"
+				data.strategy = "repeated"
 			end
 		end
 	end		
@@ -597,14 +601,6 @@ function MultipleRuns(data)
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
-	if data.output ~= nil then
-		forEachOrderedElement(data.output, function(idx, att, typ)
-			data[att] = function(model)
-				return model[att]
-			end
-		end)
-	end
-	
 	forEachOrderedElement(data, function(idx, att, typ)
 		if type(att) == "function" then
 			addFunctions[idx] = att 
@@ -618,7 +614,7 @@ function MultipleRuns(data)
 
 	checkParameters(data.model, data)
 
-	--If hideGraphs is true, hide Map and Chart graphs during models execution
+	--If hideGraphs is true, hide Map and Chart graphs during the repeated models execution
 	local copyChart
 	local copyMap
 	if data.hideGraphs == true then
@@ -628,7 +624,7 @@ function MultipleRuns(data)
 	local params = {} 
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
-	if data.strategy ~= "selected" then
+	if data.strategy ~= "repeated" and data.strategy ~= "selected" then
 		local mainTable = nil
 		forEachOrderedElement(data.parameters, function(idx, attribute, atype)
 			if atype ~= "table" then
@@ -689,6 +685,36 @@ function MultipleRuns(data)
 
 			chDir(firstDir)
 		end,
+		repeated = function()
+			mandatoryTableArgument(data, "repeats", "number")
+			if data.parameters.seed ~= nil or data.model:getParameters().seed ~= nil then
+				customError("Models using repeated strategy cannot use seed or all results will be the same.")
+			end
+
+			chDir(folderDir)
+			for i = 1, data.repeats do
+					if data.showProgress then
+						print("Executing "..i.."/"..data.repeats..".")
+					end
+
+					local repeatedParam = cloneValues(data.parameters)
+					local m = data.model(repeatedParam)
+					m:run() 
+					resultTable.simulations[#resultTable.simulations + 1] = ""..(#resultTable.simulations + 1)..""
+					mkDir(""..(#resultTable.simulations).."") 
+					chDir(folderDir..s..""..(#resultTable.simulations).."") 
+					testAddFunctions(resultTable, addFunctions, data, m)
+					chDir(folderDir)
+					forEachOrderedElement(data.parameters, function ( idx2, att2, typ2)
+						if resultTable[idx2] == nil then
+							resultTable[idx2] = {}
+						end
+
+						resultTable[idx2][#resultTable[idx2] + 1] = att2
+					end)
+			end
+			chDir(firstDir)
+		end,
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
 			local repeats
@@ -739,40 +765,23 @@ function MultipleRuns(data)
 		end,
 		selected = function()
 			chDir(folderDir)
-			local repeats
-			if data.repeats == nil then
-				repeats = 1
-			else 
-				repeats = data.repeats
-			end
-
-			local models = {}
 			forEachOrderedElement(data.parameters, function(idx, att, atype)
-					models[idx] = data.model(att)
+				local m = data.model(att)
+				m:run()
+				resultTable.simulations[#resultTable.simulations + 1] = ""..(idx).."" 
+				mkDir(""..(idx).."") 
+				chDir(folderDir..s..""..(idx).."") 
+				testAddFunctions(resultTable, addFunctions, data, m)
+				chDir(folderDir) 
+				forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
+					if resultTable[idx2] == nil then 
+						resultTable[idx2] = {}
+					end
+
+					resultTable[idx2][#resultTable[idx2] + 1] = att2 
+				end)
 			end)
 
-			for case = 1, repeats do
-				local stringSimulations = ""
-				if repeats > 1 then
-					stringSimulations = case.."_execution_"
-				end
-				forEachOrderedElement(models, function(idx, att, atype)
-					local m = models[idx]
-					m:run()
-					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(idx)..""
-					mkDir(stringSimulations..""..(idx).."") 
-					chDir(folderDir..s..stringSimulations..""..(idx).."") 
-					testAddFunctions(resultTable, addFunctions, data, m)
-					chDir(folderDir) 
-					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
-						if resultTable[idx2] == nil then 
-							resultTable[idx2] = {}
-						end
-
-						resultTable[idx2][#resultTable[idx2] + 1] = att2 
-					end)
-				end)
-			end
 			chDir(firstDir)
 		end
 	}
