@@ -289,8 +289,8 @@ multiLevel = function(data)
 					fitChart:notify(i)
 				end
 
-				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
-				exp = exp + math.exp(-k * math.pow(2 , i - 1))
+				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
+				exp = exp + math.exp(-k * 2 ^ (i - 1))
 			end
 		end
 
@@ -304,8 +304,8 @@ multiLevel = function(data)
 					fitChart:notify(i)
 				end
 
-				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * math.pow(2 , i - 1)))
-				exp = exp + math.exp(-k * math.pow(2 , i - 1))
+				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
+				exp = exp + math.exp(-k * 2 ^ (i - 1))
 			end
 		end
 	end
