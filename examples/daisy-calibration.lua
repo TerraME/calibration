@@ -71,7 +71,7 @@ local function growthReduction(baseRate, emptyArea)
 	return newRate
 end
 
-Daisyworld = SysDynModel {
+Daisyworld = Model{
 	-- sun luminosity (this is the main variable of the model)
 	-- values beteween 0.70 and 1.6  support life in Daisyworld
 	sunLuminosity         = 0.7, 
@@ -98,94 +98,99 @@ Daisyworld = SysDynModel {
 
 	-- simulation time
 	finalTime  =  100,
-	changes = function (model, time)
-		-- gets the average albedo of the planet
-		model.planetAlbedo = model.whiteArea * model.whiteAlbedo + 
-			model.blackArea * model.blackAlbedo +
-			model.emptyArea * model.soilAlbedo 
+	init = function(model)
+		model.chart1 = Chart{
+			target = model,
+			select = {"blackArea", "whiteArea", "emptyArea"}
+		}
 
-		-- function that calculates the planet Temperature
-		model.aveTemp = calcTemp (model.sunLuminosity, model.planetAlbedo)
+		model.chart2 = Chart{
+			target = model,
+			select = {"planetAlbedo"},
+		}
 
-		-- temperature near he white daisies
-		model.tempNearWhite = tempNearDaisy (model.aveTemp, 
-			model.planetAlbedo, model.whiteAlbedo)
+		model.chart3 = Chart{
+			target = model,
+			select = {"sunLuminosity"},
+		}
 
-		-- indicated growth rate for the white daisies
-		model.indWhiteGrowthRate = daisyGrowthRate (model.tempNearWhite)
+		model.chart4 = Chart{
+			target = model,
+			select = {"planetTemp"},
+		}
 
-		-- actual growthRate is constained by the empty area of the planet
-		model.whiteGrowthRate = growthReduction 
-			(model.indWhiteGrowthRate, model.emptyArea)
-		-- white area
-		model.whiteArea = model.whiteArea + model.whiteArea * 
-			(model.whiteGrowthRate - model.decayRate)
+		model.chart5 = Chart{
+			target = model,
+			select = {"daisyArea"}
+		}
 
-		-- temperature near the black daisies
-		model.tempNearBlack = tempNearDaisy (model.aveTemp, model.planetAlbedo,
-			model.blackAlbedo)
+		model.timer = Timer{
+			Event{action = function(event)
+				local time = event:getTime()
 
-		-- indicated growth rate for the white daisies
-		model.indBlackGrowthRate = daisyGrowthRate (model.tempNearBlack)
+				-- gets the average albedo of the planet
+				model.planetAlbedo = model.whiteArea * model.whiteAlbedo + 
+					model.blackArea * model.blackAlbedo +
+					model.emptyArea * model.soilAlbedo 
 
-		-- actual growthRate is constained by the empty area of the planet
+				-- function that calculates the planet Temperature
+				model.aveTemp = calcTemp (model.sunLuminosity, model.planetAlbedo)
 
-		model.blackGrowthRate = growthReduction 
-			(model.indBlackGrowthRate, model.emptyArea)
-		-- white area
-		model.blackArea = model.blackArea + model.blackArea * 
-			(model.blackGrowthRate - model.decayRate)
+				-- temperature near he white daisies
+				model.tempNearWhite = tempNearDaisy (model.aveTemp, 
+					model.planetAlbedo, model.whiteAlbedo)
 
-		model.emptyArea = model.planetArea - (model.blackArea + model.whiteArea)
-		model.daisyArea = model.blackArea + model.whiteArea
-	end,
-	graphics = { timeseries = {
-		{"blackArea", "whiteArea", "emptyArea"},
-		{"planetAlbedo"},
-		{"sunLuminosity"},
-		{"planetTemp"},
-		{"daisyArea"}
-	}}
+				-- indicated growth rate for the white daisies
+				model.indWhiteGrowthRate = daisyGrowthRate (model.tempNearWhite)
+
+				-- actual growthRate is constained by the empty area of the planet
+				model.whiteGrowthRate = growthReduction 
+					(model.indWhiteGrowthRate, model.emptyArea)
+				-- white area
+				model.whiteArea = model.whiteArea + model.whiteArea * 
+					(model.whiteGrowthRate - model.decayRate)
+
+				-- temperature near the black daisies
+				model.tempNearBlack = tempNearDaisy (model.aveTemp, model.planetAlbedo,
+					model.blackAlbedo)
+
+				-- indicated growth rate for the white daisies
+				model.indBlackGrowthRate = daisyGrowthRate (model.tempNearBlack)
+
+				-- actual growthRate is constained by the empty area of the planet
+
+				model.blackGrowthRate = growthReduction 
+					(model.indBlackGrowthRate, model.emptyArea)
+				-- white area
+				model.blackArea = model.blackArea + model.blackArea * 
+					(model.blackGrowthRate - model.decayRate)
+
+				model.emptyArea = model.planetArea - (model.blackArea + model.whiteArea)
+				model.daisyArea = model.blackArea + model.whiteArea
+			end},
+			Event{action = model.chart1},
+			Event{action = model.chart2},
+			Event{action = model.chart3},
+			Event{action = model.chart4},
+			Event{action = model.chart5}
+		}
+	end
 }
-
-
 
 import("calibration")
 
-
 local m = MultipleRuns{
 	model = Daisyworld,
-	strategy = "factorial", 
 	hideGraphs = true,
 	parameters = {
 		sunLuminosity = Choice{min = 0.6, max = 1.6, step = 0.01},
 	},
-	black = function(model)
-		return model.blackArea
-	end,
-	white = function(model)
-		return model.whiteArea
-	end,
-	empty = function(model)
-		return model.emptyArea
-	end
+	output = {"blackArea", "whiteArea", "emptyArea"}
 }
 
--- ... here
-Chart = mChart
-
--- #ADDISSUE# Bug: note that sunLuminosity 1.6 is not executed
-forEachElement(m.sunLuminosity, function(idx, value)
-	print(value)
-end)
-
--- the code below could be encapsulated into a TerraME function
--- think about that.
-setmetatable(m, nil)
-
 c = Chart{
-	target = m,
-	select = {"black", "white", "empty"},
+	data = m,
+	select = {"blackArea", "whiteArea", "emptyArea"},
 	xAxis = "sunLuminosity"
 }
 
