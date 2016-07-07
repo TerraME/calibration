@@ -238,7 +238,7 @@ function randomModel(tModel, tParameters)
 	return m
 end
 
---- Function that test the model and saves a results table with the model input and output
+-- Function that test the model and saves a results table with the model input and output
 -- for OFAT/OLS Sensitivity Analysis
 -- @arg data The table of all the parameters necessary to use a multipleRuns model,
 -- the parameters defined here will be used as the default parameter for the OFAT analysis.
@@ -315,6 +315,12 @@ aproxGroup = function(proportion, group)
 	end
 end
 
+--- Internal function to create the output from a sensitivity analysis.
+-- @arg data The reference data.
+-- @arg testParameters The test parameters.
+-- @arg tableName Name of the table.
+-- @arg separator The separator.
+-- @usage -- DONTRUN
 -- sensivityTest = sensitivityAnalysisOutput(referenceData, testParameters)
 function sensitivityAnalysisOutput(data, testParameters, tableName, separator)
 	mandatoryArgument(1, "table", data)

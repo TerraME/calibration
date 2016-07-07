@@ -1,7 +1,11 @@
 -- @example Basic example for testing SAMDE type
 -- using a SysDyn model.
 import("calibration")
-import("ca")
+
+if not isLoaded("ca") then
+	import("ca")
+end
+
 print("START")
 abm = Wolfram
 testParameters = {rule = {parameter = Choice{min = 0, max = 255}, points = 11}}

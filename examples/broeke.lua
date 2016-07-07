@@ -1,9 +1,10 @@
-
--- An implementation of the model described in
+-- @example An implementation of the model described in
 -- ten Broeke, Guus, George van Voorn, and Arend Ligtenberg. 
 -- "Which Sensitivity Analysis Method Should I Use for My Agent-Based Model?." 
 -- Journal of Artificial Societies & Social Simulation 19.1 (2016).
--- http://jasss.soc.surrey.ac.uk/19/1/5.html
+-- http://jasss.soc.surrey.ac.uk/19/1/5.html.
+
+--[[
 
 agent = Agent{
 	-- # rever estes valores abaixo
@@ -203,4 +204,6 @@ t = Timer{
 }
 
 t:run(10)
+
+--]]
 

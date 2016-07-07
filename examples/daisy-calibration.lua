@@ -1,23 +1,11 @@
 -- @example Daisy world example using multiple Runs factorial strategy.
-
---[[
- Author:      Gilberto Camara
- Model name:  Daisyworld
- Date:        22.11.2015
-]]--
-
---[[
-
-Wood, A. J., G. J. Ackland, J. G. Dyke, H. T. P. Williams, and T. M. Lenton (2008), 
-Daisyworld: A review, Rev. Geophys., 46.
-
-Daisyworld consists of two different types of daisy, which may be considered distinct species (because there is no possibility of mixed replication of the types) or, alternatively, as distinct phenotypes of the same species. The two types are identified as either black or white according to their reflectivity or albedo.
-
---]]
-
-if not isLoaded("sysdyn") then
-   import("sysdyn")
-end
+-- Based on the Model described in Wood, A. J., G. J. Ackland, J. G. Dyke, H. T. P. Williams, and T. M. Lenton (2008), 
+-- Daisyworld: A review, Rev. Geophys., 46.
+-- Daisyworld consists of two different types of daisy, which may be considered distinct species 
+-- (because there is no possibility of mixed replication of the types) or, alternatively, as 
+-- distinct phenotypes of the same species. The two types are identified as either black or white 
+-- according to their reflectivity or albedo.
+-- Author: Gilberto Camara.
 
 --[[
 Daisy growth rate function is a function of temperature. Maximum growth 

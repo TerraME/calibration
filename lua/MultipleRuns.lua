@@ -294,38 +294,7 @@ end
 
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
-	--- Optional additional function defined by the user,
-	-- that is executed each time the model runs.
-	-- Useful for saving and displaying each model results.
-	-- Function name is defined by the user.
-	-- @arg model The instance of the Model that was executed.
-	-- @usage
-	-- import("calibration")
-	-- MyModel = Model{
-	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	--  finalTime = 1,
-	--  init = function(self)
-	--  self.timer = Timer{
-	--    Event{action = function()
-	--      self.value = x
-	--    end}
-	--  }
-	--  end
-	-- }
-	-- m = MultipleRuns{
-	--   model = MyModel,
-	--   parameters = {x = 2},
-	--   repeats = 3,
-	--   additionalOutputFunction = function(model)
-	--     print(model.x)
-	-- end}
-	additionalOutputFunction = function(self, model)
-		return model.x
-	end,
-	additionalOutputFunction = nil,
 	--- Function that returns the result of a given MultipleRuns instance.
-	-- Note that, although in the description below additionalOutputFunction has only one argument, 
-	-- the signature has two arguments, the first one being the MultipleRuns itself. 
 	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
 	-- @usage
 	-- import("calibration")
@@ -350,7 +319,6 @@ MultipleRuns_ = {
 	--  end}
 	-- -- Get the X value in the first execution
 	-- result = m:get(1).x
-
 	get = function(self, number)
 		mandatoryArgument(1, "number", number)
 		local getTable = {}
@@ -384,23 +352,23 @@ MultipleRuns_ = {
 	-- @usage
 	-- import("calibration")
 	-- MyModel = Model{
-	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	--  finalTime = 1,
-	--  init = function(self)
-	--  self.timer = Timer{
-	--    Event{action = function()
-	--      self.value = x
-	--    end}
-	--  }
-	--  end
+	--     x = Choice{-100, -1, 0, 1, 2, 100},
+	--     finalTime = 1,
+	--     init = function(self)
+	--         self.timer = Timer{
+	--             Event{action = function()
+	--                 self.value = x
+	--             end}
+	--         }
+	--      end
 	-- }
+	--
 	-- m = MultipleRuns{
-	--  model = MyModel,
-	--  parameters = {x = 2},
-	--  repeats = 3,
-	--  additionalOutputFunction = function(model)
-	--    print(model.x)
-	--  end}
+	--      model = MyModel,
+	--      parameters = {x = 2},
+	--      repeats = 3,
+	--  }
+	--
 	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(self, name, separator)
@@ -431,7 +399,7 @@ metaTableMultipleRuns_ = {
 }
 
 --- The Multiple Runs type has various model execution strategies, that can be used by the modeler
--- to compare the results of a model and analyze it's behaviour in different scenarios.
+-- to compare the results of a model and analyze it's behavior in different scenarios.
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
@@ -440,115 +408,122 @@ metaTableMultipleRuns_ = {
 -- -- Complete Example:
 -- import("calibration")
 -- local MyModel = Model{
---   x = Choice{-100, -1, 0, 1, 2, 100},
---   y = Choice{min = 1, max = 10, step = 1},
---   finalTime = 1,
---   init = function(self)
---     self.timer = Timer{
---       Event{action = function()
---         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
---       end}
---   }
---   end
--- }
--- c = MultipleRuns{
---   model = MyModel,
---   strategy = "sample",
---   quantity = 5,
---   parameters = {
 --     x = Choice{-100, -1, 0, 1, 2, 100},
 --     y = Choice{min = 1, max = 10, step = 1},
---     finalTime = 1
---    },
---   additionalOutputfunction = function(model)
---     return model.value
---   end,
---   additionalFunction = function(model)
---     return model.value/2
---   end
+--     finalTime = 1,
+--     init = function(self)
+--         self.timer = Timer{
+--             Event{action = function()
+--                 self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+--             end}
+--         }
+--     end
 -- }
--- -- Factorial Example:
--- MultipleRuns{
---   model = MyModel,
---   strategy = "factorial",
---   parameters = {
---     water = Choice{min = 10, max = 20, step = 1},
---      rain = Choice{min = 10, max = 20, step = 2},
---     finalTime = 1
---   },
---   repeats = 2
+--
+-- c = MultipleRuns{
+--     model = MyModel,
+--     strategy = "sample",
+--     quantity = 5,
+--     parameters = {
+--         x = Choice{-100, -1, 0, 1, 2, 100},
+--         y = Choice{min = 1, max = 10, step = 1},
+--         finalTime = 1
+--     },
+--     additionalOutputfunction = function(model)
+--         return model.value
+--     end,
+--     additionalFunction = function(model)
+--         return model.value/2
+--     end
 -- }
--- -- This should run the model 2*66 times to test all the possibilities for the parameters repeats times.
+--
 -- -- Repeated Example:
 -- local RainModel = Model{
---   water = Choice{min = 0, max = 100},
---   rain = Choice{min = 0, max = 20},
---   init = function(self)
---     self.timer = Timer{
---       Event{action = function()
---         self.water = self.water + (self.rain - 150)
---       end}
---   }
---   end
+--     water = Choice{min = 0, max = 100},
+--     rain = Choice{min = 0, max = 20},
+--     finalTime = 2,
+--     init = function(self)
+--         self.timer = Timer{
+--             Event{action = function()
+--                 self.water = self.water + (self.rain - 150)
+--             end}
+--         }
+--     end
 -- }
+--
+-- -- Factorial Example. It will run the model 2*66 times to test all the possibilities
+-- -- for the parameters repeats times.
+-- MultipleRuns{
+--     model = RainModel,
+--     strategy = "factorial",
+--     parameters = {
+--         water = Choice{min = 10, max = 20, step = 1},
+--         rain = Choice{min = 10, max = 20, step = 2},
+--         finalTime = 1
+--     },
+--     repeats = 2
+-- }
+--
 -- r = MultipleRuns{
---   model = RainModel,
---   parameters = {water = 10, rain = 20, finalTime = 1},
---   repeats = 10,
---   showProgress = true
+--     model = RainModel,
+--     parameters = {water = 10, rain = 20, finalTime = 1},
+--     repeats = 10,
+--     showProgress = true
 -- }
+--
 -- -- This should run the model 10 times with the same parameters.
 -- -- Sample Example:
 -- MultipleRuns{
---   model = MyModel,
---   strategy = "sample",
---   parameters = {
---     water = Choice{min = 10, max = 20, step = 1},
---      rain = Choice{min = 10, max = 20, step = 2},
---     finalTime = 10,
---   },
---   quantity = 5
+--     model = RainModel,
+--     strategy = "sample",
+--     parameters = {
+--         water = Choice{min = 10, max = 20, step = 1},
+--         rain = Choice{min = 10, max = 20, step = 2},
+--         finalTime = 10,
+--     },
+--     quantity = 5
 -- }
+--
 -- -- This should run the model 5 times selecting random values from the defined parameters
 -- -- (if they are choice, otherwise use the only available value).
 -- -- Selected Example:
 -- x = MultipleRuns{
---   model = RainModel,
---   strategy = "selected",
---   parameters = {
---     scenario1 = {water = 10, rain = 20, finalTime = 10},
---      scenario2 = {water = 5, rain = 10, finalTime = 10}
---   }
+--     model = RainModel,
+--     strategy = "selected",
+--     parameters = {
+--         scenario1 = {water = 10, rain = 20, finalTime = 10},
+--         scenario2 = {water = 5, rain = 10, finalTime = 10}
+--     }
 -- }
--- -- This should run the model 2 times with the same parameters defined in the vector of parameters.
+-- -- This should run the model two times with the same parameters defined in the vector of parameters.
 -- @arg data.repeats repeats of runs that must be executed with the same parameters.
 -- The default value is 1.
 -- @arg data.quantity number of samples to be created in sample strategy execution.
 -- @arg data.model The Model to be instantiated and executed several times.
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
--- @arg data.additionalOutputFunction An optional user-defined output function. See MultipleRuns:additionalOutputFunction().
--- The type also supports additional user-defined fucntions,
--- such as additionalOutputFunction() that receives a Model instance after each simulation,
--- to be created and passed as parameters to the multiple runs type.
 -- They may have any name the modeler chooses.
--- @arg data.output A table of model parameters. These parameters value in each model execution, are returned in a table by MultipleRuns.
--- It effectively creates an additionalOutputFunction that returns that parameter value in each execution. See MultipleRuns:additionalOutputFunction().
+-- @arg data.output A table of model attributes. The values of these attributes in the end of each model execution are 
+-- returned in a table in the result of MultipleRuns.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
+-- @arg data.... Additional functions can be defined by the user. Such functions are
+-- executed each time a simulation of a Model ends and get as parameter the model instance
+-- itself. MultipleRuns will get the returning value of these function calls and
+-- put it into a vector of results available in the returning value of MultpleRuns.
 -- @tabular strategy
 -- Strategy  & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
--- & parameters, model & repeats, output, folderName \
+-- & parameters, model & repeats, output, hideGraphs, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repeats, model & output, folderName \
+-- repeats, model & output, folderName, hideGraphs, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, repeats 
+-- model, parameters & output, folderName, hideGraphs, repeats, showProgress, quantity, ... 
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
