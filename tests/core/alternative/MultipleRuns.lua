@@ -87,6 +87,16 @@ return{
 				model = MyModel,
 				parameters = {x = 2, y = 5},
 				repeats = 3,
+				output = {"fake"}}
+		end
+		
+		unitTest:assertError(error_func, 'Output value "fake" is not present in the model.')
+		error_func = function()
+			local m4 = MultipleRuns{
+				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
+				model = MyModel,
+				parameters = {x = 2, y = 5},
+				repeats = 3,
 				output = {"value", "value"}}
 		end
 		

@@ -137,10 +137,14 @@ local function testAddFunctions(resultTable, addFunctions, data, m)
 	if addFunctions ~= nil then
 		local returnValueF
 		forEachOrderedElement(addFunctions, function(idxF, attF, typF)
-			returnValueF = data[idxF](m)
 			if resultTable[idxF] == nil then
 				resultTable[idxF] = {}
 			end
+			if m[idxF] == nil and data.outputVariables[idxF] then
+				customError('Output value "'..idxF..'" is not present in the model.')
+			end
+
+			returnValueF = data[idxF](m)
 
 			resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
 		end)
@@ -572,6 +576,7 @@ function MultipleRuns(data)
 	local resultTable = {simulations = {}} 
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
+	data.outputVariables = {}
 	if data.output ~= nil then
 		forEachOrderedElement(data.output, function(idx, att, typ)
 			if data[att] ~= nil then
@@ -582,6 +587,7 @@ function MultipleRuns(data)
 				if data.parameters[att] ~= nil then
 					customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
 				end
+
 			else
 				forEachOrderedElement(data.parameters, function (pid, pat, pty)
 					if pty == "table" then
@@ -595,6 +601,8 @@ function MultipleRuns(data)
 			data[att] = function(model)
 				return model[att]
 			end
+
+			data.outputVariables[att] = true
 		end)
 	end
 	
@@ -610,7 +618,7 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repeats", "folderName", "hideGraphs", "showProgress", "repeat", "quantity"})
+				"model", "output", "strategy", "parameters", "repeats", "folderName", "hideGraphs", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
@@ -785,5 +793,6 @@ function MultipleRuns(data)
 		enableGraphics()
 	end
 
+	data.outputVariables = nil
 	return data
 end
