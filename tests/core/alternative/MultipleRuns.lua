@@ -77,6 +77,16 @@ return{
 				model = MyModel,
 				parameters = {x = 2, y = 5},
 				repeats = 3,
+				output = {"x", "y",	"value"}}
+		end
+		
+		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+		error_func = function()
+			local m4 = MultipleRuns{
+				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
+				model = MyModel,
+				parameters = {x = 2, y = 5},
+				repeats = 3,
 				output = {"value", "value"}}
 		end
 		

@@ -578,8 +578,18 @@ function MultipleRuns(data)
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
 
-			if data.parameters[att] ~= nil then
-				customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+			if data.strategy ~= "selected" then
+				if data.parameters[att] ~= nil then
+					customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+				end
+			else
+				forEachOrderedElement(data.parameters, function (pid, pat, pty)
+					if pty == "table" then
+						if pat[att] ~= nil then
+							customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+						end
+					end
+				end)
 			end
 
 			data[att] = function(model)
