@@ -503,8 +503,8 @@ metaTableMultipleRuns_ = {
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
 -- They may have any name the modeler chooses.
--- @arg data.output A table of model attributes. The values of these attributes in the end of each model execution are 
--- returned in a table in the result of MultipleRuns.
+-- @arg data.output An optional user defined table of model attributes.
+-- The values of these attributes, for each of the model executions, are returned in a table in the result of MultipleRuns.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
@@ -578,12 +578,17 @@ function MultipleRuns(data)
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
 
+			if data.parameters[att] ~= nil then
+				customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+			end
+
 			data[att] = function(model)
 				return model[att]
 			end
 		end)
 	end
 	
+
 	forEachOrderedElement(data, function(idx, att, typ)
 		if type(att) == "function" then
 			if addFunctions[idx] ~= nil then
@@ -600,6 +605,7 @@ function MultipleRuns(data)
 	end)
 
 	checkParameters(data.model, data)
+	data.output = nil
 
 	--If hideGraphs is true, hide Map and Chart graphs during models execution
 	local copyChart
