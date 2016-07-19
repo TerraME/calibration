@@ -130,7 +130,7 @@ MultipleRuns = function(unitTest)
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "factorial",
-		repeats = 2,
+		repetition = 2,
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1},
@@ -228,7 +228,7 @@ MultipleRuns = function(unitTest)
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		parameters = {x = 2, y = 5},
-		repeats = 3,
+		repetition = 3,
 		output = {"value"},
 		additionalF = function(model)
 			return "test"
@@ -238,7 +238,7 @@ MultipleRuns = function(unitTest)
 		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		parameters = {parameters3 = {x = 2, y = 5, z = 1}},
-		repeats = 3,
+		repetition = 3,
 		output = {"value"}
 	}
 	local m4 = MultipleRuns{
@@ -280,7 +280,7 @@ MultipleRuns = function(unitTest)
 			},
 		},
 		quantity = 5,
-		repeats = 2,
+		repetition = 2,
 		output = {"value"}
 	}
 	unitTest:assertEquals(m:get(1).x, -100)

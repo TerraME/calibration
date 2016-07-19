@@ -66,7 +66,7 @@ return{
 				folderName = "!@#$$#$%??",
 				model = MyModel,
 				parameters = {x = 2, y = 5},
-				repeats = 3,
+				repetition = 3,
 				output = {"value"}}
 		end
 		
@@ -76,7 +76,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
 				parameters = {x = 2, y = 5},
-				repeats = 3,
+				repetition = 3,
 				output = {"x", "y",	"value"}}
 		end
 		
@@ -86,7 +86,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
 				parameters = {x = 2, y = 5},
-				repeats = 3,
+				repetition = 3,
 				output = {"fake"}}
 		end
 		
@@ -96,7 +96,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
 				parameters = {x = 2, y = 5},
-				repeats = 3,
+				repetition = 3,
 				output = {"value", "value"}}
 		end
 		
@@ -106,7 +106,7 @@ return{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
 				parameters = {x = 2, y = 5},
-				repeats = 3,
+				repetition = 3,
 				output = {"value"},
 				value = function(model)
 					return model.value
@@ -119,7 +119,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				repeats = 3,
+				repetition = 3,
 				output = {"value"}}
 		end
 		
@@ -128,7 +128,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				parameters = {x = 2, y = 5, seed = 1001},
-				repeats = 3,
+				repetition = 3,
 				output = {"value"}}
 		end
 		

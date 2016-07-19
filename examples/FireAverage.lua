@@ -9,7 +9,7 @@ import("calibration")
 local m = MultipleRuns{
 	model = Fire,
 	hideGraphs = true,
-	repeats = 30,
+	repeatition = 30,
 	showProgress = true,
 	parameters = {
 		empty = 0.3,
