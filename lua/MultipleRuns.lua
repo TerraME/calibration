@@ -533,43 +533,45 @@ function MultipleRuns(data)
 	mandatoryTableArgument(data, "parameters", "table")
 	optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
-	optionalTableArgument(data, "repeats", "number")
+	defaultTableValue(data,  "repeats", 1)
 	optionalTableArgument(data, "folderName", "string")
-	optionalTableArgument(data, "hideGraphs", "boolean")
-	optionalTableArgument(data, "showProgress", "boolean")
+	optionalTableArgument(data, "quantity", "number")
+	defaultTableValue(data, "hideGraphs", false)
+	defaultTableValue(data, "showProgress", false)
 	if data.strategy == nil then
 		local choiceStrg = false
+		local tableParameters = true
 		forEachOrderedElement(data.parameters, function (idx, att, typ)
 			if typ == "table" then
 				forEachOrderedElement(att, function (idx2, att2, typ2)
-					if typ == "Choice" then
+					if typ2 ~= 'table' then
+						tableParameters = false
+					end
+
+					if typ2 == "Choice" then
 						choiceStr = true
 					end
 				end)
 			else
+				tableParameters = false
 				if typ == "Choice" then
 					choiceStrg = true
 				end
 			end
 		end)
 
-		if data.repeats == nil then
-			if choiceStrg == true then
-				data.strategy = "factorial"
+		if choiceStrg == true then
+			if data.quantity ~= nil then
+				data.strategy = "sample"
 			else
-				data.strategy = "selected"
+				data.strategy = "factorial"
 			end
 		else
-			if choiceStrg == true then
-				if data.quantity ~= nil then
-					data.strategy = "sample"
-				else
-					data.strategy = "factorial"
-				end
-			else
+			if tableParameters == false then
 				data.parameters = {scenario = data.parameters}
-				data.strategy = "selected"
 			end
+
+			data.strategy = "selected"
 		end
 	end		
 
@@ -683,9 +685,7 @@ function MultipleRuns(data)
 				end
 			end)
 			local repeated = false
-			if data.repeats == nil then
-				data.repeats = 1
-			elseif data.repeats > 1 then
+			if data.repeats > 1 then
 				repeated = true
 			end
 
@@ -699,11 +699,7 @@ function MultipleRuns(data)
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
 			local repeats
-			if data.repeats == nil then
-				repeats = 1
-			else 
-				repeats = data.repeats
-			end
+			repeats = data.repeats
 			chDir(folderDir)
 			for case = 1, repeats do
 				local stringSimulations = ""
@@ -746,12 +742,9 @@ function MultipleRuns(data)
 		end,
 		selected = function()
 			chDir(folderDir)
-			local repeats
-			if data.repeats == nil then
-				repeats = 1
-			else 
-				repeats = data.repeats
-			end
+			local repeats 
+			repeats = data.repeats
+
 
 			local models = {}
 			forEachOrderedElement(data.parameters, function(idx, att, atype)
