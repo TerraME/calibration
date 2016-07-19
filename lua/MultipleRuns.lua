@@ -407,7 +407,7 @@ metaTableMultipleRuns_ = {
 -- It returns a MultipleRuns table with the results.
 -- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
--- @output output A table with the return value of an additional function, and the values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
+-- @output output A table with the return value of an additional function, and the final values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
