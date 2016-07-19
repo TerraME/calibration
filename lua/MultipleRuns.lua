@@ -540,20 +540,15 @@ function MultipleRuns(data)
 	defaultTableValue(data, "showProgress", false)
 	if data.strategy == nil then
 		local choiceStrg = false
-		local tableParameters = true
 		forEachOrderedElement(data.parameters, function (idx, att, typ)
 			if typ == "table" then
 				forEachOrderedElement(att, function (idx2, att2, typ2)
-					if typ2 ~= 'table' then
-						tableParameters = false
-					end
 
 					if typ2 == "Choice" then
 						choiceStr = true
 					end
 				end)
 			else
-				tableParameters = false
 				if typ == "Choice" then
 					choiceStrg = true
 				end
@@ -567,10 +562,6 @@ function MultipleRuns(data)
 				data.strategy = "factorial"
 			end
 		else
-			if tableParameters == false then
-				data.parameters = {scenario = data.parameters}
-			end
-
 			data.strategy = "selected"
 		end
 	end		

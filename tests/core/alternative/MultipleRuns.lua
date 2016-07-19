@@ -65,7 +65,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = "!@#$$#$%??",
 				model = MyModel,
-				parameters = {x = 2, y = 5},
+				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"value"}}
 		end
@@ -75,7 +75,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				parameters = {x = 2, y = 5},
+				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"x", "y",	"value"}}
 		end
@@ -85,7 +85,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				parameters = {x = 2, y = 5},
+				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"fake"}}
 		end
@@ -95,7 +95,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				parameters = {x = 2, y = 5},
+				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"value", "value"}}
 		end
@@ -105,7 +105,7 @@ return{
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
 				model = MyModel,
-				parameters = {x = 2, y = 5},
+				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"value"},
 				value = function(model)
@@ -127,7 +127,7 @@ return{
 		error_func = function()
 			local m4 = MultipleRuns{
 				folderName = tmpDir()..s.."MultipleRunsAlternativeTests",
-				parameters = {x = 2, y = 5, seed = 1001},
+				parameters = {scenario1 = {x = 2, y = 5, seed = 1001}},
 				repetition = 3,
 				output = {"value"}}
 		end
