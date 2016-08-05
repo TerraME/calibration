@@ -510,6 +510,8 @@ metaTableMultipleRuns_ = {
 -- @arg data.output An optional user defined table of model attributes.
 -- The values of these attributes, for each of the model executions, are returned in a table in the result of MultipleRuns.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
+-- Whenever the Model saves one or more files along its simulation, it is necessary to use this
+-- argument to guarantee that the files of each simulation will be saved in a different directory.
 -- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
@@ -538,8 +540,10 @@ function MultipleRuns(data)
 	optionalTableArgument(data, "quantity", "number")
 	defaultTableValue(data, "hideGraphs", false)
 	defaultTableValue(data, "showProgress", false)
+
 	if data.strategy == nil then
 		local choiceStrg = false
+
 		forEachOrderedElement(data.parameters, function (idx, att, typ)
 			if typ == "table" then
 				forEachOrderedElement(att, function (idx2, att2, typ2)
@@ -548,10 +552,8 @@ function MultipleRuns(data)
 						choiceStr = true
 					end
 				end)
-			else
-				if typ == "Choice" then
-					choiceStrg = true
-				end
+			elseif typ == "Choice" then
+				choiceStrg = true
 			end
 		end)
 
@@ -570,6 +572,7 @@ function MultipleRuns(data)
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	data.outputVariables = {}
+
 	if data.output ~= nil then
 		forEachOrderedElement(data.output, function(idx, att, typ)
 			if data[att] ~= nil then
@@ -646,22 +649,22 @@ function MultipleRuns(data)
 	local firstDir = currentDir()
 	local folderDir = currentDir()
 	local folder = data.folderName
-	if folder == nil then
-		folder = "MultipleRunsTests"
-		mkDir(folder)
-	else
+
+	if folder ~= nil then
 		local mkDirValue, mkDirError = mkDir(folder)
 		if not mkDirValue then
 			if mkDirError ~= "File exists" then
 				chDir(firstDir)
-				customError('"'..folder..'" is an invalid folder name: '..mkDirError)
+				customError('Folder "'..folder..'" has an invalid name: '..mkDirError)
 			end
 		end
+
+		chDir(folder)
 	end
 
-	chDir(folder)
 	folderDir = currentDir()
 	chDir(firstDir)
+
 	local variables = {}	
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
@@ -680,7 +683,10 @@ function MultipleRuns(data)
 				repeated = true
 			end
 
-			chDir(folderDir)
+			if data.folderName then
+				chDir(folderDir)
+			end
+
 			for i = 1, data.repetition do
 				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
@@ -691,7 +697,11 @@ function MultipleRuns(data)
 			mandatoryTableArgument(data, "quantity", "number")
 			local repetition
 			repetition = data.repetition
-			chDir(folderDir)
+
+			if data.folderName then
+				chDir(folderDir)
+			end
+
 			for case = 1, repetition do
 				local stringSimulations = ""
 				if repetition > 1 then
@@ -701,10 +711,18 @@ function MultipleRuns(data)
 					local sampleparams = {}
 					local m = randomModel(data.model, data.parameters)
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""
-					mkDir(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
-					chDir(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+
+					if data.folderName then
+						mkDir(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+						chDir(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+					end
+
 					testAddFunctions(resultTable, addFunctions, data, m)
-					chDir(folderDir)
+
+					if data.folderName then
+						chDir(folderDir)
+					end
+
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 						if typ2 ~= "table" then
 							sampleparams[idx2] = m.idx2
@@ -732,7 +750,10 @@ function MultipleRuns(data)
 			chDir(firstDir)
 		end,
 		selected = function()
-			chDir(folderDir)
+			if data.folderName then
+				chDir(folderDir)
+			end
+
 			local repetition 
 			repetition = data.repetition
 
@@ -751,10 +772,18 @@ function MultipleRuns(data)
 					local m = models[idx]
 					m:run()
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(idx)..""
-					mkDir(stringSimulations..""..(idx).."") 
-					chDir(folderDir..s..stringSimulations..""..(idx).."") 
+
+					if data.folderName then
+						mkDir(stringSimulations..""..(idx).."") 
+						chDir(folderDir..s..stringSimulations..""..(idx).."") 
+					end
+
 					testAddFunctions(resultTable, addFunctions, data, m)
-					chDir(folderDir) 
+
+					if data.folderName then
+						chDir(folderDir) 
+					end
+
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
 						if resultTable[idx2] == nil then 
 							resultTable[idx2] = {}
@@ -780,3 +809,4 @@ function MultipleRuns(data)
 	data.outputVariables = nil
 	return data
 end
+
