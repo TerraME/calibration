@@ -3,7 +3,6 @@ data{
 	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
 	attributes = {"Costanza","Costanza2"},
-	types = {"number", "number"},
 	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
 	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
 }
@@ -13,7 +12,6 @@ data{
 	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
 	attributes = {"Costanza","Costanza2"},
-	types = {"number", "number"},
 	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
 	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
 }
@@ -23,7 +21,6 @@ data{
 	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
 	attributes = {"Costanza","Costanza2"},
-	types = {"number", "number"},
 	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
 	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
 }
@@ -33,7 +30,6 @@ data{
 	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
 	attributes = {"maxsugar","maxsugar"},
-	types = {"number", "number"},
 	description = {"Attribute values that will be compared", "Attribute values that will be compared"}
 }
 
@@ -42,6 +38,5 @@ data{
 	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
 	attributes = {"maxsugar","maxsugar"},
-	types = {"number", "number"},
 	description = {"Attribute values that will be compared", "Attribute values that will be compared"}
 }
