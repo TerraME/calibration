@@ -1,5 +1,6 @@
 -- checkParameters auxiliar function.
 local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, idxt)
+
 	if type(Param) == "Choice" then
 		if tParameters.strategy == "selected" then
 			customError("Parameters used in selected strategy cannot be a 'Choice'")
@@ -39,7 +40,9 @@ local function checkParameters(tModel, tParameters)
 	mandatoryTableArgument(tParameters, "parameters", "table")
 	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
 	-- range of values according to a Model.
+	local modelParametersSet = {}
 	forEachElement(tModel:getParameters(), function(idx, att, mtype)
+		modelParametersSet[idx] = true
 		if mtype ~= "function" then
 	    	if idx ~= "init" and idx ~= "seed" then
 				local Param = tParameters.parameters[idx]
@@ -127,10 +130,22 @@ local function checkParameters(tModel, tParameters)
 					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
 					   	end
 					end)
+				else
+					if type(Param) == "table" then
+				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
+				   	end
 				end
 			end
 	    end
 	end)
+-- PLEASE DO NOT FORGET TO ADAPT THIS TO SELECT LATER
+	if tParameters.strategy ~= "selected" then
+		forEachOrderedElement(tParameters.parameters, function (idx, att, mtype)
+			if modelParametersSet[idx] == nil then
+				customError(idx.." is unnecessary.")
+			end
+		end)
+	end
 end
 
 local function testAddFunctions(resultTable, addFunctions, data, m)
@@ -533,6 +548,10 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
+	if type(data.output) == 'string' then
+		data.output = {data.output}
+	end
+
 	optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
 	defaultTableValue(data,  "repetition", 1)
@@ -552,8 +571,10 @@ function MultipleRuns(data)
 						choiceStr = true
 					end
 				end)
+			else
 			elseif typ == "Choice" then
 				choiceStrg = true
+				end
 			end
 		end)
 
