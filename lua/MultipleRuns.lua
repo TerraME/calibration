@@ -572,8 +572,8 @@ function MultipleRuns(data)
 					end
 				end)
 			else
-			elseif typ == "Choice" then
-				choiceStrg = true
+				if typ == "Choice" then
+					choiceStrg = true
 				end
 			end
 		end)
