@@ -29,24 +29,19 @@ end,
 -- these functions verification are tested in the multipleRuns ans SaMDE alternative tests.
 checkParametersSet = function(unitTest)
 	local parameters = {x = Choice{-100, 1, 0}}
-   	checkParametersSet(myModel, "x", parameters.x)
+   	checkParametersSet(MyModel, "x", parameters.x)
    	unitTest:assert(true)
  -- Error: Parameter 3 in #3 is out of the model x range.
 end,
 checkParametersRange = function(unitTest)
-	local parameters = {y = Choice{min = 20, max = 40}}
-	ok, err =  pcall(function()
-    	checkParametersRange(myModel, "y", parameters.y)
-	end)
-
-	unitTest:assertEquals(err, "Error: Argument 'y.step' is mandatory.")
+	local parameters = {y = Choice{min = 2, max = 10, step =1}}
+    checkParametersRange(MyModel, "y", parameters.y)
+	unitTest:assert(true)
 end,
 checkParameterSingle = function(unitTest)
-	local parameters = {x = Choice{-100, 5, 2}}
-	ok, err =  pcall(function()
-    	checkParameterSingle(myModel, "x", 2, 5)
-	end)
-	unitTest:assertEquals(err, "Error: Parameter 5 in #2 is out of the model x range.")
+	local parameters = {x = Choice{-100, 2}}
+    checkParameterSingle(MyModel, "x", 2, 2)
+	unitTest:assert(true)
 end,
 sensitivityAnalysisOutput = function(unitTest)
 	local m = MultipleRuns{
