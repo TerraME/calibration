@@ -3,6 +3,8 @@ local tmpDir = Directory{
    name = "MultipleRunsBasicTest_TmpDir",
    tmp = true
 }
+tmpDir:create()
+
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -108,7 +110,8 @@ saveCSV = function(unitTest)
 		output = {"value"}
 	}
 	m:saveCSV("results", ";")
-	local myTable = CSVread("results.csv", ";")
+	local csvFile = File("results.csv")
+	local myTable = csvFile:readTable(";")
 	unitTest:assert(myTable[1]["x"] == -100)
 	unitTest:assert(myTable[1]["additionalF"] == "test")
 	unitTest:assert(myTable[1]["value"] == 20305)

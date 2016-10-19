@@ -250,9 +250,12 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 					end
 				end)
 				local testDir = currentDir()
-				dir = Directory(stringSimulations)
-				dir:create()
-				Directory(testDir..s..stringSimulations):setCurrentDir()
+				if data.folderName then
+					dir = Directory(stringSimulations)
+					dir:create()
+					Directory(testDir..s..stringSimulations):setCurrentDir()
+				end
+
 				testAddFunctions(resultTable, addFunctions, data, m)
 				Directory(testDir):setCurrentDir()
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
@@ -299,9 +302,12 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 					end
 				end)
 				local testDir = currentDir()
-				dir = Directory(stringSimulations)
-				dir:create()
-				Directory(testDir..s..stringSimulations):setCurrentDir()
+				if folderName then
+					dir = Directory(stringSimulations)
+					dir:create()
+					Directory(testDir..s..stringSimulations):setCurrentDir()
+				end
+
 				testAddFunctions(resultTable, addFunctions, data, m)
 				Directory(testDir):setCurrentDir()
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
@@ -411,8 +417,8 @@ MultipleRuns_ = {
 				end)
 			end
 		end)
-
-		CSVwrite(CSVTable, name..".csv", separator)
+		local csvFile = File(name..".csv")
+		csvFile:write(CSVTable, separator)
 	end
 }
 
@@ -685,10 +691,9 @@ function MultipleRuns(data)
 		end
 
 		Directory(folder):setCurrentDir()
+		folderDir = currentDir()
+		Directory(firstDir):setCurrentDir()
 	end
-
-	folderDir = currentDir()
-	Directory(firstDir):setCurrentDir()
 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
@@ -708,6 +713,7 @@ function MultipleRuns(data)
 				repeated = true
 			end
 
+
 			if data.folderName then
 				Directory(folderDir):setCurrentDir()
 			end
@@ -716,7 +722,9 @@ function MultipleRuns(data)
 				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 
-			Directory(firstDir):setCurrentDir()
+			if data.folderName then
+				Directory(firstDir):setCurrentDir()
+			end
 		end,
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
