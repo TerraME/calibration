@@ -1,10 +1,6 @@
 local s = package.config:sub(1, 1)
-local tmpDir = Directory{
-   name = "MultipleRunsBasicTest_TmpDir",
-   tmp = true
-}
+local tmpDir = Directory("MultipleRunsBasicTest_TmpDir")
 tmpDir:create()
-
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -96,7 +92,7 @@ get = function (unitTest)
 end,
 saveCSV = function(unitTest)
 	local m = MultipleRuns{
-		folderName = tmpDir..s.."saveCSVTests",
+		folderName = "MultipleRunsBasicTest_TmpDir",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -109,8 +105,8 @@ saveCSV = function(unitTest)
 		end,
 		output = {"value"}
 	}
-	m:saveCSV("results", ";")
-	local csvFile = File("results.csv")
+	m:saveCSV("MultipleRunsBasicTest_TmpDir"..s.."results", ";")
+	local csvFile = File(tmpDir..s.."results.csv")
 	local myTable = csvFile:readTable(";")
 	unitTest:assert(myTable[1]["x"] == -100)
 	unitTest:assert(myTable[1]["additionalF"] == "test")
@@ -316,5 +312,5 @@ MultipleRuns = function(unitTest)
 	unitTest:assert(m4Single:get(5).simulations == "5")
 	unitTest:assertEquals(m4Single:get(1).simulations, "1")
 	unitTest:assertEquals(m:get(1).additionalF, "test")
-end
-}
+	tmpDir:delete()
+end}

@@ -686,7 +686,7 @@ function MultipleRuns(data)
 		if not mkDirValue then
 			if mkDirError ~= "File exists" then
 				Directory(firstDir):setCurrentDir()
-				customError('Folder "'..folder..'" has an invalid name: '..mkDirError)
+				customError('Folder "'..folder..'": '..mkDirError)
 			end
 		end
 
