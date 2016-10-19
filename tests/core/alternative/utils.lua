@@ -1,9 +1,4 @@
 
--- Getting the TerraME tmp folder
-local first = currentDir()
-chDir(tmpDir())
-local tmp = currentDir()
-chDir(first)
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},

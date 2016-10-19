@@ -31,8 +31,8 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	verify(#cs1 == #cs2, "Number of cells in both cellular spaces must be equal")
 	mandatoryArgument(3, "string", attribute1)
 	mandatoryArgument(4, "string", attribute2)
-	verify(cs1.cells[1][attribute1] ~= nil, "Attribute "..attribute1.." was not found in the CellularSpace.")
-	verify(cs2.cells[1][attribute2] ~= nil, "Attribute "..attribute2.." was not found in the CellularSpace.")
+	verify(cs1:sample()[attribute1] ~= nil, "Attribute "..attribute1.." was not found in the first CellularSpace.")
+	verify(cs2:sample()[attribute2] ~= nil, "Attribute "..attribute2.." was not found in the second CellularSpace.")
 	local counter = 0
 	local dif = 0
 	local equal = 0

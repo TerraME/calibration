@@ -26,12 +26,12 @@ return{
 			pixelByPixel(cs,cs,"c","b")
 		end
 
-		unitTest:assertError(error_func, "Attribute c was not found in the CellularSpace.")
+		unitTest:assertError(error_func, "Attribute c was not found in the first CellularSpace.")
 		local error_func = function()
 			pixelByPixel(cs,cs,"a","c")
 		end
 
-		unitTest:assertError(error_func, "Attribute c was not found in the CellularSpace.")
+		unitTest:assertError(error_func, "Attribute c was not found in the second CellularSpace.")
 	end,
 	multiLevel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}

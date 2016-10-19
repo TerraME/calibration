@@ -1,3 +1,4 @@
+local dir
 -- checkParameters auxiliar function.
 local function checkMultipleRunsStrategyRules(tModel, tParameters, Param, idx, idxt)
 
@@ -249,10 +250,11 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 					end
 				end)
 				local testDir = currentDir()
-				mkDir(stringSimulations)
-				chDir(testDir..s..stringSimulations)
+				dir = Directory(stringSimulations)
+				dir:create()
+				Directory(testDir..s..stringSimulations):setCurrentDir()
 				testAddFunctions(resultTable, addFunctions, data, m)
-				chDir(testDir)
+				Directory(testDir):setCurrentDir()
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations
 			else -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated)
@@ -297,10 +299,11 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 					end
 				end)
 				local testDir = currentDir()
-				mkDir(stringSimulations)
-				chDir(testDir..s..stringSimulations)
+				dir = Directory(stringSimulations)
+				dir:create()
+				Directory(testDir..s..stringSimulations):setCurrentDir()
 				testAddFunctions(resultTable, addFunctions, data, m)
-				chDir(testDir)
+				Directory(testDir):setCurrentDir()
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated)
@@ -672,19 +675,20 @@ function MultipleRuns(data)
 	local folder = data.folderName
 
 	if folder ~= nil then
-		local mkDirValue, mkDirError = mkDir(folder)
+		dir = Directory(folder) 
+		local mkDirValue, mkDirError = dir:create()
 		if not mkDirValue then
 			if mkDirError ~= "File exists" then
-				chDir(firstDir)
+				Directory(firstDir):setCurrentDir()
 				customError('Folder "'..folder..'" has an invalid name: '..mkDirError)
 			end
 		end
 
-		chDir(folder)
+		Directory(folder):setCurrentDir()
 	end
 
 	folderDir = currentDir()
-	chDir(firstDir)
+	Directory(firstDir):setCurrentDir()
 
 	local variables = {}	
 	switch(data, "strategy"):caseof{
@@ -705,14 +709,14 @@ function MultipleRuns(data)
 			end
 
 			if data.folderName then
-				chDir(folderDir)
+				Directory(folderDir):setCurrentDir()
 			end
 
 			for i = 1, data.repetition do
 				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 
-			chDir(firstDir)
+			Directory(firstDir):setCurrentDir()
 		end,
 		sample = function()
 			mandatoryTableArgument(data, "quantity", "number")
@@ -720,7 +724,7 @@ function MultipleRuns(data)
 			repetition = data.repetition
 
 			if data.folderName then
-				chDir(folderDir)
+				Directory(folderDir):setCurrentDir()
 			end
 
 			for case = 1, repetition do
@@ -734,14 +738,15 @@ function MultipleRuns(data)
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""
 
 					if data.folderName then
-						mkDir(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
-						chDir(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+						dir = Directory(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
+						dir:create()
+						Directory(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""):setCurrentDir()
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						chDir(folderDir)
+						Directory(folderDir):setCurrentDir()
 					end
 
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
@@ -768,11 +773,11 @@ function MultipleRuns(data)
 				end
 			end
 
-			chDir(firstDir)
+			Directory(firstDir):setCurrentDir()
 		end,
 		selected = function()
 			if data.folderName then
-				chDir(folderDir)
+				Directory(folderDir):setCurrentDir()
 			end
 
 			local repetition 
@@ -795,14 +800,15 @@ function MultipleRuns(data)
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(idx)..""
 
 					if data.folderName then
-						mkDir(stringSimulations..""..(idx).."") 
-						chDir(folderDir..s..stringSimulations..""..(idx).."") 
+						dir = Directory(stringSimulations..""..(idx).."")
+						dir:create() 
+						Directory(folderDir..s..stringSimulations..""..(idx)..""):setCurrentDir()
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						chDir(folderDir) 
+						Directory(folderDir):setCurrentDir()
 					end
 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, typ2)
@@ -814,7 +820,7 @@ function MultipleRuns(data)
 					end)
 				end)
 			end
-			chDir(firstDir)
+			Directory(firstDir):setCurrentDir()
 		end
 	}
 	setmetatable(data, metaTableMultipleRuns_)
@@ -822,7 +828,7 @@ function MultipleRuns(data)
 		data[idx] = att
 	end)
 
-	chDir(firstDir) 
+	Directory(firstDir):setCurrentDir()
 	if data.hideGraphs == true then
 		enableGraphics()
 	end

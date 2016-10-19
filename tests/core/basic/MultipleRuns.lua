@@ -1,4 +1,8 @@
 local s = package.config:sub(1, 1)
+local tmpDir = Directory{
+   name = "MultipleRunsBasicTest_TmpDir",
+   tmp = true
+}
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -72,7 +76,6 @@ local MyModel4 = Model{
 return{
 get = function (unitTest)
 	local m = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -91,7 +94,7 @@ get = function (unitTest)
 end,
 saveCSV = function(unitTest)
 	local m = MultipleRuns{
-		folderName = tmpDir()..s.."saveCSVTests",
+		folderName = tmpDir..s.."saveCSVTests",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -113,7 +116,6 @@ end,
 MultipleRuns = function(unitTest)
 	-- print("M")
 	local m = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -127,7 +129,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local mQuant = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "factorial",
 		repetition = 2,
@@ -142,7 +143,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local mMan = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel2,
 		strategy = "factorial",
 		parameters = {
@@ -156,7 +156,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local mTab = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		strategy = "factorial",
 		parameters = {
@@ -173,7 +172,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local mTab2 = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3Inv,
 		strategy = "factorial",
 		parameters = {
@@ -189,7 +187,6 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local mSingle = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel4,
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
@@ -203,7 +200,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local m2 = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "selected",
 		parameters = {
@@ -216,7 +212,6 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m2Tab = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		parameters = {
 			scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
@@ -225,7 +220,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local m3 = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		parameters = {scenario1 = {x = 2, y = 5}},
 		repetition = 3,
@@ -235,14 +229,12 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m3Tab = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		parameters = {scenario1 = {parameters3 = {x = 2, y = 5, z = 1}}},
 		repetition = 3,
 		output = {"value"}
 	}
 	local m4 = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel,
 		strategy = "sample",
 		parameters = {
@@ -256,7 +248,6 @@ MultipleRuns = function(unitTest)
 		end
 	}
 	local m4Single = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel4,
 		strategy = "sample",
 		parameters = {
@@ -269,7 +260,6 @@ MultipleRuns = function(unitTest)
 		output = {"value"}
 	}
 	local m4Tab = MultipleRuns{
-		folderName = tmpDir()..s.."MultipleRunsTests",
 		model = MyModel3,
 		strategy = "sample",
 		parameters = {
