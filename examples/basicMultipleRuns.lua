@@ -19,7 +19,6 @@ local MyModel = Model{
 
 local m = MultipleRuns{
 	model = MyModel,
-	folderName = tmpDir(),
 	strategy = "factorial",
 	parameters = {
 		x = Choice{-100, -1, 0, 1, 2, 100},

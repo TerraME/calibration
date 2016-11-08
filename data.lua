@@ -61,12 +61,12 @@ data{
 	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	separator = ";",
 	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
-	attributes = {x = "x cell postion", y = "cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"}
+	attributes = {x = "x cell postion", y = "y cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"}
 }
 data{
 	file = "sugarScape4.csv",
 	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	separator = ";",
-	attributes = {x = "cell postion", y = "y cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"},
+	attributes = {x = "x cell postion", y = "y cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"},
 	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape"
 }
