@@ -448,6 +448,19 @@ metaTableMultipleRuns_ = {
 --     end
 -- }
 --
+-- local RainModel = Model{
+--     water = Choice{min = 0, max = 100},
+--     rain = Choice{min = 0, max = 20},
+--     finalTime = 2,
+--     init = function(self)
+--         self.timer = Timer{
+--             Event{action = function()
+--                 self.water = self.water + (self.rain - 150)
+--             end}
+--         }
+--     end
+-- }
+--
 -- c = MultipleRuns{
 --     model = MyModel,
 --     strategy = "sample",
@@ -465,18 +478,24 @@ metaTableMultipleRuns_ = {
 --     end
 -- }
 --
+-- -- Selected Example:
+-- m = MultipleRuns{
+-- 	model = MyModel,
+-- 	parameters = {
+-- 		scenario1 = {x = 2, y = 5},
+-- 		scenario2 = {x = 1, y = 3}
+-- 	 },
+-- 	output = {"value"},
+-- 	additionalF = function(model)
+-- 		return "test"
+-- 	end
+-- }
 -- -- Repeated Example:
--- local RainModel = Model{
---     water = Choice{min = 0, max = 100},
---     rain = Choice{min = 0, max = 20},
---     finalTime = 2,
---     init = function(self)
---         self.timer = Timer{
---             Event{action = function()
---                 self.water = self.water + (self.rain - 150)
---             end}
---         }
---     end
+-- r = MultipleRuns{
+--     model = RainModel,
+--     parameters = {water = 10, rain = 20, finalTime = 1},
+--     repetition = 10,
+--     showProgress = true
 -- }
 --
 -- -- Factorial Example. It will run the model 2*66 times to test all the possibilities
@@ -490,13 +509,6 @@ metaTableMultipleRuns_ = {
 --         finalTime = 1
 --     },
 --     repetition = 2
--- }
---
--- r = MultipleRuns{
---     model = RainModel,
---     parameters = {water = 10, rain = 20, finalTime = 1},
---     repetition = 10,
---     showProgress = true
 -- }
 --
 -- -- This should run the model 10 times with the same parameters.
@@ -514,15 +526,6 @@ metaTableMultipleRuns_ = {
 --
 -- -- This should run the model 5 times selecting random values from the defined parameters
 -- -- (if they are choice, otherwise use the only available value).
--- -- Selected Example:
--- x = MultipleRuns{
---     model = RainModel,
---     strategy = "selected",
---     parameters = {
---         scenario1 = {water = 10, rain = 20, finalTime = 10},
---         scenario2 = {water = 5, rain = 10, finalTime = 10}
---     }
--- }
 -- -- This should run the model two times with the same parameters defined in the vector of parameters.
 -- @arg data.repetition repetition of runs that must be executed with the same parameters.
 -- The default value is 1.
