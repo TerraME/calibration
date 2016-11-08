@@ -233,11 +233,11 @@ end
 -- @usage
 -- import("calibration")
 -- local cs = CellularSpace{
---   file = filePath("Costanza.map", "calibration"),
+--   file = filePath("Costanza.pgm", "calibration"),
 --   attrname = "Costanza"
 -- }
 -- local cs2 = CellularSpace{
---   file = filePath("Costanza2.map", "calibration"),
+--   file = filePath("Costanza2.pgm", "calibration"),
 --   attrname = "Costanza"
 -- }
 -- multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = false, graphics = true}
