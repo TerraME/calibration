@@ -69,6 +69,8 @@
 	
 		
 	
+		
+	
 
 	
 
@@ -89,6 +91,8 @@
 	
 		
 			
+		
+	
 		
 	
 		
@@ -141,6 +145,7 @@
 		
 		
 		
+		
 	</ul>
 
 
@@ -182,6 +187,8 @@
 	
 		
 	
+		
+	
 
 	
 		<h1>Functions</h1>
@@ -205,6 +212,7 @@
 					</li>
 				
 			
+		
 		
 		
 		
@@ -272,7 +280,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
 <ul><span class="arg">
 
     <li>
-	  <strong>folderName</strong>: Name or file path of the folder where the simulations output will be saved.
+	  <strong>folderName</strong>: Name or file path of the folder where the simulations output will be saved. Whenever the Model saves one or more files along its simulation, it is necessary to use this argument to guarantee that the files of each simulation will be saved in a different directory.
     </li> 
     
   
@@ -287,7 +295,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
     
   
     <li>
-	  <strong>output</strong>: A table of model attributes. The values of these attributes in the end of each model execution are returned in a table in the result of MultipleRuns.
+	  <strong>output</strong>: An optional user defined table of model attributes. The values of these attributes, for each of the model executions, are returned in a table in the result of MultipleRuns.
     </li> 
     
   
@@ -302,7 +310,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
     
   
     <li>
-	  <strong>repeats</strong>: repeats of runs that must be executed with the same parameters. The default value is 1.
+	  <strong>repetition</strong>: repetition of runs that must be executed with the same parameters. The default value is 1.
     </li> 
     
   
@@ -363,7 +371,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            folderName, hideGraphs, output, quantity, repeats, showProgress, ...
+            folderName, hideGraphs, output, quantity, repetition, showProgress, ...
             </td>
           
         
@@ -381,7 +389,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            model, parameters, repeats
+            model, parameters, repetition
             </td>
           
           
@@ -409,7 +417,7 @@ The Multiple Runs type has various model execution strategies, that can be used 
           
           
             <td>
-            folderName, hideGraphs, output, quantity, repeats, showProgress, ...
+            folderName, hideGraphs, output, quantity, repetition, showProgress, ...
             </td>
           
         
@@ -434,7 +442,7 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
 <span class="output">
 	
 	<li>
-	  <strong>output</strong>: A table with the return value of an additional function, and the values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
+	  <strong>output</strong>: A table with the return value of an additional function, and the final values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
 	</li>
 	
 	<li>
@@ -501,7 +509,7 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
 }
 
 <span class="comment">-- Factorial Example. It will run the model 2*66 times to test all the possibilities</span>
-<span class="comment">-- for the parameters repeats times.</span>
+<span class="comment">-- for the parameters repetition times.</span>
 <span class="function">MultipleRuns</span>{
     <span class="id">model</span> = <span class="id">RainModel</span>,
     <span class="id">strategy</span> = <span class="string">"factorial"</span>,
@@ -510,13 +518,13 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
         <span class="id">rain</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">10</span>, <span class="id">max</span> = <span class="number">20</span>, <span class="id">step</span> = <span class="number">2</span>},
         <span class="id">finalTime</span> = <span class="number">1</span>
     },
-    <span class="id">repeats</span> = <span class="number">2</span>
+    <span class="id">repetition</span> = <span class="number">2</span>
 }
 
 <span class="id">r</span> = <span class="function">MultipleRuns</span>{
     <span class="id">model</span> = <span class="id">RainModel</span>,
     <span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
-    <span class="id">repeats</span> = <span class="number">10</span>,
+    <span class="id">repetition</span> = <span class="number">10</span>,
     <span class="id">showProgress</span> = <span class="reserved">true</span>
 }
 
@@ -562,14 +570,14 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
 								
 									<tr>
 										<td class="name" nowrap><a href="#get">get</a>&nbsp;
-<td class="summary">Function that returns the result of a given <a href=files/MultipleRuns.html>MultipleRuns</a> instance.</td>
+<td class="summary">Function that returns the result of a given <a href=../files/MultipleRuns.html>MultipleRuns</a> instance.</td>
 									</tr>
 								
 							
 								
 									<tr>
 										<td class="name" nowrap><a href="#saveCSV">saveCSV</a>&nbsp;
-<td class="summary">Save the results of <a href=files/MultipleRuns.html>MultipleRuns</a> to a CSV file.</td>
+<td class="summary">Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV file.</td>
 									</tr>
 								
 							
@@ -714,7 +722,7 @@ Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV
 <span class="id">m</span> = <span class="function">MultipleRuns</span>{
      <span class="id">model</span> = <span class="id">MyModel</span>,
      <span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
-     <span class="id">repeats</span> = <span class="number">3</span>,
+     <span class="id">repetition</span> = <span class="number">3</span>,
  }
 
 <span class="comment">-- Saves MultipleRuns results:</span>
