@@ -1,42 +1,72 @@
 data{
-	file = {"Costanza.map","Costanza2.map"},
+	file = "Costanza.pgm",
 	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
 	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
-	attributes = {"Costanza","Costanza2"},
-	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
+	attributes = {Costanza = "Attribute values that will be compared"},
 	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
 }
-
 data{
-	file = {"Costanza1-2.map","Costanza2-2.map"},
-	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
-	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
-	attributes = {"Costanza","Costanza2"},
-	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
-	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
-}
-
-data{
-	file = {"Costanza1-3.map","Costanza2-3.map"},
-	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
-	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
-	attributes = {"Costanza","Costanza2"},
-	description = {"Attribute values that will be compared", "Attribute values that will be compared"},
-	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
-}
-
-data{
-	file = {"sugarScape.csv", "sugarScape2.csv"},
+	file = "Costanza2.pgm",
 	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
-	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
-	attributes = {"maxsugar","maxsugar"},
-	description = {"Attribute values that will be compared", "Attribute values that will be compared"}
+	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
+	attributes = {Costanza = "Attribute values that will be compared"},
+	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
+}
+data{
+	file = "Costanza1-2.pgm",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
+	attributes = {Costanza = "Attribute values that will be compared"},
+	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
+}
+data{
+	file = "Costanza2-2.pgm",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
+	attributes = {Costanza = "Attribute values that will be compared"},
+	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
+}
+data{
+	file = "Costanza1-3.pgm",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
+	attributes = {Costanza = "Attribute values that will be compared"},
+	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
+}
+data{
+	file = "Costanza2-3.pgm",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
+	attributes = {Costanza = "Attribute values that will be compared"},
+	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
 }
 
 data{
-	file = {"sugarScape3.csv", "sugarScape4.csv"},
-	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	file = "sugarScape.csv",
+	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	separator = ";",
 	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
-	attributes = {"maxsugar","maxsugar"},
-	description = {"Attribute values that will be compared", "Attribute values that will be compared"}
+	attributes = {x = "cell postion", y = "cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"}
+}
+data{
+	file = "sugarScape2.csv",
+	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	separator = ";",
+	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
+	attributes = {x = "cell postion", y = "cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"}
+}
+
+data{
+	file = "sugarScape3.csv",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	separator = ";",
+	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape",
+	attributes = {x = "x cell postion", y = "cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"}
+}
+data{
+	file = "sugarScape4.csv",
+	summary = "Modified examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
+	separator = ";",
+	attributes = {x = "cell postion", y = "y cell position", maxsugar = "Amount of sugar in cell. Attribute values that will be compared"},
+	source = "TerraME sugarScape example: https://github.com/pedro-andrade-inpe/sugarscape"
 }
