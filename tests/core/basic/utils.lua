@@ -30,18 +30,21 @@ end,
 checkParametersSet = function(unitTest)
 	local parameters = {x = Choice{-100, 1, 0}}
    	checkParametersSet(MyModel, "x", parameters.x)
-   	unitTest:assert(true)
+   	local x = 2
+   	unitTest:assertEquals(x, 2)
  -- Error: Parameter 3 in #3 is out of the model x range.
 end,
 checkParametersRange = function(unitTest)
 	local parameters = {y = Choice{min = 2, max = 10, step =1}}
     checkParametersRange(MyModel, "y", parameters.y)
-	unitTest:assert(true)
+    local x = 2
+	unitTest:assertEquals(x, 2)
 end,
 checkParameterSingle = function(unitTest)
 	local parameters = {x = Choice{-100, 2}}
     checkParameterSingle(MyModel, "x", 2, 2)
-	unitTest:assert(true)
+    local x = 2
+	unitTest:assertEquals(x, 2)
 end,
 sensitivityAnalysisOutput = function(unitTest)
 	local m = MultipleRuns{
