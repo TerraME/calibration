@@ -393,7 +393,7 @@ MultipleRuns_ = {
 	--
 	-- m = MultipleRuns{
 	--      model = MyModel,
-	--      parameters = {x = 2},
+	--      parameters = {scenario = {x = 2}},
 	--      repetition = 3,
 	--  }
 	--
@@ -490,10 +490,11 @@ metaTableMultipleRuns_ = {
 -- 		return "test"
 -- 	end
 -- }
--- -- Repeated Example:
+--
+-- -- This should run the model 10 times with the same parameters:
 -- r = MultipleRuns{
 --     model = RainModel,
---     parameters = {water = 10, rain = 20, finalTime = 1},
+--     parameters = {repeatScenario = {water = 10, rain = 20, finalTime = 1}},
 --     repetition = 10,
 --     showProgress = true
 -- }
@@ -511,7 +512,6 @@ metaTableMultipleRuns_ = {
 --     repetition = 2
 -- }
 --
--- -- This should run the model 10 times with the same parameters.
 -- -- Sample Example:
 -- MultipleRuns{
 --     model = RainModel,

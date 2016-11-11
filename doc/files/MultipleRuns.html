@@ -519,10 +519,11 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
 		<span class="reserved">return</span> <span class="string">"test"</span>
 	<span class="reserved">end</span>
 }
-<span class="comment">-- Repeated Example:</span>
+
+<span class="comment">-- This should run the model 10 times with the same parameters:</span>
 <span class="id">r</span> = <span class="function">MultipleRuns</span>{
     <span class="id">model</span> = <span class="id">RainModel</span>,
-    <span class="id">parameters</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>},
+    <span class="id">parameters</span> = {<span class="id">repeatScenario</span> = {<span class="id">water</span> = <span class="number">10</span>, <span class="id">rain</span> = <span class="number">20</span>, <span class="id">finalTime</span> = <span class="number">1</span>}},
     <span class="id">repetition</span> = <span class="number">10</span>,
     <span class="id">showProgress</span> = <span class="reserved">true</span>
 }
@@ -540,7 +541,6 @@ Some attributes of MultipleRuns have internal semantics. They can be used as <b>
     <span class="id">repetition</span> = <span class="number">2</span>
 }
 
-<span class="comment">-- This should run the model 10 times with the same parameters.</span>
 <span class="comment">-- Sample Example:</span>
 <span class="function">MultipleRuns</span>{
     <span class="id">model</span> = <span class="id">RainModel</span>,
@@ -724,7 +724,7 @@ Save the results of <a href=../files/MultipleRuns.html>MultipleRuns</a> to a CSV
 
 <span class="id">m</span> = <span class="function">MultipleRuns</span>{
      <span class="id">model</span> = <span class="id">MyModel</span>,
-     <span class="id">parameters</span> = {<span class="id">x</span> = <span class="number">2</span>},
+     <span class="id">parameters</span> = {<span class="id">scenario</span> = {<span class="id">x</span> = <span class="number">2</span>}},
      <span class="id">repetition</span> = <span class="number">3</span>,
  }
 
