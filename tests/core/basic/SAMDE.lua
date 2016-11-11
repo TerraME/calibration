@@ -66,7 +66,7 @@ local c4 = SAMDE{
 		return model.value
 end}
 
-local c5 = SAMDE{
+local c51 = SAMDE{
 	model = myModelSamde,
 	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{min = 1, max = 10, step = 0.3}},
 	size = 30,
@@ -76,7 +76,7 @@ local c5 = SAMDE{
 		return model.value
 end}
 
-local c5 = SAMDE{
+local c52 = SAMDE{
 	model = myModelSamde,
 	parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{2,3,4,9}},
 	size = 30,
@@ -132,9 +132,12 @@ return{
 	unitTest:assertEquals(c4.fit, 4, 1)
 	unitTest:assertEquals(c4.instance.x, 1, 1)
 	unitTest:assertEquals(c4.instance.y, 1, 1)
-	unitTest:assertEquals(c5.fit, 5, 1)
-	unitTest:assertEquals(c5.instance.x, 1, 1)
-	unitTest:assertEquals(c5.instance.y, 2, 1)
+	unitTest:assertEquals(c51.fit, 5, 1)
+	unitTest:assertEquals(c51.instance.x, 1, 1)
+	unitTest:assertEquals(c51.instance.y, 2, 1)
+	unitTest:assertEquals(c52.fit, 5, 1)
+	unitTest:assertEquals(c52.instance.x, 1, 1)
+	unitTest:assertEquals(c52.instance.y, 2, 1)
 	unitTest:assertEquals(c6.fit, 67, 1)
 	unitTest:assertEquals(c6.instance.x, 6, 1)
 	unitTest:assertEquals(c6.instance.y, 9, 1)

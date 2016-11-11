@@ -18,11 +18,11 @@ randomModel = function(unitTest)
 			}
 	local rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
-	local rParam = {
+	rParam = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = 5
 			}
-	local rs = randomModel(MyModel, rParam)
+	rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
 end,
 -- These are error verification functions so it's impossible to test it without veryfing the errors,
@@ -41,26 +41,12 @@ checkParametersRange = function(unitTest)
 	unitTest:assertEquals(x, 2)
 end,
 checkParameterSingle = function(unitTest)
-	local parameters = {x = Choice{-100, 2}}
+	-- parameters = {x = Choice{-100, 2}}
     checkParameterSingle(MyModel, "x", 2, 2)
     local x = 2
 	unitTest:assertEquals(x, 2)
 end,
-sensitivityAnalysisOutput = function(unitTest)
-	local m = MultipleRuns{
-		model = MyModel,
-		strategy = "factorial",
-		parameters = {
-			x = Choice{-100, -1, 0, 1, 2, 100},
-			y = Choice{min = 1, max = 10, step = 1},
-			finalTime = 1
-		 },
-		additionalF = function(model)
-			return "test"
-		end,
-		output = {"value"}
-	}
-end,
+
 cloneValues = function(unitTest)
 	local original = {x = 42}
 	local copy = clone(original)

@@ -1,5 +1,3 @@
-local s = package.config:sub(1, 1)
-
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -384,7 +382,7 @@ return{
 					scenario2 = {x = 1, y = 3}
 				 },
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end
@@ -399,7 +397,7 @@ return{
 					scenario2 = {parameters3 = {x = 1, y = 3}}
 		 		},
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end
@@ -413,7 +411,7 @@ return{
 					parameters3 = {x = Choice{1,2,3}, y = 5}
 		 		},
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end
@@ -427,7 +425,7 @@ return{
 					parameters3 = {x = 2, y = 5}
 		 		},
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end
@@ -441,7 +439,7 @@ return{
 					parameters3 = {x = 2, y = 5}
 		 		},
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end
@@ -455,7 +453,7 @@ return{
 					parameters3 = {x = {0,1,2}, y = 5}
 		 		},
 				output = {"value"},
-				additionalF = function(model)
+				additionalF = function(_)
 					return "test"
 			end}
 		end

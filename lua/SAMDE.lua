@@ -243,7 +243,7 @@ local maxDiversity = function(pop, dim, maxPopulation, varMatrix, paramListInfo)
 	end
 
 	for i = 2, maxPopulation do
-		local vector = pop[i]
+		vector = pop[i]
 		for j = 1, dim do
 			if(vector[j] > varMax[j]) then
 				varMax[j] = vector[j]
@@ -269,7 +269,7 @@ end
 -- to calibrate a model according to a fit function,
 -- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
 -- generations = number of generations it took to the genetic algorithm reach this model}.
-local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold, parameters)
+local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold)
 	local varMatrix = {}
 	local paramList = {}
 	local dim = 0
@@ -309,7 +309,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 				paramListInfo[#paramListInfo].group = true
 				paramListInfo[#paramListInfo].proportion = {}
 				table.insert(varMatrix, attribute.values)
-				forEachOrderedElement(attribute.values, function(idx2, att2, typ2)
+				forEachOrderedElement(attribute.values, function(idx2, att2, _)
 					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values)
 				end)
 			end
@@ -324,7 +324,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 		size = #paramList * 10
 	end
 
-	local pop = {}
+	local pop
 	local costPop = {}
 	local maxPopulation = size
 	pop = initPop(maxPopulation, dim, paramList, modelParameters)
@@ -386,7 +386,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 			local crPos = fPos + 1;
 			params[crPos] = repareP(solution1[dim + crPos] + F * (solution2[dim + crPos] - solution3[dim + crPos]))
 			local rand4 = g4Rand(j, maxPopulation)
-			local solution1, solution2, solution3, solution4
+			local solution4
 			solution1 = pop[rand4[1]]
 			solution2 = pop[rand4[2]]
 			solution3 = pop[rand4[3]]
@@ -509,7 +509,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	for i=1, dim do
 		bestVariablesChoice[paramList[i]] = bestInd[i]
 	end
-	forEachOrderedElement(singleParameters, function ( idx, att, typ)
+	forEachOrderedElement(singleParameters, function (idx, att)
 		bestVariablesChoice[idx] = att
 	end)
 	
@@ -556,7 +556,7 @@ local function checkParameters(tModel, tParameters)
 					if type(mandArg) ~= nil then
 						if type(mandArg) == "table" then
 							mandatory = true
-							forEachOrderedElement(mandArg, function(idx3, att3, typ3)
+							forEachOrderedElement(mandArg, function(_, _, typ3)
 								if typ3 ~= att.value then
 									mandatory = false
 								end
@@ -570,7 +570,7 @@ local function checkParameters(tModel, tParameters)
 								end
 							else
 								mandatory = true
-								forEachOrderedElement(mandArg.values, function(idx3, att3, typ3)
+								forEachOrderedElement(mandArg.values, function(_, _, typ3)
 									if typ3 ~= att.value then
 										mandatory = false
 									end
@@ -594,7 +594,7 @@ local function checkParameters(tModel, tParameters)
 					-- 	end
 					-- end)
 				elseif mtype == "table" then
-					forEachOrderedElement(att, function(idxt, attt, typt)
+					forEachOrderedElement(att, function(idxt, attt)
 						if tParameters.parameters[idx] ~= nil then
 							Param = tParameters.parameters[idx][idxt]
 						end
@@ -681,13 +681,12 @@ function SAMDE(data)
 	end
 
 	checkParameters(data.model, data)
-	local best = {fit, instance, generations}
 	if data.maximize == nil then
 		data.maximize = false
 	end
-
-	best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
-	forEachOrderedElement(best, function(idx, att, type)
+	-- best = {fit, instance, generations}
+	local best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
+	forEachOrderedElement(best, function(idx, att)
 		data[idx] = att
 	end)
 	setmetatable(data, metaTableSAMDE_)

@@ -159,7 +159,7 @@ end
 -- print(err) -- Error: Parameter 3 in #3 is out of the model x range.
 function checkParametersSet(model, idx, parameters, tableName) 
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
-	forEachOrderedElement(parameters.values, function(idx2, att2, type2)
+	forEachOrderedElement(parameters.values, function(idx2, att2)
 		checkParameterSingle(model, idx, idx2, att2, tableName)
 	end)
 end
@@ -212,7 +212,6 @@ end
 function randomModel(tModel, tParameters)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
-	local Params = {}
 	local sampleParams = {}
 	forEachOrderedElement(tParameters, function (idx, attribute, atype)
 		if atype == "Choice" then
@@ -236,162 +235,4 @@ function randomModel(tModel, tParameters)
 	local m = tModel(sampleParams)
 	m:run()
 	return m
-end
-
--- Function that test the model and saves a results table with the model input and output
--- for OFAT/OLS Sensitivity Analysis
--- @arg data The table of all the parameters necessary to use a multipleRuns model,
--- the parameters defined here will be used as the default parameter for the OFAT analysis.
--- @arg testParammeters A table with all the parameters to be analysed, with the parameter test range and number of
--- samples from this range. If no number of points is set, test all possible combinations.
--- @arg tableName the name of the csv with the input/output results (Default: "results")
--- @arg separator the separator to be used by the csv file. (Default: ";")
--- @usage
--- import("calibration")
--- import("ca")
--- abm = Wolfram
--- testParameters = {rule = {parameter = Choice{min = 0, max = 255}, points = 11}}
--- referenceData = {
---     folderName = tmpDir(),
---     repeats = 2,
---     model = abm,
---     -- hideGraphs = true,
---     -- If this is true, observers are turned off but model does not work. I think this is a bug in terrame disableGraphs().
---     parameters = {rule = Choice{0,10,25,50, 125, 200}},
---     output = function ( model )
---         counter = 0
---         forEachOrderedElement(model.cs.cells, function(id, at, ty)
---             if at.state == "alive" then
---                 counter = counter + 1
---             end
---         end)
---         return counter
---     end
--- }
-
--- Find Proportion function
-local fP = function(idx, group)
-	local size = #group
-	if size > 1 then
-		return (idx / size)
-	else
-		return 1
-	end
-end
-
-local aproxGroup 
-aproxGroup = function(proportion, group)
-	local max = group[#group]
-	local min = group[1]
-	local size = #group
-	local share = 1 / size
-	local i = 1
-	if size == 1 then
-		return group[1]
-
-	else
-		if proportion < 0 or proportion > 1 then
-			if rand:number() < 0.5 then
-				local result = aproxGroup(rand:number(), varMatrix, k)
-				return result
-			else
-				if proportion < 0 then
-					return min
-				else
-					return max
-				end
-			end
-		end
-
-		while proportion > share * i do
-			i = i + 1
-		end
-
-		if proportion - (share * (i - 1)) > share / 2 and i ~= size then
-			return group[i + 1]
-		else
-			return group[i]
-		end
-	end
-end
-
---- Internal function to create the output from a sensitivity analysis.
--- @arg data The reference data.
--- @arg testParameters The test parameters.
--- @arg tableName Name of the table.
--- @arg separator The separator.
--- @usage -- DONTRUN
--- sensivityTest = sensitivityAnalysisOutput(referenceData, testParameters)
-function sensitivityAnalysisOutput(data, testParameters, tableName, separator)
-	mandatoryArgument(1, "table", data)
-	mandatoryArgument(2, "table", testParameters)
-	if tableName == nil then
-		tableName = "results"
-		separator = ";"
-	else
-		mandatoryArgument(4, "string", separator)
-	end
-
-	if data.strategy == nil then
-		data.strategy = "factorial"
-	end
-
-	forEachOrderedElement(testParameters, function(parameter, att, typ)
-		rangePoints = {}
-		attChoice = att.parameter
-		if attChoice.min ~= nil or attChoice.max ~= nil then
-			mandatoryTableArgument(attChoice, "min", "number")
-			mandatoryTableArgument(attChoice, "max", "number")
-			if att.points ~= nil then
-				mandatoryTableArgument(att, "points", "number")
-				
-				if att.random == true then
-					for i = 1, (att.points - 1) do
-			   			rangePoints[i] = attChoice:sample()
-					end
-				else
-					rangePoints[1] = attChoice.min
-					for i = 2, (att.points - 1) do
-			   			rangePoints[i] = attChoice.min + math.floor( i * (attChoice.max - attChoice.min) / (att.points))  
-					end
-
-					rangePoints[att.points] = attChoice.max
-				end
-			else
-				rangePoints = Choice{min = att.min,max = att.max, step = att.step}
-			end
-
-		elseif attChoice.values ~= nil then
-			mandatoryTableArgument(attChoice, "values", "table")  
-			if att.points ~= nil then
-				if att.random == true then
-					for i = 1, att.points do
-						rangePoints[i] = attChoice:sample()
-					end
-				else
-					mandatoryTableArgument(att, "points", "number")
-					local size = #attChoice.values
-					if att.points > size then
-						customError("the number ("..att.points..") of test points in parameter "..parameter.." must not exceed the number ("..size..") of values in the test parameter Choice table")
-					end
-
-					for i = 1, att.points do
-						rangePoints[i] = aproxGroup(i/att.points, attChoice.values)
-					end
-				end
-			else
-				rangePoints = attChoice.values
-			end
-		else
-			customError("testParameter["..parameter.."] does not have a 'max'/'min' range or a table of 'values'")
-		end
-
-		referenceParameter = data.parameters[parameter]
-		data.parameters[parameter] = Choice(rangePoints)
-	    sensivityTest = MultipleRuns(data)
-	    sensivityTest:saveCSV(tableName.."["..parameter.."]", separator)
-	    data.parameters[parameter] = rangePoints
-	end)
-
-	
 end
