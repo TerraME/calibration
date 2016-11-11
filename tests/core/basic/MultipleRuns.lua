@@ -81,7 +81,7 @@ get = function (unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -100,7 +100,7 @@ saveCSV = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -122,7 +122,7 @@ MultipleRuns = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -136,7 +136,7 @@ MultipleRuns = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -149,7 +149,7 @@ MultipleRuns = function(unitTest)
 			y2 = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -193,7 +193,7 @@ MultipleRuns = function(unitTest)
 			z = 1,
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -206,7 +206,7 @@ MultipleRuns = function(unitTest)
 			scenario2 = {x = 1, y = 3}
 		 },
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
@@ -223,7 +223,7 @@ MultipleRuns = function(unitTest)
 		parameters = {scenario1 = {x = 2, y = 5}},
 		repetition = 3,
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
@@ -242,7 +242,7 @@ MultipleRuns = function(unitTest)
 		 },
 		quantity = 5,
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
