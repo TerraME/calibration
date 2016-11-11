@@ -379,24 +379,31 @@ MultipleRuns_ = {
 	-- @arg separator The chosen separator to be used in the CSV file.
 	-- @usage
 	-- import("calibration")
-	-- MyModel = Model{
-	--     x = Choice{-100, -1, 0, 1, 2, 100},
-	--     finalTime = 1,
-	--     init = function(self)
-	--         self.timer = Timer{
-	--             Event{action = function()
-	--                 self.value = x
-	--             end}
-	--         }
-	--      end
+	-- local MyModel = Model{
+	-- 	x = Choice{-100, -1, 0, 1, 2, 100},
+	-- 	y = Choice{min = 1, max = 10, step = 1},
+	-- 	finalTime = 1,
+	-- 	init = function(self)
+	-- 		self.timer = Timer{
+	-- 			Event{action = function()
+	-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+	-- 			end}
+	-- 		}
+	-- 	end
 	-- }
-	--
-	-- m = MultipleRuns{
-	--      model = MyModel,
-	--      parameters = {scenario = {x = 2}},
-	--      repetition = 3,
-	--  }
-	--
+	-- local m = MultipleRuns{
+	-- 	model = MyModel,
+	-- 	strategy = "factorial",
+	-- 	parameters = {
+	-- 		x = Choice{-100, -1, 0, 1, 2, 100},
+	-- 		y = Choice{min = 1, max = 10, step = 1},
+	-- 		finalTime = 1
+	-- 	 },
+	-- 	additionalF = function(_)
+	-- 		return "test"
+	-- 	end,
+	-- 	output = {"value"}
+	-- }
 	-- -- Saves MultipleRuns results:
 	-- m:saveCSV("myCSVFile", ";")
 	saveCSV = function(self, name, separator)
