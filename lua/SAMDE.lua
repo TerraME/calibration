@@ -12,7 +12,7 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 		solution[paramList[i]] = ind[i]
 	end
 
-	forEachOrderedElement(singleParameters, function (idx, att, typ)		
+	forEachOrderedElement(singleParameters, function (idx, att, _)		
 		solution[idx] = att
 	end) 
 
@@ -22,10 +22,10 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
 	return err
 end
 
-local initPop = function(popTam, varMatrix, dim, paramList, paramInfo, parameters)
+local initPop = function(popTam, dim, paramList, parameters)
 	-- print("initializing population ...");
 	local popInit = {}
-	for i = 1, popTam do
+	for _ = 1, popTam do
 		local ind = {}
 		for j = 1, dim do
 			local value
@@ -33,7 +33,7 @@ local initPop = function(popTam, varMatrix, dim, paramList, paramInfo, parameter
 			table.insert(ind, value)
 		end
 
-		for j = (dim + 1), (dim + NUMEST * PARAMETERS) do
+		for _ = (dim + 1), (dim + NUMEST * PARAMETERS) do
 			local value = rand:number()
 			table.insert(ind, value)
 		end
@@ -119,8 +119,8 @@ local oobTrea = function(xi, varMatrix, k, step, stepValue)
 	local maxVar = lim[2]
 	local x = xi
 	if step == nil then
-		local stepValue = 0
-		local step = false
+		stepValue = 0
+		step = false
 	end
 
 	if(x < minVar) then
@@ -327,7 +327,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	local pop = {}
 	local costPop = {}
 	local maxPopulation = size
-	pop = initPop(maxPopulation, varMatrix, dim, paramList, paramListInfo, modelParameters)
+	pop = initPop(maxPopulation, dim, paramList, modelParameters)
 	local bestCost = evaluate(pop[1], dim, model, paramList, fit, singleParameters)
 	local bestInd = copy(pop[1])
 	table.insert(costPop, bestCost)
