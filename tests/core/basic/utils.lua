@@ -25,7 +25,7 @@ randomModel = function(unitTest)
 	rs = randomModel(MyModel, rParam)
 	unitTest:assertEquals(type(rs.value), "number")
 end,
--- These are error verification functions so it's impossible to test it without veryfing the errors,
+-- These are error verification functions so it's impossible to properly test them without veryfing the errors,
 -- these functions verification are tested in the multipleRuns ans SaMDE alternative tests.
 checkParametersSet = function(unitTest)
 	local parameters = {x = Choice{-100, 1, 0}}
