@@ -78,24 +78,6 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
-				parameters = {x = Choice{min=1, max=10, step=1}, y = 5},
-				repetition = 3,
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter x should not be a range of values")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				parameters = {x = 1, y = Choice{min = 5, step = 1}},
-				repetition = 3,
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func,"Attribute 'step' requires 'max' and 'min'.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
 				parameters = {x = Choice{1, 2},
 				 y =Choice{1,5},
 				  p = "extra"},
@@ -258,60 +240,6 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
-				parameters = {x = Choice{min = 2, max = 5, step = 1}, y = Choice{min = 2, max = 5, step = 1}},
-				output = {"value"}}
-		end
-
-		unitTest:assertError(error_func, "Parameter x should not be a range of values")
-			error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter y must have min and max values")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 0, max = 10, step = 1}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
-			error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 11, step = 1}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 0.5}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter y step is out of the model range.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1.5, max = 9.5, step = 1}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 				output = {"value"}}
 			m:get("a")
@@ -348,42 +276,6 @@ return{
 		end
 		
 		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel2,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter -100 in #1 is smaller than x min value")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 100}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter 100 in #2 is bigger than y max value")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{1, 1.5}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter 1.5 in #2 is out of y range")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{2.5, 3}},
-				output = {"value"}}
-		end
-		
-		unitTest:assertError(error_func, "Parameter 2.5 in #1 is out of y range")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,

@@ -10,6 +10,35 @@ local MyModel = Model{
 	}
 	end
 }
+local MyModel3 = Model{
+	parameters3 = {
+		x = Choice{-100, -1, 0, 1, 2, 100, 200},
+		y = Choice{min = 1, max = 10, step = 1},
+		z = Choice{-50, -3, 0, 1, 2, 50}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
+			end}
+	}
+end
+}
+local MyModelPosition = Model{
+	position = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
+			end}
+	}
+	end
+}
 return{
 randomModel = function(unitTest)
 	local rParam = {
@@ -39,6 +68,65 @@ checkParametersRange = function(unitTest)
     checkParametersRange(MyModel, "y", parameters.y)
     local x = 2
 	unitTest:assertEquals(x, 2)
+	local mPosition = MultipleRuns{
+		model = MyModelPosition,
+		parameters = {
+			position = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1}},
+			finalTime = 1
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mPosition2 = MultipleRuns{
+		model = MyModelPosition,
+		strategy = "selected",
+		parameters = {
+			scenario1 = {
+				position = {
+					x = -100,
+					y = 1
+				},
+				finalTime = 1
+			},
+			scenario2 = {
+				position = {
+					x = 100,
+					y = 2
+				},
+				finalTime = 1
+			}
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local m4Tab = MultipleRuns{
+		model = MyModel3,
+		strategy = "sample",
+		parameters = {
+			parameters3 = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				z = 1
+			},
+		},
+		quantity = 5,
+		repetition = 2,
+		output = {"value"}
+	}
+	unitTest:assert(m4Tab:get(5).simulations == "1_execution_5")
+	unitTest:assertEquals(m4Tab:get(6).simulations, "2_execution_1")
+	unitTest:assertEquals(m4Tab:get(1).simulations, "1_execution_1")
+	unitTest:assertEquals(mPosition2:get(1).position.x, -100)
+	unitTest:assertEquals(mPosition2:get(1).position.y, 1)
+	unitTest:assertEquals(mPosition:get(1).position.x, -100)
+	unitTest:assertEquals(mPosition:get(1).position.y, 1)
+	unitTest:assertEquals(mPosition:get(1).simulations, 'finalTime_1_position_x_-100_position_y_1_')
 end,
 checkParameterSingle = function(unitTest)
 	-- parameters = {x = Choice{-100, 2}}
