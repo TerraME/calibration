@@ -261,12 +261,12 @@ multiLevel = function(data)
 	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)
 	local fitChart = Cell{sqrFit = fitnessSum}
 	if data.graphics == true then
-		Chart{
-			title = "MultiLevel Results",
-			target = fitChart,
-		 	select = {"sqrFit"}
-		}
-		fitChart:notify(0)
+		Chart{ --SKIP
+			title = "MultiLevel Results", --SKIP
+			target = fitChart, --SKIP
+		 	select = {"sqrFit"} --SKIP
+		} --SKIP
+		fitChart:notify(0) --SKIP
 	end
 
 	if data.continuous == true then
@@ -275,8 +275,8 @@ multiLevel = function(data)
 			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
 				if data.graphics == true then
-					fitChart.sqrFit = fitSquare
-					fitChart:notify(i)
+					fitChart.sqrFit = fitSquare --SKIP
+					fitChart:notify(i) --SKIP
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
@@ -290,8 +290,8 @@ multiLevel = function(data)
 			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute) 
 			if fitSquare ~= -1 then
 				if data.graphics == true then
-					fitChart.sqrFit = fitSquare
-					fitChart:notify(i)
+					fitChart.sqrFit = fitSquare --SKIP
+					fitChart:notify(i) --SKIP
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))

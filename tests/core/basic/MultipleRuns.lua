@@ -154,6 +154,19 @@ MultipleRuns = function(unitTest)
 		end,
 		output = {"value"}
 	}
+	local mMandChoiceTable = MultipleRuns{
+		model = MyModel2,
+		strategy = "factorial",
+		parameters = { 
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y2 = Choice{1,2,3,4,5},
+			finalTime = 1
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
 	local mTab = MultipleRuns{
 		model = MyModel3,
 		strategy = "factorial",
@@ -279,6 +292,8 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(mQuant:get(61).simulations, '2_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mMan:get(1).x, -100)
 	unitTest:assertEquals(mMan:get(1).y2, 1)
+	unitTest:assertEquals(mMandChoiceTable:get(1).x, -100)
+	unitTest:assertEquals(mMandChoiceTable:get(1).y2, 1)
 	unitTest:assertEquals(mMan:get(1).simulations, 'finalTime_1_x_-100_y2_1_')
 	unitTest:assertEquals(mTab:get(1).parameters3.x, -100)
 	unitTest:assertEquals(mTab:get(1).parameters3.y, 1)

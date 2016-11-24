@@ -76,14 +76,7 @@ local function checkParameters(origModel, origParameters)
 					local mandatory = false
 					local mandArg = origParameters.parameters[idx]
 					if type(mandArg) ~= nil then
-						if type(mandArg) == "table" then
-							mandatory = true
-							forEachOrderedElement(mandArg, function(_, _, typ3)
-								if typ3 ~= att.value then
-									mandatory = false
-								end
-							end)
-						elseif type(mandArg) == att.value then
+						if type(mandArg) == att.value then
 								mandatory = true
 						elseif type(mandArg) == "Choice" then
 							if mandArg.max ~= nil or mandArg.min ~= nil then
@@ -94,7 +87,7 @@ local function checkParameters(origModel, origParameters)
 								mandatory = true
 								forEachOrderedElement(mandArg.values, function(_, _, typ3)
 									if typ3 ~= att.value then
-										mandatory = false
+										mandatory = false -- SKIP
 									end
 								end)
 							end
@@ -139,12 +132,19 @@ local function checkParameters(origModel, origParameters)
 			end
 	    end
 	end)
--- PLEASE DO NOT FORGET TO ADAPT THIS TO SELECT LATER
 	if origParameters.strategy ~= "selected" then
 		forEachOrderedElement(origParameters.parameters, function (idx, _, _)
 			if modelParametersSet[idx] == nil then
 				customError(idx.." is unnecessary.")
 			end
+		end)
+	else
+		forEachOrderedElement(origParameters.parameters, function (_, att, _)
+			forEachOrderedElement(att, function (idx, _, _)
+				if modelParametersSet[idx] == nil then
+					customError(idx.." is unnecessary.")
+				end
+			end)
 		end)
 	end
 end
@@ -303,9 +303,9 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				end)
 				local testDir = currentDir()
 				if folderName then
-					dir = Directory(stringSimulations)
-					dir:create()
-					Directory(testDir..s..stringSimulations):setCurrentDir()
+					dir = Directory(stringSimulations) 
+					dir:create() 
+					Directory(testDir..s..stringSimulations):setCurrentDir() 
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
@@ -585,7 +585,6 @@ function MultipleRuns(data)
 		forEachOrderedElement(data.parameters, function (_, att, typ)
 			if typ == "table" then
 				forEachOrderedElement(att, function (_, _, typ2)
-
 					if typ2 == "Choice" then
 						choiceStr = true
 					end
@@ -662,8 +661,13 @@ function MultipleRuns(data)
 	data.output = nil
 
 	--If hideGraphs is true, hide Map and Chart graphs during models execution
+	if data.hideGraphs == nil then
+		data.hideGraphs = true -- SKIP
+	end
+
+
 	if data.hideGraphs == true then
-		disableGraphics()
+		disableGraphics() -- SKIP
 	end
 
 	local params = {} 
@@ -846,7 +850,7 @@ function MultipleRuns(data)
 
 	firstDir:setCurrentDir()
 	if data.hideGraphs == true then
-		enableGraphics()
+		enableGraphics() -- SKIP
 	end
 
 	data.outputVariables = nil

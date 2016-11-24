@@ -676,8 +676,12 @@ function SAMDE(data)
 	end
 
 	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"})
+	if data.hideGraphs == nil then
+		data.hideGraphs = true -- SKIP
+	end
+
 	if data.hideGraphs == true then
-		disableGraphics()
+		disableGraphics() -- SKIP
 	end
 
 	checkParameters(data.model, data)
@@ -689,6 +693,9 @@ function SAMDE(data)
 	forEachOrderedElement(best, function(idx, att)
 		data[idx] = att
 	end)
+	if data.hideGraphs == true then
+		enableGraphics() -- SKIP
+	end
 	setmetatable(data, metaTableSAMDE_)
 	return data
 end
