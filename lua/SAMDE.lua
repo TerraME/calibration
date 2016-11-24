@@ -1,702 +1,702 @@
--------------------------------------------------------------
-----                 Algorithm SaMDE                     ----
-----           Implement by: Rodolfo A. Lopes            ----
-----    Adapted for TerraME by Antonio G. O. Junior      ----
--------------------------------------------------------------
-local rand = Random()
-local NUMEST = 4
-local PARAMETERS = 3
-local evaluate = function(ind, dim, model, paramList, fit, singleParameters)
-	local solution = {}
-	for i = 1, dim do
-		solution[paramList[i]] = ind[i]
-	end
+------------------------------------------------------------- --SKIP
+----                 Algorithm SaMDE                     ---- --SKIP
+----           Implement by: Rodolfo A. Lopes            ---- --SKIP
+----    Adapted for TerraME by Antonio G. O. Junior      ---- --SKIP
+------------------------------------------------------------- --SKIP
+local rand = Random() --SKIP
+local NUMEST = 4 --SKIP
+local PARAMETERS = 3 --SKIP
+local evaluate = function(ind, dim, model, paramList, fit, singleParameters) --SKIP
+	local solution = {} --SKIP
+	for i = 1, dim do --SKIP
+		solution[paramList[i]] = ind[i] --SKIP
+	end --SKIP
 
-	forEachOrderedElement(singleParameters, function (idx, att, _)		
-		solution[idx] = att
-	end) 
+	forEachOrderedElement(singleParameters, function (idx, att, _)		 --SKIP
+		solution[idx] = att --SKIP
+	end)  --SKIP
 
-	local m = model(solution)
-	m:run()
-	local err = fit(m)
-	return err
-end
+	local m = model(solution) --SKIP
+	m:run() --SKIP
+	local err = fit(m) --SKIP
+	return err --SKIP
+end --SKIP
 
-local initPop = function(popTam, dim, paramList, parameters)
-	-- print("initializing population ...");
-	local popInit = {}
-	for _ = 1, popTam do
-		local ind = {}
-		for j = 1, dim do
-			local value
-			value = parameters[paramList[j]]:sample()
-			table.insert(ind, value)
-		end
+local initPop = function(popTam, dim, paramList, parameters) --SKIP
+	-- print("initializing population ..."); --SKIP
+	local popInit = {} --SKIP
+	for _ = 1, popTam do --SKIP
+		local ind = {} --SKIP
+		for j = 1, dim do --SKIP
+			local value --SKIP
+			value = parameters[paramList[j]]:sample() --SKIP
+			table.insert(ind, value) --SKIP
+		end --SKIP
 
-		for _ = (dim + 1), (dim + NUMEST * PARAMETERS) do
-			local value = rand:number()
-			table.insert(ind, value)
-		end
+		for _ = (dim + 1), (dim + NUMEST * PARAMETERS) do --SKIP
+			local value = rand:number() --SKIP
+			table.insert(ind, value) --SKIP
+		end --SKIP
 
-		table.insert(popInit, ind)
-	end
+		table.insert(popInit, ind) --SKIP
+	end --SKIP
 
-	return popInit
-end
+	return popInit --SKIP
+end --SKIP
 
-local g3Rand = function(i,popTam)
-	local rands = {}
-	local a,b,c
-	repeat
-		a = rand:integer(1, popTam)
-	until a ~= i
-	repeat
-		b = rand:integer(1, popTam)
-	until ( (a ~= b) and (b ~= i))
-	repeat
-		c = rand:integer(1, popTam)
-	until ( (a ~= c) and (b ~= c) and (c ~= i))
-	table.insert(rands, a)
-	table.insert(rands, b)
-	table.insert(rands, c)
-	return rands
-end
+local g3Rand = function(i,popTam) --SKIP
+	local rands = {} --SKIP
+	local a,b,c --SKIP
+	repeat --SKIP
+		a = rand:integer(1, popTam) --SKIP
+	until a ~= i --SKIP
+	repeat --SKIP
+		b = rand:integer(1, popTam) --SKIP
+	until ( (a ~= b) and (b ~= i)) --SKIP
+	repeat --SKIP
+		c = rand:integer(1, popTam) --SKIP
+	until ( (a ~= c) and (b ~= c) and (c ~= i)) --SKIP
+	table.insert(rands, a) --SKIP
+	table.insert(rands, b) --SKIP
+	table.insert(rands, c) --SKIP
+	return rands --SKIP
+end --SKIP
 
-local g4Rand = function(i, popTam)
-	local rands = {}
-	local a, b , c, d
-	repeat
-		a = rand:integer(1, popTam)
-	until a ~= i
-	repeat
-		b = rand:integer(1, popTam)
-	until ( (a ~= b) and (b ~= i))
-	repeat
-		c = rand:integer(1, popTam)
-	until ( (a ~= c) and (b ~= c) and (c ~= i))
-	repeat
-		d = rand:integer(1, popTam)
-	until ( (a ~= d) and (b ~= d) and (c ~= d) and (d ~= i))
-	table.insert(rands, a)
-	table.insert(rands, b)
-	table.insert(rands, c)
-	table.insert(rands, d)
-	return rands
-end
+local g4Rand = function(i, popTam) --SKIP
+	local rands = {} --SKIP
+	local a, b , c, d --SKIP
+	repeat --SKIP
+		a = rand:integer(1, popTam) --SKIP
+	until a ~= i --SKIP
+	repeat --SKIP
+		b = rand:integer(1, popTam) --SKIP
+	until ( (a ~= b) and (b ~= i)) --SKIP
+	repeat --SKIP
+		c = rand:integer(1, popTam) --SKIP
+	until ( (a ~= c) and (b ~= c) and (c ~= i)) --SKIP
+	repeat --SKIP
+		d = rand:integer(1, popTam) --SKIP
+	until ( (a ~= d) and (b ~= d) and (c ~= d) and (d ~= i)) --SKIP
+	table.insert(rands, a) --SKIP
+	table.insert(rands, b) --SKIP
+	table.insert(rands, c) --SKIP
+	table.insert(rands, d) --SKIP
+	return rands --SKIP
+end --SKIP
 
-local function copy(tab)
-	local result = {}
-	for i = 1, #tab do
-		table.insert(result, tab[i])
-	end
+local function copy(tab) --SKIP
+	local result = {} --SKIP
+	for i = 1, #tab do --SKIP
+		table.insert(result, tab[i]) --SKIP
+	end --SKIP
 
-	return result
-end
+	return result --SKIP
+end --SKIP
 
-local copyParameters = function(tab,dim)
-	local result = {}
-	for i = dim + 1, #tab do
-		table.insert(result, tab[i])
-	end
+local copyParameters = function(tab,dim) --SKIP
+	local result = {} --SKIP
+	for i = dim + 1, #tab do --SKIP
+		table.insert(result, tab[i]) --SKIP
+	end --SKIP
 
-	return result
-end
+	return result --SKIP
+end --SKIP
 
-local repareP = function(parameter)
-	local p = parameter
-	if( p < 0) then
-		p = - p
-	elseif ( p > 1) then
-		p = 2 * 1 - p
-	end
+local repareP = function(parameter) --SKIP
+	local p = parameter --SKIP
+	if( p < 0) then --SKIP
+		p = - p --SKIP
+	elseif ( p > 1) then --SKIP
+		p = 2 * 1 - p --SKIP
+	end --SKIP
 
-	return p
-end
+	return p --SKIP
+end --SKIP
 
-local oobTrea = function(xi, varMatrix, k, step, stepValue)
-	local lim = varMatrix[k]
-	local minVar = lim[1]
-	local maxVar = lim[2]
-	local x = xi
-	if step == nil then
-		stepValue = 0
-		step = false
-	end
+local oobTrea = function(xi, varMatrix, k, step, stepValue) --SKIP
+	local lim = varMatrix[k] --SKIP
+	local minVar = lim[1] --SKIP
+	local maxVar = lim[2] --SKIP
+	local x = xi --SKIP
+	if step == nil then --SKIP
+		stepValue = 0 --SKIP
+		step = false --SKIP
+	end --SKIP
 
-	if(x < minVar) then
-		if(rand:number() < 0.5) then
-			x = minVar
-		elseif step == true then
-			x = (2 * minVar - x)
-			x = x - ((x - minVar) % stepValue)
-		else
-			x = 2 * minVar - x;
-		end
-	end
+	if(x < minVar) then --SKIP
+		if(rand:number() < 0.5) then --SKIP
+			x = minVar --SKIP
+		elseif step == true then --SKIP
+			x = (2 * minVar - x) --SKIP
+			x = x - ((x - minVar) % stepValue) --SKIP
+		else --SKIP
+			x = 2 * minVar - x; --SKIP
+		end --SKIP
+	end --SKIP
 
-	if(x > maxVar) then
-		if(rand:number() < 0.5) then
-			x = maxVar
-		elseif step == true then
-			x = (2 * maxVar - x)
-			x = x - ((x - minVar) % stepValue)
-		else
-			x = 2 * maxVar - x
-		end
-	end
+	if(x > maxVar) then --SKIP
+		if(rand:number() < 0.5) then --SKIP
+			x = maxVar --SKIP
+		elseif step == true then --SKIP
+			x = (2 * maxVar - x) --SKIP
+			x = x - ((x - minVar) % stepValue) --SKIP
+		else --SKIP
+			x = 2 * maxVar - x --SKIP
+		end --SKIP
+	end --SKIP
 
-	return x
-end
+	return x --SKIP
+end --SKIP
 
--- Find Proportion function
-local fP = function(idx, group)
-	local size = #group
-	if size > 1 then
-		return (idx / size)
-	else
-		return 1
-	end
-end
+-- Find Proportion function --SKIP
+local fP = function(idx, group) --SKIP
+	local size = #group --SKIP
+	if size > 1 then --SKIP
+		return (idx / size) --SKIP
+	else --SKIP
+		return 1 --SKIP
+	end --SKIP
+end --SKIP
 
-local aproxGroup 
-aproxGroup = function(proportion, varMatrix, k)
-	local group = varMatrix[k]
-	local max = group[#group]
-	local min = group[1]
-	local size = #group
-	local share = 1 / size
-	local i = 1
-	if size == 1 then
-		return group[1]
+local aproxGroup  --SKIP
+aproxGroup = function(proportion, varMatrix, k) --SKIP
+	local group = varMatrix[k] --SKIP
+	local max = group[#group] --SKIP
+	local min = group[1] --SKIP
+	local size = #group --SKIP
+	local share = 1 / size --SKIP
+	local i = 1 --SKIP
+	if size == 1 then --SKIP
+		return group[1] --SKIP
 
-	else
-		if proportion < 0 or proportion > 1 then
-			if rand:number() < 0.5 then
-				local result = aproxGroup(rand:number(), varMatrix, k)
-				return result
-			else
-				if proportion < 0 then
-					return min
-				else
-					return max
-				end
-			end
-		end
+	else --SKIP
+		if proportion < 0 or proportion > 1 then --SKIP
+			if rand:number() < 0.5 then --SKIP
+				local result = aproxGroup(rand:number(), varMatrix, k) --SKIP
+				return result --SKIP
+			else --SKIP
+				if proportion < 0 then --SKIP
+					return min --SKIP
+				else --SKIP
+					return max --SKIP
+				end --SKIP
+			end --SKIP
+		end --SKIP
 
-		while proportion > share * i do
-			i = i + 1
-		end
+		while proportion > share * i do --SKIP
+			i = i + 1 --SKIP
+		end --SKIP
 
-		if proportion - (share * (i - 1)) > share / 2 and i ~= size then
-			return group[i + 1]
-		else
-			return group[i]
-		end
-	end
-end
+		if proportion - (share * (i - 1)) > share / 2 and i ~= size then --SKIP
+			return group[i + 1] --SKIP
+		else --SKIP
+			return group[i] --SKIP
+		end --SKIP
+	end --SKIP
+end --SKIP
 
-local normalize
-normalize = function(x, varMatrix, i, paramListInfo)
-	local interval = varMatrix[i]
-	local total
-	local value
-	local newValue
-	if paramListInfo[i].group == false then
-		total = interval[2] - interval[1]
-		value = x - interval[1]
-		if total == 0 then
-			total = 1
-		end
+local normalize --SKIP
+normalize = function(x, varMatrix, i, paramListInfo) --SKIP
+	local interval = varMatrix[i] --SKIP
+	local total --SKIP
+	local value --SKIP
+	local newValue --SKIP
+	if paramListInfo[i].group == false then --SKIP
+		total = interval[2] - interval[1] --SKIP
+		value = x - interval[1] --SKIP
+		if total == 0 then --SKIP
+			total = 1 --SKIP
+		end --SKIP
 
-		newValue = ((value * 100) / total) / 100
-	else
-		newValue = paramListInfo[i].proportion[x]
-	end
-	
-	return newValue
-end
+		newValue = ((value * 100) / total) / 100 --SKIP
+	else --SKIP
+		newValue = paramListInfo[i].proportion[x] --SKIP
+	end --SKIP
+	 --SKIP
+	return newValue --SKIP
+end --SKIP
 
-local distance = function(x, y, varMatrix, i, paramListInfo)
-	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo)
-	dist = math.abs(dist)
-	return dist
-end
+local distance = function(x, y, varMatrix, i, paramListInfo) --SKIP
+	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo) --SKIP
+	dist = math.abs(dist) --SKIP
+	return dist --SKIP
+end --SKIP
 
-local maxVector = function(vector, dim)
-	local valueMax = vector[1]
-	for i = 2, dim do
-		if(vector[i] > valueMax) then
-			valueMax = vector[i]
-		end
-	end
+local maxVector = function(vector, dim) --SKIP
+	local valueMax = vector[1] --SKIP
+	for i = 2, dim do --SKIP
+		if(vector[i] > valueMax) then --SKIP
+			valueMax = vector[i] --SKIP
+		end --SKIP
+	end --SKIP
 
-	return valueMax
-end
+	return valueMax --SKIP
+end --SKIP
 
-local maxDiversity = function(pop, dim, maxPopulation, varMatrix, paramListInfo)
-	local varMax = {}
-	local varMin = {}
-	local vector = pop[1]
-	for i = 1, dim do
-		table.insert(varMax, vector[i])
-		table.insert(varMin, vector[i])
-	end
+local maxDiversity = function(pop, dim, maxPopulation, varMatrix, paramListInfo) --SKIP
+	local varMax = {} --SKIP
+	local varMin = {} --SKIP
+	local vector = pop[1] --SKIP
+	for i = 1, dim do --SKIP
+		table.insert(varMax, vector[i]) --SKIP
+		table.insert(varMin, vector[i]) --SKIP
+	end --SKIP
 
-	for i = 2, maxPopulation do
-		vector = pop[i]
-		for j = 1, dim do
-			if(vector[j] > varMax[j]) then
-				varMax[j] = vector[j]
-			end
+	for i = 2, maxPopulation do --SKIP
+		vector = pop[i] --SKIP
+		for j = 1, dim do --SKIP
+			if(vector[j] > varMax[j]) then --SKIP
+				varMax[j] = vector[j] --SKIP
+			end --SKIP
 
-			if(vector[j] < varMin[j]) then
-				varMin[j] = vector[j]
-			end
-		end
-	end
+			if(vector[j] < varMin[j]) then --SKIP
+				varMin[j] = vector[j] --SKIP
+			end --SKIP
+		end --SKIP
+	end --SKIP
 
-	local dist = {}
-	for i = 1, dim do
-		local value = distance(varMax[i], varMin[i], varMatrix, i, paramListInfo)
-		table.insert(dist, value)
-	end
+	local dist = {} --SKIP
+	for i = 1, dim do --SKIP
+		local value = distance(varMax[i], varMin[i], varMatrix, i, paramListInfo) --SKIP
+		table.insert(dist, value) --SKIP
+	end --SKIP
 
-	local valueMax = maxVector(dist, dim)
-	return valueMax
-end
+	local valueMax = maxVector(dist, dim) --SKIP
+	return valueMax --SKIP
+end --SKIP
 
--- Function used by SAMDE type that implements the SaMDE genetic algorithm
--- to calibrate a model according to a fit function,
--- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
--- generations = number of generations it took to the genetic algorithm reach this model}.
-local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold)
-	local varMatrix = {}
-	local paramList = {}
-	local dim = 0
-	local paramListInfo = {}
-	local singleParameters = {}
-	forEachOrderedElement(modelParameters, function (idx, attribute, atype)
-		if atype == "Choice" then
-			table.insert(paramList, idx)
-			table.insert(paramListInfo, {})
-			if attribute.min ~= nil then
-				paramListInfo[#paramListInfo].group = false
-				if attribute.step ~= nil then
-					paramListInfo[#paramListInfo].step = true
-					paramListInfo[#paramListInfo].stepValue = attribute.step
-				else 
-					paramListInfo[#paramListInfo].step = false
-				end
+-- Function used by SAMDE type that implements the SaMDE genetic algorithm --SKIP
+-- to calibrate a model according to a fit function, --SKIP
+-- it returns a table with {fit = the best fitness value, instance = the instance of the best model, --SKIP
+-- generations = number of generations it took to the genetic algorithm reach this model}. --SKIP
+local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold) --SKIP
+	local varMatrix = {} --SKIP
+	local paramList = {} --SKIP
+	local dim = 0 --SKIP
+	local paramListInfo = {} --SKIP
+	local singleParameters = {} --SKIP
+	forEachOrderedElement(modelParameters, function (idx, attribute, atype) --SKIP
+		if atype == "Choice" then --SKIP
+			table.insert(paramList, idx) --SKIP
+			table.insert(paramListInfo, {}) --SKIP
+			if attribute.min ~= nil then --SKIP
+				paramListInfo[#paramListInfo].group = false --SKIP
+				if attribute.step ~= nil then --SKIP
+					paramListInfo[#paramListInfo].step = true --SKIP
+					paramListInfo[#paramListInfo].stepValue = attribute.step --SKIP
+				else  --SKIP
+					paramListInfo[#paramListInfo].step = false --SKIP
+				end --SKIP
 
-				if attribute.max ~=nil then
-					table.insert(varMatrix, {attribute.min, attribute.max})
-				else
-					table.insert(varMatrix, {attribute.min, math.huge()})
-				end
+				if attribute.max ~=nil then --SKIP
+					table.insert(varMatrix, {attribute.min, attribute.max}) --SKIP
+				else --SKIP
+					table.insert(varMatrix, {attribute.min, math.huge()}) --SKIP
+				end --SKIP
 
-			elseif attribute.max ~= nil then
-					paramListInfo[#paramListInfo].group = false
-					if attribute.step ~= nil then
-						paramListInfo[#paramListInfo].step = true
-						paramListInfo[#paramListInfo].stepValue = attribute.step
-					else 
-						paramListInfo[#paramListInfo].step = false
-					end
+			elseif attribute.max ~= nil then --SKIP
+					paramListInfo[#paramListInfo].group = false --SKIP
+					if attribute.step ~= nil then --SKIP
+						paramListInfo[#paramListInfo].step = true --SKIP
+						paramListInfo[#paramListInfo].stepValue = attribute.step --SKIP
+					else  --SKIP
+						paramListInfo[#paramListInfo].step = false --SKIP
+					end --SKIP
 
-					table.insert(varMatrix, { -1*math.huge(), attribute.max})
-			else
-				paramListInfo[#paramListInfo].step = false
-				paramListInfo[#paramListInfo].group = true
-				paramListInfo[#paramListInfo].proportion = {}
-				table.insert(varMatrix, attribute.values)
-				forEachOrderedElement(attribute.values, function(idx2, att2, _)
-					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values)
-				end)
-			end
+					table.insert(varMatrix, { -1*math.huge(), attribute.max}) --SKIP
+			else --SKIP
+				paramListInfo[#paramListInfo].step = false --SKIP
+				paramListInfo[#paramListInfo].group = true --SKIP
+				paramListInfo[#paramListInfo].proportion = {} --SKIP
+				table.insert(varMatrix, attribute.values) --SKIP
+				forEachOrderedElement(attribute.values, function(idx2, att2, _) --SKIP
+					paramListInfo[#paramListInfo].proportion[att2] = fP(idx2, attribute.values) --SKIP
+				end) --SKIP
+			end --SKIP
 
-			dim = dim + 1
-		else
-			singleParameters[idx] = attribute
-		end
-	end)
+			dim = dim + 1 --SKIP
+		else --SKIP
+			singleParameters[idx] = attribute --SKIP
+		end --SKIP
+	end) --SKIP
 
-	if size == nil then
-		size = #paramList * 10
-	end
+	if size == nil then --SKIP
+		size = #paramList * 10 --SKIP
+	end --SKIP
 
-	local pop
-	local costPop = {}
-	local maxPopulation = size
-	pop = initPop(maxPopulation, dim, paramList, modelParameters)
-	local bestCost = evaluate(pop[1], dim, model, paramList, fit, singleParameters)
-	local bestInd = copy(pop[1])
-	table.insert(costPop, bestCost)
-	for i = 2, maxPopulation do
-		local fitness = evaluate(pop[i], dim, model, paramList, fit, singleParameters)
-		table.insert(costPop, fitness)
-		if maximize == true then
-			if(fitness > bestCost) then
-				bestCost = fitness
-				bestInd = copy(pop[i])
-			end
-		else
-			if(fitness < bestCost) then
-				bestCost = fitness
-				bestInd = copy(pop[i])
-			end
-		end
-	end
+	local pop --SKIP
+	local costPop = {} --SKIP
+	local maxPopulation = size --SKIP
+	pop = initPop(maxPopulation, dim, paramList, modelParameters) --SKIP
+	local bestCost = evaluate(pop[1], dim, model, paramList, fit, singleParameters) --SKIP
+	local bestInd = copy(pop[1]) --SKIP
+	table.insert(costPop, bestCost) --SKIP
+	for i = 2, maxPopulation do --SKIP
+		local fitness = evaluate(pop[i], dim, model, paramList, fit, singleParameters) --SKIP
+		table.insert(costPop, fitness) --SKIP
+		if maximize == true then --SKIP
+			if(fitness > bestCost) then --SKIP
+				bestCost = fitness --SKIP
+				bestInd = copy(pop[i]) --SKIP
+			end --SKIP
+		else --SKIP
+			if(fitness < bestCost) then --SKIP
+				bestCost = fitness --SKIP
+				bestInd = copy(pop[i]) --SKIP
+			end --SKIP
+		end --SKIP
+	end --SKIP
 
-	local thresholdStop = false
-	local generationStop = false
-	local generation = 1
-	-- print("evolution population ...");
-	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo) > 0.001) and generationStop == false and thresholdStop == false) do
-		
-		local popAux = {}
-		for j = 1, maxPopulation do
-			local params = copyParameters(pop[j], dim)
-			local F = 0.7 + (rand:number() * 0.3)
-			local rands = g3Rand(j, maxPopulation)
-			local solution1, solution2, solution3
-			solution1 = pop[rands[1]]
-			solution2 = pop[rands[2]]
-			solution3 = pop[rands[3]]
-			for k = 1, NUMEST do
-				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k]))
-			end
-			
-			local sumV = 0.0
-			for k = 1, NUMEST do
-				sumV = sumV + params[k]
-			end
-			
-			local _rand = rand:number()
-			local p = 0
-			local winV = 0
-			for k = 1, NUMEST do
-				p = p + (params[k] / sumV)
-				if(_rand > p) then
-					winV = winV + 1
-				end
-			end
-			
-			local fPos = 1 + NUMEST + 2 * winV
-			params[fPos] = repareP(solution1[dim + fPos] + F * (solution2[dim + fPos] - solution3[dim + fPos]))
-			local crPos = fPos + 1;
-			params[crPos] = repareP(solution1[dim + crPos] + F * (solution2[dim + crPos] - solution3[dim + crPos]))
-			local rand4 = g4Rand(j, maxPopulation)
-			local solution4
-			solution1 = pop[rand4[1]]
-			solution2 = pop[rand4[2]]
-			solution3 = pop[rand4[3]]
-			solution4 = pop[rand4[4]]
-			local indexInd = pop[j]
-			local index = rand:integer(1, dim)
-			local ui = {}
-			for k = 1, dim do
-				if( rand:number() <= params[crPos] or k == index or winV == 3) then
-					local ui2
-					if paramListInfo[k].group == true then
-						local prop = paramListInfo[k].proportion
-						if( winV == 0) then -- rand\1
-							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]])
-						elseif (winV == 1) then -- best\1
-							ui2 = prop[bestInd[k]] + params[fPos] * (prop[solution1[k]] - prop[solution2[k]])
-						elseif (winV == 2) then -- rand\2
-							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) + params[fPos] * (prop[solution3[k]] - prop[solution4[k]])
-						elseif (winV == 3) then -- current-to-rand
-							ui2 = prop[indexInd[k]] + params[fPos] * (prop[solution1[k]] - prop[indexInd[k]]) + params[fPos] * (prop[solution2[k]] - prop[solution3[k]])
-						end
-					else
-						if( winV == 0) then -- rand\1
-							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
-						elseif (winV == 1) then -- best\1
-							ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k)
-						elseif (winV == 2) then -- rand\2
-							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k)
-						elseif (winV == 3) then -- current-to-rand
-							ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k)
-						end
-					end
+	local thresholdStop = false --SKIP
+	local generationStop = false --SKIP
+	local generation = 1 --SKIP
+	-- print("evolution population ..."); --SKIP
+	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo) > 0.001) and generationStop == false and thresholdStop == false) do --SKIP
+		 --SKIP
+		local popAux = {} --SKIP
+		for j = 1, maxPopulation do --SKIP
+			local params = copyParameters(pop[j], dim) --SKIP
+			local F = 0.7 + (rand:number() * 0.3) --SKIP
+			local rands = g3Rand(j, maxPopulation) --SKIP
+			local solution1, solution2, solution3 --SKIP
+			solution1 = pop[rands[1]] --SKIP
+			solution2 = pop[rands[2]] --SKIP
+			solution3 = pop[rands[3]] --SKIP
+			for k = 1, NUMEST do --SKIP
+				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k])) --SKIP
+			end --SKIP
+			 --SKIP
+			local sumV = 0.0 --SKIP
+			for k = 1, NUMEST do --SKIP
+				sumV = sumV + params[k] --SKIP
+			end --SKIP
+			 --SKIP
+			local _rand = rand:number() --SKIP
+			local p = 0 --SKIP
+			local winV = 0 --SKIP
+			for k = 1, NUMEST do --SKIP
+				p = p + (params[k] / sumV) --SKIP
+				if(_rand > p) then --SKIP
+					winV = winV + 1 --SKIP
+				end --SKIP
+			end --SKIP
+			 --SKIP
+			local fPos = 1 + NUMEST + 2 * winV --SKIP
+			params[fPos] = repareP(solution1[dim + fPos] + F * (solution2[dim + fPos] - solution3[dim + fPos])) --SKIP
+			local crPos = fPos + 1; --SKIP
+			params[crPos] = repareP(solution1[dim + crPos] + F * (solution2[dim + crPos] - solution3[dim + crPos])) --SKIP
+			local rand4 = g4Rand(j, maxPopulation) --SKIP
+			local solution4 --SKIP
+			solution1 = pop[rand4[1]] --SKIP
+			solution2 = pop[rand4[2]] --SKIP
+			solution3 = pop[rand4[3]] --SKIP
+			solution4 = pop[rand4[4]] --SKIP
+			local indexInd = pop[j] --SKIP
+			local index = rand:integer(1, dim) --SKIP
+			local ui = {} --SKIP
+			for k = 1, dim do --SKIP
+				if( rand:number() <= params[crPos] or k == index or winV == 3) then --SKIP
+					local ui2 --SKIP
+					if paramListInfo[k].group == true then --SKIP
+						local prop = paramListInfo[k].proportion --SKIP
+						if( winV == 0) then -- rand\1 --SKIP
+							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) --SKIP
+						elseif (winV == 1) then -- best\1 --SKIP
+							ui2 = prop[bestInd[k]] + params[fPos] * (prop[solution1[k]] - prop[solution2[k]]) --SKIP
+						elseif (winV == 2) then -- rand\2 --SKIP
+							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) + params[fPos] * (prop[solution3[k]] - prop[solution4[k]]) --SKIP
+						elseif (winV == 3) then -- current-to-rand --SKIP
+							ui2 = prop[indexInd[k]] + params[fPos] * (prop[solution1[k]] - prop[indexInd[k]]) + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) --SKIP
+						end --SKIP
+					else --SKIP
+						if( winV == 0) then -- rand\1 --SKIP
+							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
+						elseif (winV == 1) then -- best\1 --SKIP
+							ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k) --SKIP
+						elseif (winV == 2) then -- rand\2 --SKIP
+							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k) --SKIP
+						elseif (winV == 3) then -- current-to-rand --SKIP
+							ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
+						end --SKIP
+					end --SKIP
 
-					if paramListInfo[k].step == true then
-						local ui3
-						local step = paramListInfo[k].stepValue
-						local uiErr = ((ui2 - varMatrix[k][1]) % step)
-						if uiErr < (step / 2) then
-							ui3 = oobTrea((ui2 - uiErr), varMatrix, k, true, step)
-						else
-							ui3 = oobTrea((ui2 - uiErr) + step, varMatrix, k, true, step)
-						end
+					if paramListInfo[k].step == true then --SKIP
+						local ui3 --SKIP
+						local step = paramListInfo[k].stepValue --SKIP
+						local uiErr = ((ui2 - varMatrix[k][1]) % step) --SKIP
+						if uiErr < (step / 2) then --SKIP
+							ui3 = oobTrea((ui2 - uiErr), varMatrix, k, true, step) --SKIP
+						else --SKIP
+							ui3 = oobTrea((ui2 - uiErr) + step, varMatrix, k, true, step) --SKIP
+						end --SKIP
 
-						table.insert(ui, ui3)
-					elseif paramListInfo[k].group == true then
-						local ui3 = aproxGroup(ui2, varMatrix, k)
-						table.insert(ui, ui3)
-					else
-						table.insert(ui, ui2)
-					end
+						table.insert(ui, ui3) --SKIP
+					elseif paramListInfo[k].group == true then --SKIP
+						local ui3 = aproxGroup(ui2, varMatrix, k) --SKIP
+						table.insert(ui, ui3) --SKIP
+					else --SKIP
+						table.insert(ui, ui2) --SKIP
+					end --SKIP
 
-				else
-					table.insert(ui,indexInd[k])
-				end
-			end
-			
-			for k = 1, (NUMEST * PARAMETERS) do
-				if( rand:number() <= params[crPos] ) then
-					table.insert(ui, params[k])
-				else
-					table.insert(ui, indexInd[dim + k])
-				end
-			end
+				else --SKIP
+					table.insert(ui,indexInd[k]) --SKIP
+				end --SKIP
+			end --SKIP
+			 --SKIP
+			for k = 1, (NUMEST * PARAMETERS) do --SKIP
+				if( rand:number() <= params[crPos] ) then --SKIP
+					table.insert(ui, params[k]) --SKIP
+				else --SKIP
+					table.insert(ui, indexInd[dim + k]) --SKIP
+				end --SKIP
+			end --SKIP
 
-			local score = evaluate(ui, dim, model, paramList, fit, singleParameters)
-			if maximize == true then
-				if(score > costPop[j]) then
-					table.insert(popAux,copy(ui))
-					costPop[j] = score
-					if(score > bestCost) then
-						bestCost = score
-						bestInd = copy(ui)
-					end
+			local score = evaluate(ui, dim, model, paramList, fit, singleParameters) --SKIP
+			if maximize == true then --SKIP
+				if(score > costPop[j]) then --SKIP
+					table.insert(popAux,copy(ui)) --SKIP
+					costPop[j] = score --SKIP
+					if(score > bestCost) then --SKIP
+						bestCost = score --SKIP
+						bestInd = copy(ui) --SKIP
+					end --SKIP
 
-				else
-					table.insert(popAux, pop[j])
-				end
+				else --SKIP
+					table.insert(popAux, pop[j]) --SKIP
+				end --SKIP
 
-			else
-				if(score < costPop[j]) then
-					table.insert(popAux,copy(ui))
-					costPop[j] = score
-					if(score < bestCost) then
-						bestCost = score
-						bestInd = copy(ui)
-					end
+			else --SKIP
+				if(score < costPop[j]) then --SKIP
+					table.insert(popAux,copy(ui)) --SKIP
+					costPop[j] = score --SKIP
+					if(score < bestCost) then --SKIP
+						bestCost = score --SKIP
+						bestInd = copy(ui) --SKIP
+					end --SKIP
 
-				else
-					table.insert(popAux, pop[j])
-				end	
-			end
-		end
-		
-		-- print("best: " .. bestCost);
-		for j = 1, maxPopulation do
-			pop[j] = copy(popAux[j])
-		end
-		
-		if threshold ~= nil then 
-			if maximize == true then
-				if bestCost >= threshold then
-					thresholdStop = true
-				end
-			else
-				if bestCost <= threshold then
-					thresholdStop = true
-				end
-			end
-		end
+				else --SKIP
+					table.insert(popAux, pop[j]) --SKIP
+				end	 --SKIP
+			end --SKIP
+		end --SKIP
+		 --SKIP
+		-- print("best: " .. bestCost); --SKIP
+		for j = 1, maxPopulation do --SKIP
+			pop[j] = copy(popAux[j]) --SKIP
+		end --SKIP
+		 --SKIP
+		if threshold ~= nil then  --SKIP
+			if maximize == true then --SKIP
+				if bestCost >= threshold then --SKIP
+					thresholdStop = true --SKIP
+				end --SKIP
+			else --SKIP
+				if bestCost <= threshold then --SKIP
+					thresholdStop = true --SKIP
+				end --SKIP
+			end --SKIP
+		end --SKIP
 
-		generation = generation + 1
-		if maxGen ~= nil then
-			if generation > maxGen then
-				generationStop = true
-			end
-		end
-	end
+		generation = generation + 1 --SKIP
+		if maxGen ~= nil then --SKIP
+			if generation > maxGen then --SKIP
+				generationStop = true --SKIP
+			end --SKIP
+		end --SKIP
+	end --SKIP
 
-	local bestVariablesChoice = {}
-	for i=1, dim do
-		bestVariablesChoice[paramList[i]] = bestInd[i]
-	end
-	forEachOrderedElement(singleParameters, function (idx, att)
-		bestVariablesChoice[idx] = att
-	end)
-	
-	local bestInstance = model(bestVariablesChoice)
-	bestInstance:run()
+	local bestVariablesChoice = {} --SKIP
+	for i=1, dim do --SKIP
+		bestVariablesChoice[paramList[i]] = bestInd[i] --SKIP
+	end --SKIP
+	forEachOrderedElement(singleParameters, function (idx, att) --SKIP
+		bestVariablesChoice[idx] = att --SKIP
+	end) --SKIP
+	 --SKIP
+	local bestInstance = model(bestVariablesChoice) --SKIP
+	bestInstance:run() --SKIP
 
-	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation}
-	return finalTable
-end
+	local finalTable = {fit = bestCost, instance = bestInstance, generations = generation} --SKIP
+	return finalTable --SKIP
+end --SKIP
 
--- ========= SAMDE Type implemente by Antonio Gomes de Oliveira Junior =====
--- Function to be used by Calibration to check
--- if all possibilites of models can be instantiated before
--- starting to test the model.
--- @arg tModel A Paramater with the model to be instantiated.
--- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
-local function checkParameters(tModel, tParameters)
-	mandatoryArgument(1, "Model", tModel)
-	mandatoryTableArgument(tParameters, "parameters", "table")
-	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
-	-- range of values according to a Model.
-	forEachElement(tModel:getParameters(), function(idx, att, mtype)
-		if mtype ~= "function" then
-	    	if idx ~= "init" and idx ~= "seed" then
-				local Param = tParameters.parameters[idx]
-				if mtype == "Choice" then
-					if type(Param) == "Choice" then
-						-- if parameter in Multiple Runs/Calibration is a range of values
-			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
-			    			checkParametersRange(tModel, idx, Param)
-				    	else
-				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 checkParametersSet(tModel, idx, Param)
-				    	end
+-- ========= SAMDE Type implemente by Antonio Gomes de Oliveira Junior ===== --SKIP
+-- Function to be used by Calibration to check --SKIP
+-- if all possibilites of models can be instantiated before --SKIP
+-- starting to test the model. --SKIP
+-- @arg tModel A Paramater with the model to be instantiated. --SKIP
+-- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type. --SKIP
+local function checkParameters(tModel, tParameters) --SKIP
+	mandatoryArgument(1, "Model", tModel) --SKIP
+	mandatoryTableArgument(tParameters, "parameters", "table") --SKIP
+	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted --SKIP
+	-- range of values according to a Model. --SKIP
+	forEachElement(tModel:getParameters(), function(idx, att, mtype) --SKIP
+		if mtype ~= "function" then --SKIP
+	    	if idx ~= "init" and idx ~= "seed" then --SKIP
+				local Param = tParameters.parameters[idx] --SKIP
+				if mtype == "Choice" then --SKIP
+					if type(Param) == "Choice" then --SKIP
+						-- if parameter in Multiple Runs/Calibration is a range of values --SKIP
+			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then  --SKIP
+			    			checkParametersRange(tModel, idx, Param) --SKIP
+				    	else --SKIP
+				    	-- if parameter Multiple Runs/Calibration is a grop of values --SKIP
+				    		 checkParametersSet(tModel, idx, Param) --SKIP
+				    	end --SKIP
 
-				   	elseif type(Param) == "table" then
-				   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
-				   	end
+				   	elseif type(Param) == "table" then --SKIP
+				   		customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
+				   	end --SKIP
 
-				elseif mtype == "Mandatory" then
-					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
-					local mandatory = false
-					local mandArg = tParameters.parameters[idx]
-					if type(mandArg) ~= nil then
-						if type(mandArg) == "table" then
-							mandatory = true
-							forEachOrderedElement(mandArg, function(_, _, typ3)
-								if typ3 ~= att.value then
-									mandatory = false
-								end
-							end)
-						elseif type(mandArg) == att.value then
-								mandatory = true
-						elseif type(mandArg) == "Choice" then
-							if mandArg.max ~= nil or mandArg.min ~= nil then
-								if "number" == att.value then 
-									mandatory = true
-								end
-							else
-								mandatory = true
-								forEachOrderedElement(mandArg.values, function(_, _, typ3)
-									if typ3 ~= att.value then
-										mandatory = false
-									end
-								end)
-							end
-						end
-					end
+				elseif mtype == "Mandatory" then --SKIP
+					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type. --SKIP
+					local mandatory = false --SKIP
+					local mandArg = tParameters.parameters[idx] --SKIP
+					if type(mandArg) ~= nil then --SKIP
+						if type(mandArg) == "table" then --SKIP
+							mandatory = true --SKIP
+							forEachOrderedElement(mandArg, function(_, _, typ3) --SKIP
+								if typ3 ~= att.value then --SKIP
+									mandatory = false --SKIP
+								end --SKIP
+							end) --SKIP
+						elseif type(mandArg) == att.value then --SKIP
+								mandatory = true --SKIP
+						elseif type(mandArg) == "Choice" then --SKIP
+							if mandArg.max ~= nil or mandArg.min ~= nil then --SKIP
+								if "number" == att.value then  --SKIP
+									mandatory = true --SKIP
+								end --SKIP
+							else --SKIP
+								mandatory = true --SKIP
+								forEachOrderedElement(mandArg.values, function(_, _, typ3) --SKIP
+									if typ3 ~= att.value then --SKIP
+										mandatory = false --SKIP
+									end --SKIP
+								end) --SKIP
+							end --SKIP
+						end --SKIP
+					end --SKIP
 
-					if mandatory == false then
-						mandatoryTableArgument(tParameters.parameters, idx, att.value)
-					end
+					if mandatory == false then --SKIP
+						mandatoryTableArgument(tParameters.parameters, idx, att.value) --SKIP
+					end --SKIP
 
-					-- forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
-					-- 	if idx2 == idx then
-					-- 		mandatory = true
-					-- 		forEachOrderedElement(att2, function(idx3, att3, typ3)
-					-- 			if typ3 ~= att.value then
-					-- 				mandatory = false
-					-- 			end
-					-- 		end)
-					-- 	end
-					-- end)
-				elseif mtype == "table" then
-					forEachOrderedElement(att, function(idxt, attt)
-						if tParameters.parameters[idx] ~= nil then
-							Param = tParameters.parameters[idx][idxt]
-						end
-						
-						if type(Param) == "Choice" then
-							-- if parameter in Multiple Runs/Calibration is a range of values
-				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
-				    			checkParametersRange(tModel, idxt, Param, idx)
-					    	else
-					    	-- if parameter Multiple Runs/Calibration is a grop of values
-					    		 checkParametersSet(tModel, idxt, Param, idx)
-					    	end
+					-- forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2) --SKIP
+					-- 	if idx2 == idx then --SKIP
+					-- 		mandatory = true --SKIP
+					-- 		forEachOrderedElement(att2, function(idx3, att3, typ3) --SKIP
+					-- 			if typ3 ~= att.value then --SKIP
+					-- 				mandatory = false --SKIP
+					-- 			end --SKIP
+					-- 		end) --SKIP
+					-- 	end --SKIP
+					-- end) --SKIP
+				elseif mtype == "table" then --SKIP
+					forEachOrderedElement(att, function(idxt, attt) --SKIP
+						if tParameters.parameters[idx] ~= nil then --SKIP
+							Param = tParameters.parameters[idx][idxt] --SKIP
+						end --SKIP
+						 --SKIP
+						if type(Param) == "Choice" then --SKIP
+							-- if parameter in Multiple Runs/Calibration is a range of values --SKIP
+				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then --SKIP
+				    			checkParametersRange(tModel, idxt, Param, idx) --SKIP
+					    	else --SKIP
+					    	-- if parameter Multiple Runs/Calibration is a grop of values --SKIP
+					    		 checkParametersSet(tModel, idxt, Param, idx) --SKIP
+					    	end --SKIP
 
-					   	elseif type(Param) == "table" and type(attt) == "Choice" then
-					   		customError("The parameter must be of type Choice, a table of Choices or a single value.")
-					   	end
-					end)
-				end
-			end
-	    end
-	end)
-end
+					   	elseif type(Param) == "table" and type(attt) == "Choice" then --SKIP
+					   		customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
+					   	end --SKIP
+					end) --SKIP
+				end --SKIP
+			end --SKIP
+	    end --SKIP
+	end) --SKIP
+end --SKIP
 
-SAMDE_ = {
-	type_ = "SAMDE",
-}
+SAMDE_ = { --SKIP
+	type_ = "SAMDE", --SKIP
+} --SKIP
 
-metaTableSAMDE_ = {
-	__index = SAMDE_
-}
+metaTableSAMDE_ = { --SKIP
+	__index = SAMDE_ --SKIP
+} --SKIP
 
---- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the
--- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm 
--- to reach the result.
--- SaMDE paper is available at: 
--- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ).
--- @output fit The best fitness result returned by the SAMDE Algorithm.
--- @output instance The instance of the model with the best fitness.
--- @output generation The number of generations created by the generit algorithm until it stopped.
--- @arg data.model A Model.
--- @arg data.parameters A table with the possible parameter values. They can be
--- values or Choices. All Choices will be calibrated.
--- @arg data.fit A user-defined function that gets a model instance as argument and 
--- returns a numeric value of that particular model fitness,
--- this value will be minimized or maximized by SAMDE according to the maximize parameter. 
--- @arg data.size The maximum population size in each generation.
--- @arg data.maxGen The maximum number of generations. If the simulation reaches this value,
--- it stops and returns the Model that has the fittest result? TODO.
--- @arg data.threshold If the fitness of a model reaches this value, SAMDE stops and
--- returns such model.
--- @arg data.maximize An optional paramaters that determines if the fit will be maximized (true)
--- or minimized (false, default value).
--- @usage
--- import("calibration")
--- local MyModel = Model{
---   x = Choice{min = -100, max = 100},
---   y = Choice{min = 1, max = 10},
---   finalTime = 1,
---   init = function(self)
---     self.timer = Timer{
---       Event{action = function()
---         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
---       end}
---   }
---   end
--- }
--- c = SAMDE{
---     model = MyModel,
---     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1},
---     fit = function(model)
---         return model.value
---     end
--- }
-function SAMDE(data)
-	mandatoryTableArgument(data, "model", "Model")
-	mandatoryTableArgument(data, "parameters", "table")
-	if data.fit == nil or type(data.fit) ~= "function" then
-		customError("Function 'fit' was not implemented.")
-	end
+--- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the --SKIP
+-- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm  --SKIP
+-- to reach the result. --SKIP
+-- SaMDE paper is available at:  --SKIP
+-- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ). --SKIP
+-- @output fit The best fitness result returned by the SAMDE Algorithm. --SKIP
+-- @output instance The instance of the model with the best fitness. --SKIP
+-- @output generation The number of generations created by the generit algorithm until it stopped. --SKIP
+-- @arg data.model A Model. --SKIP
+-- @arg data.parameters A table with the possible parameter values. They can be --SKIP
+-- values or Choices. All Choices will be calibrated. --SKIP
+-- @arg data.fit A user-defined function that gets a model instance as argument and  --SKIP
+-- returns a numeric value of that particular model fitness, --SKIP
+-- this value will be minimized or maximized by SAMDE according to the maximize parameter.  --SKIP
+-- @arg data.size The maximum population size in each generation. --SKIP
+-- @arg data.maxGen The maximum number of generations. If the simulation reaches this value, --SKIP
+-- it stops and returns the Model that has the fittest result? TODO. --SKIP
+-- @arg data.threshold If the fitness of a model reaches this value, SAMDE stops and --SKIP
+-- returns such model. --SKIP
+-- @arg data.maximize An optional paramaters that determines if the fit will be maximized (true) --SKIP
+-- or minimized (false, default value). --SKIP
+-- @usage --SKIP
+-- import("calibration") --SKIP
+-- local MyModel = Model{ --SKIP
+--   x = Choice{min = -100, max = 100}, --SKIP
+--   y = Choice{min = 1, max = 10}, --SKIP
+--   finalTime = 1, --SKIP
+--   init = function(self) --SKIP
+--     self.timer = Timer{ --SKIP
+--       Event{action = function() --SKIP
+--         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y --SKIP
+--       end} --SKIP
+--   } --SKIP
+--   end --SKIP
+-- } --SKIP
+-- c = SAMDE{ --SKIP
+--     model = MyModel, --SKIP
+--     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1}, --SKIP
+--     fit = function(model) --SKIP
+--         return model.value --SKIP
+--     end --SKIP
+-- } --SKIP
+function SAMDE(data) --SKIP
+	mandatoryTableArgument(data, "model", "Model") --SKIP
+	mandatoryTableArgument(data, "parameters", "table") --SKIP
+	if data.fit == nil or type(data.fit) ~= "function" then --SKIP
+		customError("Function 'fit' was not implemented.") --SKIP
+	end --SKIP
 
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"})
-	if data.hideGraphs == nil then
-		data.hideGraphs = true -- SKIP
-	end
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"}) --SKIP
+	if data.hideGraphs == nil then --SKIP
+		data.hideGraphs = true  --SKIP
+	end --SKIP
 
-	if data.hideGraphs == true then
-		disableGraphics() -- SKIP
-	end
+	if data.hideGraphs == true then --SKIP
+		disableGraphics()  --SKIP
+	end --SKIP
 
-	checkParameters(data.model, data)
-	if data.maximize == nil then
-		data.maximize = false
-	end
-	-- best = {fit, instance, generations}
-	local best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold)
-	forEachOrderedElement(best, function(idx, att)
-		data[idx] = att
-	end)
-	if data.hideGraphs == true then
-		enableGraphics() -- SKIP
-	end
-	setmetatable(data, metaTableSAMDE_)
-	return data
-end
+	checkParameters(data.model, data) --SKIP
+	if data.maximize == nil then --SKIP
+		data.maximize = false --SKIP
+	end --SKIP
+	-- best = {fit, instance, generations} --SKIP
+	local best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold) --SKIP
+	forEachOrderedElement(best, function(idx, att) --SKIP
+		data[idx] = att --SKIP
+	end) --SKIP
+	if data.hideGraphs == true then --SKIP
+		enableGraphics()  --SKIP
+	end --SKIP
+	setmetatable(data, metaTableSAMDE_) --SKIP
+	return data --SKIP
+end --SKIP
 
