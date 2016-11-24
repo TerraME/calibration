@@ -78,6 +78,24 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				parameters = {x = Choice{min=1, max=10, step=1}, y = 5},
+				repetition = 3,
+				output = {"value"}}
+		end
+		
+		unitTest:assertError(error_func, "Parameter x should not be a range of values")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				parameters = {x = 1, y = Choice{min = 5, step = 1}},
+				repetition = 3,
+				output = {"value"}}
+		end
+		
+		unitTest:assertError(error_func,"Attribute 'step' requires 'max' and 'min'.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
 				parameters = {x = Choice{1, 2},
 				 y =Choice{1,5},
 				  p = "extra"},

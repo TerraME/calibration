@@ -1,4 +1,3 @@
-local s = package.config:sub(1, 1)
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -154,6 +153,7 @@ MultipleRuns = function(unitTest)
 	}
 	local mPosition2 = MultipleRuns{
 		model = MyModelPosition,
+		strategy = "selected",
 		parameters = {
 			scenario1 = {
 				position = {
