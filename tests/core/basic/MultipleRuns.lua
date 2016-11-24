@@ -143,7 +143,6 @@ MultipleRuns = function(unitTest)
 	}
 	local mPosition = MultipleRuns{
 		model = MyModelPosition,
-		strategy = "factorial",
 		parameters = {
 			position = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -290,7 +289,6 @@ MultipleRuns = function(unitTest)
 	}
 	local m4 = MultipleRuns{
 		model = MyModel,
-		strategy = "sample",
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1}

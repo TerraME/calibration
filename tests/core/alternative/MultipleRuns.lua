@@ -89,6 +89,15 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				parameters = {x = Choice{-100, 2}, y = Choice{1, 5}},
+				repetition = 3,
+				output = {"x", "y",	"value"}}
+		end
+		
+		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"x", "y",	"value"}}

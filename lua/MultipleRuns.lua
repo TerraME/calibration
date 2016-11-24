@@ -581,7 +581,7 @@ function MultipleRuns(data)
 			if typ == "table" then
 				forEachOrderedElement(att, function (_, _, typ2)
 					if typ2 == "Choice" then
-						choiceStr = true
+						choiceStrg = true
 					end
 				end)
 			else
@@ -691,10 +691,10 @@ function MultipleRuns(data)
 		dir = Directory(folder) 
 		local mkDirValue, mkDirError = dir:create()
 		if not mkDirValue then
-			if mkDirError ~= "File exists" then
-				firstDir:setCurrentDir()
-				customError('Folder "'..folder..'": '..mkDirError)
-			end
+			if mkDirError ~= "File exists" then --SKIP
+				firstDir:setCurrentDir() --SKIP
+				customError('Folder "'..folder..'": '..mkDirError) --SKIP
+			end --SKIP
 		end
 
 		Directory(folder):setCurrentDir()
@@ -739,7 +739,7 @@ function MultipleRuns(data)
 			repetition = data.repetition
 
 			if data.folderName then
-				folderDir:setCurrentDir()
+				folderDir:setCurrentDir() --SKIP
 			end
 
 			for case = 1, repetition do
@@ -753,15 +753,15 @@ function MultipleRuns(data)
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""
 
 					if data.folderName then
-						dir = Directory(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") 
-						dir:create()
-						Directory(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""):setCurrentDir()
+						dir = Directory(stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1))).."") --SKIP 
+						dir:create() --SKIP
+						Directory(folderDir..s..stringSimulations..""..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))..""):setCurrentDir() --SKIP
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						folderDir:setCurrentDir()
+						folderDir:setCurrentDir() --SKIP
 					end
 
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
@@ -792,7 +792,7 @@ function MultipleRuns(data)
 		end,
 		selected = function()
 			if data.folderName then
-				folderDir:setCurrentDir()
+				folderDir:setCurrentDir() --SKIP
 			end
 
 			local repetition 
@@ -815,15 +815,15 @@ function MultipleRuns(data)
 					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(idx)..""
 
 					if data.folderName then
-						dir = Directory(stringSimulations..""..(idx).."")
-						dir:create() 
-						Directory(folderDir..s..stringSimulations..""..(idx)..""):setCurrentDir()
+						dir = Directory(stringSimulations..""..(idx).."") --SKIP
+						dir:create() --SKIP
+						Directory(folderDir..s..stringSimulations..""..(idx)..""):setCurrentDir() --SKIP
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						folderDir:setCurrentDir()
+						folderDir:setCurrentDir() --SKIP
 					end
 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2, _)
