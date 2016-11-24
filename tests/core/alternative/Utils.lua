@@ -171,12 +171,8 @@ return{
 
 	cloneValues = function(unitTest)
 		error_func = function()
-			local original = {x = 42}
-			local copy = clone(original)
-			if copy ~= original then
-				customError("Values are different.")
-			end
+			local copy =  cloneValues(nil)
 		end
-		unitTest:assertError(error_func, "Values are different.")
+		unitTest:assertError(error_func, "Argument '#1' is mandatory.")
 	end
 }

@@ -172,9 +172,7 @@ end
 -- local copy = cloneValues(original) 
 function cloneValues(mtable)
     mandatoryArgument(1, "table", mtable)
-
     local result = {}
-
     forEachElement(mtable, function(idx, value, mtype)
         if mtype == "table" then
             result[idx] = cloneValues(value)

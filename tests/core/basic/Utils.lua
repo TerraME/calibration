@@ -134,10 +134,9 @@ checkParameterSingle = function(unitTest)
     local x = 2
 	unitTest:assertEquals(x, 2)
 end,
-
 cloneValues = function(unitTest)
-	local original = {x = 42}
-	local copy = clone(original)
-	unitTest:assertEquals(copy.x, 42)
+	local original = {positionxy = {x = 42, y = 3}, positionxy2 = {x = Choice{2,3,4}, y = "a"}}
+	local copy =  cloneValues(original)
+	unitTest:assertEquals(copy.positionxy.x, 42)
 end
 }
