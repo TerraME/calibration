@@ -160,6 +160,15 @@ return{
 		end
 		
 		unitTest:assertError(error_func, "Parameter 2.5 in #1 is out of y range")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				strategy = "factorial",
+				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
+				output = {"value"}}
+		end
+
+		unitTest:assertError(error_func,  "Argument 'y.step' is mandatory.")
 	end,
 	checkParameterSingle = function(unitTest)
 		-- parameters = {x = Choice{-100, 2}}
