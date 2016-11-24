@@ -180,7 +180,7 @@ return{
 
 	cloneValues = function(unitTest)
 		error_func = function()
-			local copy =  cloneValues(nil)
+			cloneValues(nil)
 		end
 		unitTest:assertError(error_func, "Argument '#1' is mandatory.")
 	end

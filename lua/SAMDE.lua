@@ -1,8 +1,8 @@
-------------------------------------------------------------- --SKIP
-----                 Algorithm SaMDE                     ---- --SKIP
-----           Implement by: Rodolfo A. Lopes            ---- --SKIP
-----    Adapted for TerraME by Antonio G. O. Junior      ---- --SKIP
-------------------------------------------------------------- --SKIP
+-------------------------------------------------------------
+----                 Algorithm SaMDE                     ----
+----           Implement by: Rodolfo A. Lopes            ----
+----    Adapted for TerraME by Antonio G. O. Junior      ----
+-------------------------------------------------------------
 local rand = Random() --SKIP
 local NUMEST = 4 --SKIP
 local PARAMETERS = 3 --SKIP
@@ -23,7 +23,7 @@ local evaluate = function(ind, dim, model, paramList, fit, singleParameters) --S
 end --SKIP
 
 local initPop = function(popTam, dim, paramList, parameters) --SKIP
-	-- print("initializing population ..."); --SKIP
+	-- print("initializing population ...");
 	local popInit = {} --SKIP
 	for _ = 1, popTam do --SKIP
 		local ind = {} --SKIP
@@ -128,7 +128,7 @@ local oobTrea = function(xi, varMatrix, k, step, stepValue) --SKIP
 			x = minVar --SKIP
 		elseif step == true then --SKIP
 			x = (2 * minVar - x) --SKIP
-			x = x - ((x - minVar) % stepValue) --SKIP
+			x = x - ((x - minVar) % stepValue)
 		else --SKIP
 			x = 2 * minVar - x; --SKIP
 		end --SKIP
@@ -148,7 +148,7 @@ local oobTrea = function(xi, varMatrix, k, step, stepValue) --SKIP
 	return x --SKIP
 end --SKIP
 
--- Find Proportion function --SKIP
+-- Find Proportion function
 local fP = function(idx, group) --SKIP
 	local size = #group --SKIP
 	if size > 1 then --SKIP
@@ -187,7 +187,7 @@ aproxGroup = function(proportion, varMatrix, k) --SKIP
 			i = i + 1 --SKIP
 		end --SKIP
 
-		if proportion - (share * (i - 1)) > share / 2 and i ~= size then --SKIP
+		if proportion - (share * (i - 1)) > share / 2 and i ~= size then
 			return group[i + 1] --SKIP
 		else --SKIP
 			return group[i] --SKIP
@@ -217,7 +217,7 @@ normalize = function(x, varMatrix, i, paramListInfo) --SKIP
 end --SKIP
 
 local distance = function(x, y, varMatrix, i, paramListInfo) --SKIP
-	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo) --SKIP
+	local dist = normalize(x, varMatrix, i, paramListInfo) - normalize(y, varMatrix, i, paramListInfo)
 	dist = math.abs(dist) --SKIP
 	return dist --SKIP
 end --SKIP
@@ -265,10 +265,10 @@ local maxDiversity = function(pop, dim, maxPopulation, varMatrix, paramListInfo)
 	return valueMax --SKIP
 end --SKIP
 
--- Function used by SAMDE type that implements the SaMDE genetic algorithm --SKIP
--- to calibrate a model according to a fit function, --SKIP
--- it returns a table with {fit = the best fitness value, instance = the instance of the best model, --SKIP
--- generations = number of generations it took to the genetic algorithm reach this model}. --SKIP
+-- Function used by SAMDE type that implements the SaMDE genetic algorithm
+-- to calibrate a model according to a fit function,
+-- it returns a table with {fit = the best fitness value, instance = the instance of the best model,
+-- generations = number of generations it took to the genetic algorithm reach this model}.
 local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, maxGen, threshold) --SKIP
 	local varMatrix = {} --SKIP
 	local paramList = {} --SKIP
@@ -303,7 +303,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 						paramListInfo[#paramListInfo].step = false --SKIP
 					end --SKIP
 
-					table.insert(varMatrix, { -1*math.huge(), attribute.max}) --SKIP
+					table.insert(varMatrix, { -1*math.huge(), attribute.max})
 			else --SKIP
 				paramListInfo[#paramListInfo].step = false --SKIP
 				paramListInfo[#paramListInfo].group = true --SKIP
@@ -350,7 +350,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	local thresholdStop = false --SKIP
 	local generationStop = false --SKIP
 	local generation = 1 --SKIP
-	-- print("evolution population ..."); --SKIP
+	-- print("evolution population ...");
 	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo) > 0.001) and generationStop == false and thresholdStop == false) do --SKIP
 		 --SKIP
 		local popAux = {} --SKIP
@@ -363,7 +363,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 			solution2 = pop[rands[2]] --SKIP
 			solution3 = pop[rands[3]] --SKIP
 			for k = 1, NUMEST do --SKIP
-				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k])) --SKIP
+				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k]))
 			end --SKIP
 			 --SKIP
 			local sumV = 0.0 --SKIP
@@ -402,10 +402,10 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 						if( winV == 0) then -- rand\1 --SKIP
 							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) --SKIP
 						elseif (winV == 1) then -- best\1 --SKIP
-							ui2 = prop[bestInd[k]] + params[fPos] * (prop[solution1[k]] - prop[solution2[k]]) --SKIP
-						elseif (winV == 2) then -- rand\2 --SKIP
+							ui2 = prop[bestInd[k]] + params[fPos] * (prop[solution1[k]] - prop[solution2[k]])--SKIP
+						elseif (winV == 2) then -- rand\2
 							ui2 = prop[solution1[k]] + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) + params[fPos] * (prop[solution3[k]] - prop[solution4[k]]) --SKIP
-						elseif (winV == 3) then -- current-to-rand --SKIP
+						elseif (winV == 3) then -- current-to-rand
 							ui2 = prop[indexInd[k]] + params[fPos] * (prop[solution1[k]] - prop[indexInd[k]]) + params[fPos] * (prop[solution2[k]] - prop[solution3[k]]) --SKIP
 						end --SKIP
 					else --SKIP
@@ -413,7 +413,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
 						elseif (winV == 1) then -- best\1 --SKIP
 							ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k) --SKIP
-						elseif (winV == 2) then -- rand\2 --SKIP
+						elseif (winV == 2) then -- rand\2 --SKIP 
 							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k) --SKIP
 						elseif (winV == 3) then -- current-to-rand --SKIP
 							ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
@@ -423,7 +423,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 					if paramListInfo[k].step == true then --SKIP
 						local ui3 --SKIP
 						local step = paramListInfo[k].stepValue --SKIP
-						local uiErr = ((ui2 - varMatrix[k][1]) % step) --SKIP
+						local uiErr = ((ui2 - varMatrix[k][1]) % step)
 						if uiErr < (step / 2) then --SKIP
 							ui3 = oobTrea((ui2 - uiErr), varMatrix, k, true, step) --SKIP
 						else --SKIP
@@ -480,7 +480,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 			end --SKIP
 		end --SKIP
 		 --SKIP
-		-- print("best: " .. bestCost); --SKIP
+		-- print("best: " .. bestCost);
 		for j = 1, maxPopulation do --SKIP
 			pop[j] = copy(popAux[j]) --SKIP
 		end --SKIP
@@ -520,28 +520,28 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	return finalTable --SKIP
 end --SKIP
 
--- ========= SAMDE Type implemente by Antonio Gomes de Oliveira Junior ===== --SKIP
--- Function to be used by Calibration to check --SKIP
--- if all possibilites of models can be instantiated before --SKIP
--- starting to test the model. --SKIP
--- @arg tModel A Paramater with the model to be instantiated. --SKIP
--- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type. --SKIP
+-- ========= SAMDE Type implemente by Antonio Gomes de Oliveira Junior =====
+-- Function to be used by Calibration to check
+-- if all possibilites of models can be instantiated before
+-- starting to test the model.
+-- @arg tModel A Paramater with the model to be instantiated.
+-- @arg tParameters A table of parameters, from a MultipleRuns or Calibration type.
 local function checkParameters(tModel, tParameters) --SKIP
 	mandatoryArgument(1, "Model", tModel) --SKIP
 	mandatoryTableArgument(tParameters, "parameters", "table") --SKIP
-	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted --SKIP
-	-- range of values according to a Model. --SKIP
+	-- Tests all model parameters possibilities in Multiple Runs/Calibration to see if they are in the accepted
+	-- range of values according to a Model.
 	forEachElement(tModel:getParameters(), function(idx, att, mtype) --SKIP
 		if mtype ~= "function" then --SKIP
 	    	if idx ~= "init" and idx ~= "seed" then --SKIP
 				local Param = tParameters.parameters[idx] --SKIP
 				if mtype == "Choice" then --SKIP
 					if type(Param) == "Choice" then --SKIP
-						-- if parameter in Multiple Runs/Calibration is a range of values --SKIP
+						-- if parameter in Multiple Runs/Calibration is a range of values
 			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then  --SKIP
 			    			checkParametersRange(tModel, idx, Param) --SKIP
 				    	else --SKIP
-				    	-- if parameter Multiple Runs/Calibration is a grop of values --SKIP
+				    	-- if parameter Multiple Runs/Calibration is a grop of values
 				    		 checkParametersSet(tModel, idx, Param) --SKIP
 				    	end --SKIP
 
@@ -550,7 +550,7 @@ local function checkParameters(tModel, tParameters) --SKIP
 				   	end --SKIP
 
 				elseif mtype == "Mandatory" then --SKIP
-					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type. --SKIP
+					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
 					local mandatory = false --SKIP
 					local mandArg = tParameters.parameters[idx] --SKIP
 					if type(mandArg) ~= nil then --SKIP
@@ -583,16 +583,16 @@ local function checkParameters(tModel, tParameters) --SKIP
 						mandatoryTableArgument(tParameters.parameters, idx, att.value) --SKIP
 					end --SKIP
 
-					-- forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2) --SKIP
-					-- 	if idx2 == idx then --SKIP
-					-- 		mandatory = true --SKIP
-					-- 		forEachOrderedElement(att2, function(idx3, att3, typ3) --SKIP
-					-- 			if typ3 ~= att.value then --SKIP
-					-- 				mandatory = false --SKIP
-					-- 			end --SKIP
-					-- 		end) --SKIP
-					-- 	end --SKIP
-					-- end) --SKIP
+					-- forEachOrderedElement(tParameters.parameters, function(idx2, att2, typ2)
+					-- 	if idx2 == idx then
+					-- 		mandatory = true
+					-- 		forEachOrderedElement(att2, function(idx3, att3, typ3)
+					-- 			if typ3 ~= att.value then
+					-- 				mandatory = false
+					-- 			end
+					-- 		end)
+					-- 	end
+					-- end)
 				elseif mtype == "table" then --SKIP
 					forEachOrderedElement(att, function(idxt, attt) --SKIP
 						if tParameters.parameters[idx] ~= nil then --SKIP
@@ -600,11 +600,11 @@ local function checkParameters(tModel, tParameters) --SKIP
 						end --SKIP
 						 --SKIP
 						if type(Param) == "Choice" then --SKIP
-							-- if parameter in Multiple Runs/Calibration is a range of values --SKIP
+							-- if parameter in Multiple Runs/Calibration is a range of values
 				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then --SKIP
 				    			checkParametersRange(tModel, idxt, Param, idx) --SKIP
 					    	else --SKIP
-					    	-- if parameter Multiple Runs/Calibration is a grop of values --SKIP
+					    	-- if parameter Multiple Runs/Calibration is a grop of values
 					    		 checkParametersSet(tModel, idxt, Param, idx) --SKIP
 					    	end --SKIP
 
@@ -626,48 +626,48 @@ metaTableSAMDE_ = { --SKIP
 	__index = SAMDE_ --SKIP
 } --SKIP
 
---- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the --SKIP
--- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm  --SKIP
--- to reach the result. --SKIP
--- SaMDE paper is available at:  --SKIP
--- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ). --SKIP
--- @output fit The best fitness result returned by the SAMDE Algorithm. --SKIP
--- @output instance The instance of the model with the best fitness. --SKIP
--- @output generation The number of generations created by the generit algorithm until it stopped. --SKIP
--- @arg data.model A Model. --SKIP
--- @arg data.parameters A table with the possible parameter values. They can be --SKIP
--- values or Choices. All Choices will be calibrated. --SKIP
--- @arg data.fit A user-defined function that gets a model instance as argument and  --SKIP
--- returns a numeric value of that particular model fitness, --SKIP
--- this value will be minimized or maximized by SAMDE according to the maximize parameter.  --SKIP
--- @arg data.size The maximum population size in each generation. --SKIP
--- @arg data.maxGen The maximum number of generations. If the simulation reaches this value, --SKIP
--- it stops and returns the Model that has the fittest result? TODO. --SKIP
--- @arg data.threshold If the fitness of a model reaches this value, SAMDE stops and --SKIP
--- returns such model. --SKIP
--- @arg data.maximize An optional paramaters that determines if the fit will be maximized (true) --SKIP
--- or minimized (false, default value). --SKIP
--- @usage --SKIP
--- import("calibration") --SKIP
--- local MyModel = Model{ --SKIP
---   x = Choice{min = -100, max = 100}, --SKIP
---   y = Choice{min = 1, max = 10}, --SKIP
---   finalTime = 1, --SKIP
---   init = function(self) --SKIP
---     self.timer = Timer{ --SKIP
---       Event{action = function() --SKIP
---         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y --SKIP
---       end} --SKIP
---   } --SKIP
---   end --SKIP
--- } --SKIP
--- c = SAMDE{ --SKIP
---     model = MyModel, --SKIP
---     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1}, --SKIP
---     fit = function(model) --SKIP
---         return model.value --SKIP
---     end --SKIP
--- } --SKIP
+--- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the
+-- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm 
+-- to reach the result.
+-- SaMDE paper is available at: 
+-- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ).
+-- @output fit The best fitness result returned by the SAMDE Algorithm.
+-- @output instance The instance of the model with the best fitness.
+-- @output generation The number of generations created by the generit algorithm until it stopped.
+-- @arg data.model A Model.
+-- @arg data.parameters A table with the possible parameter values. They can be
+-- values or Choices. All Choices will be calibrated.
+-- @arg data.fit A user-defined function that gets a model instance as argument and 
+-- returns a numeric value of that particular model fitness,
+-- this value will be minimized or maximized by SAMDE according to the maximize parameter. 
+-- @arg data.size The maximum population size in each generation.
+-- @arg data.maxGen The maximum number of generations. If the simulation reaches this value,
+-- it stops and returns the Model that has the fittest result? TODO.
+-- @arg data.threshold If the fitness of a model reaches this value, SAMDE stops and
+-- returns such model.
+-- @arg data.maximize An optional paramaters that determines if the fit will be maximized (true)
+-- or minimized (false, default value).
+-- @usage
+-- import("calibration")
+-- local MyModel = Model{
+--   x = Choice{min = -100, max = 100},
+--   y = Choice{min = 1, max = 10},
+--   finalTime = 1,
+--   init = function(self)
+--     self.timer = Timer{
+--       Event{action = function()
+--         self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+--       end}
+--   }
+--   end
+-- }
+-- c = SAMDE{
+--     model = MyModel,
+--     parameters = {x = Choice{min = -100, max = 100}, y = Choice {min = 1, max = 10}, finalTime = 1},
+--     fit = function(model)
+--         return model.value
+--     end
+-- }
 function SAMDE(data) --SKIP
 	mandatoryTableArgument(data, "model", "Model") --SKIP
 	mandatoryTableArgument(data, "parameters", "table") --SKIP
@@ -677,24 +677,24 @@ function SAMDE(data) --SKIP
 
 	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"}) --SKIP
 	if data.hideGraphs == nil then --SKIP
-		data.hideGraphs = true  --SKIP
+		data.hideGraphs = true -- SKIP
 	end --SKIP
 
 	if data.hideGraphs == true then --SKIP
-		disableGraphics()  --SKIP
+		disableGraphics() -- SKIP
 	end --SKIP
 
 	checkParameters(data.model, data) --SKIP
 	if data.maximize == nil then --SKIP
 		data.maximize = false --SKIP
 	end --SKIP
-	-- best = {fit, instance, generations} --SKIP
+	-- best = {fit, instance, generations}
 	local best = SAMDECalibrate(data.parameters, data.model, data.fit, data.maximize, data.size, data.maxGen, data.threshold) --SKIP
 	forEachOrderedElement(best, function(idx, att) --SKIP
 		data[idx] = att --SKIP
 	end) --SKIP
 	if data.hideGraphs == true then --SKIP
-		enableGraphics()  --SKIP
+		enableGraphics() -- SKIP
 	end --SKIP
 	setmetatable(data, metaTableSAMDE_) --SKIP
 	return data --SKIP

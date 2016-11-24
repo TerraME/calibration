@@ -1,5 +1,5 @@
 -- @example Fire in the forest example using  multiple runs repeateated strategy.
-
+local rand = Random()
 if not isLoaded("ca") then
    import("ca")
 end
