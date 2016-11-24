@@ -64,8 +64,28 @@ return{
 				repetition = 3,
 				output = {"value"}}
 		end
-		
+
 		unitTest:assertError(error_func, "Directory name '!@#$$#$%??' cannot contain character '?'.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				parameters = {scenario1 ={x = 2, y = 5, p = "extra"}},
+				repetition = 3,
+				output = {"value"}}
+		end
+		
+		unitTest:assertError(error_func, "p is unnecessary.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				parameters = {x = Choice{1, 2},
+				 y =Choice{1,5},
+				  p = "extra"},
+				repetition = 3,
+				output = {"value"}}
+		end
+		
+		unitTest:assertError(error_func, "p is unnecessary.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,

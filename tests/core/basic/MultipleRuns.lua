@@ -14,6 +14,20 @@ local MyModel = Model{
 	}
 	end
 }
+local MyModelPosition = Model{
+	position = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
+			end}
+	}
+	end
+}
 local MyModel2 = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
 	y2 = Mandatory("number"),
@@ -120,6 +134,34 @@ MultipleRuns = function(unitTest)
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1},
+			finalTime = 1
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mPosition = MultipleRuns{
+		model = MyModelPosition,
+		strategy = "factorial",
+		parameters = {
+			position = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1}},
+			finalTime = 1
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mQuant2 = MultipleRuns{
+		model = MyModel,
+		strategy = "factorial",
+		repetition = 2,
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{1,2,3,4,5},
 			finalTime = 1
 		 },
 		additionalF = function(_)
@@ -287,7 +329,10 @@ MultipleRuns = function(unitTest)
 	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
+	unitTest:assertEquals(mPosition:get(1).position.x, -100)
+	unitTest:assertEquals(mPosition:get(1).position.y, 1)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
+	unitTest:assertEquals(mPosition:get(1).simulations, 'finalTime_1_position_x_-100_position_y_1_')
 	unitTest:assertEquals(mQuant:get(1).simulations, '1_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mQuant:get(61).simulations, '2_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mMan:get(1).x, -100)

@@ -207,12 +207,7 @@ local factorialRecursive
 -- resultTable Table returned by multipleRuns as result
 factorialRecursive = function(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated)
 	if params[a].ranged == true then -- if the parameter uses a range of values
-		local correctionValue = params[a].step / 100
-
-		for parameter = params[a].min, (params[a].max + correctionValue), params[a].step do	-- Testing the parameter with each value in it's range.
-			if parameter > params[a].max then
-				parameter = params[a].max
-			end
+		for parameter = params[a].min, (params[a].max), params[a].step do	-- Testing the parameter with each value in it's range.
 
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
@@ -303,16 +298,16 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				end)
 				local testDir = currentDir()
 				if folderName then
-					dir = Directory(stringSimulations) 
-					dir:create() 
-					Directory(testDir..s..stringSimulations):setCurrentDir() 
+					dir = Directory(stringSimulations) --SKIP
+					dir:create() --SKIP
+					Directory(testDir..s..stringSimulations):setCurrentDir() --SKIP
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				resultTable.simulations[#resultTable.simulations + 1] = stringSimulations 
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated) --SKIP
 			end
 		end)
 	end
