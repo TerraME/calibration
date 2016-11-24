@@ -246,9 +246,9 @@ factorialRecursive = function(data, params, a, variables, resultTable, addFuncti
 				end)
 				local testDir = currentDir()
 				if data.folderName then
-					dir = Directory(stringSimulations)
-					dir:create()
-					Directory(testDir..s..stringSimulations):setCurrentDir()
+					dir = Directory(stringSimulations) --SKIP
+					dir:create() --SKIP
+					Directory(testDir..s..stringSimulations):setCurrentDir() --SKIP
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
@@ -688,18 +688,18 @@ function MultipleRuns(data)
 	local folder = data.folderName
 
 	if folder ~= nil then
-		dir = Directory(folder) 
-		local mkDirValue, mkDirError = dir:create()
-		if not mkDirValue then
+		dir = Directory(folder) -- SKIP
+		local mkDirValue, mkDirError = dir:create() -- SKIP
+		if not mkDirValue then -- SKIP
 			if mkDirError ~= "File exists" then --SKIP
 				firstDir:setCurrentDir() --SKIP
 				customError('Folder "'..folder..'": '..mkDirError) --SKIP
 			end --SKIP
 		end
 
-		Directory(folder):setCurrentDir()
-		folderDir = currentDir()
-		firstDir:setCurrentDir()
+		Directory(folder):setCurrentDir() -- SKIP
+		folderDir = currentDir() -- SKIP
+		firstDir:setCurrentDir() -- SKIP
 	end
 
 	local variables = {}	
@@ -722,7 +722,7 @@ function MultipleRuns(data)
 
 
 			if data.folderName then
-				folderDir:setCurrentDir()
+				folderDir:setCurrentDir() -- SKIP
 			end
 
 			for i = 1, data.repetition do
@@ -730,7 +730,7 @@ function MultipleRuns(data)
 			end
 
 			if data.folderName then
-				firstDir:setCurrentDir()
+				firstDir:setCurrentDir() -- SKIP
 			end
 		end,
 		sample = function()

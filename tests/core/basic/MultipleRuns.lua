@@ -152,6 +152,29 @@ MultipleRuns = function(unitTest)
 		end,
 		output = {"value"}
 	}
+	local mPosition2 = MultipleRuns{
+		model = MyModelPosition,
+		parameters = {
+			scenario1 = {
+				position = {
+					x = -100,
+					y = 1
+				},
+				finalTime = 1
+			},
+			scenario2 = {
+				position = {
+					x = 100,
+					y = 2
+				},
+				finalTime = 1
+			}
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
 	local mQuant2 = MultipleRuns{
 		model = MyModel,
 		strategy = "factorial",
@@ -325,10 +348,12 @@ MultipleRuns = function(unitTest)
 	}
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
+	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mPosition:get(1).position.x, -100)
 	unitTest:assertEquals(mPosition:get(1).position.y, 1)
-	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mPosition:get(1).simulations, 'finalTime_1_position_x_-100_position_y_1_')
+	unitTest:assertEquals(mPosition2:get(1).position.x, -100)
+	unitTest:assertEquals(mPosition2:get(1).position.y, 1)
 	unitTest:assertEquals(mQuant:get(1).simulations, '1_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mQuant2:get(1).simulations, '1_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mQuant:get(61).simulations, '2_execution_finalTime_1_x_-100_y_1_')
