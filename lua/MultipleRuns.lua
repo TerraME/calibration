@@ -726,6 +726,10 @@ function MultipleRuns(data)
 			end
 
 			for i = 1, data.repetition do
+				if data.showProgress then
+					print("Simulating "..i.."/"..data.repetition) -- SKIP
+				end
+
 				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
 			end
 
@@ -798,6 +802,10 @@ function MultipleRuns(data)
 			local repetition = data.repetition
 
 			for case = 1, repetition do
+				if data.showProgress then
+					print("Simulating "..case.."/"..data.repetition) -- SKIP
+				end
+
 				local stringSimulations = ""
 				if repetition > 1 then
 					stringSimulations = case.."_execution_"
