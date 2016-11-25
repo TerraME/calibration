@@ -154,7 +154,7 @@ local function testAddFunctions(resultTable, addFunctions, data, m)
 		end
 
 		local returnValueF = data[idxF](m)
-		resultTable[idxF][#resultTable[idxF] + 1] = returnValueF
+		table.insert(resultTable[idxF], returnValueF)
 	end)
 end
 
@@ -171,7 +171,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 		if attribute.min == nil or attribute.max == nil then
 			range = false
 			forEachOrderedElement(attribute.values, function (idv)
-				parameterElements[#parameterElements + 1] = attribute.values[idv]
+				table.insert(parameterElements, attribute.values[idv])
 			end) 
 		else
 			if attribute.step == nil then
@@ -250,9 +250,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 				local testDir = currentDir()
 				if data.folderName then
-					dir = Directory(stringSimulations) --SKIP
-					dir:create() --SKIP
-					Directory(testDir..s..stringSimulations):setCurrentDir() --SKIP
+					dir = Directory(stringSimulations) -- SKIP
+					dir:create() -- SKIP
+					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
@@ -290,11 +290,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 				forEachOrderedElement(variables, function(idx2, att2, typ2)
 					if typ2 ~= "table" then
-						resultTable[idx2][#resultTable[idx2] + 1] = att2
+						table.insert(resultTable[idx2], att2)
 						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
 					else
 						forEachOrderedElement(att2, function(idx3, att3, _)
-							resultTable[idx2][idx3][#resultTable[idx2][idx3] + 1] = att3
+							table.insert(resultTable[idx2][idx3], att3)
 							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
 						end)
 					end
@@ -302,16 +302,16 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 				local testDir = currentDir()
 				if folderName then
-					dir = Directory(stringSimulations) --SKIP
-					dir:create() --SKIP
-					Directory(testDir..s..stringSimulations):setCurrentDir() --SKIP
+					dir = Directory(stringSimulations) -- SKIP
+					dir:create() -- SKIP
+					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated) --SKIP
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated) -- SKIP
 			end
 		end)
 	end
@@ -693,10 +693,10 @@ function MultipleRuns(data)
 		local dir = Directory(folder) -- SKIP
 		local mkDirValue, mkDirError = dir:create() -- SKIP
 		if not mkDirValue then -- SKIP
-			if mkDirError ~= "File exists" then --SKIP
-				firstDir:setCurrentDir() --SKIP
-				customError('Folder "'..folder..'": '..mkDirError) --SKIP
-			end --SKIP
+			if mkDirError ~= "File exists" then -- SKIP
+				firstDir:setCurrentDir() -- SKIP
+				customError('Folder "'..folder..'": '..mkDirError) -- SKIP
+			end -- SKIP
 		end
 
 		Directory(folder):setCurrentDir() -- SKIP
@@ -739,7 +739,7 @@ function MultipleRuns(data)
 			repetition = data.repetition
 
 			if data.folderName then
-				folderDir:setCurrentDir() --SKIP
+				folderDir:setCurrentDir() -- SKIP
 			end
 
 			for case = 1, repetition do
@@ -750,18 +750,18 @@ function MultipleRuns(data)
 				for _ = 1, data.quantity do
 					local sampleparams = {}
 					local m = randomModel(data.model, data.parameters)
-					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))
+					table.insert(resultTable.simulations, stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1))))
 
 					if data.folderName then
-						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))) --SKIP 
-						dir:create() --SKIP
-						Directory(folderDir..s..stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations*(case - 1)))):setCurrentDir() --SKIP
+						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP 
+						dir:create() -- SKIP
+						Directory(folderDir..s..stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))):setCurrentDir() -- SKIP
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						folderDir:setCurrentDir() --SKIP
+						folderDir:setCurrentDir() -- SKIP
 					end
 
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
@@ -783,7 +783,7 @@ function MultipleRuns(data)
 							resultTable[idx2] = {}
 						end
 
-						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+						table.insert(resultTable[idx2], att2)
 					end)
 				end
 			end
@@ -792,7 +792,7 @@ function MultipleRuns(data)
 		end,
 		selected = function()
 			if data.folderName then
-				folderDir:setCurrentDir() --SKIP
+				folderDir:setCurrentDir() -- SKIP
 			end
 
 			local repetition = data.repetition
@@ -811,18 +811,18 @@ function MultipleRuns(data)
 				forEachOrderedElement(models, function(idx)
 					local m = models[idx]
 					m:run()
-					resultTable.simulations[#resultTable.simulations + 1] = stringSimulations..""..(idx)..""
+					table.insert(resultTable.simulations, stringSimulations..idx)
 
 					if data.folderName then
-						local dir = Directory(stringSimulations..idx) --SKIP
-						dir:create() --SKIP
-						Directory(folderDir..s..stringSimulations..idx):setCurrentDir() --SKIP
+						local dir = Directory(stringSimulations..idx) -- SKIP
+						dir:create() -- SKIP
+						Directory(folderDir..s..stringSimulations..idx):setCurrentDir() -- SKIP
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
 
 					if data.folderName then
-						folderDir:setCurrentDir() --SKIP
+						folderDir:setCurrentDir() -- SKIP
 					end
 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
@@ -830,7 +830,7 @@ function MultipleRuns(data)
 							resultTable[idx2] = {}
 						end
 
-						resultTable[idx2][#resultTable[idx2] + 1] = att2 
+						table.insert(resultTable[idx2], att2)
 					end)
 				end)
 			end
@@ -838,6 +838,7 @@ function MultipleRuns(data)
 			firstDir:setCurrentDir()
 		end
 	}
+
 	setmetatable(data, metaTableMultipleRuns_)
 	forEachOrderedElement(resultTable, function(idx, att)
 		data[idx] = att
