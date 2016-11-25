@@ -294,7 +294,7 @@ return{
 				output = {"value"}}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -303,7 +303,7 @@ return{
 				output = {"value"}}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -318,7 +318,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel3,
@@ -333,7 +333,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel3,
@@ -347,7 +347,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy cannot be a 'Choice'")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel3,
@@ -361,7 +361,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
 				error_func = function()
 			m = MultipleRuns{
 				model = MyModel4,
@@ -375,7 +375,7 @@ return{
 			end}
 		end
 
-		unitTest:assertError(error_func, "Parameters used in selected strategy must be in a table of scenarios")
+		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel3,
