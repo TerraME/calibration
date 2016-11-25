@@ -7,7 +7,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, mandatoryArgumentMsg(1))	
-		local error_func = function()
+		error_func = function()
 			pixelByPixel(cs)
 		end
 
@@ -27,7 +27,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Attribute c was not found in the first CellularSpace.")
-		local error_func = function()
+		error_func = function()
 			pixelByPixel(cs,cs,"a","c")
 		end
 
@@ -41,7 +41,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, mandatoryArgumentMsg(1))
-		local error_func = function()
+		error_func = function()
 			multiLevel{}
 		end
 		

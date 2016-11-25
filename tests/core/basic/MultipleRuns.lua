@@ -1,6 +1,3 @@
-local s = package.config:sub(1, 1)
-local tmpDir = Directory("MultipleRunsBasicTest_TmpDir")
-tmpDir:create()
 -- Creating Models
 local MyModel = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
@@ -10,6 +7,20 @@ local MyModel = Model{
 		self.timer = Timer{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+	}
+	end
+}
+local MyModelPosition = Model{
+	position = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
 			end}
 	}
 	end
@@ -81,7 +92,7 @@ get = function (unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -92,7 +103,6 @@ get = function (unitTest)
 end,
 saveCSV = function(unitTest)
 	local m = MultipleRuns{
-		folderName = "MultipleRunsBasicTest_TmpDir",
 		model = MyModel,
 		strategy = "factorial",
 		parameters = {
@@ -100,17 +110,18 @@ saveCSV = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
 	}
-	m:saveCSV("MultipleRunsBasicTest_TmpDir"..s.."results", ";")
-	local csvFile = File(tmpDir..s.."results.csv")
+	m:saveCSV("results", ";")
+	local csvFile = File("results.csv")
 	local myTable = csvFile:readTable(";")
 	unitTest:assert(myTable[1]["x"] == -100)
 	unitTest:assert(myTable[1]["additionalF"] == "test")
 	unitTest:assert(myTable[1]["value"] == 20305)
+	unitTest:assertFile("results.csv")
 end,
 MultipleRuns = function(unitTest)
 	-- print("M")
@@ -122,7 +133,34 @@ MultipleRuns = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mPosition = MultipleRuns{
+		model = MyModelPosition,
+		parameters = {
+			position = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1}},
+			finalTime = 1
+		 },
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mQuant2 = MultipleRuns{
+		model = MyModel,
+		strategy = "factorial",
+		repetition = 2,
+		parameters = {
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{1,2,3,4,5},
+			finalTime = 1
+		 },
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -136,7 +174,7 @@ MultipleRuns = function(unitTest)
 			y = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -149,7 +187,20 @@ MultipleRuns = function(unitTest)
 			y2 = Choice{min = 1, max = 10, step = 1},
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
+			return "test"
+		end,
+		output = {"value"}
+	}
+	local mMandChoiceTable = MultipleRuns{
+		model = MyModel2,
+		strategy = "factorial",
+		parameters = { 
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y2 = Choice{1,2,3,4,5},
+			finalTime = 1
+		 },
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -193,7 +244,7 @@ MultipleRuns = function(unitTest)
 			z = 1,
 			finalTime = 1
 		 },
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end,
 		output = {"value"}
@@ -206,7 +257,7 @@ MultipleRuns = function(unitTest)
 			scenario2 = {x = 1, y = 3}
 		 },
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
@@ -223,7 +274,7 @@ MultipleRuns = function(unitTest)
 		parameters = {scenario1 = {x = 2, y = 5}},
 		repetition = 3,
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
@@ -235,14 +286,13 @@ MultipleRuns = function(unitTest)
 	}
 	local m4 = MultipleRuns{
 		model = MyModel,
-		strategy = "sample",
 		parameters = {
 			x = Choice{-100, -1, 0, 1, 2, 100},
 			y = Choice{min = 1, max = 10, step = 1}
 		 },
 		quantity = 5,
 		output = {"value"},
-		additionalF = function(model)
+		additionalF = function(_)
 			return "test"
 		end
 	}
@@ -275,10 +325,16 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(m:get(1).x, -100)
 	unitTest:assertEquals(m:get(1).y, 1)
 	unitTest:assertEquals(m:get(1).simulations, 'finalTime_1_x_-100_y_1_')
+	unitTest:assertEquals(mPosition:get(1).position.x, -100)
+	unitTest:assertEquals(mPosition:get(1).position.y, 1)
+	unitTest:assertEquals(mPosition:get(1).simulations, 'finalTime_1_position_x_-100_position_y_1_')
 	unitTest:assertEquals(mQuant:get(1).simulations, '1_execution_finalTime_1_x_-100_y_1_')
+	unitTest:assertEquals(mQuant2:get(1).simulations, '1_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mQuant:get(61).simulations, '2_execution_finalTime_1_x_-100_y_1_')
 	unitTest:assertEquals(mMan:get(1).x, -100)
 	unitTest:assertEquals(mMan:get(1).y2, 1)
+	unitTest:assertEquals(mMandChoiceTable:get(1).x, -100)
+	unitTest:assertEquals(mMandChoiceTable:get(1).y2, 1)
 	unitTest:assertEquals(mMan:get(1).simulations, 'finalTime_1_x_-100_y2_1_')
 	unitTest:assertEquals(mTab:get(1).parameters3.x, -100)
 	unitTest:assertEquals(mTab:get(1).parameters3.y, 1)
@@ -311,6 +367,4 @@ MultipleRuns = function(unitTest)
 	unitTest:assertEquals(m4Tab:get(1).simulations, "1_execution_1")
 	unitTest:assert(m4Single:get(5).simulations == "5")
 	unitTest:assertEquals(m4Single:get(1).simulations, "1")
-	unitTest:assertEquals(m:get(1).additionalF, "test")
-	tmpDir:delete()
 end}

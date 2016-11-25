@@ -9,9 +9,9 @@ return{
 		local cs2 = CellularSpace{xdim = 10, instance = cell2}
 		local t = Trajectory{
 			target = cs2,
-			select = function(cell2) return cell2.x > 4 end
+			select = function(cellCs2) return cellCs2.x > 4 end
 		}
-		forEachCell(t, function(cell2) cell2.b = "deforested" end)
+		forEachCell(t, function(cellT) cellT.b = "deforested" end)
 		local result2 = pixelByPixel(cs2, cs2, "a", "b")
 		unitTest:assertEquals(result2, 0.5)
 	end,

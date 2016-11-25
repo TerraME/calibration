@@ -70,7 +70,6 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 	-- cellular spaces with different formats and starting points.
 	local yMax =cs1.yMax
 	local xMax =cs1.xMax
-	local dim = step + 1
 	local lastRow = (yMax - step + cs1.yMin)
 	local lastCol = (xMax - step + cs1.xMin)
 	local stepx = step
@@ -106,7 +105,6 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 			}
 			local counter1 = {}
 			local counter2 = {}
-			local sizet = 0
 			local eachCellCounter = 0
 			forEachCell(t1, function(cell1) 
 
@@ -136,9 +134,9 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 					end
 			end)
 
-			local squareDif = 0
-			local squareFit = 0
-			local dif = 0
+			local squareDif 
+			local squareFit
+			local dif = 0 
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
 			end)
@@ -206,9 +204,9 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 					counter2 = counter2 + value2
 			end)
 
-			local dif = 0
-			local squareDif = 0
-			local squareFit = 0
+			local dif
+			local squareDif
+			local squareFit
 			dif = math.abs(counter1 - counter2)
 			squareDif = dif / (counter2 + counter1)
 			squareFit = 1 - squareDif -- calculate a particular dimxdim square fitness
@@ -252,8 +250,7 @@ multiLevel = function(data)
 	local exp = 1 -- that will be used in the final fitness calibration
 	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
 	-- the fitness of the 1x1 square.
-	local largerSquare = 0
-	local minSquare = 0
+	local largerSquare
 	if data.cs1.yMax > data.cs1.xMax then
 	-- Determines of the size of the smallest square possible containig all the map elements.
 		largerSquare = data.cs1.yMax
@@ -261,22 +258,15 @@ multiLevel = function(data)
 		largerSquare = data.cs1.xMax
 	end
 
-	if data.cs1.yMin < data.cs1.xMin then
-	--Determines if the model starts at [0] or [1].
-		minSquare = data.cs1.yMin
-	else
-		minSquare = data.cs1.xMin
-	end
-
 	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)
 	local fitChart = Cell{sqrFit = fitnessSum}
 	if data.graphics == true then
-		Chart{
-			title = "MultiLevel Results",
-			target = fitChart,
-		 	select = {"sqrFit"}
-		}
-		fitChart:notify(0)
+		Chart{ --SKIP
+			title = "MultiLevel Results", --SKIP
+			target = fitChart, --SKIP
+		 	select = {"sqrFit"} --SKIP
+		} --SKIP
+		fitChart:notify(0) --SKIP
 	end
 
 	if data.continuous == true then
@@ -285,8 +275,8 @@ multiLevel = function(data)
 			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
 				if data.graphics == true then
-					fitChart.sqrFit = fitSquare
-					fitChart:notify(i)
+					fitChart.sqrFit = fitSquare --SKIP
+					fitChart:notify(i) --SKIP
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
@@ -300,8 +290,8 @@ multiLevel = function(data)
 			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute) 
 			if fitSquare ~= -1 then
 				if data.graphics == true then
-					fitChart.sqrFit = fitSquare
-					fitChart:notify(i)
+					fitChart.sqrFit = fitSquare --SKIP
+					fitChart:notify(i) --SKIP
 				end
 
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))

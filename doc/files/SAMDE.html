@@ -69,8 +69,6 @@
 	
 		
 	
-		
-	
 
 	
 
@@ -85,8 +83,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -130,7 +126,6 @@
 				
 			
 		
-		
 					<li><strong>SAMDE</strong></li>
 				
 			
@@ -157,8 +152,6 @@
 	
 		
 			
-		
-	
 		
 	
 		
@@ -202,7 +195,6 @@
 					</li>
 				
 			
-		
 		
 		
 		
@@ -269,7 +261,7 @@
 
 <span class="description">
 
-Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm to reach the result. SaMDE paper is available at: ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ).</span>
+Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the --SKIP fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm  --SKIP to reach the result. --SKIP SaMDE paper is available at:  --SKIP ( <a href="https://onedrive.live.com/redir" target="_blank">https://onedrive.live.com/redir</a>?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ). --SKIP</span>
 
 
 
@@ -279,37 +271,37 @@ Type to calibrate a model using genetic algorithm. It returns a SAMDE type with 
 <ul><span class="arg">
 
     <li>
-	  <strong>fit</strong>: A user-defined function that gets a model instance as argument and returns a numeric value of that particular model fitness, this value will be minimized or maximized by SAMDE according to the maximize parameter.
+	  <strong>fit</strong>: A user-defined function that gets a model instance as argument and  --SKIP returns a numeric value of that particular model fitness, --SKIP this value will be minimized or maximized by SAMDE according to the maximize parameter.  --SKIP
     </li> 
     
   
     <li>
-	  <strong>maxGen</strong>: The maximum number of generations. If the simulation reaches this value, it stops and returns the Model that has the fittest result? TODO.
+	  <strong>maxGen</strong>: The maximum number of generations. If the simulation reaches this value, --SKIP it stops and returns the Model that has the fittest result? TODO. --SKIP
     </li> 
     
   
     <li>
-	  <strong>maximize</strong>: An optional paramaters that determines if the fit will be maximized (true) or minimized (false, default value).
+	  <strong>maximize</strong>: An optional paramaters that determines if the fit will be maximized (true) --SKIP or minimized (false, default value). --SKIP
     </li> 
     
   
     <li>
-	  <strong>model</strong>: A Model.
+	  <strong>model</strong>: A Model. --SKIP
     </li> 
     
   
     <li>
-	  <strong>parameters</strong>: A table with the possible parameter values. They can be values or Choices. All Choices will be calibrated.
+	  <strong>parameters</strong>: A table with the possible parameter values. They can be --SKIP values or Choices. All Choices will be calibrated. --SKIP
     </li> 
     
   
     <li>
-	  <strong>size</strong>: The maximum population size in each generation.
+	  <strong>size</strong>: The maximum population size in each generation. --SKIP
     </li> 
     
   
     <li>
-	  <strong>threshold</strong>: If the fitness of a model reaches this value, SAMDE stops and returns such model.
+	  <strong>threshold</strong>: If the fitness of a model reaches this value, SAMDE stops and --SKIP returns such model. --SKIP
     </li> 
     
   
@@ -324,15 +316,15 @@ Some attributes of SAMDE have internal semantics. They can be used as <b>read-on
 <span class="output">
 	
 	<li>
-	  <strong>fit</strong>: The best fitness result returned by the SAMDE Algorithm.
+	  <strong>fit</strong>: The best fitness result returned by the SAMDE Algorithm. --SKIP
 	</li>
 	
 	<li>
-	  <strong>generation</strong>: The number of generations created by the generit algorithm until it stopped.
+	  <strong>generation</strong>: The number of generations created by the generit algorithm until it stopped. --SKIP
 	</li>
 	
 	<li>
-	  <strong>instance</strong>: The instance of the model with the best fitness.
+	  <strong>instance</strong>: The instance of the model with the best fitness. --SKIP
 	</li>
 	
 </span>
@@ -343,27 +335,27 @@ Some attributes of SAMDE have internal semantics. They can be used as <b>read-on
 
 
 <h3>Usage</h3>
-<pre class="example"><code>
-<span class="id">import</span>(<span class="string">"calibration"</span>)
-<span class="reserved">local</span> <span class="id">MyModel</span> = <span class="function">Model</span>{
-  <span class="id">x</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">-100</span>, <span class="id">max</span> = <span class="number">100</span>},
-  <span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>},
-  <span class="id">finalTime</span> = <span class="number">1</span>,
-  <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>)
-    <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{
-      <span class="function">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>()
-        <span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span>
-      <span class="reserved">end</span>}
-  }
-  <span class="reserved">end</span>
-}
-<span class="id">c</span> = <span class="function">SAMDE</span>{
-    <span class="id">model</span> = <span class="id">MyModel</span>,
-    <span class="id">parameters</span> = {<span class="id">x</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">-100</span>, <span class="id">max</span> = <span class="number">100</span>}, <span class="id">y</span> = <span class="function">Choice</span> {<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>}, <span class="id">finalTime</span> = <span class="number">1</span>},
-    <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>)
-        <span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span>
-    <span class="reserved">end</span>
-}</code></pre>
+<pre class="example"><code><span class="comment">--SKIP</span>
+<span class="id">import</span>(<span class="string">"calibration"</span>) <span class="comment">--SKIP</span>
+<span class="reserved">local</span> <span class="id">MyModel</span> = <span class="function">Model</span>{ <span class="comment">--SKIP</span>
+  <span class="id">x</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">-100</span>, <span class="id">max</span> = <span class="number">100</span>}, <span class="comment">--SKIP</span>
+  <span class="id">y</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>}, <span class="comment">--SKIP</span>
+  <span class="id">finalTime</span> = <span class="number">1</span>, <span class="comment">--SKIP</span>
+  <span class="id">init</span> = <span class="reserved">function</span>(<span class="id">self</span>) <span class="comment">--SKIP</span>
+    <span class="id">self</span>.<span class="id">timer</span> = <span class="function">Timer</span>{ <span class="comment">--SKIP</span>
+      <span class="function">Event</span>{<span class="id">action</span> = <span class="reserved">function</span>() <span class="comment">--SKIP</span>
+        <span class="id">self</span>.<span class="id">value</span> = <span class="number">2</span> * <span class="id">self</span>.<span class="id">x</span> ^<span class="number">2</span> - <span class="number">3</span> * <span class="id">self</span>.<span class="id">x</span> + <span class="number">4</span> + <span class="id">self</span>.<span class="id">y</span> <span class="comment">--SKIP</span>
+      <span class="reserved">end</span>} <span class="comment">--SKIP</span>
+  } <span class="comment">--SKIP</span>
+  <span class="reserved">end</span> <span class="comment">--SKIP</span>
+} <span class="comment">--SKIP</span>
+<span class="id">c</span> = <span class="function">SAMDE</span>{ <span class="comment">--SKIP</span>
+    <span class="id">model</span> = <span class="id">MyModel</span>, <span class="comment">--SKIP</span>
+    <span class="id">parameters</span> = {<span class="id">x</span> = <span class="function">Choice</span>{<span class="id">min</span> = <span class="number">-100</span>, <span class="id">max</span> = <span class="number">100</span>}, <span class="id">y</span> = <span class="function">Choice</span> {<span class="id">min</span> = <span class="number">1</span>, <span class="id">max</span> = <span class="number">10</span>}, <span class="id">finalTime</span> = <span class="number">1</span>}, <span class="comment">--SKIP</span>
+    <span class="id">fit</span> = <span class="reserved">function</span>(<span class="id">model</span>) <span class="comment">--SKIP</span>
+        <span class="reserved">return</span> <span class="id">model</span>.<span class="id">value</span> <span class="comment">--SKIP</span>
+    <span class="reserved">end</span> <span class="comment">--SKIP</span>
+} <span class="comment">--SKIP</span></code></pre>
 
 
 
