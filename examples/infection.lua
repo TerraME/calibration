@@ -62,7 +62,7 @@ local fluSimulation = SAMDE{
 	},
 	fit = function(model)
 		local dif = 0
-		forEachOrderedElement(model.finalInfected, function(idx, att, typ)
+		forEachOrderedElement(model.finalInfected, function(idx, att)
 			dif = dif + math.abs(att - fluData[idx])
 		end)
 		return dif
@@ -71,13 +71,13 @@ print("The smallest difference between fluData and the calibrated infection mode
 print(fluSimulation.fit)
 print("best: ")
 local modelF = fluSimulation.instance
-		forEachOrderedElement(modelF.finalInfected, function(idx, att, typ)
+		forEachOrderedElement(modelF.finalInfected, function(idx, att)
 			print("finalInfected["..idx.."] = "..att)
 		end)
-		forEachOrderedElement(modelF.finalSusceptible, function(idx, att, typ)
+		forEachOrderedElement(modelF.finalSusceptible, function(idx, att)
 			print("finalSusceptible["..idx.."] = "..att)
 		end)
-		forEachOrderedElement(modelF.finalRecovered, function(idx, att, typ)
+		forEachOrderedElement(modelF.finalRecovered, function(idx, att)
 			print("finalRecovered["..idx.."] = "..att)
 		end)
 		print("days: "..modelF.days)
@@ -86,3 +86,4 @@ local modelF = fluSimulation.instance
 		print("total: "..modelF.total)
 		print("alpha: "..modelF.alpha)
 		print("beta: "..modelF.beta)
+

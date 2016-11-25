@@ -29,7 +29,7 @@ local c2 = SAMDE{
 print("Example Result: (SAMDE)\n")
 print("Type result: "..type(c2))
 print("Best Cost: "..c2.fit)
-forEachOrderedElement(c2.parameters, function(idx, att, type)
+forEachOrderedElement(c2.parameters, function(idx)
 	print("Best "..idx..": "..c2.instance[idx])
 end)
 print("")

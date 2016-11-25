@@ -16,8 +16,7 @@ local MyModel = Model{
 	}
 	end}
 
-
-local m = MultipleRuns{
+MultipleRuns{
 	model = MyModel,
 	strategy = "factorial",
 	parameters = {
@@ -26,3 +25,4 @@ local m = MultipleRuns{
 		finalTime = 1
 	 }
 }
+
