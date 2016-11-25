@@ -797,19 +797,14 @@ function MultipleRuns(data)
 
 			local repetition = data.repetition
 
-			local models = {}
-			forEachOrderedElement(data.parameters, function(idx, att)
-					models[idx] = data.model(att)
-			end)
-
 			for case = 1, repetition do
 				local stringSimulations = ""
 				if repetition > 1 then
 					stringSimulations = case.."_execution_"
 				end
 
-				forEachOrderedElement(models, function(idx)
-					local m = models[idx]
+				forEachOrderedElement(data.parameters, function(idx, att)
+					local m = data.model(clone(att))
 					m:run()
 					table.insert(resultTable.simulations, stringSimulations..idx)
 
