@@ -55,7 +55,6 @@ Yeast = Model{
 mr = MultipleRuns{
     model = Yeast,
     parameters = {rate = Choice{min = 0, max = 2.5, step = 0.1}},
-    hideGraphs = true,
 	output = {"rms"}
 }
 

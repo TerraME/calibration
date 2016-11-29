@@ -436,7 +436,8 @@ metaTableMultipleRuns_ = {
 --- The Multiple Runs type has various model execution strategies, that can be used by the modeler
 -- to compare the results of a model and analyze it's behavior in different scenarios.
 -- It returns a MultipleRuns table with the results.
--- @output simulations A table of folder names, a folder is created for each model instance to save the output functions result. Its indexed by execution order.
+-- @output simulations A table with directory names. A directory is created for each model instance to save the output functions result.
+-- It is indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
 -- @output output A table with the return value of an additional function, and the final values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
 -- @usage
@@ -567,6 +568,7 @@ metaTableMultipleRuns_ = {
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
+
 	if type(data.output) == "string" then
 		data.output = {data.output}
 	end

@@ -6,7 +6,6 @@ import("calibration")
 
 local m = MultipleRuns{
 	model = Daisyworld,
-	hideGraphs = true,
 	parameters = {
 		sunLuminosity = Choice{min = 0.4, max = 1.6, step = 0.01},
 	},

@@ -77,7 +77,6 @@ import("calibration")
 
 mr = MultipleRuns{
     model = SingleAgentModel,
-    hideGraphs = true,
     parameters = {
         quantity = Choice{min = 5, max = 455, step = 5},
     },
