@@ -1,6 +1,7 @@
 -- @example Investigating the probability of infection in a Susceptible-Infected-Recovered (SIR) model.
 -- The example shows how susceptibles and the maximum number of infected varies according to the
 -- probability of infection.
+-- @image sir-probability.bmp
 
 import("calibration")
 import("sysdyn")
@@ -14,7 +15,7 @@ runs = MultipleRuns{
 	output = {"susceptible", "maxInfected"}
 }
 
-Chart{
+chart = Chart{
 	data = runs,
 	select = {"susceptible", "maxInfected"},
 	color = {"blue", "red"},
