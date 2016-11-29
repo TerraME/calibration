@@ -546,7 +546,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
--- @arg data.hideGraphs If true, then disableGraphics() will disable all charts and observers during models execution.
+-- @arg data.hideGraphs If true (default), then disableGraphics() will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -576,7 +576,7 @@ function MultipleRuns(data)
 	defaultTableValue(data, "repetition", 1)
 	optionalTableArgument(data, "folderName", "string")
 	optionalTableArgument(data, "quantity", "number")
-	defaultTableValue(data, "hideGraphs", false)
+	defaultTableValue(data, "hideGraphs", true)
 	defaultTableValue(data, "showProgress", false)
 
 	if data.strategy == nil then
@@ -658,13 +658,8 @@ function MultipleRuns(data)
 	checkParameters(data.model, data)
 	data.output = nil
 
-	--If hideGraphs is true, hide Map and Chart graphs during models execution
-	if data.hideGraphs == nil then
-		data.hideGraphs = true -- SKIP
-	end
-
-	if data.hideGraphs == true then
-		disableGraphics() -- SKIP
+	if data.hideGraphs then
+		disableGraphics()
 	end
 
 	local params = {} 
@@ -848,8 +843,9 @@ function MultipleRuns(data)
 	end)
 
 	firstDir:setCurrentDir()
-	if data.hideGraphs == true then
-		enableGraphics() -- SKIP
+
+	if data.hideGraphs then
+		enableGraphics()
 	end
 
 	data.outputVariables = nil
