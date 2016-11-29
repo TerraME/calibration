@@ -11,7 +11,7 @@ local function checkMultipleRunsStrategyRules(origParameters, Param, idx, idxt)
 					customError("Parameters used in strategy 'selected' must be in a table of scenarios.")
 				end
 
-				if type(sParam[idx])  == "Choice" then
+				if type(sParam[idx]) == "Choice" then
 					customError("Parameters used in strategy 'selected' cannot be 'Choice'.")
 				end
 			end)
@@ -53,10 +53,10 @@ local function checkParameters(origModel, origParameters)
 		end
 
 		if mtype == "Choice" then
-			if type(Param) == "Choice" then				
+			if type(Param) == "Choice" then
 				-- if parameter in Multiple Runs/Calibration is a range of values
 				if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
-					checkParametersRange(origModel, idx, Param)	
+					checkParametersRange(origModel, idx, Param)
 				else
 					-- if parameter Multiple Runs/Calibration is a grop of values
 					 checkParametersSet(origModel, idx, Param)
@@ -103,7 +103,7 @@ local function checkParameters(origModel, origParameters)
 
 				-- check if all parameters fit the choosen strategy rules before
 				-- checking if it obeys the model rules.
-				checkMultipleRunsStrategyRules(origParameters, Param, idx, idxt)	
+				checkMultipleRunsStrategyRules(origParameters, Param, idx, idxt)
 				if type(Param) == "Choice" then
 					-- if parameter in Multiple Runs/Calibration is a range of values
 					if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
@@ -211,7 +211,7 @@ end
 -- resultTable Table returned by multipleRuns as result
 local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated)
 	if params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = params[a].min, (params[a].max), params[a].step do	-- Testing the parameter with each value in it's range.
+		for parameter = params[a].min, (params[a].max), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
 				variables[params[a].id] = parameter 
@@ -353,7 +353,7 @@ MultipleRuns_ = {
 		forEachOrderedElement(self, function(idx, att, typ)
 			if typ ~= "table" then return end
 
-			if self[idx][number] ~= nil then		
+			if self[idx][number] ~= nil then
 				getTable[idx] = self[idx][number]
 			else
 				forEachOrderedElement(att, function(idx2, _, typ2)
@@ -555,7 +555,7 @@ metaTableMultipleRuns_ = {
 -- itself. MultipleRuns will get the returning value of these function calls and
 -- put it into a vector of results available in the returning value of MultpleRuns.
 -- @tabular strategy
--- Strategy  & Description & Mandatory arguments & Optional arguments \
+-- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters. 
 -- & parameters, model & repetition, output, hideGraphs, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
@@ -704,7 +704,7 @@ function MultipleRuns(data)
 		firstDir:setCurrentDir() -- SKIP
 	end
 
-	local variables = {}	
+	local variables = {}
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
 		factorial = function()
