@@ -6,6 +6,8 @@
 import("sysdyn")
 import("calibration")
 
+Random{seed = 70374981}
+
 data = {
 	[0] = 9.6,
 	[1] = 29.0,

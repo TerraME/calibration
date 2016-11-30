@@ -224,6 +224,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			end
 
 			local mVariables = {} -- copy of the variables table to be used in the model.
+
 			forEachOrderedElement(variables, function(idx, attribute)
 				mVariables[idx] = attribute
 			end)
@@ -232,6 +233,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
 				m:run()
 				local stringSimulations = ""
+
 				if repeated == true then
 					stringSimulations = repetition.."_execution_"
 				end
@@ -249,6 +251,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				end)
 
 				local testDir = currentDir()
+
 				if data.folderName then
 					dir = Directory(stringSimulations) -- SKIP
 					dir:create() -- SKIP
@@ -503,8 +506,7 @@ metaTableMultipleRuns_ = {
 -- r = MultipleRuns{
 --     model = RainModel,
 --     parameters = {repeatScenario = {water = 10, rain = 20, finalTime = 1}},
---     repetition = 10,
---     showProgress = true
+--     repetition = 10
 -- }
 --
 -- -- Factorial Example. It will run the model 2*66 times to test all the possibilities
