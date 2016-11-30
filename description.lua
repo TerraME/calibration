@@ -1,5 +1,4 @@
-version = "0.3"
-date = "19 July 2016"
+version = "0.4"
 package = "calibration"
 title = "Calibration metrics and algorithms"
 content = [[A package with functions for calibrating spatial models. 
