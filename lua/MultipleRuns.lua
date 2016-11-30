@@ -210,8 +210,8 @@ end
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
 local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated)
-	if params[a].ranged == true then -- if the parameter uses a range of values
-		for parameter = params[a].min, (params[a].max), params[a].step do -- Testing the parameter with each value in it's range.
+	if params[a].ranged then -- if the parameter uses a range of values
+		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
 				variables[params[a].id] = parameter 
