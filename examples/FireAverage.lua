@@ -1,27 +1,27 @@
 -- @example Fire in the forest example using  multiple runs repeateated strategy.
-local rand = Random()
 if not isLoaded("ca") then
    import("ca")
 end
 
+Random{seed = 70374981}
 import("calibration")
 
 local m = MultipleRuns{
 	model = Fire,
-	hideGraphs = true,
 	repetition = 30,
 	showProgress = true,
 	parameters = {scenario = {
-		empty = 0.3,
+		empty = 0.4,
+		--empty = Choice{min = 0.2, max = 0.9, step = 0.1},--0.4,
 		dim = 30
 	}},
 	forest = function(model)
-		return model.cs:forest()
+		return model.cs:state().forest or 0
 	end
 }
 
 local sum = 0
-forEachElement(m.forest, function(idx, value)
+forEachElement(m.forest, function(_, value)
 	sum = sum + value
 end)
 
