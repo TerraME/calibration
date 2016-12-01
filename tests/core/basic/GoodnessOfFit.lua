@@ -22,18 +22,18 @@ return{
 			file = filePath("Costanza2.pgm", "calibration"),
 			attrname = "Costanza"}
 		local sugar = CellularSpace{
-			file = filePath("sugarScape.csv", "calibration"),
+			file = filePath("internal/sugarScape.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar2 = CellularSpace{
-			file = filePath("sugarScape2.csv", "calibration"),
+			file = filePath("internal/sugarScape2.csv", "calibration"),
 			sep      = ";"
 		}
 		local sugar3 = CellularSpace{
-			file = filePath("sugarScape3.csv", "calibration")
+			file = filePath("internal/sugarScape3.csv", "calibration")
 		}
 		local sugar4 = CellularSpace{
-			file = filePath("sugarScape4.csv", "calibration")
+			file = filePath("internal/sugarScape4.csv", "calibration")
 		}
 		-- Discrete Tests:
 		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}
