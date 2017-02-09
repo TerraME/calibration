@@ -56,10 +56,10 @@ instance = SIR{
 
 instance:run()
 
-data = {data = fluData, infected = instance.finalInfected}
+data = DataFrame{data = fluData, infected = instance.finalInfected}
 
 chart = Chart{
-	data = data,
+	target = data,
 	select = {"data", "infected"},
 	label = {"Data", "Best simulation"},
 	title = "Infected"

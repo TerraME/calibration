@@ -21,7 +21,7 @@ local m = MultipleRuns{
 }
 
 local sum = 0
-forEachElement(m.forest, function(_, value)
+forEachElement(m.output.forest, function(_, value)
 	sum = sum + value
 end)
 

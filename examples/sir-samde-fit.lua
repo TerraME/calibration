@@ -56,10 +56,10 @@ instance:run()
 
 --print(vardump(instance.chart:getData())) -- verify this - it seems to be a bug
 
-data = {data = fluData, infected = instance.finalInfected}
+data = DataFrame{data = fluData, infected = instance.finalInfected}
 
 chart = Chart{
-	data = data,
+	target = data,
 	select = {"data", "infected"},
 	label = {"Data", "Best simulation"},
 	title = "Infected"

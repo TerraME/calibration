@@ -159,42 +159,8 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func,  "Argument 'model' is mandatory.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:get("a")
+		unitTest:assertError(error_func, "Argument 'model' is mandatory.")
 
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y = Choice{min = 1, max = 10, step = 1}
-				},
-				output = {"value"}
-			}
-			m:saveCSV("nome", 1)
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:saveCSV(1, ",")
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
@@ -246,40 +212,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Argument 'test' is unnecessary.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}
-			}
-			m:get("a")
 
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}
-			}
-			m:saveCSV("nome", 1)
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}
-			}
-			m:saveCSV(1, ",")
-		end
-
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,

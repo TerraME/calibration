@@ -17,7 +17,7 @@ local m = MultipleRuns{
 }
 
 chart = Chart{
-	data = m,
+	target = m.output,
 	select = {"blackArea", "whiteArea", "emptyArea"},
 	xAxis = "sunLuminosity"
 }

@@ -86,7 +86,7 @@ mr = MultipleRuns{
 }
 
 Chart{
-	data = mr,
+	target = mr.output,
 	select = "total",
 	xAxis = "quantity"
 }

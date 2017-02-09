@@ -324,112 +324,6 @@ end
 
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
-	--- Function that returns the result of a given MultipleRuns instance.
-	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
-	-- @usage
-	-- import("calibration")
-	-- MyModel = Model{
-	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	--    finalTime = 1,
-	--    init = function(self)
-	--    self.timer = Timer{
-	--        Event{action = function()
-	--         self.value = x
-	--        end}
-	--     }
-	--   end
-	-- }
-	-- m = MultipleRuns{
-	--  model = MyModel,
-	--  strategy = "sample",
-	--  parameters = {x = Choice{-100, -1, 0, 1,2,100}},
-	--  quantity = 3,
-	--  additionlOutputFunction = function(model)
-	--    print(model.x)
-	--  end}
-	-- -- Get the X value in the first execution
-	-- result = m:get(1).x
-	get = function(self, number)
-		mandatoryArgument(1, "number", number)
-		local getTable = {}
-
-		forEachOrderedElement(self, function(idx, att, typ)
-			if typ ~= "table" then return end
-
-			if self[idx][number] ~= nil then
-				getTable[idx] = self[idx][number]
-			else
-				forEachOrderedElement(att, function(idx2, _, typ2)
-					if typ2 == "table" then
-						if getTable[idx] == nil then
-							getTable[idx] = {}
-						end
-
-						getTable[idx][idx2] = self[idx][idx2][number]
-					end
-				end)
-			end
-		end)
-
-		return getTable
-	end,
-	--- Save the results of MultipleRuns to a CSV file.
-	-- Each line represents the values in a different simulation.
-	-- The columns are each of the parameters passed to MultipleRuns
-	-- and the return values of all additional functions and parameters in the output table.
-	-- @arg name The name of the CSV file.
-	-- @arg separator The chosen separator to be used in the CSV file.
-	-- @usage
-	-- import("calibration")
-	-- local MyModel = Model{
-	-- 	x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 	y = Choice{min = 1, max = 10, step = 1},
-	-- 	finalTime = 1,
-	-- 	init = function(self)
-	-- 		self.timer = Timer{
-	-- 			Event{action = function()
-	-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
-	-- 			end}
-	-- 		}
-	-- 	end
-	-- }
-	-- local m = MultipleRuns{
-	-- 	model = MyModel,
-	-- 	strategy = "factorial",
-	-- 	parameters = {
-	-- 		x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 		y = Choice{min = 1, max = 10, step = 1},
-	-- 		finalTime = 1
-	-- 	 },
-	-- 	additionalF = function(_)
-	-- 		return "test"
-	-- 	end,
-	-- 	output = {"value"}
-	-- }
-	-- -- Saves MultipleRuns results:
-	-- m:saveCSV("myCSVFile", ";")
-	saveCSV = function(self, name, separator)
-		mandatoryArgument(2, "string", separator)
-		mandatoryArgument(1, "string", name)
-		local CSVTable = {}
-
-		forEachOrderedElement(self, function(idx, att, typ)
-			if typ == "table" and idx ~= "parameters" then
-				local counter = 0
-				forEachOrderedElement(att, function(_, att2)
-					counter = counter + 1
-					if CSVTable[counter] == nil then
-						CSVTable[counter] = {}
-					end
-
-					CSVTable[counter][idx] = att2
-				end)
-			end
-		end)
-
-		local csvFile = File(name..".csv")
-		csvFile:write(CSVTable, separator)
-	end
 }
 
 metaTableMultipleRuns_ = {
@@ -442,6 +336,7 @@ metaTableMultipleRuns_ = {
 -- @output simulations A table with directory names. A directory is created for each model instance to save the output functions result.
 -- It is indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
+-- @output output A DataFrame with the output of each simulation.
 -- @output output A table with the return value of an additional function, and the final values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
 -- @usage
 -- -- Complete Example:
@@ -842,9 +737,22 @@ function MultipleRuns(data)
 	}
 
 	setmetatable(data, metaTableMultipleRuns_)
-	forEachOrderedElement(resultTable, function(idx, att)
-		data[idx] = att
+
+	local output = {}
+
+	forEachElement(resultTable, function(idx, value, mtype)
+		if #value > 0 then
+			output[idx] = value
+		else
+			forEachElement(value, function(midx, mvalue, mmtype)
+				if mmtype == "table" then
+					output[idx.."_"..midx] = mvalue
+				end
+			end)
+		end
 	end)
+
+	data.output = DataFrame(output)
 
 	firstDir:setCurrentDir()
 
