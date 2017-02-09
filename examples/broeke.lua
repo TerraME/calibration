@@ -1,6 +1,6 @@
 -- @example An implementation of the model described in
--- ten Broeke, Guus, George van Voorn, and Arend Ligtenberg. 
--- "Which Sensitivity Analysis Method Should I Use for My Agent-Based Model?." 
+-- ten Broeke, Guus, George van Voorn, and Arend Ligtenberg.
+-- "Which Sensitivity Analysis Method Should I Use for My Agent-Based Model?."
 -- Journal of Artificial Societies & Social Simulation 19.1 (2016).
 -- http://jasss.soc.surrey.ac.uk/19/1/5.html.
 
@@ -125,7 +125,7 @@ cell = Cell{
 	carryingCapacity = 2,
 	resourceUncertainty = 0.1,
 	getResource = function(self)
-		-- this function should use a normal distribution, but we are using just a 
+		-- this function should use a normal distribution, but we are using just a
 		-- N(0, self.resourceUncertainty)
 
 		local uncertainty = Random{min = -self.resourceUncertainty, max = self.resourceUncertainty}
@@ -134,9 +134,9 @@ cell = Cell{
 		return self.resource + uncertainty:sample()
 	end,
 	grow = function(self)
-		self.resource = ( self.past.resource * self.carryingCapacity * math.exp(self.growthRate) ) / 
+		self.resource = ( self.past.resource * self.carryingCapacity * math.exp(self.growthRate) )
 		                ( self.carryingCapacity + self.past.resource * math.exp(self.growthRate) )
-						+ self.past.resource
+		                + self.past.resource
 
 		-- the line below was not in the original paper
 		if self.resource > 100 then self.resource = 100 end

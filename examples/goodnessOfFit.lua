@@ -1,4 +1,4 @@
--- @example Basic example for testing goodnessofFit type, 
+-- @example Basic example for testing goodnessofFit type,
 -- Example described in the Costanza paper.
 import("calibration")
 local cs12 = CellularSpace{

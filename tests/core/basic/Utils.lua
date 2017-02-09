@@ -58,10 +58,10 @@ end,
 -- these functions verification are tested in the multipleRuns ans SaMDE alternative tests.
 checkParametersSet = function(unitTest)
 	local parameters = {x = Choice{-100, 1, 0}}
-   	checkParametersSet(MyModel, "x", parameters.x)
-   	local x = 2
-   	unitTest:assertEquals(x, 2)
- -- Error: Parameter 3 in #3 is out of the model x range.
+	checkParametersSet(MyModel, "x", parameters.x)
+	local x = 2
+	unitTest:assertEquals(x, 2)
+	-- Error: Parameter 3 in #3 is out of the model x range.
 end,
 checkParametersRange = function(unitTest)
 	local parameters = {y = Choice{min = 2, max = 10, step =1}}

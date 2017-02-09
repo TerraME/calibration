@@ -195,7 +195,7 @@ MultipleRuns = function(unitTest)
 	local mMandChoiceTable = MultipleRuns{
 		model = MyModel2,
 		strategy = "factorial",
-		parameters = { 
+		parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y2 = Choice{1,2,3,4,5},
 			finalTime = 1
@@ -212,7 +212,7 @@ MultipleRuns = function(unitTest)
 			parameters3 = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
-				z = 1	
+				z = 1
 			 },
 			finalTime = 1
 		},
@@ -228,7 +228,7 @@ MultipleRuns = function(unitTest)
 			parameters3 = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
-				f = 1	
+				f = 1
 			 },
 			finalTime = 1
 		},

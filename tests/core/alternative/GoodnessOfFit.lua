@@ -6,7 +6,7 @@ return{
 			pixelByPixel()
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(1))	
+		unitTest:assertError(error_func, mandatoryArgumentMsg(1))
 		error_func = function()
 			pixelByPixel(cs)
 		end
@@ -44,7 +44,7 @@ return{
 		error_func = function()
 			multiLevel{}
 		end
-		
+
 		unitTest:assertError(error_func, mandatoryArgumentMsg("cs1"))
 		error_func = function()
 			multiLevel{cs1 = cs}

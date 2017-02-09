@@ -1,6 +1,6 @@
 -- @example An example of a bad calibration. It uses a SIR model and calibrates it with real data using
 -- only the difference between the maximum number of infected as error.
--- The calibration is perfect, but the time when the maximum is reached is completely different. 
+-- The calibration is perfect, but the time when the maximum is reached is completely different.
 -- The data available shows the maximum in time 6, but the fittest configuration of the model reaches
 -- the maximum only in the end of the simulation.
 -- @image sir-samde-max-infected.bmp

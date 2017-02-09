@@ -7,7 +7,7 @@
 -- If both maps are equal, the final result will be 1.
 -- If the cellular spaces are continuous:
 -- The difference is calculated by subtracting the value of a cell in the first cellular space,
--- with the value of the same cell in the second cellular space. 
+-- with the value of the same cell in the second cellular space.
 -- And the precision of each cell is (1 - difference).
 -- The final result is the sum of the precisions divided by the number of cells
 -- If the cellular spaces are discrete:
@@ -37,7 +37,7 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 	local dif = 0
 	local equal = 0
 	if continuous == true then
-		forEachCellPair(cs1, cs2, function(cell1, cell2) 
+		forEachCellPair(cs1, cs2, function(cell1, cell2)
 			verify(type(cell1[attribute1]) == "number", "cell1["..attribute1.."] is not a number")
 
 			verify(type(cell2[attribute2]) == "number", "cell2["..attribute2.."] is not a number")
@@ -50,9 +50,9 @@ function pixelByPixel(cs1, cs2, attribute1, attribute2, continuous)
 		forEachCellPair(cs1, cs2, function(cell1, cell2)
 			verify(type(cell1[attribute1]) == "number" or type(cell1[attribute1]) == "string", "cell1["..attribute1.."] must be a number or string")
 			verify(type(cell2[attribute2]) == "number" or type(cell2[attribute2]) == "string", "cell2["..attribute2.."] must be a number or string")
-			
+
 			if cell1[attribute1] == cell2[attribute2] then
-				equal = equal + 1		
+				equal = equal + 1
 			end
 
 			counter = counter + 1
@@ -96,8 +96,8 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 				select = function(cell) return (cell.x <= stepx + j)
 				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i) end
 			}
-			t2 = Trajectory{ 
-			-- select all elements belonging to the dim x dim square in cs1, 
+			t2 = Trajectory{
+			-- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <= stepx + j)
@@ -106,7 +106,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 			local counter1 = {}
 			local counter2 = {}
 			local eachCellCounter = 0
-			forEachCell(t1, function(cell1) 
+			forEachCell(t1, function(cell1)
 
 					local value1 = cell1[attribute]
 					eachCellCounter = eachCellCounter + 1
@@ -121,7 +121,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 					end
 			end)
 
-			forEachCell(t2, function(cell2) 
+			forEachCell(t2, function(cell2)
 					local value2 = cell2[attribute]
 					if counter2[value2] == nil then
 							counter2[value2] = 1
@@ -134,9 +134,9 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 					end
 			end)
 
-			local squareDif 
+			local squareDif
 			local squareFit
-			local dif = 0 
+			local dif = 0
 			forEachElement(counter1, function(idx, value)
 				dif = math.abs(value - counter2[idx]) + dif
 			end)
@@ -147,7 +147,7 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 		end
 	end
 
-	return squareTotalFit / forCounter 
+	return squareTotalFit / forCounter
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
@@ -179,15 +179,15 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 
 	for i = cs1.yMin, lastRow do -- for each line
 		for j = cs1.xMin, lastCol do -- for each column
-			forCounter = forCounter + 1	
+			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs1,
 				select = function(cell) return (cell.x <= stepx + j)
 				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i) end
 			}
-			t2 = Trajectory{ 
-			-- select all elements belonging to the dim x dim square in cs1, 
+			t2 = Trajectory{
+			-- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
 				target = cs2,
 				select = function(cell) return (cell.x <= stepx + j)
@@ -199,7 +199,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 					local value1 = cell1[attribute]
 					counter1 = counter1 + value1
 			end)
-			forEachCell(t2, function(cell2) 
+			forEachCell(t2, function(cell2)
 					local value2 = cell2[attribute]
 					counter2 = counter2 + value2
 			end)
@@ -215,7 +215,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 		end
 	end
 
-	return squareTotalFit / forCounter 
+	return squareTotalFit / forCounter
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
@@ -248,7 +248,7 @@ multiLevel = function(data)
 
 	local k = 0.1 -- value that determinate weigth for each square calibration
 	local exp = 1 -- that will be used in the final fitness calibration
-	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as 
+	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as
 	-- the fitness of the 1x1 square.
 	local largerSquare
 	if data.cs1.yMax > data.cs1.xMax then
@@ -264,13 +264,13 @@ multiLevel = function(data)
 		Chart{ --SKIP
 			title = "MultiLevel Results", --SKIP
 			target = fitChart, --SKIP
-		 	select = {"sqrFit"} --SKIP
+			select = {"sqrFit"} --SKIP
 		} --SKIP
 		fitChart:notify(0) --SKIP
 	end
 
 	if data.continuous == true then
-		for i = 1, (largerSquare) do 
+		for i = 1, (largerSquare) do
 		-- increase the square size and calculate fitness for each square.
 			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
@@ -285,9 +285,9 @@ multiLevel = function(data)
 		end
 
 	else
-		for i = 1, (largerSquare) do 
+		for i = 1, (largerSquare) do
 			-- increase the square size and calculate fitness for each square.
-			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute) 
+			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
 				if data.graphics == true then
 					fitChart.sqrFit = fitSquare --SKIP

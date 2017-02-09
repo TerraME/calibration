@@ -55,7 +55,7 @@ local function checkParameters(origModel, origParameters)
 		if mtype == "Choice" then
 			if type(Param) == "Choice" then
 				-- if parameter in Multiple Runs/Calibration is a range of values
-				if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
+				if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
 					checkParametersRange(origModel, idx, Param)
 				else
 					-- if parameter Multiple Runs/Calibration is a grop of values
@@ -64,8 +64,8 @@ local function checkParameters(origModel, origParameters)
 
 			elseif origParameters.strategy == "selected" then
 				forEachOrderedElement(origParameters.parameters, function(_, sParam)
-					checkParameterSingle(origModel, idx, 1, sParam[idx]) 
-				end) 
+					checkParameterSingle(origModel, idx, 1, sParam[idx])
+				end)
 			elseif type(Param) == "table" then
 				customError("The parameter must be of type Choice, a table of Choices or a single value.")
 			end
@@ -78,7 +78,7 @@ local function checkParameters(origModel, origParameters)
 						mandatory = true
 				elseif type(mandArg) == "Choice" then
 					if mandArg.max ~= nil or mandArg.min ~= nil then
-						if "number" == att.value then 
+						if "number" == att.value then
 							mandatory = true
 						end
 					else
@@ -172,7 +172,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 			range = false
 			forEachOrderedElement(attribute.values, function (idv)
 				table.insert(parameterElements, attribute.values[idv])
-			end) 
+			end)
 		else
 			if attribute.step == nil then
 				mandatoryTableArgument(attribute, idx..".step", "Choice")
@@ -183,7 +183,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 
 		table.insert(params, {
 			id = idx,
-			min = attribute.min, 
+			min = attribute.min,
 			max = attribute.max,
 			elements = parameterElements,
 			ranged = range,
@@ -214,7 +214,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = parameter 
+				variables[params[a].id] = parameter
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
@@ -270,14 +270,14 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			-- Testing the parameter with each value in it's table.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = attribute 
+				variables[params[a].id] = attribute
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
 				variables[params[a].table][params[a].id] = attribute
 			end
-			
+
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2)
 				mVariables[idx2] = attribute2
@@ -559,14 +559,14 @@ metaTableMultipleRuns_ = {
 -- put it into a vector of results available in the returning value of MultpleRuns.
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
--- "factorial" & Simulate the Model with all combinations of the argument parameters. 
+-- "factorial" & Simulate the Model with all combinations of the argument parameters.
 -- & parameters, model & repetition, output, hideGraphs, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
 -- repetition, model & output, folderName, hideGraphs, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ... 
+-- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -609,9 +609,9 @@ function MultipleRuns(data)
 		else
 			data.strategy = "selected"
 		end
-	end		
+	end
 
-	local resultTable = {simulations = {}} 
+	local resultTable = {simulations = {}}
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	data.outputVariables = {}
@@ -649,8 +649,8 @@ function MultipleRuns(data)
 			if addFunctions[idx] ~= nil then
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
-			
-			addFunctions[idx] = att 
+
+			addFunctions[idx] = att
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
@@ -666,7 +666,7 @@ function MultipleRuns(data)
 		disableGraphics()
 	end
 
-	local params = {} 
+	local params = {}
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
 	if data.strategy ~= "selected" then
@@ -676,14 +676,14 @@ function MultipleRuns(data)
 				parametersOrganizer(mainTable, idx, attribute, atype, params)
 			else
 				forEachOrderedElement(attribute, function(idx2, att2, typ2)
-					parametersOrganizer(idx, idx2, att2, typ2, params) 
+					parametersOrganizer(idx, idx2, att2, typ2, params)
 				end)
 			end
 		end)
 	end
 
 	-- Setting the folder for the tests results to be saved:
-	local s = package.config:sub(1, 1) 
+	local s = package.config:sub(1, 1)
 	local firstDir = currentDir()
 	local folderDir = currentDir()
 	local folder = data.folderName
@@ -756,7 +756,7 @@ function MultipleRuns(data)
 					table.insert(resultTable.simulations, stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1))))
 
 					if data.folderName then
-						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP 
+						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP
 						dir:create() -- SKIP
 						Directory(folderDir..s..stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))):setCurrentDir() -- SKIP
 					end
@@ -782,7 +782,7 @@ function MultipleRuns(data)
 					end)
 
 					forEachOrderedElement(sampleparams, function(idx2, att2)
-						if resultTable[idx2] == nil then 
+						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
 
@@ -828,7 +828,7 @@ function MultipleRuns(data)
 					end
 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
-						if resultTable[idx2] == nil then 
+						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
 

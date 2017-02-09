@@ -413,7 +413,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
 						elseif (winV == 1) then -- best\1 --SKIP
 							ui2 = oobTrea(bestInd[k] + params[fPos] * (solution1[k] - solution2[k]), varMatrix, k) --SKIP
-						elseif (winV == 2) then -- rand\2 --SKIP 
+						elseif (winV == 2) then -- rand\2 --SKIP
 							ui2 = oobTrea(solution1[k] + params[fPos] * (solution2[k] - solution3[k]) + params[fPos] * (solution3[k] - solution4[k]), varMatrix, k) --SKIP
 						elseif (winV == 3) then -- current-to-rand --SKIP
 							ui2 = oobTrea(indexInd[k] + params[fPos] * (solution1[k] - indexInd[k]) + params[fPos] * (solution2[k] - solution3[k]), varMatrix, k) --SKIP
@@ -533,22 +533,21 @@ local function checkParameters(tModel, tParameters) --SKIP
 	-- range of values according to a Model.
 	forEachElement(tModel:getParameters(), function(idx, att, mtype) --SKIP
 		if mtype ~= "function" then --SKIP
-	    	if idx ~= "init" and idx ~= "seed" then --SKIP
+			if idx ~= "init" and idx ~= "seed" then --SKIP
 				local Param = tParameters.parameters[idx] --SKIP
 				if mtype == "Choice" then --SKIP
 					if type(Param) == "Choice" then --SKIP
 						-- if parameter in Multiple Runs/Calibration is a range of values
-			    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then  --SKIP
-			    			checkParametersRange(tModel, idx, Param) --SKIP
-				    	else --SKIP
-				    	-- if parameter Multiple Runs/Calibration is a grop of values
-				    		 checkParametersSet(tModel, idx, Param) --SKIP
-				    	end --SKIP
+						if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then  --SKIP
+							checkParametersRange(tModel, idx, Param) --SKIP
+						else --SKIP
+						-- if parameter Multiple Runs/Calibration is a grop of values
+							 checkParametersSet(tModel, idx, Param) --SKIP
+						end --SKIP
 
-				   	elseif type(Param) == "table" then --SKIP
-				   		customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
-				   	end --SKIP
-
+					elseif type(Param) == "table" then --SKIP
+						customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
+					end --SKIP
 				elseif mtype == "Mandatory" then --SKIP
 					--Check if mandatory argument exists in tParameters.parameters and if it matches the correct type.
 					local mandatory = false --SKIP
@@ -601,20 +600,20 @@ local function checkParameters(tModel, tParameters) --SKIP
 						 --SKIP
 						if type(Param) == "Choice" then --SKIP
 							-- if parameter in Multiple Runs/Calibration is a range of values
-				    		if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then --SKIP
-				    			checkParametersRange(tModel, idxt, Param, idx) --SKIP
-					    	else --SKIP
-					    	-- if parameter Multiple Runs/Calibration is a grop of values
-					    		 checkParametersSet(tModel, idxt, Param, idx) --SKIP
-					    	end --SKIP
+							if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then --SKIP
+								checkParametersRange(tModel, idxt, Param, idx) --SKIP
+							else --SKIP
+							-- if parameter Multiple Runs/Calibration is a grop of values
+								 checkParametersSet(tModel, idxt, Param, idx) --SKIP
+							end --SKIP
 
-					   	elseif type(Param) == "table" and type(attt) == "Choice" then --SKIP
-					   		customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
-					   	end --SKIP
+						elseif type(Param) == "table" and type(attt) == "Choice" then --SKIP
+							customError("The parameter must be of type Choice, a table of Choices or a single value.") --SKIP
+						end --SKIP
 					end) --SKIP
 				end --SKIP
 			end --SKIP
-	    end --SKIP
+		end --SKIP
 	end) --SKIP
 end --SKIP
 
@@ -627,9 +626,9 @@ metaTableSAMDE_ = { --SKIP
 } --SKIP
 
 --- Type to calibrate a model using genetic algorithm. It returns a SAMDE type with the
--- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm 
+-- fittest individual (a Model), its fit value, and the number of generations taken by the genetic algorithm
 -- to reach the result.
--- SaMDE paper is available at: 
+-- SaMDE paper is available at:
 -- ( https://onedrive.live.com/redir?resid=50A40B914086BD50!4054&authkey=!ACNH3WpLEBuIOME&ithint=file%2cpdf ).
 -- @output fit The best fitness result returned by the SAMDE Algorithm.
 -- @output instance The instance of the model with the best fitness.
@@ -637,9 +636,9 @@ metaTableSAMDE_ = { --SKIP
 -- @arg data.model A Model.
 -- @arg data.parameters A table with the possible parameter values. They can be
 -- values or Choices. All Choices will be calibrated.
--- @arg data.fit A user-defined function that gets a model instance as argument and 
+-- @arg data.fit A user-defined function that gets a model instance as argument and
 -- returns a numeric value of that particular model fitness,
--- this value will be minimized or maximized by SAMDE according to the maximize parameter. 
+-- this value will be minimized or maximized by SAMDE according to the maximize parameter.
 -- @arg data.size The maximum population size in each generation.
 -- @arg data.maxGen The maximum number of generations. If the simulation reaches this value,
 -- it stops and returns the Model that has the fittest result? TODO.

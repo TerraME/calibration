@@ -2,7 +2,7 @@
 -- basic functions to work with Models, such as checking parameters and creating
 -- random instances of a given Model.
 
---- Verify if a given parameter for a Model using min and max (and possibly range) 
+--- Verify if a given parameter for a Model using min and max (and possibly range)
 -- values is a valid subset for a given Model parameter.
 -- @arg model A Model to be instantiated.
 -- @arg idx  The name of the parameter to be verified in the Model.
@@ -67,11 +67,11 @@ function checkParametersRange(model, idx, Param, tableName)
 			if (Param.min - values.min) % values.step ~= 0 then
 				customError("Parameter "..idx.." min is out of the model range.")
 			end
-		end		
+		end
 	end
 end
 
---- Verify if a given parameter for a Model 
+--- Verify if a given parameter for a Model
 -- value is a valid subset for a given Model parameter.
 -- @arg model A model to be instantiated.
 -- @arg idx  The name of the parameter to be checked in the parameters table.
@@ -157,7 +157,7 @@ end
 -- end)
 --
 -- print(err) -- Error: Parameter 3 in #3 is out of the model x range.
-function checkParametersSet(model, idx, parameters, tableName) 
+function checkParametersSet(model, idx, parameters, tableName)
 	-- test if the group of values in the Calibration/Multiple Runs type are inside the accepted model range of values
 	forEachOrderedElement(parameters.values, function(idx2, att2)
 		checkParameterSingle(model, idx, idx2, att2, tableName)
@@ -169,7 +169,7 @@ end
 -- @usage
 -- import("calibration")
 -- local original = {param = 42}
--- local copy = cloneValues(original) 
+-- local copy = cloneValues(original)
 function cloneValues(mtable)
     mandatoryArgument(1, "table", mtable)
     local result = {}
