@@ -89,7 +89,7 @@ return{
 		unitTest:assertEquals(c4.fit, 4, 1)
 		unitTest:assertEquals(c4.instance.x, 1, 1)
 		unitTest:assertEquals(c4.instance.y, 1, 1)
-	
+
 		local c51 = SAMDE{
 			model = myModelSamde,
 			parameters = {x = Choice{min = 1, max = 10, step = 1}, y = Choice{min = 1, max = 10, step = 0.3}},

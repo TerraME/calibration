@@ -208,7 +208,7 @@ local normalize = function(x, varMatrix, i, paramListInfo)
 	else
 		newValue = paramListInfo[i].proportion[x]
 	end
-	
+
 	return newValue
 end
 
@@ -347,7 +347,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	local generation = 1
 	-- print("evolution population ...");
 	while( (bestCost > 0.001) and (maxDiversity(pop, dim, maxPopulation, varMatrix, paramListInfo) > 0.001) and generationStop == false and thresholdStop == false) do
-		
+
 		local popAux = {}
 		for j = 1, maxPopulation do
 			local params = copyParameters(pop[j], dim)
@@ -360,12 +360,12 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 			for k = 1, NUMEST do
 				params[k] = repareP(solution1[dim + k] + F * (solution2[dim + k] - solution3[dim + k]))
 			end
-			
+
 			local sumV = 0.0
 			for k = 1, NUMEST do
 				sumV = sumV + params[k]
 			end
-			
+
 			local _rand = rand:number()
 			local p = 0
 			local winV = 0
@@ -375,7 +375,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 					winV = winV + 1
 				end
 			end
-			
+
 			local fPos = 1 + NUMEST + 2 * winV
 			params[fPos] = repareP(solution1[dim + fPos] + F * (solution2[dim + fPos] - solution3[dim + fPos]))
 			local crPos = fPos + 1;
@@ -437,7 +437,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 					table.insert(ui,indexInd[k])
 				end
 			end
-			
+
 			for k = 1, (NUMEST * PARAMETERS) do
 				if rand:number() <= params[crPos] then
 					table.insert(ui, params[k])
@@ -468,14 +468,14 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 					end
 				else
 					table.insert(popAux, pop[j])
-				end	
+				end
 			end
 		end
-		
+
 		for j = 1, maxPopulation do
 			pop[j] = copy(popAux[j])
 		end
-		
+
 		if threshold ~= nil then
 			if maximize == true then
 				if bestCost >= threshold then
@@ -504,7 +504,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 	forEachOrderedElement(singleParameters, function (idx, att)
 		bestVariablesChoice[idx] = att
 	end)
-	
+
 	local bestInstance = model(bestVariablesChoice)
 	bestInstance:run()
 

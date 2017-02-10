@@ -739,7 +739,7 @@ function MultipleRuns(data)
 
 	local output = {}
 
-	forEachElement(resultTable, function(idx, value, mtype)
+	forEachElement(resultTable, function(idx, value)
 		if #value > 0 then
 			output[idx] = value
 		else

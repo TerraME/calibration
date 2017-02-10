@@ -120,7 +120,7 @@ return{
 		unitTest:assertEquals(mPosition.output[1].position_x, -100)
 		unitTest:assertEquals(mPosition.output[1].position_y, 1)
 		unitTest:assertEquals(mPosition.output[1].simulations, 'finalTime_1_position_x_-100_position_y_1_')
-	
+
 		local mQuant = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
@@ -138,7 +138,7 @@ return{
 
 		unitTest:assertEquals(mQuant.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
 		unitTest:assertEquals(mQuant.output[61].simulations, '2_execution_finalTime_1_x_-100_y_1_')
-	
+
 		local mQuant2 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
@@ -173,7 +173,7 @@ return{
 		unitTest:assertEquals(mMan.output[1].x, -100)
 		unitTest:assertEquals(mMan.output[1].y2, 1)
 		unitTest:assertEquals(mMan.output[1].simulations, 'finalTime_1_x_-100_y2_1_')
-	
+
 		local mMandChoiceTable = MultipleRuns{
 			model = MyModel2,
 			strategy = "factorial",
@@ -248,7 +248,7 @@ return{
 		unitTest:assertEquals(mSingle.output[1].x, -100)
 		unitTest:assertEquals(mSingle.output[1].y, 1)
 		unitTest:assertEquals(mSingle.output[1].simulations, 'finalTime_1_x_-100_y_1_z_1_')
-	
+
 		local m2 = MultipleRuns{
 			model = MyModel,
 			strategy = "selected",

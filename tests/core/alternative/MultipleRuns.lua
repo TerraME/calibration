@@ -55,7 +55,6 @@ local MyModel4 = Model{
 local error_func
 return{
 	MultipleRuns = function(unitTest)
-		local m
 		error_func = function()
 			m = MultipleRuns{
 				folderName = "!@#$$#$%??",
