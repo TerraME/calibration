@@ -23,7 +23,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg("model"))	
+		unitTest:assertError(error_func, mandatoryArgumentMsg("model"))
 		error_func = function()
 			c = SAMDE{
 				model = MyModel,
@@ -36,7 +36,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg("parameters"))	
+		unitTest:assertError(error_func, mandatoryArgumentMsg("parameters"))
 		error_func = function()
 			local c = SAMDE{
 				model = MyModel,
@@ -64,7 +64,7 @@ return{
 			c:fit(model, parameters)
 		end
 
-		unitTest:assertError(error_func, "Argument 'extraParameter' is unnecessary. Do you mean 'parameters'?")		
+		unitTest:assertError(error_func, "Argument 'extraParameter' is unnecessary. Do you mean 'parameters'?")
 	end
 }
 

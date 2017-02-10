@@ -34,8 +34,8 @@ local MyModel3 = Model{
 			Event{action = function()
 				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
 			end}
-	}
-end
+		}
+	end
 }
 local MyModel4 = Model{
 	parameters3 = {
@@ -48,21 +48,21 @@ local MyModel4 = Model{
 			Event{action = function()
 				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
 			end}
-	}
-end
+		}
+	end
 }
 
 local error_func
 return{
 	MultipleRuns = function(unitTest)
-		local m
 		error_func = function()
 			m = MultipleRuns{
 				folderName = "!@#$$#$%??",
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
 
 		unitTest:assertError(error_func, "Directory name '!@#$$#$%??' cannot contain character '?'.")
@@ -71,56 +71,62 @@ return{
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5, p = "extra"}},
 				repetition = 3,
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "p is unnecessary.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {x = Choice{1, 2},
-				 y =Choice{1,5},
-				  p = "extra"},
+				y =Choice{1,5},
+				p = "extra"},
 				repetition = 3,
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "p is unnecessary.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {x = Choice{-100, 2}, y = Choice{1, 5}},
 				repetition = 3,
-				output = {"x", "y",	"value"}}
+				output = {"x", "y",	"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
-				output = {"x", "y",	"value"}}
+				output = {"x", "y",	"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
-				output = {"fake"}}
+				output = {"fake"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, 'Output value "fake" is not present in the model.')
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
-				output = {"value", "value"}}
+				output = {"value", "value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
 		error_func = function()
 			m = MultipleRuns{
@@ -131,81 +137,56 @@ return{
 				value = function(model)
 					return model.value
 				end
-				}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				repetition = 3,
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'parameters' is mandatory.")
 		error_func = function()
 			m = MultipleRuns{
 				parameters = {scenario1 = {x = 2, y = 5, seed = 1001}},
 				repetition = 3,
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
-		unitTest:assertError(error_func,  "Argument 'model' is mandatory.")
+
+		unitTest:assertError(error_func, "Argument 'model' is mandatory.")
+
 		error_func = function()
 			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:get("a")
-			
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:saveCSV("nome", 1)
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:saveCSV(1, ",")
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
-		error_func = function()
-				m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'x.step' is mandatory.")
 		error_func = function()
-				m = MultipleRuns{
+			m = MultipleRuns{
 				model = MyModel,
 				strategy = "sample",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = 5},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'quantity' is mandatory.")
 		error_func = function()
 				m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
 
 		unitTest:assertError(error_func, "Argument 'y.step' is mandatory.")
@@ -214,7 +195,8 @@ return{
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = {-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
@@ -224,74 +206,49 @@ return{
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 				test = "test",
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'test' is unnecessary.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:get("a")
-			
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected number, got string.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:saveCSV("nome", 1)
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#2' expected string, got number.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				strategy = "factorial",
-				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
-			m:saveCSV(1, ",")
-		end
-		
-		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected string, got number.")
+
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 99}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{1,2,3}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'y' is mandatory.")
 			error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
-		
+
 		unitTest:assertError(error_func, "Argument 'x.step' is mandatory.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "selected",
 				parameters = {x = -100, y = 10},
-				output = {"value"}}
+				output = {"value"}
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
@@ -311,11 +268,12 @@ return{
 				parameters = {
 					scenario1 = {x = Choice{2,3,4}, y = 5},
 					scenario2 = {x = 1, y = 3}
-				 },
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
@@ -326,11 +284,12 @@ return{
 				parameters = {
 					scenario1 = {parameters3 = {x = Choice{2,3}, y = 5}},
 					scenario2 = {parameters3 = {x = 1, y = 3}}
-		 		},
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
@@ -340,11 +299,12 @@ return{
 				strategy = "selected",
 				parameters = {
 					parameters3 = {x = Choice{1,2,3}, y = 5}
-		 		},
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
@@ -354,11 +314,12 @@ return{
 				strategy = "selected",
 				parameters = {
 					parameters3 = {x = 2, y = 5}
-		 		},
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
@@ -368,11 +329,12 @@ return{
 				strategy = "selected",
 				parameters = {
 					parameters3 = {x = 2, y = 5}
-		 		},
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
@@ -382,11 +344,12 @@ return{
 				strategy = "factorial",
 				parameters = {
 					parameters3 = {x = {0,1,2}, y = 5}
-		 		},
+				},
 				output = {"value"},
 				additionalF = function(_)
 					return "test"
-			end}
+				end
+			}
 		end
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")

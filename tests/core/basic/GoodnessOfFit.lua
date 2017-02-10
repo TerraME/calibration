@@ -44,7 +44,7 @@ return{
 		local result6 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar", continuous = true}
 		local result10 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar", continuous = true}
 		unitTest:assertEquals(result, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
-		unitTest:assertEquals(result2, 0.91, 0.01) 
+		unitTest:assertEquals(result2, 0.91, 0.01)
 		unitTest:assertEquals(result5, 0.66, 0.01)
 		unitTest:assertEquals(result6, 0.62, 0.01)
 		unitTest:assertEquals(result9, 1, 0.01)

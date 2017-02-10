@@ -16,7 +16,7 @@ runs = MultipleRuns{
 }
 
 chart = Chart{
-	data = runs,
+	target = runs.output,
 	select = {"susceptible", "maxInfected"},
 	color = {"blue", "red"},
 	xAxis = "probability"

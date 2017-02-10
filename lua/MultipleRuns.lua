@@ -55,7 +55,7 @@ local function checkParameters(origModel, origParameters)
 		if mtype == "Choice" then
 			if type(Param) == "Choice" then
 				-- if parameter in Multiple Runs/Calibration is a range of values
-				if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then 
+				if Param.min ~= nil or Param.max ~= nil or Param.step ~= nil then
 					checkParametersRange(origModel, idx, Param)
 				else
 					-- if parameter Multiple Runs/Calibration is a grop of values
@@ -64,8 +64,8 @@ local function checkParameters(origModel, origParameters)
 
 			elseif origParameters.strategy == "selected" then
 				forEachOrderedElement(origParameters.parameters, function(_, sParam)
-					checkParameterSingle(origModel, idx, 1, sParam[idx]) 
-				end) 
+					checkParameterSingle(origModel, idx, 1, sParam[idx])
+				end)
 			elseif type(Param) == "table" then
 				customError("The parameter must be of type Choice, a table of Choices or a single value.")
 			end
@@ -78,7 +78,7 @@ local function checkParameters(origModel, origParameters)
 						mandatory = true
 				elseif type(mandArg) == "Choice" then
 					if mandArg.max ~= nil or mandArg.min ~= nil then
-						if "number" == att.value then 
+						if "number" == att.value then
 							mandatory = true
 						end
 					else
@@ -172,7 +172,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 			range = false
 			forEachOrderedElement(attribute.values, function (idv)
 				table.insert(parameterElements, attribute.values[idv])
-			end) 
+			end)
 		else
 			if attribute.step == nil then
 				mandatoryTableArgument(attribute, idx..".step", "Choice")
@@ -183,7 +183,7 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 
 		table.insert(params, {
 			id = idx,
-			min = attribute.min, 
+			min = attribute.min,
 			max = attribute.max,
 			elements = parameterElements,
 			ranged = range,
@@ -214,7 +214,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = parameter 
+				variables[params[a].id] = parameter
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
@@ -270,14 +270,14 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			-- Testing the parameter with each value in it's table.
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = attribute 
+				variables[params[a].id] = attribute
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
 				variables[params[a].table][params[a].id] = attribute
 			end
-			
+
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2)
 				mVariables[idx2] = attribute2
@@ -324,112 +324,6 @@ end
 
 MultipleRuns_ = {
 	type_ = "MultipleRuns",
-	--- Function that returns the result of a given MultipleRuns instance.
-	-- @arg number Index of the desired execution in the MultipleRuns.simulations returned.
-	-- @usage
-	-- import("calibration")
-	-- MyModel = Model{
-	-- x = Choice{-100, -1, 0, 1, 2, 100},
-	--    finalTime = 1,
-	--    init = function(self)
-	--    self.timer = Timer{
-	--        Event{action = function()
-	--         self.value = x
-	--        end}
-	--     }
-	--   end
-	-- }
-	-- m = MultipleRuns{
-	--  model = MyModel,
-	--  strategy = "sample",
-	--  parameters = {x = Choice{-100, -1, 0, 1,2,100}},
-	--  quantity = 3,
-	--  additionlOutputFunction = function(model)
-	--    print(model.x)
-	--  end}
-	-- -- Get the X value in the first execution
-	-- result = m:get(1).x
-	get = function(self, number)
-		mandatoryArgument(1, "number", number)
-		local getTable = {}
-
-		forEachOrderedElement(self, function(idx, att, typ)
-			if typ ~= "table" then return end
-
-			if self[idx][number] ~= nil then
-				getTable[idx] = self[idx][number]
-			else
-				forEachOrderedElement(att, function(idx2, _, typ2)
-					if typ2 == "table" then
-						if getTable[idx] == nil then
-							getTable[idx] = {}
-						end
-
-						getTable[idx][idx2] = self[idx][idx2][number]
-					end
-				end)
-			end
-		end)
-
-		return getTable
-	end,
-	--- Save the results of MultipleRuns to a CSV file.
-	-- Each line represents the values in a different simulation.
-	-- The columns are each of the parameters passed to MultipleRuns
-	-- and the return values of all additional functions and parameters in the output table.
-	-- @arg name The name of the CSV file.
-	-- @arg separator The chosen separator to be used in the CSV file.
-	-- @usage
-	-- import("calibration")
-	-- local MyModel = Model{
-	-- 	x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 	y = Choice{min = 1, max = 10, step = 1},
-	-- 	finalTime = 1,
-	-- 	init = function(self)
-	-- 		self.timer = Timer{
-	-- 			Event{action = function()
-	-- 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
-	-- 			end}
-	-- 		}
-	-- 	end
-	-- }
-	-- local m = MultipleRuns{
-	-- 	model = MyModel,
-	-- 	strategy = "factorial",
-	-- 	parameters = {
-	-- 		x = Choice{-100, -1, 0, 1, 2, 100},
-	-- 		y = Choice{min = 1, max = 10, step = 1},
-	-- 		finalTime = 1
-	-- 	 },
-	-- 	additionalF = function(_)
-	-- 		return "test"
-	-- 	end,
-	-- 	output = {"value"}
-	-- }
-	-- -- Saves MultipleRuns results:
-	-- m:saveCSV("myCSVFile", ";")
-	saveCSV = function(self, name, separator)
-		mandatoryArgument(2, "string", separator)
-		mandatoryArgument(1, "string", name)
-		local CSVTable = {}
-
-		forEachOrderedElement(self, function(idx, att, typ)
-			if typ == "table" and idx ~= "parameters" then
-				local counter = 0
-				forEachOrderedElement(att, function(_, att2)
-					counter = counter + 1
-					if CSVTable[counter] == nil then
-						CSVTable[counter] = {}
-					end
-
-					CSVTable[counter][idx] = att2
-				end)
-			end
-		end)
-
-		local csvFile = File(name..".csv")
-		csvFile:write(CSVTable, separator)
-	end
 }
 
 metaTableMultipleRuns_ = {
@@ -442,7 +336,7 @@ metaTableMultipleRuns_ = {
 -- @output simulations A table with directory names. A directory is created for each model instance to save the output functions result.
 -- It is indexed by execution order.
 -- @output parameters A table with parameters used to instantiate the model in this simulation. Also indexed by execution order.
--- @output output A table with the return value of an additional function, and the final values in each model execution for all parameters in the output table. A different table is created for each of the additional functions and parameters in the output table, its name depend on the user defined functions.
+-- @output output A DataFrame with the final values in each model execution. The additional functions used as arguments for MultipleRuns will also generate attributes whose name will be the function's name, and whose values will be the returning value of such function given the final state of the model as argument.
 -- @usage
 -- -- Complete Example:
 -- import("calibration")
@@ -559,14 +453,14 @@ metaTableMultipleRuns_ = {
 -- put it into a vector of results available in the returning value of MultpleRuns.
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
--- "factorial" & Simulate the Model with all combinations of the argument parameters. 
+-- "factorial" & Simulate the Model with all combinations of the argument parameters.
 -- & parameters, model & repetition, output, hideGraphs, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
 -- repetition, model & output, folderName, hideGraphs, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ... 
+-- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -609,9 +503,9 @@ function MultipleRuns(data)
 		else
 			data.strategy = "selected"
 		end
-	end		
+	end
 
-	local resultTable = {simulations = {}} 
+	local resultTable = {simulations = {}}
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	data.outputVariables = {}
@@ -649,8 +543,8 @@ function MultipleRuns(data)
 			if addFunctions[idx] ~= nil then
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
-			
-			addFunctions[idx] = att 
+
+			addFunctions[idx] = att
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
@@ -666,7 +560,7 @@ function MultipleRuns(data)
 		disableGraphics()
 	end
 
-	local params = {} 
+	local params = {}
 	-- Organizing the parameters table of multiple runs into a simpler table,
 	-- indexed by number with the characteristics of each parameter.
 	if data.strategy ~= "selected" then
@@ -676,14 +570,14 @@ function MultipleRuns(data)
 				parametersOrganizer(mainTable, idx, attribute, atype, params)
 			else
 				forEachOrderedElement(attribute, function(idx2, att2, typ2)
-					parametersOrganizer(idx, idx2, att2, typ2, params) 
+					parametersOrganizer(idx, idx2, att2, typ2, params)
 				end)
 			end
 		end)
 	end
 
 	-- Setting the folder for the tests results to be saved:
-	local s = package.config:sub(1, 1) 
+	local s = package.config:sub(1, 1)
 	local firstDir = currentDir()
 	local folderDir = currentDir()
 	local folder = data.folderName
@@ -756,7 +650,7 @@ function MultipleRuns(data)
 					table.insert(resultTable.simulations, stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1))))
 
 					if data.folderName then
-						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP 
+						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP
 						dir:create() -- SKIP
 						Directory(folderDir..s..stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))):setCurrentDir() -- SKIP
 					end
@@ -782,7 +676,7 @@ function MultipleRuns(data)
 					end)
 
 					forEachOrderedElement(sampleparams, function(idx2, att2)
-						if resultTable[idx2] == nil then 
+						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
 
@@ -828,7 +722,7 @@ function MultipleRuns(data)
 					end
 
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
-						if resultTable[idx2] == nil then 
+						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
 						end
 
@@ -842,9 +736,22 @@ function MultipleRuns(data)
 	}
 
 	setmetatable(data, metaTableMultipleRuns_)
-	forEachOrderedElement(resultTable, function(idx, att)
-		data[idx] = att
+
+	local output = {}
+
+	forEachElement(resultTable, function(idx, value)
+		if #value > 0 then
+			output[idx] = value
+		else
+			forEachElement(value, function(midx, mvalue, mmtype)
+				if mmtype == "table" then
+					output[idx.."_"..midx] = mvalue
+				end
+			end)
+		end
 	end)
+
+	data.output = DataFrame(output)
 
 	firstDir:setCurrentDir()
 

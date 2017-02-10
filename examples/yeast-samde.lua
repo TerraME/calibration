@@ -40,10 +40,10 @@ end}
 print("Difference between data and best simulation: "..yeastSim.fit)
 print ("Rate: "..yeastSim.instance.rate)
 
-mydata = {data = data, simulation = yeastSim.instance.finalCells}
+mydata = DataFrame{data = data, simulation = yeastSim.instance.finalCells}
 
 chart = Chart{
-	data = mydata,
+	target = mydata,
 	select = {"data", "simulation"},
 	label = {"Data", "Best simulation"},
 	title = "Cells"

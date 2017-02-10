@@ -36,7 +36,7 @@ mr = MultipleRuns{
 }
 
 chart = Chart{
-	data = mr,
+	target = mr.output,
 	select = "rms",
 	xAxis = "rate"
 }

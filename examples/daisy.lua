@@ -1,7 +1,7 @@
 -- @example Daisyworld example using multiple Runs factorial strategy.
 -- It simulates Daisyworld using different sun luminosities to investigate
 -- the final distribution of black, white, and empty areas.
--- Based on the Model described in Wood, A. J., G. J. Ackland, J. G. Dyke, H. T. P. Williams, and T. M. Lenton (2008), 
+-- Based on the Model described in Wood, A. J., G. J. Ackland, J. G. Dyke, H. T. P. Williams, and T. M. Lenton (2008),
 -- Daisyworld: A review, Rev. Geophys., 46.
 -- @image daisy.bmp
 
@@ -17,7 +17,7 @@ local m = MultipleRuns{
 }
 
 chart = Chart{
-	data = m,
+	target = m.output,
 	select = {"blackArea", "whiteArea", "emptyArea"},
 	xAxis = "sunLuminosity"
 }
