@@ -21,8 +21,8 @@ local m = MultipleRuns{
 }
 
 local sum = 0
-forEachElement(m.output.forest, function(_, value)
-	sum = sum + value
+forEachElement(m.output, function(_, value)
+	sum = sum + value.forest
 end)
 
 average = sum / m.repetition
