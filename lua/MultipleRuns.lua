@@ -539,7 +539,7 @@ function MultipleRuns(data)
 	end
 
 	forEachOrderedElement(data, function(idx, att)
-		if type(att) == "function" then
+		if type(att) == "function" and idx ~= "summary" then
 			if addFunctions[idx] ~= nil then
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
@@ -549,7 +549,7 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphs", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "output", "summary", "strategy", "parameters", "repetition", "folderName", "hideGraphs", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
@@ -752,13 +752,17 @@ function MultipleRuns(data)
 	end)
 
 	data.output = DataFrame(output)
+	if data.summary ~= nil then
+		if data.strategy == "selected" then
+			data:summary(data.output)
+		end
+	end
 
 	firstDir:setCurrentDir()
-
 	if data.hideGraphs then
 		enableGraphics()
 	end
-
+	
 	data.outputVariables = nil
 	return data
 end
