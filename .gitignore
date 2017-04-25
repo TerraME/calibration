@@ -12,3 +12,4 @@ CMakeScripts/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
+doc/*

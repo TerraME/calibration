@@ -17,12 +17,36 @@ local m = MultipleRuns{
 	}},
 	forest = function(model)
 		return model.cs:state().forest or 0
+	end,
+	summary = function(self, df)
+		local sum = 0
+        local max = -math.huge
+        local min = math.huge
+
+        forEachElement(df, function(_, dfAtt)
+        	local value = dfAtt.forest
+            sum = sum + value
+
+            if max < value then
+                max = value
+            end
+
+            if min > value then
+                min = value
+            end
+        end)
+
+        return {
+            average = sum / self.repetition,
+            max = max,
+            min = min
+        }
 	end
 }
 
 local sum = 0
-forEachElement(m.output.forest, function(_, value)
-	sum = sum + value
+forEachElement(m.output, function(_, value)
+	sum = sum + value.forest
 end)
 
 average = sum / m.repetition
