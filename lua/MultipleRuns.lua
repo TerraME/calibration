@@ -443,7 +443,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
--- @arg data.hideGraphs If true (default), then disableGraphics() will disable all charts and observers during models execution.
+-- @arg data.hideGraphs If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -557,7 +557,7 @@ function MultipleRuns(data)
 	data.output = nil
 
 	if data.hideGraphs then
-		disableGraphics()
+		sessionInfo().graphics = false
 	end
 
 	local params = {}
@@ -756,7 +756,7 @@ function MultipleRuns(data)
 	firstDir:setCurrentDir()
 
 	if data.hideGraphs then
-		enableGraphics()
+		sessionInfo().graphics = true
 	end
 
 	data.outputVariables = nil

@@ -49,7 +49,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Function 'fit' was not implemented.")
-		error_func = function()
+		local warning_func = function()
 			local c = SAMDE{
 				model = MyModel,
 				size = 30,
@@ -61,10 +61,9 @@ return{
 				parameters = {finalTime = 1, x = Choice{min = -100, max = 100}},
 				extraParameter = {"Unnecessary"}
 			}
-			c:fit(model, parameters)
 		end
 
-		unitTest:assertError(error_func, "Argument 'extraParameter' is unnecessary. Do you mean 'parameters'?")
+		unitTest:assertWarning(warning_func, "Argument 'extraParameter' is unnecessary. Do you mean 'parameters'?")
 	end
 }
 
