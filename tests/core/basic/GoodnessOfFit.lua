@@ -49,6 +49,5 @@ return{
 		unitTest:assertEquals(result6, 0.62, 0.01)
 		unitTest:assertEquals(result9, 1, 0.01)
 		unitTest:assertEquals(result10, 1, 0.01)
-		unitTest:assertEquals(result10, 1, 0.01)
 	end
 }
