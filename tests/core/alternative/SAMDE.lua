@@ -50,7 +50,7 @@ return{
 
 		unitTest:assertError(error_func, "Function 'fit' was not implemented.")
 		local warning_func = function()
-			local c = SAMDE{
+			SAMDE{
 				model = MyModel,
 				size = 30,
 				maxGen = 100,
