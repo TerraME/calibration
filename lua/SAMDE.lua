@@ -483,7 +483,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 				end
 			else
 				if bestCost <= threshold then
-					thresholdStop = true
+					thresholdStop = true -- SKIP
 				end
 			end
 		end
