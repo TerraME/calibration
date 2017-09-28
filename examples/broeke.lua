@@ -19,7 +19,7 @@ agent = Agent{
 		local best
 		local bestResource = 0
 
-		forEachNeighbor(cell, function(cell, neigh)
+		forEachNeighbor(cell, function(neigh)
 			local neighResource = neigh:getResource()
 			if neighResource / #neigh:getAgents() > bestResource then
 				best = neigh
@@ -144,7 +144,7 @@ cell = Cell{
 	diffuse = function(self)
 		local sum = 0
 
-		forEachNeighbor(self, function(cell, neigh)
+		forEachNeighbor(self, function(neigh)
 			sum = sum + neigh.past.resource
 			-- it is written as R*_{i'j'}, but I could not find where i' or j' is defined
 		end)

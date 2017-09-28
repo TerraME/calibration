@@ -483,7 +483,7 @@ local SAMDECalibrate = function(modelParameters, model, fit, maximize, size, max
 				end
 			else
 				if bestCost <= threshold then
-					thresholdStop = true
+					thresholdStop = true -- SKIP
 				end
 			end
 		end
@@ -654,7 +654,7 @@ function SAMDE(data)
 	end
 
 	if data.hideGraphs == true then
-		disableGraphics()
+		sessionInfo().graphics = false
 	end
 
 	checkParameters(data.model, data)
@@ -668,7 +668,7 @@ function SAMDE(data)
 	end)
 
 	if data.hideGraphs == true then
-		enableGraphics()
+		sessionInfo().graphics = true
 	end
 
 	setmetatable(data, metaTableSAMDE_)

@@ -200,8 +200,9 @@ return{
 		end
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
-		error_func = function()
-			m = MultipleRuns{
+
+		local warning_func = function()
+			MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
@@ -210,7 +211,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Argument 'test' is unnecessary.")
+		unitTest:assertWarning(warning_func, "Argument 'test' is unnecessary.")
 
 		error_func = function()
 			m = MultipleRuns{
