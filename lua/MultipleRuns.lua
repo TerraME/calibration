@@ -231,6 +231,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
+
+				if data.showProgress then
+					print("Simulating "..m:title()) -- SKIP
+				end
+
 				m:run()
 				local stringSimulations = ""
 
@@ -369,6 +374,7 @@ metaTableMultipleRuns_ = {
 -- c = MultipleRuns{
 --     model = MyModel,
 --     strategy = "sample",
+--     showProgress = false,
 --     quantity = 5,
 --     parameters = {
 --         x = Choice{-100, -1, 0, 1, 2, 100},
@@ -386,6 +392,7 @@ metaTableMultipleRuns_ = {
 -- -- Selected Example:
 -- m = MultipleRuns{
 -- 	model = MyModel,
+--  showProgress = false,
 -- 	parameters = {
 -- 		scenario1 = {x = 2, y = 5},
 -- 		scenario2 = {x = 1, y = 3}
@@ -399,6 +406,7 @@ metaTableMultipleRuns_ = {
 -- -- This should run the model 10 times with the same parameters:
 -- r = MultipleRuns{
 --     model = RainModel,
+--     showProgress = false,
 --     parameters = {repeatScenario = {water = 10, rain = 20, finalTime = 1}},
 --     repetition = 10
 -- }
@@ -407,6 +415,7 @@ metaTableMultipleRuns_ = {
 -- -- for the parameters repetition times.
 -- MultipleRuns{
 --     model = RainModel,
+--     showProgress = false,
 --     strategy = "factorial",
 --     parameters = {
 --         water = Choice{min = 10, max = 20, step = 1},
@@ -420,6 +429,7 @@ metaTableMultipleRuns_ = {
 -- MultipleRuns{
 --     model = RainModel,
 --     strategy = "sample",
+--     showProgress = false,
 --     parameters = {
 --         water = Choice{min = 10, max = 20, step = 1},
 --         rain = Choice{min = 10, max = 20, step = 2},
@@ -443,7 +453,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
--- @arg data.hideGraphs If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
+-- @arg data.hideGraphics If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -454,13 +464,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphs, quantity, folderName, showProgress, ... \
+-- & parameters, model & repetition, output, hideGraphics, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, hideGraphs, quantity, showProgress, ... \
+-- repetition, model & output, folderName, hideGraphics, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ...
+-- model, parameters & output, folderName, hideGraphics, repetition, showProgress, quantity, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -474,8 +484,8 @@ function MultipleRuns(data)
 	defaultTableValue(data, "repetition", 1)
 	optionalTableArgument(data, "folderName", "string")
 	optionalTableArgument(data, "quantity", "number")
-	defaultTableValue(data, "hideGraphs", true)
-	defaultTableValue(data, "showProgress", false)
+	defaultTableValue(data, "hideGraphics", true)
+	defaultTableValue(data, "showProgress", true)
 
 	if data.strategy == nil then
 		local choiceStrg = false
@@ -549,14 +559,14 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphs", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
 	checkParameters(data.model, data)
 	data.output = nil
 
-	if data.hideGraphs then
+	if data.hideGraphics then
 		sessionInfo().graphics = false
 	end
 
@@ -619,7 +629,7 @@ function MultipleRuns(data)
 			end
 
 			for i = 1, data.repetition do
-				if data.showProgress then
+				if data.showProgress and data.repetition > 1 then
 					print("Simulating "..i.."/"..data.repetition) -- SKIP
 				end
 
@@ -755,7 +765,7 @@ function MultipleRuns(data)
 
 	firstDir:setCurrentDir()
 
-	if data.hideGraphs then
+	if data.hideGraphics then
 		sessionInfo().graphics = true
 	end
 

@@ -70,13 +70,14 @@ return{
 		unitTest:assertEquals(x, 2)
 		local mPosition = MultipleRuns{
 			model = MyModelPosition,
+			showProgress = false,
 			parameters = {
 				position = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
 					y = Choice{min = 1, max = 10, step = 1}},
 				finalTime = 1
 			 },
-			additionalF = function(_)
+			additionalF = function()
 				return "test"
 			end,
 			output = {"value"}
@@ -88,6 +89,7 @@ return{
 
 		local mPosition2 = MultipleRuns{
 			model = MyModelPosition,
+			showProgress = false,
 			strategy = "selected",
 			parameters = {
 				scenario1 = {
@@ -116,6 +118,7 @@ return{
 
 		local m4Tab = MultipleRuns{
 			model = MyModel3,
+			showProgress = false,
 			strategy = "sample",
 			parameters = {
 				parameters3 = {

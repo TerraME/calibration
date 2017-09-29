@@ -22,7 +22,6 @@ data = {
 }
 
 local yeastSim = SAMDE{
-	hideGraphs = true,
 	model = Yeast,
 	parameters = {rate = Choice{min = 1, max = 2.5}},
 	fit = function(model)

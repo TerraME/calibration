@@ -15,7 +15,6 @@ local fluData = {3, 7, 25, 72, 222, 282, 256, 233, 189, 123, 70, 25, 11, 4}
 local fluSimulation = SAMDE{
 	model = SIR,
 	maxGen = 10,
-	hideGraphs = true,
 	parameters = {
 		contacts = Choice{min = 2, max = 50, step = 1},
 		probability = Choice{min = 0, max = 1},
