@@ -374,6 +374,7 @@ metaTableMultipleRuns_ = {
 -- c = MultipleRuns{
 --     model = MyModel,
 --     strategy = "sample",
+--     showProgress = false,
 --     quantity = 5,
 --     parameters = {
 --         x = Choice{-100, -1, 0, 1, 2, 100},
@@ -391,6 +392,7 @@ metaTableMultipleRuns_ = {
 -- -- Selected Example:
 -- m = MultipleRuns{
 -- 	model = MyModel,
+--  showProgress = false,
 -- 	parameters = {
 -- 		scenario1 = {x = 2, y = 5},
 -- 		scenario2 = {x = 1, y = 3}
@@ -404,6 +406,7 @@ metaTableMultipleRuns_ = {
 -- -- This should run the model 10 times with the same parameters:
 -- r = MultipleRuns{
 --     model = RainModel,
+--     showProgress = false,
 --     parameters = {repeatScenario = {water = 10, rain = 20, finalTime = 1}},
 --     repetition = 10
 -- }
@@ -412,6 +415,7 @@ metaTableMultipleRuns_ = {
 -- -- for the parameters repetition times.
 -- MultipleRuns{
 --     model = RainModel,
+--     showProgress = false,
 --     strategy = "factorial",
 --     parameters = {
 --         water = Choice{min = 10, max = 20, step = 1},
@@ -425,6 +429,7 @@ metaTableMultipleRuns_ = {
 -- MultipleRuns{
 --     model = RainModel,
 --     strategy = "sample",
+--     showProgress = false,
 --     parameters = {
 --         water = Choice{min = 10, max = 20, step = 1},
 --         rain = Choice{min = 10, max = 20, step = 2},
