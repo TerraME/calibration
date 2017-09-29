@@ -448,7 +448,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
--- @arg data.hideGraphs If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
+-- @arg data.hideGraphics If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
@@ -459,13 +459,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphs, quantity, folderName, showProgress, ... \
+-- & parameters, model & repetition, output, hideGraphics, quantity, folderName, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, hideGraphs, quantity, showProgress, ... \
+-- repetition, model & output, folderName, hideGraphics, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, hideGraphs, repetition, showProgress, quantity, ...
+-- model, parameters & output, folderName, hideGraphics, repetition, showProgress, quantity, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -479,7 +479,7 @@ function MultipleRuns(data)
 	defaultTableValue(data, "repetition", 1)
 	optionalTableArgument(data, "folderName", "string")
 	optionalTableArgument(data, "quantity", "number")
-	defaultTableValue(data, "hideGraphs", true)
+	defaultTableValue(data, "hideGraphics", true)
 	defaultTableValue(data, "showProgress", true)
 
 	if data.strategy == nil then
@@ -554,14 +554,14 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphs", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
 	checkParameters(data.model, data)
 	data.output = nil
 
-	if data.hideGraphs then
+	if data.hideGraphics then
 		sessionInfo().graphics = false
 	end
 
@@ -760,7 +760,7 @@ function MultipleRuns(data)
 
 	firstDir:setCurrentDir()
 
-	if data.hideGraphs then
+	if data.hideGraphics then
 		sessionInfo().graphics = true
 	end
 

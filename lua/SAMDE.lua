@@ -648,12 +648,10 @@ function SAMDE(data)
 		customError("Function 'fit' was not implemented.")
 	end
 
-	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphs"})
-	if data.hideGraphs == nil then
-		data.hideGraphs = true
-	end
+	verifyUnnecessaryArguments(data, {"model", "parameters", "maximize", "fit", "maxGen", "size", "threshold", "hideGraphics"})
+	defaultTableValue(data, "hideGraphics", true)
 
-	if data.hideGraphs == true then
+	if data.hideGraphics then
 		sessionInfo().graphics = false
 	end
 
@@ -667,7 +665,7 @@ function SAMDE(data)
 		data[idx] = att
 	end)
 
-	if data.hideGraphs == true then
+	if data.hideGraphics then
 		sessionInfo().graphics = true
 	end
 
