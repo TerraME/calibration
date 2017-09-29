@@ -231,6 +231,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				local m = data.model(mVariables) --testing the model with it's current parameter values.
+
+				if data.showProgress then
+					print("Simulating "..m:title()) -- SKIP
+				end
+
 				m:run()
 				local stringSimulations = ""
 
@@ -475,7 +480,7 @@ function MultipleRuns(data)
 	optionalTableArgument(data, "folderName", "string")
 	optionalTableArgument(data, "quantity", "number")
 	defaultTableValue(data, "hideGraphs", true)
-	defaultTableValue(data, "showProgress", false)
+	defaultTableValue(data, "showProgress", true)
 
 	if data.strategy == nil then
 		local choiceStrg = false
@@ -619,7 +624,7 @@ function MultipleRuns(data)
 			end
 
 			for i = 1, data.repetition do
-				if data.showProgress then
+				if data.showProgress and data.repetition > 1 then
 					print("Simulating "..i.."/"..data.repetition) -- SKIP
 				end
 

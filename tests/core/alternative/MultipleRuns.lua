@@ -58,6 +58,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				folderName = "!@#$$#$%??",
+				showProgress = false,
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
@@ -69,6 +70,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5, p = "extra"}},
 				repetition = 3,
 				output = {"value"}
@@ -79,6 +81,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {x = Choice{1, 2},
 				y =Choice{1,5},
 				p = "extra"},
@@ -91,6 +94,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {x = Choice{-100, 2}, y = Choice{1, 5}},
 				repetition = 3,
 				output = {"x", "y",	"value"}
@@ -101,6 +105,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"x", "y",	"value"}
@@ -111,6 +116,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"fake"}
@@ -121,6 +127,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"value", "value"}
@@ -131,6 +138,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
 				output = {"value"},
@@ -144,6 +152,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				repetition = 3,
 				output = {"value"}
 			}
@@ -152,6 +161,7 @@ return{
 		unitTest:assertError(error_func, "Argument 'parameters' is mandatory.")
 		error_func = function()
 			m = MultipleRuns{
+				showProgress = false,
 				parameters = {scenario1 = {x = 2, y = 5, seed = 1001}},
 				repetition = 3,
 				output = {"value"}
@@ -163,6 +173,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
+				showProgress = false,
 				strategy = "factorial",
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
 				output = {"value"}
@@ -173,6 +184,7 @@ return{
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				strategy = "sample",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = 5},
 				output = {"value"}
@@ -183,6 +195,7 @@ return{
 		error_func = function()
 				m = MultipleRuns{
 				model = MyModel,
+				showProgress = false,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
 				output = {"value"}
@@ -194,6 +207,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
+				showProgress = false,
 				parameters = {x = {-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 				output = {"value"}
 			}
@@ -205,6 +219,7 @@ return{
 			MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
+				showProgress = false,
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 				test = "test",
 				output = {"value"}
@@ -217,6 +232,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
+				showProgress = false,
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 99}, y = Choice{min = 1, max = 10, step = 1}},
 				output = {"value"}
 			}
@@ -227,6 +243,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
+				showProgress = false,
 				parameters = {x = Choice{1,2,3}},
 				output = {"value"}
 			}
@@ -237,6 +254,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
+				showProgress = false,
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
 				output = {"value"}
 			}
@@ -247,6 +265,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "selected",
+				showProgress = false,
 				parameters = {x = -100, y = 10},
 				output = {"value"}
 			}
@@ -257,6 +276,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "selected",
+				showProgress = false,
 				parameters = {scenario1 = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}}},
 				output = {"value"}}
 		end
@@ -266,6 +286,7 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "selected",
+				showProgress = false,
 				parameters = {
 					scenario1 = {x = Choice{2,3,4}, y = 5},
 					scenario2 = {x = 1, y = 3}

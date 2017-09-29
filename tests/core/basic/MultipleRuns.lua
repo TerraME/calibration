@@ -87,6 +87,7 @@ return{
 		local m = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
+			showProgress = false,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
@@ -104,6 +105,7 @@ return{
 
 		local mPosition = MultipleRuns{
 			model = MyModelPosition,
+			showProgress = false,
 			parameters = {
 				position = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -124,6 +126,7 @@ return{
 		local mQuant = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
+			showProgress = false,
 			repetition = 2,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -142,6 +145,7 @@ return{
 		local mQuant2 = MultipleRuns{
 			model = MyModel,
 			strategy = "factorial",
+			showProgress = false,
 			repetition = 2,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -159,6 +163,7 @@ return{
 		local mMan = MultipleRuns{
 			model = MyModel2,
 			strategy = "factorial",
+			showProgress = false,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y2 = Choice{min = 1, max = 10, step = 1},
@@ -177,6 +182,7 @@ return{
 		local mMandChoiceTable = MultipleRuns{
 			model = MyModel2,
 			strategy = "factorial",
+			showProgress = false,
 			parameters = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
 					y2 = Choice{1,2,3,4,5},
@@ -194,6 +200,7 @@ return{
 		local mTab = MultipleRuns{
 			model = MyModel3,
 			strategy = "factorial",
+			showProgress = false,
 			parameters = {
 				parameters3 = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -215,6 +222,7 @@ return{
 		local mTab2 = MultipleRuns{
 			model = MyModel3Inv,
 			strategy = "factorial",
+			showProgress = false,
 			parameters = {
 				parameters3 = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -233,6 +241,7 @@ return{
 
 		local mSingle = MultipleRuns{
 			model = MyModel4,
+			showProgress = false,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
@@ -252,6 +261,7 @@ return{
 		local m2 = MultipleRuns{
 			model = MyModel,
 			strategy = "selected",
+			showProgress = false,
 			parameters = {
 				scenario1 = {x = 2, y = 5},
 				scenario2 = {x = 1, y = 3}
@@ -270,6 +280,7 @@ return{
 
 		local m2Tab = MultipleRuns{
 			model = MyModel3,
+			showProgress = false,
 			parameters = {
 				scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
 				scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
@@ -285,6 +296,7 @@ return{
 
 		local m3 = MultipleRuns{
 			model = MyModel,
+			showProgress = false,
 			parameters = {scenario1 = {x = 2, y = 5}},
 			repetition = 3,
 			output = {"value"},
@@ -303,6 +315,7 @@ return{
 
 		local m3Tab = MultipleRuns{
 			model = MyModel3,
+			showProgress = false,
 			parameters = {scenario1 = {parameters3 = {x = 2, y = 5, z = 1}}},
 			repetition = 3,
 			output = {"value"}
@@ -320,6 +333,7 @@ return{
 
 		local m4 = MultipleRuns{
 			model = MyModel,
+			showProgress = false,
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1}
@@ -336,6 +350,7 @@ return{
 
 		local m4Single = MultipleRuns{
 			model = MyModel4,
+			showProgress = false,
 			strategy = "sample",
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
@@ -352,6 +367,7 @@ return{
 
 		local m4Tab = MultipleRuns{
 			model = MyModel3,
+			showProgress = false,
 			strategy = "sample",
 			parameters = {
 				parameters3 = {
