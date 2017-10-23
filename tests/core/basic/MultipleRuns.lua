@@ -52,7 +52,7 @@ local MyModel3 = Model{
 		}
 	end
 }
-
+--- It's here just so all lines are executed:
 local MyModel3Inv = Model{
 	parameters3 = {
 		x = Choice{-100, -1, 0, 1, 2, 100},
