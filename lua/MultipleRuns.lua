@@ -157,14 +157,15 @@ local function testAddFunctions(resultTable, addFunctions, data, m)
 		table.insert(resultTable[idxF], returnValueF)
 	end)
 end
-local function summaryFunc(resultTable, summaryTable, data)
+local function summaryFunc(resultTable, data)
 	if data.summary == nil then return end
-	if resultTable.summaryOutput == nil then
-			resultTable.summaryOutput = {}
+	if data.summaryOutput == nil then
+			data.summaryOutput = {}
 	end
 
-	local returnValueF = data.summary(summaryTable)
-	table.insert(resultTable.summaryOutput, returnValueF)
+	--print(type(data.summary))
+	local returnValueF = data.summary(resultTable, data)
+	table.insert(data.summaryOutput, returnValueF)
 end
 
 -- The possible values for each parameter is being put in a table indexed by numbers.
@@ -239,7 +240,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			end)
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local summaryTable = {}
 				for iRepetition = 1, data.repetition do
 					if data.showProgress and data.repetition > 1 then
 						print("Simulating "..iRepetition.."/"..data.repetition) -- SKIP
@@ -281,9 +281,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testAddFunctions(resultTable, addFunctions, data, m)
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
-					table.insert(summaryTable, resultTable)	
 				end	
-				summaryFunc(resultTable,summaryTable,data)
+				summaryFunc(resultTable,data)
 			else -- else, go to the next parameter to test it with it's range of values.
 				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated)
 			end
@@ -309,7 +308,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local summaryTable = {}
 				for iRepetition = 1, data.repetition do
 					if data.showProgress and data.repetition > 1 then
 						print("Simulating "..iRepetition.."/"..data.repetition) -- SKIP
@@ -345,9 +343,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testAddFunctions(resultTable, addFunctions, data, m)
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
+					
 				end
 
-				summaryFunc(resultTable,summaryTable,data)
+				summaryFunc(resultTable,data)
 			else -- else, go to the next parameter to test it with each of it possible values.
 				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated) -- SKIP
 			end	
@@ -642,6 +641,8 @@ function MultipleRuns(data)
 	end
 
 	local variables = {}
+	--print("strategy")
+	--print(data.strategy)
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
 		factorial = function()
