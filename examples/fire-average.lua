@@ -27,3 +27,4 @@ end)
 average = sum / m.repetition
 
 print("Average forest in the end of "..m.repetition.." simulations: "..average)
+
