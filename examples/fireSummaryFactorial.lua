@@ -1,7 +1,5 @@
--- @example Fire in the forest example using  multiple runs repeateated strategy.
-if not isLoaded("calibration") then
-    import("calibration")
-end
+-- @example Fire in the forest example using  multiple runs factorial strategy and summary function.
+
 if not isLoaded("ca") then
    import("ca")
 end
