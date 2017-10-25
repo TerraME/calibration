@@ -5,8 +5,6 @@ if not isLoaded("ca") then
 end
 
 Random{seed = 70374981}
-import("calibration")
-
 local m = MultipleRuns{
 	model = Fire,
 	repetition = 30,
