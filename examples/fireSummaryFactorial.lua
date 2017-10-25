@@ -12,7 +12,7 @@ local m = MultipleRuns{
 	repetition = 30,
 	parameters = {
 		--empty = 0.4,
-		empty = Choice{min = 0.2, max = 0.9, step = 0.1},--0.4,
+		empty = Choice{min = 0.3, max = 0.7, step = 0.1},--0.4,
 		dim = 30
 	},
 	summary = function(df, data, inputVariables)
