@@ -255,7 +255,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local iMVariables = cloneValues(mVariables)
 					local m = data.model(iMVariables) --testing the model with it's current parameter values.
 
-					if data.showProgress then
+					if data.showProgress and data.repetition > 1 then
 						print("Simulating "..m:title()) -- SKIP
 					end
 
@@ -743,7 +743,7 @@ function MultipleRuns(data)
 
 			local repetition = data.repetition
 			for case = 1, repetition do
-				if data.showProgress then
+				if data.showProgress and data.repetition > 1 then
 					print("Simulating "..case.."/"..data.repetition) -- SKIP
 				end
 
