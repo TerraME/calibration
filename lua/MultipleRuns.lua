@@ -141,12 +141,17 @@ local function checkParameters(origModel, origParameters)
 	end
 end
 
-local function testAddFunctions(resultTable, addFunctions, data, m)
+local function testAddFunctions(resultTable, addFunctions, data, m, summaryTable)
 	if addFunctions == nil then return end
 
 	forEachOrderedElement(addFunctions, function(idxF)
 		if resultTable[idxF] == nil then
 			resultTable[idxF] = {}
+		end
+		if summaryTable ~= nil then
+			if summaryTable[idxF] == nil then
+				summaryTable[idxF] = {}
+			end
 		end
 
 		if m[idxF] == nil and data.outputVariables[idxF] then
@@ -155,7 +160,20 @@ local function testAddFunctions(resultTable, addFunctions, data, m)
 
 		local returnValueF = data[idxF](m)
 		table.insert(resultTable[idxF], returnValueF)
+		if summaryTable ~= nil then
+			table.insert(summaryTable[idxF], returnValueF)
+		end
 	end)
+end
+local function summaryFunc(summaryTable, data, inputVariables)
+	if data.summary == nil then return end
+	if data.summaryOutput == nil then
+			data.summaryOutput = {}
+	end
+
+	--print(type(data.summary))
+	local returnValueF = data.summary(summaryTable,  data, inputVariables)
+	table.insert(data.summaryOutput, returnValueF)
 end
 
 -- The possible values for each parameter is being put in a table indexed by numbers.
@@ -209,7 +227,7 @@ end
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated)
+local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -228,47 +246,55 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			forEachOrderedElement(variables, function(idx, attribute)
 				mVariables[idx] = attribute
 			end)
-
+			local summaryTable = {}
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
-
-				if data.showProgress then
-					print("Simulating "..m:title()) -- SKIP
-				end
-
-				m:run()
-				local stringSimulations = ""
-
-				if repeated == true then
-					stringSimulations = repetition.."_execution_"
-				end
-
-				forEachOrderedElement(variables, function (idx2, att2, typ2)
-					if typ2 ~= "table" then
-						table.insert(resultTable[idx2], att2)
-						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
-					else
-						forEachOrderedElement(att2, function(idx3, att3)
-							table.insert(resultTable[idx2][idx3], att3)
-							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
-						end)
+				for iRepetition = 1, data.repetition do
+					if data.showProgress and data.repetition > 1 then
+						print("Simulating "..iRepetition.."/"..data.repetition) -- SKIP
 					end
-				end)
+					local iMVariables = cloneValues(mVariables)
+					local m = data.model(iMVariables) --testing the model with it's current parameter values.
 
-				local testDir = currentDir()
+					if data.showProgress and data.repetition > 1 then
+						print("Simulating "..m:title()) -- SKIP
+					end
 
-				if data.folderName then
-					dir = Directory(stringSimulations) -- SKIP
-					dir:create() -- SKIP
-					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
-				end
+					m:run()
+					local stringSimulations = ""
 
-				testAddFunctions(resultTable, addFunctions, data, m)
-				testDir:setCurrentDir()
-				table.insert(resultTable.simulations, stringSimulations)
+					if repeated == true then
+						stringSimulations = iRepetition.."_execution_"
+					end
+
+					forEachOrderedElement(variables, function (idx2, att2, typ2)
+						if typ2 ~= "table" then
+							table.insert(resultTable[idx2], att2)
+							stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+						else
+							forEachOrderedElement(att2, function(idx3, att3)
+								table.insert(resultTable[idx2][idx3], att3)
+								stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
+							end)
+						end
+					end)
+
+					local testDir = currentDir()
+
+					if data.folderName then
+						dir = Directory(stringSimulations) -- SKIP
+						dir:create() -- SKIP
+						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+					end
+
+					testAddFunctions(resultTable, addFunctions, data, m, summaryTable)
+					testDir:setCurrentDir()
+					table.insert(resultTable.simulations, stringSimulations)
+				end	
+				summaryFunc(summaryTable, data,mVariables)
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated)
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated)
 			end
+					
 		end
 	else -- if the parameter uses a table of multiple values
 		forEachOrderedElement(params[a].elements, function (_, attribute)
@@ -288,39 +314,51 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				mVariables[idx2] = attribute2
 			end)
 
+			local summaryTable = {}
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
-				m:run()
-				local stringSimulations = ""
-				if repeated == true then
-					stringSimulations = repetition.."_execution_"
-				end
-
-				forEachOrderedElement(variables, function(idx2, att2, typ2)
-					if typ2 ~= "table" then
-						table.insert(resultTable[idx2], att2)
-						stringSimulations = stringSimulations..idx2.."_"..att2.."_"
-					else
-						forEachOrderedElement(att2, function(idx3, att3, _)
-							table.insert(resultTable[idx2][idx3], att3)
-							stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
-						end)
+				for iRepetition = 1, data.repetition do
+					if data.showProgress and data.repetition > 1 then
+						print("Simulating "..iRepetition.."/"..data.repetition) -- SKIP
 					end
-				end)
 
-				local testDir = currentDir()
-				if folderName then
-					dir = Directory(stringSimulations) -- SKIP
-					dir:create() -- SKIP
-					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+					local iMVariables = cloneValues(mVariables)
+					local m = data.model(iMVariables) --testing the model with it's current parameter values.
+					m:run()
+					local stringSimulations = ""
+					if repeated == true then
+						stringSimulations = iRepetition.."_execution_"
+					end
+
+					forEachOrderedElement(variables, function(idx2, att2, typ2)
+						if typ2 ~= "table" then
+							table.insert(resultTable[idx2], att2)
+							stringSimulations = stringSimulations..idx2.."_"..att2.."_"
+						else
+							forEachOrderedElement(att2, function(idx3, att3, _)
+								table.insert(resultTable[idx2][idx3], att3)
+								stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
+							end)
+						end
+					end)
+
+					local testDir = currentDir()
+					if folderName then
+						dir = Directory(stringSimulations) -- SKIP
+						dir:create() -- SKIP
+						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+					end
+
+					testAddFunctions(resultTable, addFunctions, data, m, summaryTable)
+					testDir:setCurrentDir()
+					table.insert(resultTable.simulations, stringSimulations)
+					
 				end
 
-				testAddFunctions(resultTable, addFunctions, data, m)
-				testDir:setCurrentDir()
-				table.insert(resultTable.simulations, stringSimulations)
+				summaryFunc(summaryTable, data, mVariables)
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated) -- SKIP
-			end
+				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated) -- SKIP
+			end	
+			
 		end)
 	end
 
@@ -480,6 +518,7 @@ function MultipleRuns(data)
 	end
 
 	optionalTableArgument(data, "output", "table")
+	optionalTableArgument(data, "summary", "function")
 	optionalTableArgument(data, "strategy", "string")
 	defaultTableValue(data, "repetition", 1)
 	optionalTableArgument(data, "folderName", "string")
@@ -554,12 +593,14 @@ function MultipleRuns(data)
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
 
-			addFunctions[idx] = att
+			if idx ~= "summary" then
+				addFunctions[idx] = att
+			end
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "output", "summary", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
@@ -608,6 +649,8 @@ function MultipleRuns(data)
 	end
 
 	local variables = {}
+	--print("strategy")
+	--print(data.strategy)
 	switch(data, "strategy"):caseof{
 		-- Prepares the variables and executes the model according to each strategy.
 		factorial = function()
@@ -628,13 +671,9 @@ function MultipleRuns(data)
 				folderDir:setCurrentDir() -- SKIP
 			end
 
-			for i = 1, data.repetition do
-				if data.showProgress and data.repetition > 1 then
-					print("Simulating "..i.."/"..data.repetition) -- SKIP
-				end
 
-				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
-			end
+			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated)
+			
 
 			if data.folderName then
 				firstDir:setCurrentDir() -- SKIP
@@ -703,9 +742,8 @@ function MultipleRuns(data)
 			end
 
 			local repetition = data.repetition
-
 			for case = 1, repetition do
-				if data.showProgress then
+				if data.showProgress and data.repetition > 1 then
 					print("Simulating "..case.."/"..data.repetition) -- SKIP
 				end
 

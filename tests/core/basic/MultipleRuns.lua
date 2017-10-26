@@ -8,7 +8,7 @@ local MyModel = Model{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
 			end}
-	}
+		}
 	end
 }
 local MyModelPosition = Model{
@@ -22,7 +22,7 @@ local MyModelPosition = Model{
 			Event{action = function()
 				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
 			end}
-	}
+		}
 	end
 }
 local MyModel2 = Model{
@@ -34,8 +34,8 @@ local MyModel2 = Model{
 			Event{action = function()
 				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y2
 			end}
-	}
-end
+		}
+	end
 }
 local MyModel3 = Model{
 	parameters3 = {
@@ -49,10 +49,10 @@ local MyModel3 = Model{
 			Event{action = function()
 				self.value = 2 * self.parameters3.x ^2 - 3 * self.parameters3.x + 4 + self.parameters3.y
 			end}
-	}
-end
+		}
+	end
 }
--- It's here just so all lines are executed:
+--- It's here just so all lines are executed:
 local MyModel3Inv = Model{
 	parameters3 = {
 		x = Choice{-100, -1, 0, 1, 2, 100},
@@ -65,9 +65,10 @@ local MyModel3Inv = Model{
 			Event{action = function()
 				self.value = 2 * self.parameters3.f ^2 - 3 * self.parameters3.f + 4 + self.parameters3.y
 			end}
-	}
-end
+		}
+	end
 }
+
 local MyModel4 = Model{
 	x = Choice{-100, -1, 0, 1, 2, 100},
 	y = Choice{min = 1, max = 10, step = 1},
@@ -140,7 +141,8 @@ return{
 		}
 
 		unitTest:assertEquals(mQuant.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
-		unitTest:assertEquals(mQuant.output[61].simulations, '2_execution_finalTime_1_x_-100_y_1_')
+		unitTest:assertEquals(mQuant.output[61].simulations, '1_execution_finalTime_1_x_1_y_1_')
+		unitTest:assertEquals(mQuant.output[2].simulations, '2_execution_finalTime_1_x_-100_y_1_')
 
 		local mQuant2 = MultipleRuns{
 			model = MyModel,
