@@ -202,6 +202,36 @@ local function parametersOrganizer(mainTable, idx, attribute, atype, params)
 	end
 end
 
+-- function used in run() to count all the possible combinations of parameters.
+-- params: Table with all the parameters and it's ranges or values indexed by number.
+-- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
+-- {id = "y", min = nil, max = nil, elements = {1, 3, 5}, ranged = false, steps = 1}}
+-- i: the parameter that the function is currently variating. In the Example: [i] = [1] => x, [i] = [2]=> y.
+-- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
+-- resultTable Table returned by multipleRuns as result
+local function countSimulations(params, i)
+	local count = 0
+	if params[i].ranged then -- if the parameter uses a range of values
+		for parameter = params[i].min, (params[i].max + sessionInfo().round), params[i].step do
+			if i == #params then
+				count = count + 1
+			else
+				count = count + countSimulations(params, i + 1)
+			end
+		end
+	else -- if the parameter uses a table of multiple values
+		forEachOrderedElement(params[i].elements, function (_, attribute)
+			if i == #params then
+				count = count + 1
+			else
+				count = count + countSimulations(params, i + 1)
+			end
+		end)
+	end
+
+	return count
+end
+
 -- function used in run() to test the model with all the possible combinations of parameters.
 -- params: Table with all the parameters and it's ranges or values indexed by number.
 -- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
@@ -209,7 +239,7 @@ end
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated)
+local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -230,13 +260,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			end)
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
-
-				if data.showProgress then
-					print("Simulating "..m:title()) -- SKIP
-				end
-
-				m:run()
 				local stringSimulations = ""
 
 				if repeated == true then
@@ -258,16 +281,37 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				local testDir = currentDir()
 
 				if data.folderName then
-					dir = Directory(stringSimulations) -- SKIP
+					local dir = Directory(stringSimulations) -- SKIP
 					dir:create() -- SKIP
 					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+				end
+
+				numSimulation = numSimulation + 1
+				local m = data.model(mVariables) --testing the model with it's current parameter values.
+				if data.showProgress then
+					local repetitions = ")"
+					if repeated then
+						if #params > 0 then -- SKIP
+							repetitions = string.format(", repetition %d/%d)", repetition, data.repetition) -- SKIP
+						else
+							repetitions = string.format("repetition %d/%d)", repetition, data.repetition) -- SKIP
+						end
+					end
+					
+					print(string.format("Running simulation %d/%d (%s%s", numSimulation, maxSimulations, m:title(), repetitions)) -- SKIP
+					local startTime = sessionInfo().time
+					m:run() -- SKIP
+					local elapsedTime = sessionInfo().time - startTime
+					print(string.format("Simulation finished in %0.2f seconds", elapsedTime)) -- SKIP
+				else
+					m:run()
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated)
+				resultTable, numSimulation = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations)
 			end
 		end
 	else -- if the parameter uses a table of multiple values
@@ -289,8 +333,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			end)
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
-				m:run()
 				local stringSimulations = ""
 				if repeated == true then
 					stringSimulations = repetition.."_execution_"
@@ -310,21 +352,43 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 				local testDir = currentDir()
 				if folderName then
-					dir = Directory(stringSimulations) -- SKIP
+					local dir = Directory(stringSimulations) -- SKIP
 					dir:create() -- SKIP
 					Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+				end
+
+				numSimulation = numSimulation + 1
+				local m = data.model(mVariables) --testing the model with it's current parameter values.
+				if data.showProgress then
+					local repetitions = ")"
+					if repeated then
+						if #params > 0 then -- SKIP
+							repetitions = string.format(", repetition %d/%d)", repetition, data.repetition) -- SKIP
+						else
+							repetitions = string.format("repetition %d/%d)", repetition, data.repetition)  -- SKIP
+						end
+					end
+
+					print(string.format("Running simulation %d/%d (%s%s", numSimulation, maxSimulations, m:title(), repetitions)) -- SKIP
+					local startTime = sessionInfo().time
+					m:run() -- SKIP
+					local elapsedTime = sessionInfo().time - startTime
+					print(string.format("Simulation finished in %0.2f seconds", elapsedTime)) -- SKIP
+				else
+					m:run()
 				end
 
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated) -- SKIP
+				resultTable, numSimulation = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations) -- SKIP
 			end
 		end)
 	end
+	clean()
 
-	return resultTable
+	return resultTable, numSimulation
 end
 
 MultipleRuns_ = {
@@ -628,13 +692,13 @@ function MultipleRuns(data)
 				folderDir:setCurrentDir() -- SKIP
 			end
 
+			local maxSimulations = countSimulations(params, 1) * data.repetition
+			local numSimulation = 0
+			--local startTime = sessionInfo().time
 			for i = 1, data.repetition do
-				if data.showProgress and data.repetition > 1 then
-					print("Simulating "..i.."/"..data.repetition) -- SKIP
-				end
-
-				resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated)
+				resultTable, numSimulation = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated, numSimulation, maxSimulations)
 			end
+			--print(string.format("All simulations are finished in %.2f seconds", sessionInfo().time-startTime)) -- SKIP
 
 			if data.folderName then
 				firstDir:setCurrentDir() -- SKIP
@@ -706,7 +770,7 @@ function MultipleRuns(data)
 
 			for case = 1, repetition do
 				if data.showProgress then
-					print("Simulating "..case.."/"..data.repetition) -- SKIP
+					print("Running simulation "..case.."/"..data.repetition) -- SKIP
 				end
 
 				local stringSimulations = ""
