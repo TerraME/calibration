@@ -730,8 +730,8 @@ function MultipleRuns(data)
 						m = randomModel(data.model, data.parameters) -- SKIP
 						simulationTime = sessionInfo().time - simulationTime -- SKIP
 						local title = m:title()
-						if repeated then
-							title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
+						if repetition > 1 then -- SKIP
+							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
@@ -799,8 +799,8 @@ function MultipleRuns(data)
 						local simulationTime = sessionInfo().time
 						m = data.model(clone(att)) -- SKIP
 						local title = m:title()
-						if repeated then
-							title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
+						if repetition > 1 then -- SKIP
+							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
