@@ -302,6 +302,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					m:run()
 				end
 
+				clean()
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
@@ -370,6 +371,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					m:run()
 				end
 
+				clean()
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
@@ -740,6 +742,7 @@ function MultipleRuns(data)
 						m = randomModel(data.model, data.parameters)
 					end
 
+					clean()
 					testAddFunctions(resultTable, addFunctions, data, m)
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 						if typ2 ~= "table" then
@@ -812,6 +815,7 @@ function MultipleRuns(data)
 						m:run()
 					end
 
+					clean()
 					testAddFunctions(resultTable, addFunctions, data, m)
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
 						if resultTable[idx2] == nil then
