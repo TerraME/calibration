@@ -212,7 +212,7 @@ end
 local function countSimulations(params, i)
 	local count = 0
 	if params[i].ranged then -- if the parameter uses a range of values
-		for parameter = params[i].min, (params[i].max + sessionInfo().round), params[i].step do
+		for _ = params[i].min, (params[i].max + sessionInfo().round), params[i].step do
 			if i == #params then
 				count = count + 1
 			else
@@ -220,7 +220,7 @@ local function countSimulations(params, i)
 			end
 		end
 	else -- if the parameter uses a table of multiple values
-		forEachOrderedElement(params[i].elements, function (_, attribute)
+		forEachOrderedElement(params[i].elements, function ()
 			if i == #params then
 				count = count + 1
 			else
@@ -297,7 +297,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 							repetitions = string.format("repetition %d/%d)", repetition, data.repetition) -- SKIP
 						end
 					end
-					
+
 					print(string.format("Running simulation %d/%d (%s%s", numSimulation, maxSimulations, m:title(), repetitions)) -- SKIP
 					local startTime = sessionInfo().time
 					m:run() -- SKIP
