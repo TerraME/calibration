@@ -284,17 +284,24 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				end
 
 				numSimulation = numSimulation + 1
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
+				local m
 				if data.showProgress then
+					local simulationTime = sessionInfo().time
+					m = data.model(mVariables) -- SKIP
 					local title = m:title()
 					if repeated then
 						title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
 					end
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+					m:run() -- SKIP
+					simulationTime = sessionInfo().time - simulationTime -- SKIP
+					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+				else
+					m = data.model(mVariables) --testing the model with it's current parameter values.
+					m:run()
 				end
 
-				m:run()
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
@@ -345,17 +352,24 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				end
 
 				numSimulation = numSimulation + 1
-				local m = data.model(mVariables) --testing the model with it's current parameter values.
+				local m
 				if data.showProgress then
+					local simulationTime = sessionInfo().time
+					m = data.model(mVariables) -- SKIP
 					local title = m:title()
 					if repeated then
 						title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
 					end
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+					m:run() -- SKIP
+					simulationTime = sessionInfo().time - simulationTime -- SKIP
+					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+				else
+					m = data.model(mVariables) --testing the model with it's current parameter values.
+					m:run()
 				end
 
-				m:run()
 				testAddFunctions(resultTable, addFunctions, data, m)
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
@@ -710,14 +724,20 @@ function MultipleRuns(data)
 						folderDir:setCurrentDir() -- SKIP
 					end
 
-					local m = randomModel(data.model, data.parameters)
+					local m
 					if data.showProgress then
+						local simulationTime = sessionInfo().time
+						m = randomModel(data.model, data.parameters) -- SKIP
+						simulationTime = sessionInfo().time - simulationTime -- SKIP
 						local title = m:title()
 						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					else
+						m = randomModel(data.model, data.parameters)
 					end
 
 					testAddFunctions(resultTable, addFunctions, data, m)
@@ -774,17 +794,24 @@ function MultipleRuns(data)
 						folderDir:setCurrentDir() -- SKIP
 					end
 
-					local m = data.model(clone(att))
+					local m
 					if data.showProgress then
+						local simulationTime = sessionInfo().time
+						m = data.model(clone(att)) -- SKIP
 						local title = m:title()
 						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", repetition, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						m:run() -- SKIP
+						simulationTime = sessionInfo().time - simulationTime -- SKIP
+						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					else
+						m = data.model(clone(att))
+						m:run()
 					end
 
-					m:run()
 					testAddFunctions(resultTable, addFunctions, data, m)
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
 						if resultTable[idx2] == nil then
