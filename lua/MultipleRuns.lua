@@ -295,8 +295,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = sessionInfo().time - simulationTime -- SKIP
-					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+					print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -364,8 +364,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = sessionInfo().time - simulationTime -- SKIP
-					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+					print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -730,14 +730,14 @@ function MultipleRuns(data)
 					if data.showProgress then
 						local simulationTime = sessionInfo().time
 						m = randomModel(data.model, data.parameters) -- SKIP
-						simulationTime = sessionInfo().time - simulationTime -- SKIP
+						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
 						local title = m:title()
 						if repetition > 1 then -- SKIP
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 					else
 						m = randomModel(data.model, data.parameters)
 					end
@@ -808,8 +808,8 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						m:run() -- SKIP
-						simulationTime = sessionInfo().time - simulationTime -- SKIP
-						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 					else
 						m = data.model(clone(att))
 						m:run()

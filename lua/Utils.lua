@@ -234,3 +234,60 @@ function randomModel(tModel, tParameters)
 	m:run()
 	return m
 end
+
+--- Function that returns the time in a higher-level representation.
+-- @arg t The time in seconds.
+-- @usage
+-- import("calibration")
+-- local t = 3670
+-- print(timeToString(t)) -- 1 hour and 1 minute
+function timeToString(t)
+	mandatoryArgument(1, "number", t)
+	local seconds = t
+	local minutes = math.floor(t / 60);     seconds = math.floor(seconds % 60)
+	local hours = math.floor(minutes / 60); minutes = math.floor(minutes % 60)
+	local days = math.floor(hours / 24);    hours = math.floor(hours % 24)
+	local hasDay = false
+	local hasHour = false
+	local hasMin = false
+	local str = ""
+	if days > 0 then
+		hasDay = true
+		if days == 1 then
+			str = str.."1 day"
+		else
+			str = str..days.." days"
+		end
+	end
+
+	if hours > 0 then
+		hasHour = true
+		if hasDay then str = str.." and " end
+		if hours == 1 then
+			str = str.."1 hour"
+		else
+			str = str..hours.." hours"
+		end
+	end
+
+	if not hasDay and minutes > 0 then
+		hasMin = true
+		if hasHour then str = str.." and " end
+		if minutes == 1 then
+			str = str.."1 minute"
+		else
+			str = str..minutes.." minutes"
+		end
+	end
+
+	if not hasDay and not hasHour and (seconds > 0 or not hasMin) then
+		if hasMin then str = str.." and " end
+		if seconds == 1 then
+			str = str.."1 second"
+		else
+			str = str..seconds.." seconds"
+		end
+	end
+
+	return str
+end
