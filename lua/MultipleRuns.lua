@@ -239,9 +239,10 @@ end
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations)
+local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
+			local iterationTime = sessionInfo().time -- time to compute a single interation (bigger than simulation time)
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
 				variables[params[a].id] = parameter
@@ -295,8 +296,23 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = sessionInfo().time - simulationTime -- SKIP
-					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
+					if simulationTime == 1 then -- SKIP
+						print(string.format("Simulation finished in %d second", simulationTime))
+					else
+						print(string.format("Simulation finished in %d seconds", simulationTime))
+					end
+					iterationTime = sessionInfo().time - iterationTime -- SKIP
+					table.insert(elapsedTimes, iterationTime) -- SKIP
+					local elapsedReal = 0
+					for _, t in pairs(elapsedTimes) do
+						elapsedReal = elapsedReal + t -- SKIP
+					end
+
+					local elapsedMean = elapsedReal / #elapsedTimes
+					local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+					local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
+					print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -307,7 +323,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable, numSimulation = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations)
+				resultTable, numSimulation, elapsedTimes = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime)
 			end
 		end
 	else -- if the parameter uses a table of multiple values
@@ -322,6 +338,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				end
 				variables[params[a].table][params[a].id] = attribute
 			end
+
 			local mVariables = {} -- copy of the variables table to be used in the model.
 			forEachOrderedElement(variables, function(idx2, attribute2)
 				mVariables[idx2] = attribute2
@@ -364,8 +381,23 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = sessionInfo().time - simulationTime -- SKIP
-					print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+					simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
+					if simulationTime == 1 then -- SKIP
+						print(string.format("Simulation finished in %d second", simulationTime))
+					else
+						print(string.format("Simulation finished in %d seconds", simulationTime))
+					end
+					iterationTime = sessionInfo().time - iterationTime -- SKIP
+					table.insert(elapsedTimes, iterationTime) -- SKIP
+					local elapsedReal = 0
+					for _, t in pairs(elapsedTimes) do
+						elapsedReal = elapsedReal + t -- SKIP
+					end
+
+					local elapsedMean = elapsedReal / #elapsedTimes
+					local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+					local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
+					print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -376,7 +408,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				testDir:setCurrentDir()
 				table.insert(resultTable.simulations, stringSimulations)
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable, numSimulation = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations) -- SKIP
+				resultTable, numSimulation, elapsedTimes = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repetition, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime) -- SKIP
 			end
 		end)
 	end
@@ -675,6 +707,7 @@ function MultipleRuns(data)
 					end)
 				end
 			end)
+
 			local repeated = false
 			if data.repetition > 1 then
 				repeated = true
@@ -686,8 +719,10 @@ function MultipleRuns(data)
 
 			local maxSimulations = countSimulations(params, 1) * data.repetition
 			local numSimulation = 0
+			local elapsedTimes = {}
+			local initialTime = os.time()
 			for i = 1, data.repetition do
-				resultTable, numSimulation, elapsedTimes = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated, numSimulation, maxSimulations)
+				resultTable, numSimulation, elapsedTimes = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, i, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime)
 			end
 
 			if data.folderName then
@@ -705,6 +740,8 @@ function MultipleRuns(data)
 
 			local maxSimulations = math.max(repetition, 1) * math.max(data.quantity, 1)
 			local numSimulation = 0
+			local initialTime = os.time()
+			local elapsedTimes = {}
 			for case = 1, repetition do
 				local stringSimulations = ""
 				if repetition > 1 then
@@ -712,6 +749,7 @@ function MultipleRuns(data)
 				end
 
 				for _ = 1, data.quantity do
+					local iterationTime = sessionInfo().time -- time to compute a single interation
 					numSimulation = numSimulation + 1
 					local sampleparams = {}
 					table.insert(resultTable.simulations, stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1))))
@@ -730,14 +768,29 @@ function MultipleRuns(data)
 					if data.showProgress then
 						local simulationTime = sessionInfo().time
 						m = randomModel(data.model, data.parameters) -- SKIP
-						simulationTime = sessionInfo().time - simulationTime -- SKIP
+						simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
 						local title = m:title()
 						if repetition > 1 then -- SKIP
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+						if simulationTime == 1 then -- SKIP
+							print(string.format("Simulation finished in %d second", simulationTime))
+						else
+							print(string.format("Simulation finished in %d seconds", simulationTime))
+						end
+						iterationTime = sessionInfo().time - iterationTime -- SKIP
+						table.insert(elapsedTimes, iterationTime) -- SKIP
+						local elapsedReal = 0
+						for _, t in pairs(elapsedTimes) do
+							elapsedReal = elapsedReal + t -- SKIP
+						end
+
+						local elapsedMean = elapsedReal / #elapsedTimes
+						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
+						print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
 					else
 						m = randomModel(data.model, data.parameters)
 					end
@@ -778,6 +831,8 @@ function MultipleRuns(data)
 			local repetition = data.repetition
 			local maxSimulations = math.max(#data.parameters, 1) * math.max(data.repetition, 1)
 			local numSimulation = 0
+			local elapsedTimes = {}
+			local initialTime = os.time()
 			for case = 1, repetition do
 				local stringSimulations = ""
 				if repetition > 1 then
@@ -785,6 +840,7 @@ function MultipleRuns(data)
 				end
 
 				forEachOrderedElement(data.parameters, function(idx, att)
+					local iterationTime = sessionInfo().time -- time to compute a single interation
 					numSimulation = numSimulation + 1
 					table.insert(resultTable.simulations, stringSimulations..idx)
 					if data.folderName then
@@ -809,7 +865,22 @@ function MultipleRuns(data)
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						m:run() -- SKIP
 						simulationTime = sessionInfo().time - simulationTime -- SKIP
-						print(string.format("Simulation finished in %0.2f seconds", simulationTime)) -- SKIP
+						if round(simulationTime) == 1 then -- SKIP
+							print(string.format("Simulation finished in %d second", round(simulationTime)))
+						else
+							print(string.format("Simulation finished in %d seconds", round(simulationTime)))
+						end
+						iterationTime = sessionInfo().time - iterationTime -- SKIP
+						table.insert(elapsedTimes, iterationTime) -- SKIP
+						local elapsedReal = 0
+						for _, t in pairs(elapsedTimes) do
+							elapsedReal = elapsedReal + t -- SKIP
+						end
+
+						local elapsedMean = elapsedReal / #elapsedTimes
+						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
+						print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
 					else
 						m = data.model(clone(att))
 						m:run()
