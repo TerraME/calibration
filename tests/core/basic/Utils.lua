@@ -146,5 +146,59 @@ return{
 		local original = {positionxy = {x = 42, y = 3}, positionxy2 = {x = Choice{2,3,4}, y = "a"}}
 		local copy =  cloneValues(original)
 		unitTest:assertEquals(copy.positionxy.x, 42)
+	end,
+	timeToString = function(unitTest)
+		local t1 = 0
+		unitTest:assertEquals(timeToString(t1), "0 seconds")
+		local t2 = 1
+		unitTest:assertEquals(timeToString(t2), "1 second")
+		local t3 = 2
+		unitTest:assertEquals(timeToString(t3), "2 seconds")
+		local t4 = 59
+		unitTest:assertEquals(timeToString(t4), "59 seconds")
+		local t5 = 60
+		unitTest:assertEquals(timeToString(t5), "1 minute")
+		local t6 = 61
+		unitTest:assertEquals(timeToString(t6), "1 minute and 1 second")
+		local t7 = 62
+		unitTest:assertEquals(timeToString(t7), "1 minute and 2 seconds")
+		local t8 = 300
+		unitTest:assertEquals(timeToString(t8), "5 minutes")
+		local t9 = 3599
+		unitTest:assertEquals(timeToString(t9), "59 minutes and 59 seconds")
+		local t10 = 3600
+		unitTest:assertEquals(timeToString(t10), "1 hour")
+		local t11 = 3601
+		unitTest:assertEquals(timeToString(t11), "1 hour")
+		local t12 = 3659
+		unitTest:assertEquals(timeToString(t12), "1 hour")
+		local t13 = 3660
+		unitTest:assertEquals(timeToString(t13), "1 hour and 1 minute")
+		local t14 = 3720
+		unitTest:assertEquals(timeToString(t14), "1 hour and 2 minutes")
+		local t15 = 7200
+		unitTest:assertEquals(timeToString(t15), "2 hours")
+		local t16 = 7259
+		unitTest:assertEquals(timeToString(t16), "2 hours")
+		local t17 = 7260
+		unitTest:assertEquals(timeToString(t17), "2 hours and 1 minute")
+		local t18 = 7320
+		unitTest:assertEquals(timeToString(t18), "2 hours and 2 minutes")
+		local t19 = 86399
+		unitTest:assertEquals(timeToString(t19), "23 hours and 59 minutes")
+		local t20 = 86400
+		unitTest:assertEquals(timeToString(t20), "1 day")
+		local t21 = 86401
+		unitTest:assertEquals(timeToString(t21), "1 day")
+		local t22 = 86460
+		unitTest:assertEquals(timeToString(t22), "1 day")
+		local t23 = 90000
+		unitTest:assertEquals(timeToString(t23), "1 day and 1 hour")
+		local t24 = 93600
+		unitTest:assertEquals(timeToString(t24), "1 day and 2 hours")
+		local t25 = 172800
+		unitTest:assertEquals(timeToString(t25), "2 days")
+		local t26 = 86465321
+		unitTest:assertEquals(timeToString(t26), "1000 days and 18 hours")
 	end
 }
