@@ -296,12 +296,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
-					if simulationTime == 1 then -- SKIP
-						print(string.format("Simulation finished in %d second", simulationTime))
-					else
-						print(string.format("Simulation finished in %d seconds", simulationTime))
-					end
+					simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+					print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 					iterationTime = sessionInfo().time - iterationTime -- SKIP
 					table.insert(elapsedTimes, iterationTime) -- SKIP
 					local elapsedReal = 0
@@ -311,8 +307,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local elapsedMean = elapsedReal / #elapsedTimes
 					local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+					local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
 					local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-					print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
+					print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -381,12 +378,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 					m:run() -- SKIP
-					simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
-					if simulationTime == 1 then -- SKIP
-						print(string.format("Simulation finished in %d second", simulationTime))
-					else
-						print(string.format("Simulation finished in %d seconds", simulationTime))
-					end
+					simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+					print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 					iterationTime = sessionInfo().time - iterationTime -- SKIP
 					table.insert(elapsedTimes, iterationTime) -- SKIP
 					local elapsedReal = 0
@@ -396,8 +389,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local elapsedMean = elapsedReal / #elapsedTimes
 					local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+					local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
 					local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-					print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
+					print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 				else
 					m = data.model(mVariables) --testing the model with it's current parameter values.
 					m:run()
@@ -768,18 +762,14 @@ function MultipleRuns(data)
 					if data.showProgress then
 						local simulationTime = sessionInfo().time
 						m = randomModel(data.model, data.parameters) -- SKIP
-						simulationTime = math.floor(sessionInfo().time - simulationTime) -- SKIP
+						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
 						local title = m:title()
 						if repetition > 1 then -- SKIP
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						if simulationTime == 1 then -- SKIP
-							print(string.format("Simulation finished in %d second", simulationTime))
-						else
-							print(string.format("Simulation finished in %d seconds", simulationTime))
-						end
+						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 						iterationTime = sessionInfo().time - iterationTime -- SKIP
 						table.insert(elapsedTimes, iterationTime) -- SKIP
 						local elapsedReal = 0
@@ -789,8 +779,9 @@ function MultipleRuns(data)
 
 						local elapsedMean = elapsedReal / #elapsedTimes
 						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						m = randomModel(data.model, data.parameters)
 					end
@@ -864,12 +855,8 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						m:run() -- SKIP
-						simulationTime = sessionInfo().time - simulationTime -- SKIP
-						if round(simulationTime) == 1 then -- SKIP
-							print(string.format("Simulation finished in %d second", round(simulationTime)))
-						else
-							print(string.format("Simulation finished in %d seconds", round(simulationTime)))
-						end
+						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
+						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 						iterationTime = sessionInfo().time - iterationTime -- SKIP
 						table.insert(elapsedTimes, iterationTime) -- SKIP
 						local elapsedReal = 0
@@ -879,8 +866,9 @@ function MultipleRuns(data)
 
 						local elapsedMean = elapsedReal / #elapsedTimes
 						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
+						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to conclude all simulations: %s (%d min)", timeString, round(estimatedTime/60))) -- SKIP
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						m = data.model(clone(att))
 						m:run()
