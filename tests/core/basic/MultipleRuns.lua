@@ -140,7 +140,7 @@ return{
 		}
 
 		unitTest:assertEquals(mQuant.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
-		unitTest:assertEquals(mQuant.output[61].simulations, '2_execution_finalTime_1_x_-100_y_1_')
+		unitTest:assertEquals(mQuant.output[2].simulations, '2_execution_finalTime_1_x_-100_y_1_')
 
 		local mQuant2 = MultipleRuns{
 			model = MyModel,
@@ -384,5 +384,100 @@ return{
 		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_5")
 		unitTest:assertEquals(m4Tab.output[6].simulations, "2_execution_1")
 		unitTest:assertEquals(m4Tab.output[1].simulations, "1_execution_1")
+		
+		local summaryM1 = MultipleRuns{
+			model = MyModel,
+			showProgress = false,
+			strategy = "factorial",
+			parameters = {
+				x = Choice{-1, 0, 1},
+			},
+			repetition = 2,
+			output = {"value"},
+			additionalF = function()
+				return 1
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM1.summary.mean[1], 1)
+		local summaryM2 = MultipleRuns{
+			model = MyModelPosition,
+			showProgress = false,
+			parameters = {
+				position = {
+					x = Choice{-100, -1, 0, 1, 2, 100},
+					y = Choice{min = 1, max = 10, step = 1}
+				},
+				finalTime = 1
+			},
+			repetition = 2,
+			additionalF = function()
+				return 1
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM2.summary.mean[1], 1)
+		local summaryM3 = MultipleRuns{
+			model = MyModel4,
+			--showProgress = false,
+			strategy = "sample",
+			parameters = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				z = 1,
+				finalTime = 1
+			},
+			quantity = 5,
+			repetition = 2,
+			additionalF = function()
+				return 1
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM3.summary.mean[1], 1)
+		local summaryM4 = MultipleRuns{
+			model = MyModel,
+			strategy = "selected",
+			showProgress = false,
+			parameters = {
+				scenario1 = {x = 2, y = 5},
+				scenario2 = {x = 1, y = 3}
+			},
+			repetition = 2,
+			output = {"value"},
+			additionalF = function()
+				return 1
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM4.summary.mean[1], 1)
 	end
 }
