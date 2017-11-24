@@ -384,7 +384,7 @@ return{
 		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_5")
 		unitTest:assertEquals(m4Tab.output[6].simulations, "2_execution_1")
 		unitTest:assertEquals(m4Tab.output[1].simulations, "1_execution_1")
-		
+
 		local summaryM1 = MultipleRuns{
 			model = MyModel,
 			showProgress = false,

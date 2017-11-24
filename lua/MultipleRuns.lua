@@ -801,10 +801,10 @@ function MultipleRuns(data)
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				if data.summary then
 					forEachOrderedElement(variables, function(variable, value)
-						if not summaryTable[variable] then
+						if not summaryTable[variable] then -- SKIP
 							summaryTable[variable] = {}
 						end
-						table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
+						table.insert(summaryTable[variable], value) -- SKIP
 					end)
 				end
 				for case = 1, repetition do
@@ -914,7 +914,7 @@ function MultipleRuns(data)
 			forEachOrderedElement(data.parameters, function(idx, att)
 				local summaryResult = {repetition = data.repetition} -- table to store the results of all output function
 				if data.summary then
-					forEachOrderedElement(att, function(variable, value, typ)
+					forEachOrderedElement(att, function(variable, value)
 						if not summaryTable[variable] then
 							summaryTable[variable] = {}
 						end
