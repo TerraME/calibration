@@ -394,8 +394,8 @@ return{
 			},
 			repetition = 2,
 			output = {"value"},
-			additionalF = function()
-				return 1
+			additionalF = function(model)
+				return model.x
 			end,
 			summary = function(result)
 				local s = 0
@@ -406,10 +406,39 @@ return{
 			end
 		}
 
-		unitTest:assertEquals(summaryM1.summary.mean[1], 1)
+		unitTest:assertEquals(summaryM1.summary.x[1], -1)
+		unitTest:assertEquals(summaryM1.summary.mean[1], -1)
 		local summaryM2 = MultipleRuns{
 			model = MyModelPosition,
 			showProgress = false,
+			strategy = "factorial",
+			parameters = {
+				position = {
+					x = Choice{-100, -1, 0, 1, 2, 100},
+					y = Choice{1, 2, 3, 4, 5, 6, 7, 9, 10}
+				},
+				finalTime = 1
+			},
+			repetition = 2,
+			additionalF = function(model)
+				return model.position.x + model.position.y
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM2.summary.mean[1], -99)
+		unitTest:assertEquals(summaryM2.summary.position[1].x, -100)
+		unitTest:assertEquals(summaryM2.summary.position[1].y, 1)
+		local summaryM3 = MultipleRuns{
+			model = MyModelPosition,
+			showProgress = false,
+			strategy = "factorial",
 			parameters = {
 				position = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -418,8 +447,8 @@ return{
 				finalTime = 1
 			},
 			repetition = 2,
-			additionalF = function()
-				return 1
+			additionalF = function(model)
+				return model.position.x + model.position.y
 			end,
 			summary = function(result)
 				local s = 0
@@ -430,32 +459,9 @@ return{
 			end
 		}
 
-		unitTest:assertEquals(summaryM2.summary.mean[1], 1)
-		local summaryM3 = MultipleRuns{
-			model = MyModel4,
-			--showProgress = false,
-			strategy = "sample",
-			parameters = {
-				x = Choice{-100, -1, 0, 1, 2, 100},
-				y = Choice{min = 1, max = 10, step = 1},
-				z = 1,
-				finalTime = 1
-			},
-			quantity = 5,
-			repetition = 2,
-			additionalF = function()
-				return 1
-			end,
-			summary = function(result)
-				local s = 0
-				forEachElement(result.additionalF, function(_, f)
-					s = s + f
-				end)
-				return {mean = s / result.repetition}
-			end
-		}
-
-		unitTest:assertEquals(summaryM3.summary.mean[1], 1)
+		unitTest:assertEquals(summaryM3.summary.mean[1], -99)
+		unitTest:assertEquals(summaryM3.summary.position[1].x, -100)
+		unitTest:assertEquals(summaryM3.summary.position[1].y, 1)
 		local summaryM4 = MultipleRuns{
 			model = MyModel,
 			strategy = "selected",
@@ -479,5 +485,30 @@ return{
 		}
 
 		unitTest:assertEquals(summaryM4.summary.mean[1], 1)
+		local summaryM5 = MultipleRuns{
+			model = MyModel4,
+			showProgress = false,
+			strategy = "sample",
+			parameters = {
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y = Choice{min = 1, max = 10, step = 1},
+				z = 1,
+				finalTime = 1
+			},
+			quantity = 5,
+			repetition = 2,
+			additionalF = function()
+				return 1
+			end,
+			summary = function(result)
+				local s = 0
+				forEachElement(result.additionalF, function(_, f)
+					s = s + f
+				end)
+				return {mean = s / result.repetition}
+			end
+		}
+
+		unitTest:assertEquals(summaryM5.summary.mean[1], 1)
 	end
 }

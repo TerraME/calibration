@@ -261,11 +261,15 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				if data.summary then
-					forEachOrderedElement(variables, function(variable, value)
+					forEachOrderedElement(variables, function(variable, value, typ)
 						if not summaryTable[variable] then
 							summaryTable[variable] = {}
 						end
-						table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
+						if typ ~= "table" then
+							table.insert(summaryTable[variable], value)
+						else
+							table.insert(summaryTable[variable], clone(value))
+						end
 					end)
 				end
 
@@ -368,14 +372,17 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
 				if data.summary then
-					forEachOrderedElement(variables, function(variable, value)
+					forEachOrderedElement(variables, function(variable, value, typ)
 						if not summaryTable[variable] then
 							summaryTable[variable] = {}
 						end
-						table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
+						if typ ~= "table" then
+							table.insert(summaryTable[variable], value)
+						else
+							table.insert(summaryTable[variable], clone(value))
+						end
 					end)
 				end
-
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				for case = 1, data.repetition do
 					numSimulation = numSimulation + 1
@@ -403,7 +410,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					end)
 
 					local testDir = currentDir()
-					if folderName then
+					if data.folderName then
 						local dir = Directory(stringSimulations) -- SKIP
 						dir:create() -- SKIP
 						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
@@ -791,17 +798,16 @@ function MultipleRuns(data)
 			local initialTime = os.time()
 			local elapsedTimes = {}
 			for _ = 1, data.quantity do
+				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
+				if data.summary then
+					forEachOrderedElement(variables, function(variable, value)
+						if not summaryTable[variable] then
+							summaryTable[variable] = {}
+						end
+						table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
+					end)
+				end
 				for case = 1, repetition do
-					local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
-					if data.summary then
-						forEachOrderedElement(variables, function(variable, value)
-							if not summaryTable[variable] then
-								summaryTable[variable] = {}
-							end
-							table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
-						end)
-					end
-
 					local stringSimulations = ""
 					if repetition > 1 then
 						stringSimulations = case.."_execution_"
@@ -873,18 +879,18 @@ function MultipleRuns(data)
 
 						table.insert(resultTable[idx2], att2)
 					end)
+				end
 
-					if data.summary then
-						local retSummary = data.summary(summaryResult)
-						verifyNamedTable(retSummary)
-						forEachElement(retSummary, function(key, value) -- insert the result from each function to summaryTable
-							if not summaryTable[key] then
-								summaryTable[key] = {}
-							end
+				if data.summary then
+					local retSummary = data.summary(summaryResult)
+					verifyNamedTable(retSummary)
+					forEachElement(retSummary, function(key, value) -- insert the result from each function to summaryTable
+						if not summaryTable[key] then
+							summaryTable[key] = {}
+						end
 
-							table.insert(summaryTable[key], value)
-						end)
-					end
+						table.insert(summaryTable[key], value)
+					end)
 				end
 			end
 
@@ -896,22 +902,27 @@ function MultipleRuns(data)
 			end
 
 			local repetition = data.repetition
-			local maxSimulations = math.max(#data.parameters, 1) * math.max(data.repetition, 1)
+			local maxSimulations = 0
+			forEachOrderedElement(data.parameters, function()
+				maxSimulations = maxSimulations + 1
+			end)
+
+			maxSimulations = maxSimulations * math.max(data.repetition, 1)
 			local numSimulation = 0
 			local elapsedTimes = {}
 			local initialTime = os.time()
 			forEachOrderedElement(data.parameters, function(idx, att)
-				for case = 1, repetition do
-					local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
-					if data.summary then
-						forEachOrderedElement(variables, function(variable, value)
-							if not summaryTable[variable] then
-								summaryTable[variable] = {}
-							end
-							table.insert(summaryTable[variable], value) -- insert variables and their possible values in summaryTable
-						end)
-					end
+				local summaryResult = {repetition = data.repetition} -- table to store the results of all output function
+				if data.summary then
+					forEachOrderedElement(att, function(variable, value, typ)
+						if not summaryTable[variable] then
+							summaryTable[variable] = {}
+						end
+						table.insert(summaryTable[variable], value)
+					end)
+				end
 
+				for case = 1, repetition do
 					local stringSimulations = ""
 					if repetition > 1 then
 						stringSimulations = case.."_execution_"
@@ -969,18 +980,18 @@ function MultipleRuns(data)
 
 						table.insert(resultTable[idx2], att2)
 					end)
+				end
 
-					if data.summary then
-						local retSummary = data.summary(summaryResult)
-						verifyNamedTable(retSummary)
-						forEachElement(retSummary, function(key, value) -- insert the result from each function to summaryTable
-							if not summaryTable[key] then
-								summaryTable[key] = {}
-							end
+				if data.summary then
+					local retSummary = data.summary(summaryResult)
+					verifyNamedTable(retSummary)
+					forEachElement(retSummary, function(key, value) -- insert the result from each function to summaryTable
+						if not summaryTable[key] then
+							summaryTable[key] = {}
+						end
 
-							table.insert(summaryTable[key], value)
-						end)
-					end
+						table.insert(summaryTable[key], value)
+					end)
 				end
 			end)
 
