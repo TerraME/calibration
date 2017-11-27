@@ -1,2 +1,2 @@
-tolerance = 0.1
+tolerance = 0.45
 lines = true

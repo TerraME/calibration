@@ -149,7 +149,7 @@ return{
 	end,
 	timeToString = function(unitTest)
 		local t1 = 0
-		unitTest:assertEquals(timeToString(t1), "0 seconds")
+		unitTest:assertEquals(timeToString(t1), "less than one second")
 		local t2 = 1
 		unitTest:assertEquals(timeToString(t2), "1 second")
 		local t3 = 2

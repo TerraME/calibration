@@ -284,6 +284,8 @@ function timeToString(t)
 		if hasMin then str = str.." and " end
 		if seconds == 1 then
 			str = str.."1 second"
+		elseif seconds == 0 then
+			str = "less than one second"
 		else
 			str = str..seconds.." seconds"
 		end
