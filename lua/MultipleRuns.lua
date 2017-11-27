@@ -301,7 +301,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local testDir = currentDir()
 					if data.folderName then
-						local dir = Directory(stringSimulations) -- SKIP
+						local dir = Directory(stringSimulations)
 						dir:create() -- SKIP
 						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
 					end
@@ -411,9 +411,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local testDir = currentDir()
 					if data.folderName then
-						local dir = Directory(stringSimulations) -- SKIP
-						dir:create() -- SKIP
-						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
+						local dir = Directory(stringSimulations)
+						dir:create()
+						Directory(testDir..s..stringSimulations):setCurrentDir()
 					end
 
 					local m
@@ -741,18 +741,18 @@ function MultipleRuns(data)
 	local folder = data.folderName
 
 	if folder ~= nil then
-		local dir = Directory(folder) -- SKIP
-		local mkDirValue, mkDirError = dir:create() -- SKIP
-		if not mkDirValue then -- SKIP
+		local dir = Directory(folder)
+		local mkDirValue, mkDirError = dir:create()
+		if not mkDirValue then
 			if mkDirError ~= "File exists" then -- SKIP
 				firstDir:setCurrentDir() -- SKIP
 				customError('Folder "'..folder..'": '..mkDirError) -- SKIP
-			end -- SKIP
+			end
 		end
 
-		Directory(folder):setCurrentDir() -- SKIP
-		folderDir = currentDir() -- SKIP
-		firstDir:setCurrentDir() -- SKIP
+		Directory(folder):setCurrentDir()
+		folderDir = currentDir()
+		firstDir:setCurrentDir()
 	end
 
 	local variables = {}
@@ -774,14 +774,14 @@ function MultipleRuns(data)
 			end
 
 			if data.folderName then
-				folderDir:setCurrentDir() -- SKIP
+				folderDir:setCurrentDir()
 			end
 
 			local maxSimulations = countSimulations(params, 1) * data.repetition
 			local initialTime = os.time()
 			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated, 0, maxSimulations, {}, initialTime, summaryTable)
 			if data.folderName then
-				firstDir:setCurrentDir() -- SKIP
+				firstDir:setCurrentDir()
 			end
 		end,
 		sample = function()
@@ -789,15 +789,11 @@ function MultipleRuns(data)
 			local repetition
 			repetition = data.repetition
 
-			if data.folderName then
-				folderDir:setCurrentDir() -- SKIP
-			end
-
 			local maxSimulations = math.max(repetition, 1) * math.max(data.quantity, 1)
 			local numSimulation = 0
 			local initialTime = os.time()
 			local elapsedTimes = {}
-			for _ = 1, data.quantity do
+			for quantity = 1, data.quantity do
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				if data.summary then
 					forEachOrderedElement(variables, function(variable, value)
@@ -816,16 +812,13 @@ function MultipleRuns(data)
 					local iterationTime = sessionInfo().time -- time to compute a single interation
 					numSimulation = numSimulation + 1
 					local sampleparams = {}
-					table.insert(resultTable.simulations, stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1))))
+					table.insert(resultTable.simulations, stringSimulations..quantity)
 
 					if data.folderName then
-						local dir = Directory(stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))) -- SKIP
-						dir:create() -- SKIP
-						Directory(folderDir..s..stringSimulations..(#resultTable.simulations + 1 - (#resultTable.simulations * (case - 1)))):setCurrentDir() -- SKIP
-					end
-
-					if data.folderName then
-						folderDir:setCurrentDir() -- SKIP
+						folderDir:setCurrentDir()
+						local dir = Directory(stringSimulations..quantity)
+						dir:create()
+						Directory(folderDir..s..stringSimulations..quantity):setCurrentDir()
 					end
 
 					local m
@@ -894,13 +887,11 @@ function MultipleRuns(data)
 				end
 			end
 
-			firstDir:setCurrentDir()
+			if data.folderName then
+				firstDir:setCurrentDir()
+			end
 		end,
 		selected = function()
-			if data.folderName then
-				folderDir:setCurrentDir() -- SKIP
-			end
-
 			local repetition = data.repetition
 			local maxSimulations = 0
 			forEachOrderedElement(data.parameters, function()
@@ -932,13 +923,10 @@ function MultipleRuns(data)
 					numSimulation = numSimulation + 1
 					table.insert(resultTable.simulations, stringSimulations..idx)
 					if data.folderName then
-						local dir = Directory(stringSimulations..idx) -- SKIP
-						dir:create() -- SKIP
-						Directory(folderDir..s..stringSimulations..idx):setCurrentDir() -- SKIP
-					end
-
-					if data.folderName then
-						folderDir:setCurrentDir() -- SKIP
+						folderDir:setCurrentDir()
+						local dir = Directory(stringSimulations..idx)
+						dir:create()
+						Directory(folderDir..s..stringSimulations..idx):setCurrentDir()
 					end
 
 					local m
@@ -995,7 +983,9 @@ function MultipleRuns(data)
 				end
 			end)
 
-			firstDir:setCurrentDir()
+			if data.folderName then
+				firstDir:setCurrentDir()
+			end
 		end
 	}
 

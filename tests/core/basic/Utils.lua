@@ -132,8 +132,8 @@ return{
 			output = {"value"}
 		}
 
-		unitTest:assertEquals(m4Tab.output.simulations[5], "1_execution_5")
-		unitTest:assertEquals(m4Tab.output.simulations[6], "2_execution_1")
+		unitTest:assertEquals(m4Tab.output.simulations[5], "1_execution_3")
+		unitTest:assertEquals(m4Tab.output.simulations[6], "2_execution_3")
 		unitTest:assertEquals(m4Tab.output.simulations[1], "1_execution_1")
 	end,
 	checkParameterSingle = function(unitTest)
