@@ -388,7 +388,6 @@ return{
 		local summaryM1 = MultipleRuns{
 			model = MyModel,
 			showProgress = false,
-			strategy = "factorial",
 			parameters = {
 				x = Choice{-1, 0, 1},
 			},
@@ -411,7 +410,6 @@ return{
 		local summaryM2 = MultipleRuns{
 			model = MyModelPosition,
 			showProgress = false,
-			strategy = "factorial",
 			parameters = {
 				position = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -438,7 +436,6 @@ return{
 		local summaryM3 = MultipleRuns{
 			model = MyModelPosition,
 			showProgress = false,
-			strategy = "factorial",
 			parameters = {
 				position = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
@@ -480,6 +477,7 @@ return{
 				forEachElement(result.additionalF, function(_, f)
 					s = s + f
 				end)
+
 				return {mean = s / result.repetition}
 			end
 		}
@@ -505,6 +503,7 @@ return{
 				forEachElement(result.additionalF, function(_, f)
 					s = s + f
 				end)
+
 				return {mean = s / result.repetition}
 			end
 		}

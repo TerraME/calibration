@@ -17,10 +17,6 @@ local m = MultipleRuns{
 		return model.cs:state().forest or 0
 	end,
 	summary = function(result)
-        -- chamado apos as 30 repeticoes para uma determinada configuracao de parametros
-        -- 30 resultados de 0.2
-        -- 30 resultados de 0.3
-        -- ...
         local sum = 0
         local max = -math.huge
         local min = math.huge
@@ -38,7 +34,7 @@ local m = MultipleRuns{
         end)
 
         return {
-            average = sum / result.repetition, -- should result carry .repetition or it should be get in #result.forest instead?
+            average = sum / #result.forest,
             max = max,
             min = min
         }
@@ -54,8 +50,14 @@ average = sum / #m.output
 
 print("Average forest in the end of "..#m.output.." simulations: "..average)
 
+m.summary["expected"] = {}
+forEachElement(m.summary, function(_, result)
+	table.insert(m.summary.expected, result.dim * result.dim * (1-result.empty))
+end)
+
 Chart{
     target = m.summary,
-    select = "average",
-    xAxis = "empty"
+    select = {"average", "expected"},
+    xAxis = "empty",
+	color = {"red", "green"}
 }
