@@ -126,6 +126,11 @@ local MyModel6 = Model{
 	end
 }
 
+local function fileExists(name)
+	local sep = sessionInfo().separator
+    return File(currentDir().."results"..sep..name..sep.."data.csv"):exists()
+end
+
 return{
 	MultipleRuns = function(unitTest)
 		local m = MultipleRuns{
@@ -563,16 +568,15 @@ return{
 			folderName = "results"
 		}
 
-		local sep = sessionInfo().separator
-		unitTest:assert(File(currentDir().."results"..sep.."x_0_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_1_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_-1_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_0_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_1_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_-1_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_0_y_3_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_1_y_3_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."x_-1_y_3_"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("x_0_y_1_"))
+		unitTest:assert(fileExists("x_1_y_1_"))
+		unitTest:assert(fileExists("x_-1_y_1_"))
+		unitTest:assert(fileExists("x_0_y_2_"))
+		unitTest:assert(fileExists("x_1_y_2_"))
+		unitTest:assert(fileExists("x_-1_y_2_"))
+		unitTest:assert(fileExists("x_0_y_3_"))
+		unitTest:assert(fileExists("x_1_y_3_"))
+		unitTest:assert(fileExists("x_-1_y_3_"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel5,
@@ -584,12 +588,12 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_0_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_-1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_0_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_-1_"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("1_execution_x_0_"))
+		unitTest:assert(fileExists("1_execution_x_1_"))
+		unitTest:assert(fileExists("1_execution_x_-1_"))
+		unitTest:assert(fileExists("2_execution_x_0_"))
+		unitTest:assert(fileExists("2_execution_x_1_"))
+		unitTest:assert(fileExists("2_execution_x_-1_"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel5,
@@ -602,14 +606,14 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_0_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_0_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_1_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_x_1_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_0_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_0_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_1_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_x_1_y_2_"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("1_execution_x_0_y_1_"))
+		unitTest:assert(fileExists("1_execution_x_0_y_2_"))
+		unitTest:assert(fileExists("1_execution_x_1_y_1_"))
+		unitTest:assert(fileExists("1_execution_x_1_y_2_"))
+		unitTest:assert(fileExists("2_execution_x_0_y_1_"))
+		unitTest:assert(fileExists("2_execution_x_0_y_2_"))
+		unitTest:assert(fileExists("2_execution_x_1_y_1_"))
+		unitTest:assert(fileExists("2_execution_x_1_y_2_"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel6,
@@ -622,14 +626,14 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_0_position_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_0_position_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_1_position_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_1_position_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_0_position_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_0_position_y_2_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_1_position_y_1_"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_position_x_1_position_y_2_"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("1_execution_position_x_0_position_y_1_"))
+		unitTest:assert(fileExists("1_execution_position_x_0_position_y_2_"))
+		unitTest:assert(fileExists("1_execution_position_x_1_position_y_1_"))
+		unitTest:assert(fileExists("1_execution_position_x_1_position_y_2_"))
+		unitTest:assert(fileExists("2_execution_position_x_0_position_y_1_"))
+		unitTest:assert(fileExists("2_execution_position_x_0_position_y_2_"))
+		unitTest:assert(fileExists("2_execution_position_x_1_position_y_1_"))
+		unitTest:assert(fileExists("2_execution_position_x_1_position_y_2_"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
 		MultipleRuns{
@@ -645,12 +649,12 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_scenario1"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_scenario2"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_scenario3"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_scenario1"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_scenario2"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_scenario3"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("1_execution_scenario1"))
+		unitTest:assert(fileExists("1_execution_scenario2"))
+		unitTest:assert(fileExists("1_execution_scenario3"))
+		unitTest:assert(fileExists("2_execution_scenario1"))
+		unitTest:assert(fileExists("2_execution_scenario2"))
+		unitTest:assert(fileExists("2_execution_scenario3"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
 		MultipleRuns{
@@ -665,12 +669,12 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_1"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_1"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_2"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_2"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."1_execution_3"..sep.."data.csv"):exists())
-		unitTest:assert(File(currentDir().."results"..sep.."2_execution_3"..sep.."data.csv"):exists())
+		unitTest:assert(fileExists("1_execution_1"))
+		unitTest:assert(fileExists("2_execution_1"))
+		unitTest:assert(fileExists("1_execution_2"))
+		unitTest:assert(fileExists("2_execution_2"))
+		unitTest:assert(fileExists("1_execution_3"))
+		unitTest:assert(fileExists("2_execution_3"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 	end
 }
