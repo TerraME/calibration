@@ -82,6 +82,55 @@ local MyModel4 = Model{
 	end
 }
 
+local MyModel5 = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y = Choice{min = 1, max = 10, step = 1},
+	values = {},
+	xs = {},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+				table.insert(self.values, self.value)
+				table.insert(self.xs, self.timer:getTime())
+			end},
+			Event{start = finalTime, priority = 5, action = function()
+				local df = DataFrame{value = self.values, x = self.xs}
+				df:save("data.csv")
+			end}
+	}
+	end
+}
+
+local MyModel6 = Model{
+	position = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1}
+	},
+	values = {},
+	xs = {},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
+				table.insert(self.values, self.value)
+				table.insert(self.xs, self.timer:getTime())
+			end},
+			Event{start = finalTime, priority = 5, action = function()
+				local df = DataFrame{value = self.values, x = self.xs}
+				df:save("data.csv")
+			end}
+	}
+	end
+}
+
+local function fileExists(name)
+	local sep = sessionInfo().separator
+    return File(currentDir().."results"..sep..name..sep.."data.csv"):exists()
+end
+
 return{
 	MultipleRuns = function(unitTest)
 		local m = MultipleRuns{
@@ -381,8 +430,8 @@ return{
 			output = {"value"}
 		}
 
-		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_5")
-		unitTest:assertEquals(m4Tab.output[6].simulations, "2_execution_1")
+		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_3")
+		unitTest:assertEquals(m4Tab.output[6].simulations, "2_execution_3")
 		unitTest:assertEquals(m4Tab.output[1].simulations, "1_execution_1")
 
 		local summaryM1 = MultipleRuns{
@@ -509,5 +558,123 @@ return{
 		}
 
 		unitTest:assertEquals(summaryM5.summary.mean[1], 1)
+		MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			parameters = {
+				x = Choice{-1, 0, 1},
+				y = Choice{1, 2, 3},
+			},
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("x_0_y_1_"))
+		unitTest:assert(fileExists("x_1_y_1_"))
+		unitTest:assert(fileExists("x_-1_y_1_"))
+		unitTest:assert(fileExists("x_0_y_2_"))
+		unitTest:assert(fileExists("x_1_y_2_"))
+		unitTest:assert(fileExists("x_-1_y_2_"))
+		unitTest:assert(fileExists("x_0_y_3_"))
+		unitTest:assert(fileExists("x_1_y_3_"))
+		unitTest:assert(fileExists("x_-1_y_3_"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
+		MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			parameters = {
+				x = Choice{-1, 0, 1},
+			},
+			repetition = 2,
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("1_execution_x_0_"))
+		unitTest:assert(fileExists("1_execution_x_1_"))
+		unitTest:assert(fileExists("1_execution_x_-1_"))
+		unitTest:assert(fileExists("2_execution_x_0_"))
+		unitTest:assert(fileExists("2_execution_x_1_"))
+		unitTest:assert(fileExists("2_execution_x_-1_"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
+		MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			parameters = {
+				x = Choice{0, 1},
+				y = Choice{1, 2}
+			},
+			repetition = 2,
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("1_execution_x_0_y_1_"))
+		unitTest:assert(fileExists("1_execution_x_0_y_2_"))
+		unitTest:assert(fileExists("1_execution_x_1_y_1_"))
+		unitTest:assert(fileExists("1_execution_x_1_y_2_"))
+		unitTest:assert(fileExists("2_execution_x_0_y_1_"))
+		unitTest:assert(fileExists("2_execution_x_0_y_2_"))
+		unitTest:assert(fileExists("2_execution_x_1_y_1_"))
+		unitTest:assert(fileExists("2_execution_x_1_y_2_"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
+		MultipleRuns{
+			model = MyModel6,
+			showProgress = false,
+			parameters = {position = {
+				x = Choice{0, 1},
+				y = Choice{1, 2}
+			}},
+			repetition = 2,
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("1_execution_position_x_0_position_y_1_"))
+		unitTest:assert(fileExists("1_execution_position_x_0_position_y_2_"))
+		unitTest:assert(fileExists("1_execution_position_x_1_position_y_1_"))
+		unitTest:assert(fileExists("1_execution_position_x_1_position_y_2_"))
+		unitTest:assert(fileExists("2_execution_position_x_0_position_y_1_"))
+		unitTest:assert(fileExists("2_execution_position_x_0_position_y_2_"))
+		unitTest:assert(fileExists("2_execution_position_x_1_position_y_1_"))
+		unitTest:assert(fileExists("2_execution_position_x_1_position_y_2_"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
+
+		MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			strategy = "selected",
+			parameters = {
+				scenario1 = {x = 0, y = 1},
+				scenario2 = {x = 1, y = 2},
+				scenario3 = {x = -1, y = 3}
+			},
+			repetition = 2,
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("1_execution_scenario1"))
+		unitTest:assert(fileExists("1_execution_scenario2"))
+		unitTest:assert(fileExists("1_execution_scenario3"))
+		unitTest:assert(fileExists("2_execution_scenario1"))
+		unitTest:assert(fileExists("2_execution_scenario2"))
+		unitTest:assert(fileExists("2_execution_scenario3"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
+
+		MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			strategy = "sample",
+			quantity = 3,
+			repetition = 2,
+			parameters = {
+				x = Choice{0, 1, -1}
+			},
+			folderName = "results"
+		}
+
+		unitTest:assert(fileExists("1_execution_1"))
+		unitTest:assert(fileExists("2_execution_1"))
+		unitTest:assert(fileExists("1_execution_2"))
+		unitTest:assert(fileExists("2_execution_2"))
+		unitTest:assert(fileExists("1_execution_3"))
+		unitTest:assert(fileExists("2_execution_3"))
+		unitTest:assert(Directory(currentDir().."results"):delete())
 	end
 }
