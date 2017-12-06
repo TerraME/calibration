@@ -164,7 +164,7 @@ local function testAddFunctions(resultTable, addFunctions, data, m, summaryResul
 				end)
 			end
 
-			if not data.parameters[attr] and not foundOnParameters then
+			if not data.parameters[attr] and not foundOnParameters or data.strategy == "sample" then
 				table.insert(resultTable[attr], value)
 			end
 		end
