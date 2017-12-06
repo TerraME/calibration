@@ -190,6 +190,8 @@ end
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel The Model to be instantiated.
 -- @arg tParameters A table of possible parameters for the model.
+-- @arg skipRun An optional argument to determine whether the model will skip his execution or not after being created.
+-- The default value is false meaning that the model will be executed internally by runModel.
 -- Multiple Runs or Calibration instance .
 -- @usage
 -- import("calibration")
@@ -207,7 +209,7 @@ end
 -- }
 -- local parameters = {x = Choice{-100,- 1, 0, 1, 2, 100}, y = Choice{min = 1, max = 8, step = 1}}
 -- randomModel(myModel, parameters)
-function randomModel(tModel, tParameters)
+function randomModel(tModel, tParameters, skipRun)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
 	local sampleParams = {}
@@ -231,7 +233,10 @@ function randomModel(tModel, tParameters)
 		end
 	end)
 	local m = tModel(sampleParams)
-	m:run()
+	if not skipRun then -- needed to run models in the correct directory and to save their outputs correctly
+		m:run()
+	end
+
 	return m
 end
 

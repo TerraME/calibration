@@ -245,7 +245,7 @@ end
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable)
+local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -299,17 +299,18 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 					end)
 
-					local testDir = currentDir()
+					local testDir = folderDir
+					firstDir:setCurrentDir()
+					local simulationTime = sessionInfo().time
+					local m = data.model(mVariables)
+					testDir:setCurrentDir()
 					if data.folderName then
 						local dir = Directory(stringSimulations)
 						dir:create() -- SKIP
 						Directory(testDir..s..stringSimulations):setCurrentDir() -- SKIP
 					end
 
-					local m
 					if data.showProgress then
-						local simulationTime = sessionInfo().time
-						m = data.model(mVariables) -- SKIP
 						local title = m:title()
 						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
@@ -332,7 +333,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						m = data.model(mVariables) --testing the model with it's current parameter values.
 						m:run()
 					end
 
@@ -354,7 +354,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					end)
 				end
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable)
+				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir)
 			end
 		end
 	else -- if the parameter uses a table of multiple values
@@ -409,17 +409,18 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 					end)
 
-					local testDir = currentDir()
+					local testDir = folderDir
+					firstDir:setCurrentDir()
+					local simulationTime = sessionInfo().time
+					local m = data.model(mVariables)
+					testDir:setCurrentDir()
 					if data.folderName then
 						local dir = Directory(stringSimulations)
 						dir:create()
 						Directory(testDir..s..stringSimulations):setCurrentDir()
 					end
 
-					local m
 					if data.showProgress then
-						local simulationTime = sessionInfo().time
-						m = data.model(mVariables) -- SKIP
 						local title = m:title()
 						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
@@ -442,7 +443,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						m = data.model(mVariables) --testing the model with it's current parameter values.
 						m:run()
 					end
 
@@ -464,7 +464,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					end)
 				end
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable) -- SKIP
+				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir) -- SKIP
 			end
 		end)
 	end
@@ -779,7 +779,7 @@ function MultipleRuns(data)
 
 			local maxSimulations = countSimulations(params, 1) * data.repetition
 			local initialTime = os.time()
-			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated, 0, maxSimulations, {}, initialTime, summaryTable)
+			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated, 0, maxSimulations, {}, initialTime, summaryTable, firstDir, folderDir)
 			if data.folderName then
 				firstDir:setCurrentDir()
 			end
@@ -814,6 +814,9 @@ function MultipleRuns(data)
 					local sampleparams = {}
 					table.insert(resultTable.simulations, stringSimulations..quantity)
 
+					local simulationTime = sessionInfo().time
+					firstDir:setCurrentDir()
+					local m = randomModel(data.model, data.parameters, true)
 					if data.folderName then
 						folderDir:setCurrentDir()
 						local dir = Directory(stringSimulations..quantity)
@@ -821,17 +824,15 @@ function MultipleRuns(data)
 						Directory(folderDir..s..stringSimulations..quantity):setCurrentDir()
 					end
 
-					local m
 					if data.showProgress then
-						local simulationTime = sessionInfo().time
-						m = randomModel(data.model, data.parameters) -- SKIP
-						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
 						local title = m:title()
 						if repetition > 1 then -- SKIP
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						m:run() -- SKIP
+						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
 						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
 						iterationTime = sessionInfo().time - iterationTime -- SKIP
 						table.insert(elapsedTimes, iterationTime) -- SKIP
@@ -846,7 +847,7 @@ function MultipleRuns(data)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						m = randomModel(data.model, data.parameters)
+						m:run()
 					end
 
 					clean()
@@ -922,6 +923,9 @@ function MultipleRuns(data)
 					local iterationTime = sessionInfo().time -- time to compute a single interation
 					numSimulation = numSimulation + 1
 					table.insert(resultTable.simulations, stringSimulations..idx)
+					local simulationTime = sessionInfo().time
+					firstDir:setCurrentDir()
+					local m = data.model(clone(att))
 					if data.folderName then
 						folderDir:setCurrentDir()
 						local dir = Directory(stringSimulations..idx)
@@ -929,10 +933,7 @@ function MultipleRuns(data)
 						Directory(folderDir..s..stringSimulations..idx):setCurrentDir()
 					end
 
-					local m
 					if data.showProgress then
-						local simulationTime = sessionInfo().time
-						m = data.model(clone(att)) -- SKIP
 						local title = m:title()
 						if repetition > 1 then -- SKIP
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
@@ -955,7 +956,6 @@ function MultipleRuns(data)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						m = data.model(clone(att))
 						m:run()
 					end
 
