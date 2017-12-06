@@ -79,8 +79,7 @@ return{
 			 },
 			additionalF = function()
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mPosition.output.position_x[1], -100)
@@ -109,8 +108,7 @@ return{
 			 },
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mPosition2.output[1].position.x, -100)
@@ -128,8 +126,7 @@ return{
 				},
 			},
 			quantity = 5,
-			repetition = 2,
-			output = {"value"}
+			repetition = 2
 		}
 
 		unitTest:assertEquals(m4Tab.output.simulations[5], "1_execution_3")

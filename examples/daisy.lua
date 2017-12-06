@@ -12,8 +12,7 @@ local m = MultipleRuns{
 	model = Daisyworld,
 	parameters = {
 		sunLuminosity = Choice{min = 0.4, max = 1.6, step = 0.01},
-	},
-	output = {"blackArea", "whiteArea", "emptyArea"}
+	}
 }
 
 chart = Chart{

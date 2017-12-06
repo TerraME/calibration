@@ -61,8 +61,7 @@ return{
 				showProgress = false,
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3,
-				output = {"value"}
+				repetition = 3
 			}
 		end
 
@@ -72,8 +71,7 @@ return{
 				model = MyModel,
 				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5, p = "extra"}},
-				repetition = 3,
-				output = {"value"}
+				repetition = 3
 			}
 		end
 
@@ -85,8 +83,7 @@ return{
 				parameters = {x = Choice{1, 2},
 				y =Choice{1,5},
 				p = "extra"},
-				repetition = 3,
-				output = {"value"}
+				repetition = 3
 			}
 		end
 
@@ -96,65 +93,28 @@ return{
 				model = MyModel,
 				showProgress = false,
 				parameters = {x = Choice{-100, 2}, y = Choice{1, 5}},
-				repetition = 3,
-				output = {"x", "y",	"value"}
+				repetition = 3
 			}
 		end
 
-		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
 				repetition = 3,
-				output = {"x", "y",	"value"}
-			}
-		end
-
-		unitTest:assertError(error_func, "MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				showProgress = false,
-				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3,
-				output = {"fake"}
-			}
-		end
-
-		unitTest:assertError(error_func, 'Output value "fake" is not present in the model.')
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				showProgress = false,
-				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3,
-				output = {"value", "value"}
-			}
-		end
-
-		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
-		error_func = function()
-			m = MultipleRuns{
-				model = MyModel,
-				showProgress = false,
-				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3,
-				output = {"value"},
 				value = function(model)
 					return model.value
 				end
 			}
 		end
 
-		unitTest:assertError(error_func, "Values in output parameters or additional functions should not be repeated or have the same name.")
+		unitTest:assertError(error_func, "Values in model parameters or additional functions should not be repeated or have the same name.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				showProgress = false,
 				repetition = 3,
-				output = {"value"}
 			}
 		end
 
@@ -164,7 +124,6 @@ return{
 				showProgress = false,
 				parameters = {scenario1 = {x = 2, y = 5, seed = 1001}},
 				repetition = 3,
-				output = {"value"}
 			}
 		end
 
@@ -175,8 +134,7 @@ return{
 				model = MyModel2,
 				showProgress = false,
 				strategy = "factorial",
-				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
-				output = {"value"}
+				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}}
 			}
 		end
 
@@ -187,7 +145,6 @@ return{
 				showProgress = false,
 				strategy = "sample",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = 5},
-				output = {"value"}
 			}
 		end
 
@@ -198,7 +155,6 @@ return{
 				showProgress = false,
 				strategy = "factorial",
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10}},
-				output = {"value"}
 			}
 		end
 
@@ -209,7 +165,6 @@ return{
 				strategy = "factorial",
 				showProgress = false,
 				parameters = {x = {-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}
 			}
 		end
 
@@ -222,7 +177,6 @@ return{
 				showProgress = false,
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}},
 				test = "test",
-				output = {"value"}
 			}
 		end
 
@@ -234,7 +188,6 @@ return{
 				strategy = "factorial",
 				showProgress = false,
 				parameters = {x = Choice{-100, -1, 0, 1, 2, 99}, y = Choice{min = 1, max = 10, step = 1}},
-				output = {"value"}
 			}
 		end
 
@@ -245,7 +198,6 @@ return{
 				strategy = "factorial",
 				showProgress = false,
 				parameters = {x = Choice{1,2,3}},
-				output = {"value"}
 			}
 		end
 
@@ -256,7 +208,6 @@ return{
 				strategy = "factorial",
 				showProgress = false,
 				parameters = {x = Choice{min = 1, max = 5},  y = Choice{1, 2}},
-				output = {"value"}
 			}
 		end
 
@@ -266,8 +217,7 @@ return{
 				model = MyModel,
 				strategy = "selected",
 				showProgress = false,
-				parameters = {x = -100, y = 10},
-				output = {"value"}
+				parameters = {x = -100, y = 10}
 			}
 		end
 
@@ -277,8 +227,8 @@ return{
 				model = MyModel,
 				strategy = "selected",
 				showProgress = false,
-				parameters = {scenario1 = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}}},
-				output = {"value"}}
+				parameters = {scenario1 = {x = Choice{-100, -1, 0, 1, 2, 100}, y = Choice{min = 1, max = 10, step = 1}}}
+			}
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' cannot be 'Choice'.")
@@ -291,7 +241,6 @@ return{
 					scenario1 = {x = Choice{2,3,4}, y = 5},
 					scenario2 = {x = 1, y = 3}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end
@@ -307,7 +256,6 @@ return{
 					scenario1 = {parameters3 = {x = Choice{2,3}, y = 5}},
 					scenario2 = {parameters3 = {x = 1, y = 3}}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end
@@ -322,7 +270,6 @@ return{
 				parameters = {
 					parameters3 = {x = Choice{1,2,3}, y = 5}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end
@@ -337,7 +284,6 @@ return{
 				parameters = {
 					parameters3 = {x = 2, y = 5}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end
@@ -352,7 +298,6 @@ return{
 				parameters = {
 					parameters3 = {x = 2, y = 5}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end
@@ -367,7 +312,6 @@ return{
 				parameters = {
 					parameters3 = {x = {0,1,2}, y = 5}
 				},
-				output = {"value"},
 				additionalF = function(_)
 					return "test"
 				end

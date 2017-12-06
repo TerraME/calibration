@@ -142,15 +142,39 @@ local function checkParameters(origModel, origParameters)
 end
 
 local function testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+	forEachElement(m, function(attr, value, typ)
+		if addFunctions[attr] ~= nil then
+			customError("Values in model parameters or additional functions should not be repeated or have the same name.")
+		end
+
+		if typ == "number" then
+			if not resultTable[attr] then
+				resultTable[attr] = {}
+			end
+
+			local foundOnParameters = false
+			if data.strategy == "selected" then
+				forEachOrderedElement(data.parameters, function (_, pat, pty)
+					if pty == "table" then
+						if pat[attr] then
+							foundOnParameters = true
+							return
+						end
+					end
+				end)
+			end
+
+			if not data.parameters[attr] and not foundOnParameters then
+				table.insert(resultTable[attr], value)
+			end
+		end
+	end)
+
 	if addFunctions == nil then return end
 
 	forEachOrderedElement(addFunctions, function(idxF)
 		if resultTable[idxF] == nil then
 			resultTable[idxF] = {}
-		end
-
-		if m[idxF] == nil and data.outputVariables[idxF] then
-			customError('Output value "'..idxF..'" is not present in the model.')
 		end
 
 		local returnValueF = data[idxF](m)
@@ -619,11 +643,6 @@ function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
 
-	if type(data.output) == "string" then
-		data.output = {data.output}
-	end
-
-	optionalTableArgument(data, "output", "table")
 	optionalTableArgument(data, "strategy", "string")
 	defaultTableValue(data, "repetition", 1)
 	optionalTableArgument(data, "folderName", "string")
@@ -663,36 +682,7 @@ function MultipleRuns(data)
 	local resultTable = {simulations = {}}
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
-	data.outputVariables = {}
 	local summaryTable = {}
-
-	if data.output ~= nil then
-		forEachOrderedElement(data.output, function(_, att)
-			if data[att] ~= nil then
-				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
-			end
-
-			if data.strategy ~= "selected" then
-				if data.parameters[att] ~= nil then
-					customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
-				end
-			else
-				forEachOrderedElement(data.parameters, function (_, pat, pty)
-					if pty == "table" then
-						if pat[att] ~= nil then
-							customError("MultipleRuns already saves the output of all parameters inputed for testing, it's not necessary to select them in the 'output' table.")
-						end
-					end
-				end)
-			end
-
-			data[att] = function(model)
-				return model[att]
-			end
-
-			data.outputVariables[att] = true
-		end)
-	end
 
 	forEachOrderedElement(data, function(idx, att)
 		if type(att) == "function" then
@@ -707,12 +697,11 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "output", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
 		end
 	end)
 
 	checkParameters(data.model, data)
-	data.output = nil
 
 	if data.hideGraphics then
 		sessionInfo().graphics = false
@@ -803,6 +792,7 @@ function MultipleRuns(data)
 						table.insert(summaryTable[variable], value) -- SKIP
 					end)
 				end
+
 				for case = 1, repetition do
 					local stringSimulations = ""
 					if repetition > 1 then

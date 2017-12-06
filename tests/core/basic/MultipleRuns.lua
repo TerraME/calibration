@@ -141,11 +141,10 @@ return{
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(m.output.x[1], -100)
@@ -161,11 +160,10 @@ return{
 					y = Choice{min = 1, max = 10, step = 1}
 				},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mPosition.output[1].position_x, -100)
@@ -181,11 +179,10 @@ return{
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mQuant.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
@@ -200,11 +197,10 @@ return{
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{1,2,3,4,5},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mQuant2.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
@@ -217,11 +213,10 @@ return{
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y2 = Choice{min = 1, max = 10, step = 1},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mMan.output[1].x, -100)
@@ -233,14 +228,13 @@ return{
 			strategy = "factorial",
 			showProgress = false,
 			parameters = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y2 = Choice{1,2,3,4,5},
+				x = Choice{-100, -1, 0, 1, 2, 100},
+				y2 = Choice{1,2,3,4,5},
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mMandChoiceTable.output[1].x, -100)
@@ -260,8 +254,7 @@ return{
 			},
 			additionalF = function(model)
 				return (model.value)
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mTab.output[1].parameters3_x, -100)
@@ -296,11 +289,10 @@ return{
 				y = Choice{min = 1, max = 10, step = 1},
 				z = 1,
 				finalTime = 1
-			 },
+			},
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mSingle.output[1].x, -100)
@@ -314,8 +306,7 @@ return{
 			parameters = {
 				scenario1 = {x = 2, y = 5},
 				scenario2 = {x = 1, y = 3}
-			 },
-			output = {"value"},
+			},
 			additionalF = function(_)
 				return "test"
 			end
@@ -333,8 +324,7 @@ return{
 			parameters = {
 				scenario1 = {parameters3 = {x = 2, y = 5, z = 1}},
 				scenario2 = {parameters3 = {x = 1, y = 3, z = 1}}
-			 },
-			output = {"value"}
+			}
 		}
 
 		unitTest:assertEquals(m2Tab.output[1].parameters3.x, 2)
@@ -348,7 +338,6 @@ return{
 			showProgress = false,
 			parameters = {scenario1 = {x = 2, y = 5}},
 			repetition = 3,
-			output = {"value"},
 			additionalF = function(_)
 				return "test"
 			end
@@ -366,8 +355,7 @@ return{
 			model = MyModel3,
 			showProgress = false,
 			parameters = {scenario1 = {parameters3 = {x = 2, y = 5, z = 1}}},
-			repetition = 3,
-			output = {"value"}
+			repetition = 3
 		}
 
 		-- CHECK HERE!! It should be parameters3_x
@@ -386,9 +374,8 @@ return{
 			parameters = {
 				x = Choice{-100, -1, 0, 1, 2, 100},
 				y = Choice{min = 1, max = 10, step = 1}
-			 },
+			},
 			quantity = 5,
-			output = {"value"},
 			additionalF = function(_)
 				return "test"
 			end
@@ -407,8 +394,7 @@ return{
 				z = 1,
 				finalTime = 1
 			 },
-			quantity = 5,
-			output = {"value"}
+			quantity = 5
 		}
 
 		unitTest:assertEquals(m4Single.output[5].simulations, "5")
@@ -426,8 +412,7 @@ return{
 				},
 			},
 			quantity = 5,
-			repetition = 2,
-			output = {"value"}
+			repetition = 2
 		}
 
 		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_3")
@@ -441,7 +426,6 @@ return{
 				x = Choice{-1, 0, 1},
 			},
 			repetition = 2,
-			output = {"value"},
 			additionalF = function(model)
 				return model.x
 			end,
@@ -517,7 +501,6 @@ return{
 				scenario2 = {x = 1, y = 3}
 			},
 			repetition = 2,
-			output = {"value"},
 			additionalF = function()
 				return 1
 			end,
