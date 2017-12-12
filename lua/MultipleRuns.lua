@@ -280,6 +280,12 @@ local function redirectPrint(f)
 	return log
 end
 
+local function freeModel(model)
+	forEachElement(model, function(member)
+		model[member] = nil
+	end)
+end
+
 -- function used in run() to test the model with all the possible combinations of parameters.
 -- params: Table with all the parameters and it's ranges or values indexed by number.
 -- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
@@ -396,6 +402,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
+					if data.free then
+						freeModel(m)
+						m = nil
+						collectgarbage()
+					end
 				end
 
 				if data.summary and type(data.summary) == "function" then
@@ -519,6 +530,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
+					if data.free then
+						freeModel(m)
+						m = nil
+						collectgarbage()
+					end
 				end
 
 				if data.summary then
@@ -666,6 +682,8 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
+-- @arg data.free If true, then the memory used by Model instances will be removed after their simulations. Only the observed
+-- properties of the model will be stored within MultipleRuns, (Default is false).
 -- @arg data.hideGraphics If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
@@ -677,13 +695,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphics, quantity, folderName, showProgress, ... \
+-- & parameters, model & repetition, output, hideGraphics, quantity, folderName, free, showProgress, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, hideGraphics, quantity, showProgress, ... \
+-- repetition, model & output, folderName, free, hideGraphics, quantity, showProgress, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, hideGraphics, repetition, showProgress, quantity, ...
+-- model, parameters & output, folderName, free, hideGraphics, repetition, showProgress, quantity, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -695,6 +713,7 @@ function MultipleRuns(data)
 	defaultTableValue(data, "hideGraphics", true)
 	defaultTableValue(data, "showProgress", true)
 	optionalTableArgument(data, "summary", "function")
+	defaultTableValue(data, "free", false)
 
 	if data.strategy == nil then
 		local choiceStrg = false
@@ -742,7 +761,7 @@ function MultipleRuns(data)
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
 			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables"})
+				"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables", "free"})
 		end
 	end)
 
@@ -921,6 +940,12 @@ function MultipleRuns(data)
 
 						table.insert(resultTable[idx2], att2)
 					end)
+
+					if data.free then
+						freeModel(m)
+						m = nil
+						collectgarbage()
+					end
 				end
 
 				if data.summary then
@@ -1029,6 +1054,12 @@ function MultipleRuns(data)
 
 						table.insert(resultTable[idx2], att2)
 					end)
+
+					if data.free then
+						freeModel(m)
+						m = nil
+						collectgarbage()
+					end
 				end
 
 				if data.summary then

@@ -126,6 +126,46 @@ local MyModel6 = Model{
 	end
 }
 
+local MyModel7 = Model{
+	x = 1,
+	y = 1,
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.iniMem = collectgarbage("count") / 1024 -- in megabytes
+				self.z = {}
+				for i = 1, 100000 do
+					self.z[i] = i
+				end
+
+				self.finMem = collectgarbage("count") / 1024
+			end}
+		}
+	end
+}
+
+local MyModel8 = Model{
+	p = {
+		x = Choice{-1, 0, 1},
+		y = Choice{min= - 1, max = 1, step = 1},
+	},
+	finalTime = 1,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.iniMem = collectgarbage("count") / 1024 -- in megabytes
+				self.z = {}
+				for i = 1, 100000 do
+					self.z[i] = i
+				end
+
+				self.finMem = collectgarbage("count") / 1024
+			end}
+		}
+	end
+}
+
 local function fileExists(name)
 	local sep = sessionInfo().separator
     return File(currentDir().."results"..sep..name..sep.."data.csv"):exists()
@@ -659,5 +699,62 @@ return{
 		unitTest:assert(fileExists("1_execution_3"))
 		unitTest:assert(fileExists("2_execution_3"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
+
+		local free1 = MultipleRuns{
+			model = MyModel7,
+			showProgress = false,
+			free = true,
+			parameters = {
+				x = Choice{-1, 0, 1},
+				y = Choice{-1, 0, 1}
+			}
+		}
+
+		unitTest:assertEquals(free1.output.iniMem[3], free1.output.iniMem[6], 1)
+		unitTest:assertEquals(free1.output.finMem[3], free1.output.finMem[6], 1)
+
+		local free2 = MultipleRuns{
+			model = MyModel7,
+			showProgress = false,
+			free = true,
+			strategy = "sample",
+			parameters = {
+				x = Choice{-1, 0, 1},
+				y = Choice{-1, 0, 1}
+			},
+			quantity = 9
+		}
+
+		unitTest:assertEquals(free2.output.iniMem[3], free2.output.iniMem[6], 1)
+		unitTest:assertEquals(free2.output.finMem[3], free2.output.finMem[6], 1)
+
+		local free3 = MultipleRuns{
+			model = MyModel7,
+			showProgress = false,
+			free = true,
+			strategy = "selected",
+			parameters = {
+				scenario1 = {x = -1, y = -1},
+				scenario2 = {x = 0, y = 0},
+				scenario3 = {x = 1, y = 1}
+			},
+			repetition = 3
+		}
+
+		unitTest:assertEquals(free3.output.iniMem[3], free3.output.iniMem[6], 1)
+		unitTest:assertEquals(free3.output.finMem[3], free3.output.finMem[6], 1)
+
+		local free4 = MultipleRuns{
+			model = MyModel8,
+			showProgress = false,
+			free = true,
+			parameters = {p = {
+				x = Choice{-1, 0, 1},
+				y = Choice{min= - 1, max = 1, step = 1}
+			}},
+		}
+
+		unitTest:assertEquals(free4.output.iniMem[3], free4.output.iniMem[6], 1)
+		unitTest:assertEquals(free4.output.finMem[3], free4.output.finMem[6], 1)
 	end
 }
