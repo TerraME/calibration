@@ -42,16 +42,20 @@ local MyModelPosition = Model{
 return{
 	randomModel = function(unitTest)
 		local rParam = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y = Choice{min = 1, max = 10, step = 1}
-				}
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1}
+		}
+
 		local rs = randomModel(MyModel, rParam)
+		rs:run()
 		unitTest:assertEquals(type(rs.value), "number")
 		rParam = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y = 5
-				}
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = 5
+		}
+
 		rs = randomModel(MyModel, rParam)
+		rs:run()
 		unitTest:assertEquals(type(rs.value), "number")
 	end,
 	-- These are error verification functions so it's impossible to properly test them without veryfing the errors,

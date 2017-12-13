@@ -209,7 +209,7 @@ end
 -- }
 -- local parameters = {x = Choice{-100,- 1, 0, 1, 2, 100}, y = Choice{min = 1, max = 8, step = 1}}
 -- randomModel(myModel, parameters)
-function randomModel(tModel, tParameters, skipRun)
+function randomModel(tModel, tParameters)
 	mandatoryArgument(1, "Model", tModel)
 	mandatoryArgument(1, "table", tParameters)
 	local sampleParams = {}
@@ -232,12 +232,8 @@ function randomModel(tModel, tParameters, skipRun)
 			sampleParams[idx] = attribute
 		end
 	end)
-	local m = tModel(sampleParams)
-	if not skipRun then -- needed to run models in the correct directory and to save their outputs correctly
-		m:run()
-	end
 
-	return m
+	return tModel(sampleParams)
 end
 
 --- Function that returns the time in a higher-level representation.

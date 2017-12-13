@@ -874,7 +874,7 @@ function MultipleRuns(data)
 					local log = {}
 					local m
 					redirectPrint(log, function()
-						m = randomModel(data.model, data.parameters, true)
+						m = randomModel(data.model, data.parameters)
 					end)
 
 					if data.folderName then

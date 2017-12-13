@@ -29,12 +29,14 @@ local error_func
 return{
 	randomModel = function(unitTest)
 		error_func = function()
-			randomModel("test", {x = Choice{1, 2, 3}, y = Choice{3, 4, 5}})
+			local m = randomModel("test", {x = Choice{1, 2, 3}, y = Choice{3, 4, 5}})
+			m:run()
 		end
 
 		unitTest:assertError(error_func,  "Incompatible types. Argument '#1' expected Model, got string.")
 		error_func = function()
-			randomModel(MyModel, "test")
+			local m = randomModel(MyModel, "test")
+			m:run()
 		end
 
 		unitTest:assertError(error_func, "Incompatible types. Argument '#1' expected table, got string.")
