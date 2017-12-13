@@ -262,22 +262,20 @@ local function countSimulations(params, i)
 	return count
 end
 
-local function redirectPrint(f)
-	local log = ""
+local function redirectPrint(log, f)
 	local oldPrint = print
 	print = function(...)
-		local str = ""
+		local line = {}
 		for _, v in ipairs({...}) do
-			str = str .. v .. "\t" -- SKIP
+			table.insert(line, v) -- SKIP
 		end
 
-		log = log .. str .. "\n" -- SKIP
+		table.insert(log, table.concat(line, "\t")) -- SKIP
 	end
 
 	f()
 
 	print = oldPrint
-	return log
 end
 
 local function freeModel(model)
@@ -350,9 +348,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local testDir = folderDir
 					firstDir:setCurrentDir()
 					local simulationTime = sessionInfo().time
-					local logs = ""
+					local log = {}
 					local m
-					logs = logs..redirectPrint(function()
+					redirectPrint(log, function()
 						m = data.model(mVariables)
 					end)
 
@@ -370,7 +368,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run() -- SKIP
 						end)
 
@@ -389,14 +387,14 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run()
 						end)
 
 					end
 
 					local logfile = File("output.log")
-					logfile:writeLine(logs)
+					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
 					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
@@ -479,9 +477,9 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local testDir = folderDir
 					firstDir:setCurrentDir()
 					local simulationTime = sessionInfo().time
-					local logs = ""
+					local log = {}
 					local m
-					logs = logs..redirectPrint(function()
+					redirectPrint(log, function()
 						m = data.model(mVariables)
 					end)
 
@@ -499,7 +497,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run() -- SKIP
 						end)
 
@@ -518,13 +516,13 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run()
 						end)
 					end
 
 					local logfile = File("output.log")
-					logfile:writeLine(logs)
+					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
 					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
@@ -873,9 +871,9 @@ function MultipleRuns(data)
 
 					local simulationTime = sessionInfo().time
 					firstDir:setCurrentDir()
-					local logs = ""
+					local log = {}
 					local m
-					logs = logs..redirectPrint(function()
+					redirectPrint(log, function()
 						m = randomModel(data.model, data.parameters, true)
 					end)
 
@@ -893,7 +891,7 @@ function MultipleRuns(data)
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run() -- SKIP
 						end)
 
@@ -912,13 +910,13 @@ function MultipleRuns(data)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run()
 						end)
 					end
 
 					local logfile = File("output.log")
-					logfile:writeLine(logs)
+					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
 					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
@@ -1001,9 +999,9 @@ function MultipleRuns(data)
 					table.insert(resultTable.simulations, stringSimulations..idx)
 					local simulationTime = sessionInfo().time
 					firstDir:setCurrentDir()
-					local logs = ""
+					local log = {}
 					local m
-					logs = logs..redirectPrint(function()
+					redirectPrint(log, function()
 						m = data.model(clone(att))
 					end)
 
@@ -1021,7 +1019,7 @@ function MultipleRuns(data)
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run() -- SKIP
 						end)
 
@@ -1040,13 +1038,13 @@ function MultipleRuns(data)
 						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
-						logs = logs..redirectPrint(function()
+						redirectPrint(log, function()
 							m:run()
 						end)
 					end
 
 					local logfile = File("output.log")
-					logfile:writeLine(logs)
+					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
 					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
