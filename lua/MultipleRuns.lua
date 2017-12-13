@@ -144,7 +144,7 @@ end
 local function testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
 	forEachElement(m, function(attr, value, typ)
 		if addFunctions[attr] ~= nil then
-			customError("Values in model parameters or additional functions should not be repeated or have the same name.")
+			customError("It is not possible to use function '"..attr.."' as output because this name is already an output value of the model.")
 		end
 
 		if typ == "number" then
@@ -687,6 +687,9 @@ metaTableMultipleRuns_ = {
 -- @arg data.hideGraphics If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
+-- @arg data.summary A function can be defined by the user to summarize results after executing all repetitions of a set of parameters.
+-- This function gets as a parameter a table containing the values of each variable, the results of each simulation and results of each
+-- user-defined functions.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @arg data.... Additional functions can be defined by the user. Such functions are
 -- executed each time a simulation of a Model ends and get as parameter the model instance
@@ -695,13 +698,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphics, quantity, folderName, free, showProgress, ... \
+-- & parameters, model & repetition, output, hideGraphics, quantity, folderName, free, showProgress, summary, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, free, hideGraphics, quantity, showProgress, ... \
+-- repetition, model & output, folderName, free, hideGraphics, quantity, showProgress, summary, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, free, hideGraphics, repetition, showProgress, quantity, ...
+-- model, parameters & output, folderName, free, hideGraphics, quantity, repetition, showProgress, summary, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")

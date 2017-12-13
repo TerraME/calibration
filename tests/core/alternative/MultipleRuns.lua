@@ -109,7 +109,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Values in model parameters or additional functions should not be repeated or have the same name.")
+		unitTest:assertError(error_func, "It is not possible to use function 'value' as output because this name is already an output value of the model.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
