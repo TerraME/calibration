@@ -278,12 +278,6 @@ local function redirectPrint(log, f)
 	print = oldPrint
 end
 
-local function freeModel(model)
-	forEachElement(model, function(member)
-		model[member] = nil
-	end)
-end
-
 -- function used in run() to test the model with all the possible combinations of parameters.
 -- params: Table with all the parameters and it's ranges or values indexed by number.
 -- Example: params = {{id = "x", min = 1, max = 10, elements = nil, ranged = true, step = 2},
@@ -401,7 +395,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
-						freeModel(m)
 						m = nil
 						collectgarbage()
 					end
@@ -529,7 +522,6 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
-						freeModel(m)
 						m = nil
 						collectgarbage()
 					end
@@ -680,8 +672,8 @@ metaTableMultipleRuns_ = {
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
--- @arg data.free If true, then the memory used by Model instances will be removed after their simulations. Only the observed
--- properties of the model will be stored within MultipleRuns, (Default is false).
+-- @arg data.free If true, then the memory used by Model instances will be removed after each simulation. Only the observed
+-- properties of the model will be stored within MultipleRuns. Default is false.
 -- @arg data.hideGraphics If true (default), then sessionInfo().graphics will disable all charts and observers during models execution.
 -- @arg data.showProgress If true, a message is printed on screen to show the models executions progress on repeated strategy,
 -- (Default is false).
@@ -943,7 +935,6 @@ function MultipleRuns(data)
 					end)
 
 					if data.free then
-						freeModel(m)
 						m = nil
 						collectgarbage()
 					end
@@ -1057,7 +1048,6 @@ function MultipleRuns(data)
 					end)
 
 					if data.free then
-						freeModel(m)
 						m = nil
 						collectgarbage()
 					end
