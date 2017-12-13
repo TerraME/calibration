@@ -190,9 +190,7 @@ end
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel The Model to be instantiated.
 -- @arg tParameters A table of possible parameters for the model.
--- @arg skipRun An optional argument to determine whether the model will skip his execution or not after being created.
--- The default value is false meaning that the model will be executed internally by runModel.
--- Multiple Runs or Calibration instance .
+-- Multiple Runs or Calibration instance.
 -- @usage
 -- import("calibration")
 -- local myModel = Model{
