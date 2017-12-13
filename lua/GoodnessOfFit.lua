@@ -259,41 +259,28 @@ multiLevel = function(data)
 	end
 
 	local fitnessSum = pixelByPixel(data.cs1, data.cs2, data.attribute, data.attribute, data.continuous)
-	local fitChart = Cell{sqrFit = fitnessSum}
-	if data.graphics == true then
-		Chart{ --SKIP
-			title = "MultiLevel Results", --SKIP
-			target = fitChart, --SKIP
-			select = {"sqrFit"} --SKIP
-		} --SKIP
-		fitChart:notify(0) --SKIP
-	end
-
+	local fitSquareTable = {}
+	local resolutionTable = {}
+	table.insert(fitSquareTable, fitnessSum)
+	table.insert(resolutionTable, 0)
 	if data.continuous == true then
 		for i = 1, (largerSquare) do
 		-- increase the square size and calculate fitness for each square.
 			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
-				if data.graphics == true then
-					fitChart.sqrFit = fitSquare --SKIP
-					fitChart:notify(i) --SKIP
-				end
-
+				table.insert(fitSquareTable, fitSquare)
+				table.insert(resolutionTable, i)
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
 				exp = exp + math.exp(-k * 2 ^ (i - 1))
 			end
 		end
-
 	else
 		for i = 1, (largerSquare) do
 			-- increase the square size and calculate fitness for each square.
 			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
-				if data.graphics == true then
-					fitChart.sqrFit = fitSquare --SKIP
-					fitChart:notify(i) --SKIP
-				end
-
+				table.insert(fitSquareTable, fitSquare)
+				table.insert(resolutionTable, i)
 				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
 				exp = exp + math.exp(-k * 2 ^ (i - 1))
 			end
@@ -301,5 +288,6 @@ multiLevel = function(data)
 	end
 
 	local fitness = fitnessSum / exp
-	return fitness
+	local df = DataFrame{fit = fitSquareTable, resolution = resolutionTable}
+	return fitness, df
 end
