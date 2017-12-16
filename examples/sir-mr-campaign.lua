@@ -10,8 +10,7 @@ runs = MultipleRuns{
 	model = SIR,
 	parameters = {
 		maximum = Choice{min = 100, max = 4000, step = 10}
-	},
-	output = {"maxInfected", "susceptible"}
+	}
 }
 
 chart = Chart{

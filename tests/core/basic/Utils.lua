@@ -42,16 +42,20 @@ local MyModelPosition = Model{
 return{
 	randomModel = function(unitTest)
 		local rParam = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y = Choice{min = 1, max = 10, step = 1}
-				}
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = Choice{min = 1, max = 10, step = 1}
+		}
+
 		local rs = randomModel(MyModel, rParam)
+		rs:run()
 		unitTest:assertEquals(type(rs.value), "number")
 		rParam = {
-					x = Choice{-100, -1, 0, 1, 2, 100},
-					y = 5
-				}
+			x = Choice{-100, -1, 0, 1, 2, 100},
+			y = 5
+		}
+
 		rs = randomModel(MyModel, rParam)
+		rs:run()
 		unitTest:assertEquals(type(rs.value), "number")
 	end,
 	-- These are error verification functions so it's impossible to properly test them without veryfing the errors,
@@ -79,8 +83,7 @@ return{
 			 },
 			additionalF = function()
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mPosition.output.position_x[1], -100)
@@ -109,8 +112,7 @@ return{
 			 },
 			additionalF = function(_)
 				return "test"
-			end,
-			output = {"value"}
+			end
 		}
 
 		unitTest:assertEquals(mPosition2.output[1].position.x, -100)
@@ -128,8 +130,7 @@ return{
 				},
 			},
 			quantity = 5,
-			repetition = 2,
-			output = {"value"}
+			repetition = 2
 		}
 
 		unitTest:assertEquals(m4Tab.output.simulations[5], "1_execution_3")

@@ -12,7 +12,6 @@ runs = MultipleRuns{
 		probability = Choice{min = 0.05, max = 0.3, step = 0.001}
 	},
 	--output = {"infected", "probability"} -- error!
-	output = {"susceptible", "maxInfected"}
 }
 
 chart = Chart{

@@ -190,7 +190,7 @@ end
 -- This function can be used by SaMDE as well as by MultipleRuns.
 -- @arg tModel The Model to be instantiated.
 -- @arg tParameters A table of possible parameters for the model.
--- Multiple Runs or Calibration instance .
+-- Multiple Runs or Calibration instance.
 -- @usage
 -- import("calibration")
 -- local myModel = Model{
@@ -230,9 +230,8 @@ function randomModel(tModel, tParameters)
 			sampleParams[idx] = attribute
 		end
 	end)
-	local m = tModel(sampleParams)
-	m:run()
-	return m
+
+	return tModel(sampleParams)
 end
 
 --- Function that returns the time in a higher-level representation.
