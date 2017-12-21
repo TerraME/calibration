@@ -810,7 +810,7 @@ return{
 		unitTest:assertEquals(initTest2.output.w[9], 3)
 
 		local initTest3 = MultipleRuns{
-			model = MyModel5,
+			model = MyModel,
 			showProgress = false,
 			strategy = "selected",
 			parameters = {
@@ -836,7 +836,7 @@ return{
 		unitTest:assertEquals(initTest3.output.w[9], 3)
 
 		local initTest4 = MultipleRuns{
-			model = MyModel6,
+			model = MyModelPosition,
 			showProgress = false,
 			parameters = {
 				position = {
