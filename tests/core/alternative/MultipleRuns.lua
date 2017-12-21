@@ -191,7 +191,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
+		unitTest:assertError(error_func, "Argument 'x' should belong to Choice{-100, -1, 0, 1, 2, 100}, got 99 in position 6.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,

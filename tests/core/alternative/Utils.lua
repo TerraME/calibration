@@ -46,7 +46,7 @@ return{
 			local parameters = {x = Choice{-100, 1, 3}}
 			checkParametersSet(MyModel, "x", parameters.x)
 		end
-		unitTest:assertError(error_func, "Parameter 3 in #3 is out of the model x range.")
+		unitTest:assertError(error_func, "Argument 'x' should belong to Choice{-100, -1, 0, 1, 2, 100}, got 3 in position 3.")
 	end,
 	checkParametersRange = function(unitTest)
 		error_func = function()
@@ -54,7 +54,7 @@ return{
 			checkParametersRange(MyModel, "y", parameters.y)
 		end
 
-		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
+		unitTest:assertError(error_func, "Argument 'y.max' should be less than or equal to 10, got 11.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -63,7 +63,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter x should not be a range of values")
+		unitTest:assertError(error_func, "Argument 'x' should not be a range of values.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -80,7 +80,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter x should not be a range of values")
+		unitTest:assertError(error_func, "Argument 'x' should not be a range of values.")
 			error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -89,7 +89,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter y must have min and max values")
+		unitTest:assertError(error_func, "Argument 'y' must have 'min' and 'max' values.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -98,7 +98,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
+		unitTest:assertError(error_func, "Argument 'y.min' should be greater than or equal to 1, got 0.")
 			error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -107,7 +107,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter y max is out of the model range.")
+		unitTest:assertError(error_func, "Argument 'y.max' should be less than or equal to 10, got 11.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -116,7 +116,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter y step is out of the model range.")
+		unitTest:assertError(error_func, "Argument 'y.step' should be within range of Choice{min = 1, max = 10, step = 1}, got 0.5.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -125,7 +125,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter y min is out of the model range.")
+		unitTest:assertError(error_func, "Argument 'y.min' should be within range of Choice{min = 1, max = 10, step = 1}, got 1.5.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -134,7 +134,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter 100 in #2 is bigger than y max value")
+		unitTest:assertError(error_func, "Argument 'y' should be less than or equal to 10, got 100 in position 2.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
@@ -143,7 +143,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter -100 in #1 is smaller than x min value")
+		unitTest:assertError(error_func, "Argument 'x' should be greater than or equal to 1, got -100 in position 1.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -152,8 +152,8 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter 1.5 in #2 is out of y range")
-			error_func = function()
+		unitTest:assertError(error_func, "Argument 'y' should be within range of Choice{min = 1, max = 10, step = 1}, got 1.5 in position 2.")
+		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
@@ -161,7 +161,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter 2.5 in #1 is out of y range")
+		unitTest:assertError(error_func, "Argument 'y' should be within range of Choice{min = 1, max = 10, step = 1}, got 2.5 in position 1.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -177,7 +177,7 @@ return{
 		error_func = function()
 			checkParameterSingle(MyModel, "x", 2, 5)
 		end
-		unitTest:assertError(error_func, "Parameter 5 in #2 is out of the model x range.")
+		unitTest:assertError(error_func, "Argument 'x' should belong to Choice{-100, -1, 0, 1, 2, 100}, got 5 in position 2.")
 	end,
 	cloneValues = function(unitTest)
 		error_func = function()
