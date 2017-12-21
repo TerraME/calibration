@@ -632,7 +632,6 @@ metaTableMultipleRuns_ = {
 -- 		scenario1 = {x = 2, y = 5},
 -- 		scenario2 = {x = 1, y = 3}
 -- 	 },
--- 	output = {"value"},
 -- 	additionalF = function(model)
 -- 		return "test"
 -- 	end
@@ -683,8 +682,6 @@ metaTableMultipleRuns_ = {
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
 -- They may have any name the modeler chooses.
--- @arg data.output An optional user defined table of model attributes.
--- The values of these attributes, for each of the model executions, are returned in a table in the result of MultipleRuns.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
@@ -705,13 +702,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphics, init, quantity, folderName, free, showProgress, summary, ... \
+-- & parameters, model & repetition, hideGraphics, init, quantity, folderName, free, showProgress, summary, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, free, hideGraphics, init, quantity, showProgress, summary, ... \
+-- repetition, model & folderName, free, hideGraphics, init, quantity, showProgress, summary, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, free, hideGraphics, init, quantity, repetition, showProgress, summary, ...
+-- model, parameters & folderName, free, hideGraphics, init, quantity, repetition, showProgress, summary, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -758,6 +755,10 @@ function MultipleRuns(data)
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	local summaryTable = {}
+	local multipleRunsParameters = {
+		"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics",
+		"showProgress", "repeat", "quantity", "outputVariables", "free"
+	}
 
 	forEachOrderedElement(data, function(idx, att)
 		if type(att) == "function" then
@@ -768,11 +769,12 @@ function MultipleRuns(data)
 			if idx ~= "summary" and idx ~= "init" then
 				addFunctions[idx] = att
 			end
+		elseif not belong(idx, multipleRunsParameters) then
+			customError("Argument '"..idx.."' is not a valid argument of MultipleRuns.")
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables", "free"})
+			verifyUnnecessaryArguments(checkingArgument, multipleRunsParameters)
 		end
 	end)
 
