@@ -49,5 +49,16 @@ return{
 		unitTest:assertEquals(result6, 0.62, 0.01)
 		unitTest:assertEquals(result9, 1, 0.01)
 		unitTest:assertEquals(result10, 1, 0.01)
+	end,
+	sumOfSquares = function(unitTest)
+		local data = {
+			x1 = {1, 2, 3, 4, 5},
+			x2 = {5, 4, 3, 2, 1}
+		}
+
+		unitTest:assertEquals(sumOfSquares(data, "x1", "x2"), 40)
+		unitTest:assertEquals(sumOfSquares(data, "x2", "x1"), 40)
+		unitTest:assertEquals(sumOfSquares(data, "x1", "x1"), 0)
+		unitTest:assertEquals(sumOfSquares(data, "x2", "x2"), 0)
 	end
 }
