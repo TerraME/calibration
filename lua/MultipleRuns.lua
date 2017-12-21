@@ -363,6 +363,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -382,6 +386,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 
@@ -491,6 +499,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -510,6 +522,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end
@@ -680,6 +696,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.summary A function can be defined by the user to summarize results after executing all repetitions of a set of parameters.
 -- This function gets as a parameter a table containing the values of each variable, the results of each simulation and results of each
 -- user-defined functions.
+-- @arg data.init An optional user-defined function that gets a model instance and executes just after this model creation.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @arg data.... Additional functions can be defined by the user. Such functions are
 -- executed each time a simulation of a Model ends and get as parameter the model instance
@@ -688,13 +705,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphics, quantity, folderName, free, showProgress, summary, ... \
+-- & parameters, model & repetition, output, hideGraphics, init, quantity, folderName, free, showProgress, summary, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, free, hideGraphics, quantity, showProgress, summary, ... \
+-- repetition, model & output, folderName, free, hideGraphics, init, quantity, showProgress, summary, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, free, hideGraphics, quantity, repetition, showProgress, summary, ...
+-- model, parameters & output, folderName, free, hideGraphics, init, quantity, repetition, showProgress, summary, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -707,6 +724,7 @@ function MultipleRuns(data)
 	defaultTableValue(data, "showProgress", true)
 	optionalTableArgument(data, "summary", "function")
 	defaultTableValue(data, "free", false)
+	optionalTableArgument(data, "init", "function")
 
 	if data.strategy == nil then
 		local choiceStrg = false
@@ -747,7 +765,7 @@ function MultipleRuns(data)
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
 
-			if idx ~= "summary" then
+			if idx ~= "summary" and idx ~= "init" then
 				addFunctions[idx] = att
 			end
 		else
@@ -884,6 +902,10 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -903,6 +925,10 @@ function MultipleRuns(data)
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end
@@ -1011,6 +1037,10 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -1030,6 +1060,10 @@ function MultipleRuns(data)
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end

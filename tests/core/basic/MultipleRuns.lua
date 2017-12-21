@@ -700,6 +700,8 @@ return{
 		unitTest:assert(fileExists("2_execution_3"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
+		collectgarbage()
+
 		local free1 = MultipleRuns{
 			model = MyModel7,
 			showProgress = false,
@@ -756,5 +758,107 @@ return{
 
 		unitTest:assertEquals(free4.output.iniMem[3], free4.output.iniMem[6], 1)
 		unitTest:assertEquals(free4.output.finMem[3], free4.output.finMem[6], 1)
+
+		local initTest1 = MultipleRuns{
+			model = MyModel4,
+			showProgress = false,
+			parameters = {
+				x = Choice{-1, 0, 1},
+				y = Choice{1, 2, 3},
+				finalTime = 3
+			},
+			init = function(model)
+				model.w = 0
+				model.timer:add(Event{start = 0, action = function()
+					unitTest:assertEquals(model.timer:getTime(), 0)
+					return false
+				end})
+				model.timer:add(Event{action = function()
+					model.w = model.w + 1
+				end})
+			end
+		}
+
+		unitTest:assertEquals(initTest1.output.w[3], 3)
+		unitTest:assertEquals(initTest1.output.w[6], 3)
+		unitTest:assertEquals(initTest1.output.w[9], 3)
+
+		local initTest2 = MultipleRuns{
+			model = MyModel4,
+			showProgress = false,
+			strategy = "sample",
+			parameters = {
+				x = Choice{-1, 0, 1},
+				y = Choice{1, 2, 3},
+				finalTime = 3
+			},
+			init = function(model)
+				model.w = 0
+				model.timer:add(Event{start = 0, action = function()
+					unitTest:assertEquals(model.timer:getTime(), 0)
+					return false
+				end})
+				model.timer:add(Event{action = function()
+					model.w = model.w + 1
+				end})
+			end,
+			quantity = 9
+		}
+
+		unitTest:assertEquals(initTest2.output.w[3], 3)
+		unitTest:assertEquals(initTest2.output.w[6], 3)
+		unitTest:assertEquals(initTest2.output.w[9], 3)
+
+		local initTest3 = MultipleRuns{
+			model = MyModel5,
+			showProgress = false,
+			strategy = "selected",
+			parameters = {
+				scenario1 = {x = -1, y = 1, finalTime = 3},
+				scenario2 = {x = 0, y = 2, finalTime = 3},
+				scenario3 = {x = 1, y = 3, finalTime = 3}
+			},
+			init = function(model)
+				model.w = 0
+				model.timer:add(Event{start = 0, action = function()
+					unitTest:assertEquals(model.timer:getTime(), 0)
+					return false
+				end})
+				model.timer:add(Event{action = function()
+					model.w = model.w + 1
+				end})
+			end,
+			repetition = 3
+		}
+
+		unitTest:assertEquals(initTest3.output.w[3], 3)
+		unitTest:assertEquals(initTest3.output.w[6], 3)
+		unitTest:assertEquals(initTest3.output.w[9], 3)
+
+		local initTest4 = MultipleRuns{
+			model = MyModel6,
+			showProgress = false,
+			parameters = {
+				position = {
+					x = Choice{-1, 0, 1},
+					y = Choice{min= 1, max = 3, step = 1}
+				},
+				finalTime = 3
+			},
+			init = function(model)
+				model.w = 0
+				model.timer:add(Event{start = 0, action = function()
+					unitTest:assertEquals(model.timer:getTime(), 0)
+					return false
+				end})
+				model.timer:add(Event{action = function()
+					model.w = model.w + 1
+				end})
+			end
+		}
+
+		unitTest:assertEquals(initTest4.output.w[3], 3)
+		unitTest:assertEquals(initTest4.output.w[6], 3)
+		unitTest:assertEquals(initTest4.output.w[9], 3)
 	end
 }

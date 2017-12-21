@@ -319,5 +319,16 @@ return{
 		end
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				parameters = {
+					x = Choice{-1, 0, 1},
+					y = Choice{1, 2, 3},
+				},
+				init = 5
+			}
+		end
+		unitTest:assertError(error_func, "Incompatible types. Argument 'init' expected function, got number.")
 	end
 }
