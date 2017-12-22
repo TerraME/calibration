@@ -59,7 +59,6 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {x = Choice{min=1, max=10, step=1}, y = 5},
-				repetition = 3
 			}
 		end
 
@@ -68,7 +67,6 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				parameters = {x = 1, y = Choice{min = 5, step = 1}},
-				repetition = 3
 			}
 		end
 

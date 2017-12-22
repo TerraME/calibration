@@ -723,6 +723,10 @@ function MultipleRuns(data)
 	defaultTableValue(data, "free", false)
 	optionalTableArgument(data, "init", "function")
 
+	if data.repetition > 1 and not data.model:isRandom() then
+		customWarning("Parameter 'repetition' is unnecessary for a non-random model.")
+	end
+
 	if data.strategy == nil then
 		local choiceStrg = false
 

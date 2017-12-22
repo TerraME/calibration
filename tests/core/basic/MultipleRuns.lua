@@ -43,6 +43,7 @@ local MyModel3 = Model{
 		y = Choice{min = 1, max = 10, step = 1},
 		z = Choice{-50, -3, 0, 1, 2, 50}
 	},
+	random = true,
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -73,6 +74,7 @@ local MyModel4 = Model{
 	y = Choice{min = 1, max = 10, step = 1},
 	z = Choice{-50, -3, 0, 1, 2, 50},
 	finalTime = 1,
+	random = true,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -88,6 +90,7 @@ local MyModel5 = Model{
 	values = {},
 	xs = {},
 	finalTime = 1,
+	random = true,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -111,6 +114,7 @@ local MyModel6 = Model{
 	values = {},
 	xs = {},
 	finalTime = 1,
+	random = true,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -130,6 +134,7 @@ local MyModel7 = Model{
 	x = 1,
 	y = 1,
 	finalTime = 1,
+	random = true,
 	init = function(self)
 		self.timer = Timer{
 			Event{action = function()
@@ -150,6 +155,7 @@ local MyModel8 = Model{
 		x = Choice{-1, 0, 1},
 		y = Choice{min= - 1, max = 1, step = 1},
 	},
+	random = true,
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{
@@ -163,6 +169,36 @@ local MyModel8 = Model{
 				self.finMem = collectgarbage("count") / 1024
 			end}
 		}
+	end
+}
+
+local MyModelRandom = Model{
+	x = Choice{-100, -1, 0, 1, 2, 100},
+	y = Choice{min = 1, max = 10, step = 1},
+	finalTime = 1,
+	random = true,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.x ^2 - 3 * self.x + 4 + self.y
+			end}
+	}
+	end
+}
+
+local MyModelPositionRandom = Model{
+	position = {
+		x = Choice{-100, -1, 0, 1, 2, 100},
+		y = Choice{min = 1, max = 10, step = 1}
+	},
+	finalTime = 1,
+	random = true,
+	init = function(self)
+		self.timer = Timer{
+			Event{action = function()
+				self.value = 2 * self.position.x ^2 - 3 * self.position.x + 4 + self.position.y
+			end}
+	}
 	end
 }
 
@@ -211,7 +247,7 @@ return{
 		unitTest:assertEquals(mPosition.output[1].simulations, 'finalTime_1_position_x_-100_position_y_1_')
 
 		local mQuant = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			strategy = "factorial",
 			showProgress = false,
 			repetition = 2,
@@ -229,7 +265,7 @@ return{
 		unitTest:assertEquals(mQuant.output[2].simulations, '2_execution_finalTime_1_x_-100_y_1_')
 
 		local mQuant2 = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			strategy = "factorial",
 			showProgress = false,
 			repetition = 2,
@@ -374,7 +410,7 @@ return{
 		unitTest:assertEquals(m2Tab.output[1].simulations, "scenario1")
 
 		local m3 = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			showProgress = false,
 			parameters = {scenario1 = {x = 2, y = 5}},
 			repetition = 3,
@@ -460,7 +496,7 @@ return{
 		unitTest:assertEquals(m4Tab.output[1].simulations, "1_execution_1")
 
 		local summaryM1 = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			showProgress = false,
 			parameters = {
 				x = Choice{-1, 0, 1},
@@ -481,7 +517,7 @@ return{
 		unitTest:assertEquals(summaryM1.summary.x[1], -1)
 		unitTest:assertEquals(summaryM1.summary.mean[1], -1)
 		local summaryM2 = MultipleRuns{
-			model = MyModelPosition,
+			model = MyModelPositionRandom,
 			showProgress = false,
 			parameters = {
 				position = {
@@ -507,7 +543,7 @@ return{
 		unitTest:assertEquals(summaryM2.summary.position[1].x, -100)
 		unitTest:assertEquals(summaryM2.summary.position[1].y, 1)
 		local summaryM3 = MultipleRuns{
-			model = MyModelPosition,
+			model = MyModelPositionRandom,
 			showProgress = false,
 			parameters = {
 				position = {
@@ -533,7 +569,7 @@ return{
 		unitTest:assertEquals(summaryM3.summary.position[1].x, -100)
 		unitTest:assertEquals(summaryM3.summary.position[1].y, 1)
 		local summaryM4 = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			strategy = "selected",
 			showProgress = false,
 			parameters = {
@@ -810,7 +846,7 @@ return{
 		unitTest:assertEquals(initTest2.output.w[9], 3)
 
 		local initTest3 = MultipleRuns{
-			model = MyModel,
+			model = MyModelRandom,
 			showProgress = false,
 			strategy = "selected",
 			parameters = {
