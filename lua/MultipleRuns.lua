@@ -693,7 +693,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.summary A function can be defined by the user to summarize results after executing all repetitions of a set of parameters.
 -- This function gets as a parameter a table containing the values of each variable, the results of each simulation and results of each
 -- user-defined functions.
--- @arg data.init An optional user-defined function that gets a model instance and executes just after this model creation.
+-- @arg data.init An optional user-defined function that gets a model instance and executes before running the model.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @arg data.... Additional functions can be defined by the user. Such functions are
 -- executed each time a simulation of a Model ends and get as parameter the model instance
