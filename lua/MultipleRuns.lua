@@ -774,7 +774,7 @@ function MultipleRuns(data)
 				addFunctions[idx] = att
 			end
 		elseif not belong(idx, multipleRunsParameters) then
-			customError("Argument '"..idx.."' is not a valid argument of MultipleRuns.")
+			verifyUnnecessaryArguments(data, multipleRunsParameters)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx

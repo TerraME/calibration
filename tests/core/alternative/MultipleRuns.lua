@@ -173,7 +173,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Argument 'test' is not a valid argument of MultipleRuns.")
+		unitTest:assertWarning(error_func, "Argument 'test' is unnecessary.")
 
 		error_func = function()
 			m = MultipleRuns{
