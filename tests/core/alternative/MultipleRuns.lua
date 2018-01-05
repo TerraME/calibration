@@ -61,7 +61,6 @@ return{
 				showProgress = false,
 				model = MyModel,
 				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3
 			}
 		end
 
@@ -71,7 +70,6 @@ return{
 				model = MyModel,
 				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5, p = "extra"}},
-				repetition = 3
 			}
 		end
 
@@ -83,7 +81,6 @@ return{
 				parameters = {x = Choice{1, 2},
 				y =Choice{1,5},
 				p = "extra"},
-				repetition = 3
 			}
 		end
 
@@ -93,7 +90,6 @@ return{
 				model = MyModel,
 				showProgress = false,
 				parameters = {x = Choice{-100, 2}, y = Choice{1, 5}},
-				repetition = 3
 			}
 		end
 
@@ -102,7 +98,6 @@ return{
 				model = MyModel,
 				showProgress = false,
 				parameters = {scenario1 ={x = 2, y = 5}},
-				repetition = 3,
 				value = function(model)
 					return model.value
 				end
@@ -114,7 +109,6 @@ return{
 			m = MultipleRuns{
 				model = MyModel,
 				showProgress = false,
-				repetition = 3,
 			}
 		end
 
@@ -123,7 +117,6 @@ return{
 			m = MultipleRuns{
 				showProgress = false,
 				parameters = {scenario1 = {x = 2, y = 5, seed = 1001}},
-				repetition = 3,
 			}
 		end
 
@@ -170,7 +163,7 @@ return{
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
 
-		local warning_func = function()
+		error_func = function()
 			MultipleRuns{
 				model = MyModel,
 				strategy = "factorial",
@@ -180,7 +173,7 @@ return{
 			}
 		end
 
-		unitTest:assertWarning(warning_func, "Argument 'test' is unnecessary.")
+		unitTest:assertWarning(error_func, "Argument 'test' is unnecessary.")
 
 		error_func = function()
 			m = MultipleRuns{
@@ -191,7 +184,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Parameter 99 in #6 is out of the model x range.")
+		unitTest:assertError(error_func, "Argument 'x' should belong to Choice{-100, -1, 0, 1, 2, 100}, got 99 in position 6.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
@@ -319,5 +312,28 @@ return{
 		end
 
 		unitTest:assertError(error_func, "The parameter must be of type Choice, a table of Choices or a single value.")
+		error_func = function()
+			m = MultipleRuns{
+				model = MyModel,
+				parameters = {
+					x = Choice{-1, 0, 1},
+					y = Choice{1, 2, 3},
+				},
+				init = 5
+			}
+		end
+		unitTest:assertError(error_func, "Incompatible types. Argument 'init' expected function, got number.")
+		error_func = function()
+			MultipleRuns{
+				model = MyModel,
+				showProgress = false,
+				parameters = {
+					x = Choice{-1, 0, 1},
+					y = Choice{1, 2, 3},
+				},
+				repetition = 3
+			}
+		end
+		unitTest:assertWarning(error_func, "Parameter 'repetition' is unnecessary for a non-random model.")
 	end
 }

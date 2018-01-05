@@ -56,5 +56,39 @@ return{
 		end
 
 		unitTest:assertError(error_func, mandatoryArgumentMsg("attribute"))
+	end,
+	sumOfSquares = function(unitTest)
+		local data = {
+			x1 = {1, 2, 3, 4, 5},
+			x2 = {5, 4, 3, 2, 1},
+			x3 = {1, 2, 3},
+			x4 = "x4"
+		}
+
+		local error_func = function()
+			sumOfSquares(nil, "x1", "x2")
+		end
+
+		unitTest:assertError(error_func, mandatoryArgumentMsg("#1"))
+		error_func = function()
+			sumOfSquares(data, nil, "x2")
+		end
+
+		unitTest:assertError(error_func, mandatoryArgumentMsg("#2"))
+		error_func = function()
+			sumOfSquares(data, "x1")
+		end
+
+		unitTest:assertError(error_func, mandatoryArgumentMsg("#3"))
+		error_func = function()
+			sumOfSquares(data, "x1", "x3")
+		end
+
+		unitTest:assertError(error_func, "Tables 'x1' and 'x3' must have the same size, got 5 ('x1') and 3 ('x3').")
+		error_func = function()
+			sumOfSquares(data, "x3", "x2")
+		end
+
+		unitTest:assertError(error_func, "Tables 'x3' and 'x2' must have the same size, got 3 ('x3') and 5 ('x2').")
 	end
 }

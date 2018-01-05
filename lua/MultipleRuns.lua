@@ -363,6 +363,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -382,6 +386,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 
@@ -491,6 +499,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -510,6 +522,10 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end
@@ -616,7 +632,6 @@ metaTableMultipleRuns_ = {
 -- 		scenario1 = {x = 2, y = 5},
 -- 		scenario2 = {x = 1, y = 3}
 -- 	 },
--- 	output = {"value"},
 -- 	additionalF = function(model)
 -- 		return "test"
 -- 	end
@@ -667,8 +682,6 @@ metaTableMultipleRuns_ = {
 -- @arg data.parameters A table with the parameters to be tested. These parameters must be a subset
 -- of the parameters of the Model with a subset of the available values.
 -- They may have any name the modeler chooses.
--- @arg data.output An optional user defined table of model attributes.
--- The values of these attributes, for each of the model executions, are returned in a table in the result of MultipleRuns.
 -- @arg data.folderName Name or file path of the folder where the simulations output will be saved.
 -- Whenever the Model saves one or more files along its simulation, it is necessary to use this
 -- argument to guarantee that the files of each simulation will be saved in a different directory.
@@ -680,6 +693,7 @@ metaTableMultipleRuns_ = {
 -- @arg data.summary A function can be defined by the user to summarize results after executing all repetitions of a set of parameters.
 -- This function gets as a parameter a table containing the values of each variable, the results of each simulation and results of each
 -- user-defined functions.
+-- @arg data.init An optional user-defined function that gets a model instance and executes before running the model.
 -- @arg data.strategy Strategy to be used when testing the model. See the table below:
 -- @arg data.... Additional functions can be defined by the user. Such functions are
 -- executed each time a simulation of a Model ends and get as parameter the model instance
@@ -688,13 +702,13 @@ metaTableMultipleRuns_ = {
 -- @tabular strategy
 -- Strategy & Description & Mandatory arguments & Optional arguments \
 -- "factorial" & Simulate the Model with all combinations of the argument parameters.
--- & parameters, model & repetition, output, hideGraphics, quantity, folderName, free, showProgress, summary, ... \
+-- & parameters, model & repetition, hideGraphics, init, quantity, folderName, free, showProgress, summary, ... \
 -- "sample" & Run the model with a random combination of the possible parameters & parameters,
--- repetition, model & output, folderName, free, hideGraphics, quantity, showProgress, summary, ... \
+-- repetition, model & folderName, free, hideGraphics, init, quantity, showProgress, summary, ... \
 -- "selected" & This should test the Model with a given set of parameters values. In this case,
 -- the argument parameters must be a named table, where each position is another table describing
 -- the parameters to be used in such simulation. &
--- model, parameters & output, folderName, free, hideGraphics, quantity, repetition, showProgress, summary, ...
+-- model, parameters & folderName, free, hideGraphics, init, quantity, repetition, showProgress, summary, ...
 function MultipleRuns(data)
 	mandatoryTableArgument(data, "model", "Model")
 	mandatoryTableArgument(data, "parameters", "table")
@@ -707,6 +721,11 @@ function MultipleRuns(data)
 	defaultTableValue(data, "showProgress", true)
 	optionalTableArgument(data, "summary", "function")
 	defaultTableValue(data, "free", false)
+	optionalTableArgument(data, "init", "function")
+
+	if data.repetition > 1 and not data.model:isRandom() then
+		customWarning("Parameter 'repetition' is unnecessary for a non-random model.")
+	end
 
 	if data.strategy == nil then
 		local choiceStrg = false
@@ -740,6 +759,10 @@ function MultipleRuns(data)
 	-- addFunctions: Parameter that organizes the additional functions choosen to be executed after the model.
 	local addFunctions = {}
 	local summaryTable = {}
+	local multipleRunsParameters = {
+		"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics",
+		"showProgress", "repeat", "quantity", "outputVariables", "free"
+	}
 
 	forEachOrderedElement(data, function(idx, att)
 		if type(att) == "function" then
@@ -747,14 +770,15 @@ function MultipleRuns(data)
 				customError("Values in output parameters or additional functions should not be repeated or have the same name.")
 			end
 
-			if idx ~= "summary" then
+			if idx ~= "summary" and idx ~= "init" then
 				addFunctions[idx] = att
 			end
+		elseif not belong(idx, multipleRunsParameters) then
+			verifyUnnecessaryArguments(data, multipleRunsParameters)
 		else
 			local checkingArgument = {}
 			checkingArgument[idx] = idx
-			verifyUnnecessaryArguments(checkingArgument, {
-				"model", "strategy", "parameters", "repetition", "folderName", "hideGraphics", "showProgress", "repeat", "quantity", "outputVariables", "free"})
+			verifyUnnecessaryArguments(checkingArgument, multipleRunsParameters)
 		end
 	end)
 
@@ -884,6 +908,10 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -903,6 +931,10 @@ function MultipleRuns(data)
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end
@@ -1011,6 +1043,10 @@ function MultipleRuns(data)
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
 						redirectPrint(log, function()
+							if data.init then -- SKIP
+								data.init(m) -- SKIP
+							end
+
 							m:run() -- SKIP
 						end)
 
@@ -1030,6 +1066,10 @@ function MultipleRuns(data)
 						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
 					else
 						redirectPrint(log, function()
+							if data.init then
+								data.init(m)
+							end
+
 							m:run()
 						end)
 					end

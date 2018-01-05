@@ -37,22 +37,22 @@ function checkParametersRange(model, idx, Param, tableName)
 
 	--test if the range of values in the Calibration/Multiple Runs type are inside the accepted model range of values.
 	if values.min == nil and values.max == nil then
-		customError("Parameter "..idx.." should not be a range of values")
+		customError("Argument '"..idx.."' should not be a range of values.")
 	end
 
 	if Param.min == nil or Param.max == nil then
-		customError("Parameter "..idx.." must have min and max values")
+		customError("Argument '"..idx.."' must have 'min' and 'max' values.")
 	end
 
 	if values.min ~= nil then
 		if values.min > Param.min then
-			customError("Parameter "..idx.." min is out of the model range.")
+			customError("Argument '"..idx..".min' should be greater than or equal to "..values.min..", got "..Param.min..".")
 		end
 	end
 
 	if values.max ~= nil then
 		if values.max < Param.max then
-			customError("Parameter "..idx.." max is out of the model range.")
+			customError("Argument '"..idx..".max' should be less than or equal to "..values.max..", got "..Param.max..".")
 		end
 	end
 
@@ -60,12 +60,12 @@ function checkParametersRange(model, idx, Param, tableName)
 		if Param.step == nil then
 			customError("Argument '"..idx..".step' is mandatory.")
 		elseif Param.step % values.step ~= 0 then
-			customError("Parameter "..idx.." step is out of the model range.")
+			customError("Argument '"..idx..".step' should be within range of Choice{min = "..values.min..", max = "..values.max..", step = "..values.step.."}, got "..Param.step..".")
 		end
 
 		if values.min ~= nil then
 			if (Param.min - values.min) % values.step ~= 0 then
-				customError("Parameter "..idx.." min is out of the model range.")
+				customError("Argument '"..idx..".min' should be within range of Choice{min = "..values.min..", max = "..values.max..", step = "..values.step.."}, got "..Param.min..".")
 			end
 		end
 	end
@@ -108,25 +108,26 @@ function checkParameterSingle(model, idx, idx2, value, tableName)
 	--test if a value inside the accepted model range of values
 	if mParam.min ~= nil then
 		if value < mParam.min then
-			customError("Parameter "..value.." in #"..idx2.." is smaller than "..idx.." min value")
+			customError("Argument '"..idx.."' should be greater than or equal to "..mParam.min..", got "..value.." in position "..idx2..".")
 		end
 
 		if mParam.step ~= nil then
 			if (value - mParam.min) % mParam.step ~= 0 then
-				customError("Parameter "..value.." in #"..idx2.." is out of "..idx.." range")
+				customError("Argument '"..idx.."' should be within range of Choice{min = "..mParam.min..", max = "..mParam.max..", step = "..mParam.step.."}, got "..value.." in position "..idx2..".")
 			end
 		end
 	end
 
 	if mParam.max ~= nil then
 		if value > mParam.max then
-			customError("Parameter "..value.." in #"..idx2.." is bigger than "..idx.." max value")
+			customError("Argument '"..idx.."' should be less than or equal to "..mParam.max..", got "..value.." in position "..idx2..".")
 		end
 	end
 
 	if mParam.values ~= nil then
 		if belong(value, mParam.values) == false then
-			customError("Parameter "..value.." in #"..idx2.." is out of the model "..idx.." range.")
+			local values = table.concat(mParam.values, ", ")
+			customError("Argument '"..idx.."' should belong to Choice{"..values.."}, got "..value.." in position "..idx2..".")
 		end
 	end
 end

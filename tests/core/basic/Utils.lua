@@ -16,6 +16,7 @@ local MyModel3 = Model{
 		y = Choice{min = 1, max = 10, step = 1},
 		z = Choice{-50, -3, 0, 1, 2, 50}
 	},
+	random = true,
 	finalTime = 1,
 	init = function(self)
 		self.timer = Timer{

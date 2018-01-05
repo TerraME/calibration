@@ -291,3 +291,29 @@ multiLevel = function(data)
 	local df = DataFrame{fit = fitSquareTable, resolution = resolutionTable}
 	return fitness, df
 end
+
+--- Calculates the summation of the difference of squares between two tables of a table.
+-- @arg data A named table formed by other tables.
+-- @arg attribute1 The attribute corresponding to the first table in table data.
+-- @arg attribute2 The attribute corresponding to the second table in table data.
+-- @usage
+-- import("calibration")
+-- local data = {a = {1, 2, 3, 4, 5}, b = {5, 4, 3, 2, 1}}
+-- sumOfSquares(data, "a", "b")
+function sumOfSquares(data, attribute1, attribute2)
+	mandatoryArgument(1, "table", data)
+	mandatoryArgument(2, "string", attribute1)
+	mandatoryArgument(3, "string", attribute2)
+	mandatoryTableArgument(data, attribute1, "table")
+	mandatoryTableArgument(data, attribute2, "table")
+	if #data[attribute1] ~= #data[attribute2] then
+		customError("Tables '"..attribute1.."' and '"..attribute2.."' must have the same size, got "..#data[attribute1].." ('"..attribute1.."') and "..#data[attribute2].." ('"..attribute2.."').")
+	end
+
+	local sum = 0
+	for i = 1, #data[attribute1] do
+		sum = sum + (data[attribute1][i] - data[attribute2][i]) ^ 2
+	end
+
+	return sum
+end
