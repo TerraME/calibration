@@ -17,10 +17,10 @@ return{
 	end,
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
-			file = filePath("Costanza.pgm", "calibration")}
+			file = filePath("costanza.pgm", "calibration")}
 		local cs2 = CellularSpace{
-			file = filePath("Costanza2.pgm", "calibration"),
-			attrname = "Costanza"}
+			file = filePath("costanza2.pgm", "calibration"),
+			attrname = "costanza"}
 		local sugar = CellularSpace{
 			file = filePath("internal/sugarScape.csv", "calibration"),
 			sep      = ";"
@@ -36,11 +36,11 @@ return{
 			file = filePath("internal/sugarScape4.csv", "calibration")
 		}
 		-- Discrete Tests:
-		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza"}
+		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "costanza"}
 		local result5 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar"}
 		local result9 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar"}
 		-- Continuous Tests:
-		local result2 = multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = true}
+		local result2 = multiLevel{cs1 = cs, cs2 = cs2, attribute = "costanza", continuous = true}
 		local result6 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar", continuous = true}
 		local result10 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar", continuous = true}
 		unitTest:assertEquals(result, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
