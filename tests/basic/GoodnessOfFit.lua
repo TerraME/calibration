@@ -3,7 +3,11 @@ return{
 	pixelByPixel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
 		local cs = CellularSpace{xdim = 10, instance = cell}
-		local result = pixelByPixel(cs, cs, "a", "b", true)
+		local result = pixelByPixel{
+			target = cs,
+			select = {"a", "b"}
+		}
+
 		unitTest:assertEquals(result, 0.9, 0.0001)
 		local cell2 = Cell{a = "forest", b = "forest"}
 		local cs2 = CellularSpace{xdim = 10, instance = cell2}
@@ -12,7 +16,12 @@ return{
 			select = function(cellCs2) return cellCs2.x > 4 end
 		}
 		forEachCell(t, function(cellT) cellT.b = "deforested" end)
-		local result2 = pixelByPixel(cs2, cs2, "a", "b")
+		local result2 = pixelByPixel{
+			target = cs2,
+			select = {"a", "b"},
+			discrete = true
+		}
+
 		unitTest:assertEquals(result2, 0.5)
 	end,
 	multiLevel = function(unitTest)

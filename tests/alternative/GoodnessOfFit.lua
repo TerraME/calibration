@@ -6,32 +6,72 @@ return{
 			pixelByPixel()
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(1))
+		unitTest:assertError(error_func, tableArgumentMsg())
+
 		error_func = function()
-			pixelByPixel(cs)
+			pixelByPixel{target = 2}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(2))
+		unitTest:assertError(error_func, "Argument 'target' must be a CellularSpace or a table with two CellularSpaces.")
+
 		error_func = function()
-			pixelByPixel(cs, cs)
+			pixelByPixel{target = cs}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(3))
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
 		error_func = function()
-			pixelByPixel(cs, cs, "a")
+			pixelByPixel{target = cs, select = "a"}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(4))
+		unitTest:assertError(error_func, "When using a single CellularSpace, the selected attributes must be different.")
+
 		error_func = function()
-			pixelByPixel(cs,cs,"c","b")
+			pixelByPixel{target = {2, cs}}
 		end
 
-		unitTest:assertError(error_func, "Attribute c was not found in the first CellularSpace.")
+		unitTest:assertError(error_func, "First element of 'target' should be a CellularSpace, got number.")
+
 		error_func = function()
-			pixelByPixel(cs,cs,"a","c")
+			pixelByPixel{target = {cs, 2}}
 		end
 
-		unitTest:assertError(error_func, "Attribute c was not found in the second CellularSpace.")
+		unitTest:assertError(error_func, "Second element of 'target' should be a CellularSpace, got number.")
+
+		error_func = function()
+			pixelByPixel{target = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'target' must be a CellularSpace or a table with two CellularSpaces.")
+
+		error_func = function()
+			pixelByPixel{target = cs, select = {2, "a"}}
+		end
+
+		unitTest:assertError(error_func, "First element of 'select' should be a string, got number.")
+
+		error_func = function()
+			pixelByPixel{target = cs, select = {"a", 2}}
+		end
+
+		unitTest:assertError(error_func, "Second element of 'select' should be a string, got number.")
+		error_func = function()
+			pixelByPixel{target = cs, select = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
+		error_func = function()
+			pixelByPixel{target = cs, select = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
+		error_func = function()
+			pixelByPixel{target = cs, select = 2}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
 	end,
 	multiLevel = function(unitTest)
 		local cell = Cell{a = 0.8, b = 0.7}
