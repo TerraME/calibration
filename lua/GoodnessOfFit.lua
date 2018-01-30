@@ -117,96 +117,65 @@ function pixelByPixel(data)
 end
 
 local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
-	-- function that returns the fitness of a particular dimxdim Costanza square.
-	local squareTotalFit = 0
-	local forCounter = 0
-	local t1, t2
-	-- These variable are adjustments so the function works on
-	-- cellular spaces with different formats and starting points.
-	local yMax = cs1.yMax
+	local xMin = cs1.xMin
 	local xMax = cs1.xMax
-	local lastRow = yMax - step + cs1.yMin
-	local lastCol = xMax - step + cs1.xMin
-	local stepx = step
-	local stepy = step
-	if step > xMax then
-		lastCol = 0
-		stepx = xMax
-	end
+	local yMin = cs1.yMin
+	local yMax = cs1.yMax
 
-	if step > yMax then
-		lastRow = 0
-		stepy = yMax
-		if stepx == step - 1 then
-			return -1
+	-- number of slices in each dimension, according to the step size
+	local xSlices = math.ceil((xMax - xMin + 1) / step)
+	local ySlices = math.ceil((xMax - xMin + 1) / step)
+
+	local err = 0
+
+	for i = 1, xSlices do
+		local beginX = xMin + (i - 1) * step
+
+		for j = 1, ySlices do
+			local beginY = yMin + (j - 1) * step
+
+			-- tables with the counts of each value in each space
+			local values1 = {}
+			local values2 = {}
+
+			-- trasverse the block [beginX, beginY] to [beginX + step - 1, beginY + step - 1]
+			for cx = beginX, beginX + step - 1 do
+				for cy = beginY, beginY + step - 1 do
+
+					local cell1 = cs1:get(cx, cy)
+
+					if cell1 then
+						local value = cell1[attribute]
+
+						if not values1[value] then values1[value] = 0 end
+						if not values2[value] then values2[value] = 0 end
+
+						values1[value] = values1[value] + 1
+					end
+
+					local cell2 = cs2:get(cx, cy)
+
+					if cell2 then
+						local value = cell2[attribute]
+
+						if not values1[value] then values1[value] = 0 end
+						if not values2[value] then values2[value] = 0 end
+
+						values2[value] = values2[value] + 1
+					end
+				end
+			end
+
+			forEachElement(values1, function(idx, value1)
+				err = err + math.abs(values2[idx] - value1)
+			end)
 		end
 	end
 
-	for i = cs1.yMin, lastRow do -- for each line
-		for j = cs1.xMin, lastCol do -- for each column
-			forCounter = forCounter + 1
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
-				-- starting from the element in colum j and line x.
-				target = cs1,
-				select = function(cell)
-					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
-				end
-			}
+	err = err / 2 -- divide by two because for each error there is another one in the same block
+	local fit = 1 - (err / #cs1)
 
-			t2 = Trajectory{
-				-- select all elements belonging to the dim x dim square in cs1,
-				-- starting from the element in colum j and line x.
-				target = cs2,
-				select = function(cell)
-					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i )
-				end
-			}
-
-			local counter1 = {}
-			local counter2 = {}
-			local eachCellCounter = 0
-			forEachCell(t1, function(cell1)
-				local value1 = cell1[attribute]
-				eachCellCounter = eachCellCounter + 1
-				if counter1[value1] == nil then
-					counter1[value1] = 1
-				else
-					counter1[value1] = counter1[value1] + 1
-				end
-
-				if counter2[value1] == nil then
-					counter2[value1] = 0
-				end
-			end)
-
-			forEachCell(t2, function(cell2)
-				local value2 = cell2[attribute]
-				if counter2[value2] == nil then
-					counter2[value2] = 1
-				else
-					counter2[value2] = counter2[value2] + 1
-				end
-
-				if counter1[value2] == nil then
-					counter1[value2] = 0
-				end
-			end)
-
-			local squareDif
-			local squareFit
-			local dif = 0
-			forEachElement(counter1, function(idx, value)
-				dif = math.abs(value - counter2[idx]) + dif
-			end)
-
-			squareDif = dif / (2 * eachCellCounter)
-			squareFit = 1 - squareDif -- calculate a particular dimxdim square fitness
-			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
-		end
-	end
-
-	return squareTotalFit / forCounter
-	-- returns the fitness of all the squares divided by the number of squares.
+	return fit
 end
 
 local function continuousSquareBySquare(step, cs1, cs2, attribute)
