@@ -116,27 +116,27 @@ function pixelByPixel(data)
 	end
 end
 
-local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
+local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
 	-- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
 	-- These variable are adjustments so the function works on
 	-- cellular spaces with different formats and starting points.
-	local yMax =cs1.yMax
-	local xMax =cs1.xMax
-	local lastRow = (yMax - step + cs1.yMin)
-	local lastCol = (xMax - step + cs1.xMin)
+	local yMax = cs1.yMax
+	local xMax = cs1.xMax
+	local lastRow = yMax - step + cs1.yMin
+	local lastCol = xMax - step + cs1.xMin
 	local stepx = step
 	local stepy = step
 	if step > xMax then
 		lastCol = 0
-		stepx = step - (step - xMax)
+		stepx = xMax
 	end
 
 	if step > yMax then
 		lastRow = 0
-		stepy = step - (step - yMax)
+		stepy = yMax
 		if stepx == step - 1 then
 			return -1
 		end
@@ -146,18 +146,22 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 		for j = cs1.xMin, lastCol do -- for each column
 			forCounter = forCounter + 1
 			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
-			-- starting from the element in colum j and line x.
+				-- starting from the element in colum j and line x.
 				target = cs1,
-				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i) end
+				select = function(cell)
+					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
+				end
 			}
+
 			t2 = Trajectory{
-			-- select all elements belonging to the dim x dim square in cs1,
-			-- starting from the element in colum j and line x.
+				-- select all elements belonging to the dim x dim square in cs1,
+				-- starting from the element in colum j and line x.
 				target = cs2,
-				select = function(cell) return (cell.x <= stepx + j)
-				 and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i ) end
+				select = function(cell)
+					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i )
+				end
 			}
+
 			local counter1 = {}
 			local counter2 = {}
 			local eachCellCounter = 0
@@ -176,16 +180,16 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 			end)
 
 			forEachCell(t2, function(cell2)
-					local value2 = cell2[attribute]
-					if counter2[value2] == nil then
-						counter2[value2] = 1
-					else
-						counter2[value2] = counter2[value2] + 1
-					end
+				local value2 = cell2[attribute]
+				if counter2[value2] == nil then
+					counter2[value2] = 1
+				else
+					counter2[value2] = counter2[value2] + 1
+				end
 
-					if counter1[value2] == nil then
-						counter1[value2] = 0
-					end
+				if counter1[value2] == nil then
+					counter1[value2] = 0
+				end
 			end)
 
 			local squareDif
@@ -205,27 +209,27 @@ local newDiscreteSquareBySquare = function(step, cs1, cs2, attribute)
 	-- returns the fitness of all the squares divided by the number of squares.
 end
 
-local continuousSquareBySquare = function(step, cs1, cs2, attribute)
+local function continuousSquareBySquare(step, cs1, cs2, attribute)
 	-- function that returns the fitness of a particular dimxdim Costanza square.
 	local squareTotalFit = 0
 	local forCounter = 0
 	local t1, t2
 	-- These variable are adjustments so the function works on
 	-- cellular spaces with different formats and starting points.
-	local yMax =cs1.yMax
-	local xMax =cs1.xMax
+	local yMax = cs1.yMax
+	local xMax = cs1.xMax
 	local lastRow = (yMax - step + cs1.yMin)
 	local lastCol = (xMax - step + cs1.xMin)
 	local stepx = step
 	local stepy = step
 	if step > xMax then
 		lastCol = 0
-		stepx = step - (step - xMax)
+		stepx = xMax
 	end
 
 	if step > yMax then
 		lastRow = 0
-		stepy = step - (step - yMax)
+		stepy = yMax
 		if stepx == step - 1 then
 			return -1
 		end
@@ -241,6 +245,7 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
 				end
 			}
+
 			t2 = Trajectory{
 			-- select all elements belonging to the dim x dim square in cs1,
 			-- starting from the element in colum j and line x.
@@ -249,12 +254,15 @@ local continuousSquareBySquare = function(step, cs1, cs2, attribute)
 					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
 				end
 			}
+
 			local counter1 = 0
 			local counter2 = 0
+
 			forEachCell(t1, function(cell1)
 				local value1 = cell1[attribute]
 				counter1 = counter1 + value1
 			end)
+
 			forEachCell(t2, function(cell2)
 				local value2 = cell2[attribute]
 				counter2 = counter2 + value2
@@ -330,7 +338,7 @@ multiLevel = function(data)
 	table.insert(fitSquareTable, fitnessSum)
 	table.insert(resolutionTable, 0)
 	if continuous then
-		for i = 1, (largerSquare) do
+		for i = 1, largerSquare do
 		-- increase the square size and calculate fitness for each square.
 			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
@@ -341,7 +349,7 @@ multiLevel = function(data)
 			end
 		end
 	else
-		for i = 1, (largerSquare) do
+		for i = 1, largerSquare do
 			-- increase the square size and calculate fitness for each square.
 			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute)
 			if fitSquare ~= -1 then
@@ -358,7 +366,7 @@ multiLevel = function(data)
 	return fitness, df
 end
 
---- Calculates the summation of the difference of squares between two tables of a table.
+--- Calculates the sum of the difference of squares between two tables of a table.
 -- @arg data A named table formed by other tables.
 -- @arg attribute1 The attribute corresponding to the first table in table data.
 -- @arg attribute2 The attribute corresponding to the second table in table data.
