@@ -80,22 +80,78 @@ return{
 			multiLevel()
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg(1))
+		unitTest:assertError(error_func, tableArgumentMsg())
+
 		error_func = function()
-			multiLevel{}
+			multiLevel{target = 2}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg("cs1"))
+		unitTest:assertError(error_func, "Argument 'target' must be a CellularSpace or a table with two CellularSpaces.")
+
 		error_func = function()
-			multiLevel{cs1 = cs}
+			multiLevel{target = cs}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg("cs2"))
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
 		error_func = function()
-			multiLevel{cs1 = cs, cs2 = cs}
+			multiLevel{target = cs, select = "a"}
 		end
 
-		unitTest:assertError(error_func, mandatoryArgumentMsg("attribute"))
+		unitTest:assertError(error_func, "When using a single CellularSpace, the selected attributes must be different.")
+
+		error_func = function()
+			multiLevel{target = {2, cs}}
+		end
+
+		unitTest:assertError(error_func, "First element of 'target' should be a CellularSpace, got number.")
+
+		error_func = function()
+			multiLevel{target = {cs, 2}}
+		end
+
+		unitTest:assertError(error_func, "Second element of 'target' should be a CellularSpace, got number.")
+
+		error_func = function()
+			multiLevel{target = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'target' must be a CellularSpace or a table with two CellularSpaces.")
+
+		error_func = function()
+			multiLevel{target = cs, select = {2, "a"}}
+		end
+
+		unitTest:assertError(error_func, "First element of 'select' should be a string, got number.")
+
+		error_func = function()
+			multiLevel{target = cs, select = {"a", 2}}
+		end
+
+		unitTest:assertError(error_func, "Second element of 'select' should be a string, got number.")
+		error_func = function()
+			multiLevel{target = cs, select = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
+		error_func = function()
+			multiLevel{target = cs, select = {2}}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
+		error_func = function()
+			multiLevel{target = cs, select = 2}
+		end
+
+		unitTest:assertError(error_func, "Argument 'select' must be a string or a table with two strings.")
+
+		error_func = function()
+			multiLevel{target = cs, select = {"a", "b"}, k = false}
+		end
+
+		unitTest:assertError(error_func, incompatibleTypeMsg("k", "number", false))
 	end,
 	sumOfSquares = function(unitTest)
 		local data = {

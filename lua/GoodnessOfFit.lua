@@ -40,34 +40,7 @@ local function pixelByPixelDiscrete(cs1, cs2, attribute1, attribute2)
 	return equal / counter
 end
 
---- Compares two CelluarSpaces using a pixel by pixel strategy.
--- It returns a number with the average difference of the values in each cell of both CelluarSpaces.
--- When the attributes are discrete, the difference between two cells will be zero when they have
--- the same value or one if not.  If all the values are equal, the output will be one.
--- If they are completely different, it will be zero.
--- When the attributes are continuous, the difference between
--- the two values will be used. In this case, the returned value is the average of all
--- differences.
--- @arg data.target A base::CellularSpace or a table with two CellularSpaces.
--- @arg data.select A vector of strings with the names of the attributes to be compared.
--- They must follow the same order of data.target: the first attribute is related to the
--- first CellularSpace and so for the second one. When the target is a single CellularSpace,
--- the two attributes must belong to it.
--- It can also be a single string, when comparing the same attribute name in both CellularSpaces.
--- @arg data.discrete A boolean value indicating whether the values are discrete. The default value
--- is false, meaning that the atributes are continuous.
--- @usage import("calibration")
---
--- cell = Cell{a = 0.8, b = 0.7}
--- cs = CellularSpace{xdim = 10, instance = cell}
---
--- result = pixelByPixel{
---     target = cs,
---     select = {"a", "b"}
--- }
---
--- print(result)
-function pixelByPixel(data)
+local function verifyBasicArguments(data)
 	verifyNamedTable(data)
 
 	defaultTableValue(data, "discrete", false)
@@ -108,6 +81,44 @@ function pixelByPixel(data)
 	verify(#cs1 == #cs2, "Number of cells in both CellularSpaces must be equal.")
 	verify(cs1:sample()[attribute1] ~= nil, "Attribute '"..attribute1.."' does not exist in the first CellularSpace.")
 	verify(cs2:sample()[attribute2] ~= nil, "Attribute '"..attribute2.."' does not exist in the second CellularSpace.")
+end
+
+--- Compares two CelluarSpaces using a pixel by pixel strategy.
+-- It returns a number with the average difference of the values in each cell of both CelluarSpaces.
+-- When the attributes are discrete, the difference between two cells will be zero when they have
+-- the same value or one if not.  If all the values are equal, the output will be one.
+-- If they are completely different, it will be zero.
+-- When the attributes are continuous, the difference between
+-- the two values will be used. In this case, the returned value is the average of all
+-- differences.
+-- @arg data.target A base::CellularSpace or a table with two CellularSpaces.
+-- @arg data.select A vector of strings with the names of the attributes to be compared.
+-- They must follow the same order of data.target: the first attribute is related to the
+-- first CellularSpace and so for the second one. When the target is a single CellularSpace,
+-- the two attributes must belong to it.
+-- It can also be a single string, when comparing the same attribute name in both CellularSpaces.
+-- @arg data.discrete A boolean value indicating whether the values are discrete. The default value
+-- is false, meaning that the atributes are continuous.
+-- @usage import("calibration")
+--
+-- cell = Cell{a = 0.8, b = 0.7}
+-- cs = CellularSpace{xdim = 10, instance = cell}
+--
+-- result = pixelByPixel{
+--     target = cs,
+--     select = {"a", "b"}
+-- }
+--
+-- print(result)
+function pixelByPixel(data)
+	verifyBasicArguments(data)
+
+	verifyUnnecessaryArguments(data, {"target", "select", "discrete"})
+
+	local cs1 = data.target[1]
+	local cs2 = data.target[2]
+	local attribute1 = data.select[1]
+	local attribute2 = data.select[2]
 
 	if data.discrete then
 		return pixelByPixelDiscrete(cs1, cs2, attribute1, attribute2)
@@ -116,27 +127,17 @@ function pixelByPixel(data)
 	end
 end
 
-local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
-	local xMin = cs1.xMin
-	local xMax = cs1.xMax
-	local yMin = cs1.yMin
-	local yMax = cs1.yMax
+local function discreteSquareBySquare(step, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
+	local sumfit = 0
+	local quantity = 0
 
-	-- number of slices in each dimension, according to the step size
-	local xSlices = math.ceil((xMax - xMin + 1) / step)
-	local ySlices = math.ceil((xMax - xMin + 1) / step)
-
-	local err = 0
-
-	for i = 1, xSlices do
-		local beginX = xMin + (i - 1) * step
-
-		for j = 1, ySlices do
-			local beginY = yMin + (j - 1) * step
-
+	for beginX = minSquare, maxSquare - step + 1 do
+		for beginY = minSquare, maxSquare - step + 1 do
 			-- tables with the counts of each value in each space
 			local values1 = {}
 			local values2 = {}
+
+			local cellsInTheBlock = 0
 
 			-- trasverse the block [beginX, beginY] to [beginX + step - 1, beginY + step - 1]
 			for cx = beginX, beginX + step - 1 do
@@ -145,7 +146,9 @@ local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
 					local cell1 = cs1:get(cx, cy)
 
 					if cell1 then
-						local value = cell1[attribute]
+						cellsInTheBlock = cellsInTheBlock + 1
+
+						local value = cell1[attribute1]
 
 						if not values1[value] then values1[value] = 0 end
 						if not values2[value] then values2[value] = 0 end
@@ -156,7 +159,7 @@ local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
 					local cell2 = cs2:get(cx, cy)
 
 					if cell2 then
-						local value = cell2[attribute]
+						local value = cell2[attribute2]
 
 						if not values1[value] then values1[value] = 0 end
 						if not values2[value] then values2[value] = 0 end
@@ -166,172 +169,151 @@ local function newDiscreteSquareBySquare(step, cs1, cs2, attribute)
 				end
 			end
 
+			local err = 0
+
 			forEachElement(values1, function(idx, value1)
 				err = err + math.abs(values2[idx] - value1)
 			end)
+
+			if cellsInTheBlock > 0 then
+				sumfit = sumfit + (1 - err / (2 * cellsInTheBlock))
+
+				quantity = quantity + 1
+			end
 		end
 	end
 
-	err = err / 2 -- divide by two because for each error there is another one in the same block
+	return sumfit / quantity
+end
+
+local function continuousSquareBySquare(step, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
+	local err = 0
+
+	for beginX = minSquare, maxSquare - step + 1 do
+		for beginY = minSquare, maxSquare - step + 1 do
+			-- tables with the counts of each value in each space
+			local values1 = 0
+			local values2 = 0
+
+			-- trasverse the block [beginX, beginY] to [beginX + step - 1, beginY + step - 1]
+			for cx = beginX, beginX + step - 1 do
+				for cy = beginY, beginY + step - 1 do
+
+					local cell1 = cs1:get(cx, cy)
+
+					if cell1 then
+						values1 = values1 + cell1[attribute1]
+					end
+
+					local cell2 = cs2:get(cx, cy)
+
+					if cell2 then
+						values2 = values2 + cell2[attribute2]
+					end
+				end
+			end
+
+			if values1 > 0 or values2 > 0 then
+				err = err + math.abs(values1 - values2) / math.max(values1, values2)
+			end
+		end
+	end
+
 	local fit = 1 - (err / #cs1)
 
 	return fit
 end
 
-local function continuousSquareBySquare(step, cs1, cs2, attribute)
-	-- function that returns the fitness of a particular dimxdim Costanza square.
-	local squareTotalFit = 0
-	local forCounter = 0
-	local t1, t2
-	-- These variable are adjustments so the function works on
-	-- cellular spaces with different formats and starting points.
-	local yMax = cs1.yMax
-	local xMax = cs1.xMax
-	local lastRow = (yMax - step + cs1.yMin)
-	local lastCol = (xMax - step + cs1.xMin)
-	local stepx = step
-	local stepy = step
-	if step > xMax then
-		lastCol = 0
-		stepx = xMax
-	end
-
-	if step > yMax then
-		lastRow = 0
-		stepy = yMax
-		if stepx == step - 1 then
-			return -1
-		end
-	end
-
-	for i = cs1.yMin, lastRow do -- for each line
-		for j = cs1.xMin, lastCol do -- for each column
-			forCounter = forCounter + 1
-			t1 = Trajectory{ -- select all elements belonging to the dim x dim square in cs1,
-			-- starting from the element in colum j and line x.
-				target = cs1,
-				select = function(cell)
-					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
-				end
-			}
-
-			t2 = Trajectory{
-			-- select all elements belonging to the dim x dim square in cs1,
-			-- starting from the element in colum j and line x.
-				target = cs2,
-				select = function(cell)
-					return (cell.x <= stepx + j) and (cell.y <= stepy + i) and (cell.x >= j) and (cell.y >= i)
-				end
-			}
-
-			local counter1 = 0
-			local counter2 = 0
-
-			forEachCell(t1, function(cell1)
-				local value1 = cell1[attribute]
-				counter1 = counter1 + value1
-			end)
-
-			forEachCell(t2, function(cell2)
-				local value2 = cell2[attribute]
-				counter2 = counter2 + value2
-			end)
-
-			local dif
-			local squareDif
-			local squareFit
-			dif = math.abs(counter1 - counter2)
-			squareDif = dif / (counter2 + counter1)
-			squareFit = 1 - squareDif -- calculate a particular dimxdim square fitness
-			squareTotalFit = squareTotalFit + squareFit -- calculates the fitness of all dimxdim squares
-		end
-	end
-
-	return squareTotalFit / forCounter
-	-- returns the fitness of all the squares divided by the number of squares.
-end
-
 --- Compares two CelluarSpace according to the calibration method described in Costanza's
--- paper and returns a number with the average precision between the values of both CelluarSpace.
--- @arg data.cs1 First Cellular Space.
--- @arg data.cs2 Second Cellular Space.
--- @arg data.attribute An attribute present in both cellular space, which values should be compared.
--- @arg data.continuous Boolean that indicates if the model to be calibrated is continuous.
--- @arg data.graphics Boolean argument that indicates whether or not to draw a Chart with each square fitness.
--- (Default = False, discrete model).
--- @usage
--- import("calibration")
--- cs = CellularSpace{
+-- paper. It returns a number with the average precision between the values of both CelluarSpaces.
+-- Source: Costanza R. Model goodness of fit: a multiple resolution procedure. Ecological modelling.
+-- 1989 Sep 15;47(3-4):199-215.
+-- @arg data.target A base::CellularSpace or a table with two CellularSpaces.
+-- @arg data.select A vector of strings with the names of the attributes to be compared.
+-- They must follow the same order of data.target: the first attribute is related to the
+-- first CellularSpace and so for the second one. When the target is a single CellularSpace,
+-- the two attributes must belong to it.
+-- It can also be a single string, when comparing the same attribute name in both CellularSpaces.
+-- @arg data.discrete A boolean value indicating whether the values are discrete. The default value
+-- is false, meaning that the atributes are continuous.
+-- @arg data.k Value that determines the weigth for each square calibration. The default value is 0.1.
+-- @usage import("calibration")
+--
+-- cs1 = CellularSpace{
 --     file = filePath("Costanza.pgm", "calibration"),
---     attrname = "Costanza"
+--     attrname = "costanza"
 -- }
 --
 -- cs2 = CellularSpace{
 --     file = filePath("Costanza2.pgm", "calibration"),
---     attrname = "Costanza"
+--     attrname = "costanza"
 -- }
 --
--- multiLevel{cs1 = cs, cs2 = cs2, attribute = "Costanza", continuous = false, graphics = true}
-multiLevel = function(data)
-	mandatoryArgument(1, "table", data)
-	mandatoryTableArgument(data, "cs1", "CellularSpace")
-	mandatoryTableArgument(data, "cs2", "CellularSpace")
-	mandatoryTableArgument(data, "attribute", "string")
-	verify(#data.cs1 == #data.cs2, "Number of cells in both cellular spaces must be equal")
+-- multiLevel{
+--     target = {cs1, cs2},
+--     select = "costanza",
+--     discrete = true
+-- }
+function multiLevel(data)
+	verifyBasicArguments(data)
 
-	local k = 0.1 -- value that determinate weigth for each square calibration
-	local exp = 1 -- that will be used in the final fitness calibration
-	-- fitnessSum is the Sum of all the fitness from each square ixi , it is being initialized as
-	-- the fitness of the 1x1 square.
-	local largerSquare
-	if data.cs1.yMax > data.cs1.xMax then
-	-- Determines of the size of the smallest square possible containig all the map elements.
-		largerSquare = data.cs1.yMax
-	else
-		largerSquare = data.cs1.xMax
+	defaultTableValue(data, "k", 0.1)
+
+	verifyUnnecessaryArguments(data, {"target", "select", "discrete", "k"})
+
+	local k = data.k
+	local cs1 = data.target[1]
+	local cs2 = data.target[2]
+	local attribute1 = data.select[1]
+	local attribute2 = data.select[2]
+
+	local maxSquare = cs1.xMax - cs1.xMin + 1
+	local ySize = cs1.yMax - cs1.yMin + 1
+	if maxSquare <= ySize then -- <= to force the next line to be executed
+		maxSquare = ySize
 	end
 
-	local continuous = data.continuous
-	local discrete = not data.continuous
+	local minSquare = cs1.xMin
+	if minSquare >= cs1.yMin then -- >= to force the next line to be executed
+		minSquare = cs1.yMin
+	end
 
-	if not discrete then discrete = nil end
-
-	local fitnessSum = pixelByPixel{
-		target = {data.cs1, data.cs2},
-		select = {data.attribute, data.attribute},
-		discrete = discrete
-	}
+	local fitnessSum = 0
+	local exp = 0
 
 	local fitSquareTable = {}
 	local resolutionTable = {}
-	table.insert(fitSquareTable, fitnessSum)
-	table.insert(resolutionTable, 0)
-	if continuous then
-		for i = 1, largerSquare do
-		-- increase the square size and calculate fitness for each square.
-			local fitSquare = continuousSquareBySquare(i, data.cs1, data.cs2, data.attribute)
+	local expTable = {}
+	if data.discrete then
+		for i = 1, maxSquare do
+			-- increase the square size and calculate fitness for each square.
+			local fitSquare = discreteSquareBySquare(i, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
 			if fitSquare ~= -1 then
 				table.insert(fitSquareTable, fitSquare)
 				table.insert(resolutionTable, i)
-				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
-				exp = exp + math.exp(-k * 2 ^ (i - 1))
+				local myexp = math.exp(-k * (i - 1))
+				table.insert(expTable, myexp)
+				fitnessSum = fitnessSum + (fitSquare * myexp)
+				exp = exp + myexp
 			end
 		end
 	else
-		for i = 1, largerSquare do
+		for i = 1, maxSquare do
 			-- increase the square size and calculate fitness for each square.
-			local fitSquare = newDiscreteSquareBySquare(i, data.cs1, data.cs2, data.attribute)
+			local fitSquare = continuousSquareBySquare(i, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
 			if fitSquare ~= -1 then
 				table.insert(fitSquareTable, fitSquare)
 				table.insert(resolutionTable, i)
-				fitnessSum = fitnessSum + (fitSquare * math.exp(-k * 2 ^ (i - 1)))
-				exp = exp + math.exp(-k * 2 ^ (i - 1))
+				local myexp = math.exp(-k * (i - 1))
+				table.insert(expTable, myexp)
+				fitnessSum = fitnessSum + (fitSquare * myexp)
+				exp = exp + myexp
 			end
 		end
 	end
 
 	local fitness = fitnessSum / exp
-	local df = DataFrame{fit = fitSquareTable, resolution = resolutionTable}
+	local df = DataFrame{fit = fitSquareTable, resolution = resolutionTable, exp = expTable}
 	return fitness, df
 end
 

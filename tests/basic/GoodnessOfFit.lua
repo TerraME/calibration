@@ -16,13 +16,18 @@ return{
 			select = function(cellCs2) return cellCs2.x > 4 end
 		}
 		forEachCell(t, function(cellT) cellT.b = "deforested" end)
-		local result2 = pixelByPixel{
-			target = cs2,
-			select = {"a", "b"},
-			discrete = true
-		}
 
-		unitTest:assertEquals(result2, 0.5)
+		local warningFunc = function()
+			result = pixelByPixel{
+				target = cs2,
+				select = {"a", "b"},
+				discrete = true,
+				abc = 123
+			}
+		end
+
+		unitTest:assertWarning(warningFunc, unnecessaryArgumentMsg("abc"))
+		unitTest:assertEquals(result, 0.5)
 	end,
 	multiLevel = function(unitTest)
 		local cs = CellularSpace{
@@ -44,20 +49,57 @@ return{
 		local sugar4 = CellularSpace{
 			file = filePath("internal/sugarScape4.csv", "calibration")
 		}
+
 		-- Discrete Tests:
-		local result = multiLevel{cs1 = cs, cs2 = cs2, attribute = "costanza"}
-		local result5 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar"}
-		local result9 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar"}
+		local result = multiLevel{
+			target = {cs, cs2},
+			select = "costanza",
+			discrete = true
+		}
+
+		unitTest:assertEquals(result, 0.865, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
+
+		local warningFunc = function()
+			result = multiLevel{
+				target = {sugar, sugar2},
+				select = "maxsugar",
+				discrete = true,
+				abc = 2
+			}
+		end
+
+		unitTest:assertWarning(warningFunc, unnecessaryArgumentMsg("abc"))
+		unitTest:assertEquals(result, 0.722, 0.01)
+
+		result = multiLevel{
+			target = {sugar3, sugar4},
+			select = "maxsugar",
+			discrete = true
+		}
+
+		unitTest:assertEquals(result, 1, 0.01)
+
 		-- Continuous Tests:
-		local result2 = multiLevel{cs1 = cs, cs2 = cs2, attribute = "costanza", continuous = true}
-		local result6 = multiLevel{cs1 = sugar, cs2 = sugar2, attribute = "maxsugar", continuous = true}
-		local result10 = multiLevel{cs1 = sugar3, cs2 = sugar4, attribute = "maxsugar", continuous = true}
-		unitTest:assertEquals(result, 0.84, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
-		unitTest:assertEquals(result2, 0.91, 0.01)
-		unitTest:assertEquals(result5, 0.66, 0.01)
-		unitTest:assertEquals(result6, 0.62, 0.01)
-		unitTest:assertEquals(result9, 1, 0.01)
-		unitTest:assertEquals(result10, 1, 0.01)
+		result = multiLevel{
+			target = {cs, cs2},
+			select = "costanza",
+		}
+
+		unitTest:assertEquals(result, 0.963, 0.01)
+
+		result = multiLevel{
+			target = {sugar, sugar2},
+			select = "maxsugar"
+		}
+
+		unitTest:assertEquals(result, 0.76, 0.01)
+
+		result = multiLevel{
+			target = {sugar3, sugar4},
+			select = "maxsugar"
+		}
+
+		unitTest:assertEquals(result, 1, 0.01)
 	end,
 	sumOfSquares = function(unitTest)
 		local data = {
