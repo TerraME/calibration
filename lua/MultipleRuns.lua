@@ -372,7 +372,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation")
+					local simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
 					if data.showProgress then
 						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
@@ -495,7 +495,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation")
+					local simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
 					if data.showProgress then
 						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
@@ -892,7 +892,7 @@ function MultipleRuns(data)
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation")
+					local simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
 					if data.showProgress then
 						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
@@ -1015,7 +1015,7 @@ function MultipleRuns(data)
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation")
+					local simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
 					if data.showProgress then
 						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
