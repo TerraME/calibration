@@ -896,5 +896,7 @@ return{
 		unitTest:assertEquals(initTest4.output.w[3], 3)
 		unitTest:assertEquals(initTest4.output.w[6], 3)
 		unitTest:assertEquals(initTest4.output.w[9], 3)
+
+		File(currentDir()..sessionInfo().separator.."output.log"):deleteIfExists()
 	end
 }
