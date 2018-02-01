@@ -335,5 +335,7 @@ return{
 			}
 		end
 		unitTest:assertWarning(error_func, "Parameter 'repetition' is unnecessary for a non-random model.")
+
+		File(currentDir()..sessionInfo().separator.."output.log"):delete()
 	end
 }
