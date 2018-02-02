@@ -1,6 +1,8 @@
 -- @example Basic example for testing goodness-of-fit.
 -- This example reproduces Figure 4 of from Costanza R.
 -- Model goodness of fit: a multiple resolution procedure. Ecological modelling. 1989 Sep 15;47(3-4):199-215.
+-- @image costanza.png
+
 import("calibration")
 
 scene1 = CellularSpace{

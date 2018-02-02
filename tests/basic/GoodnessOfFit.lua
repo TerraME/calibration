@@ -59,6 +59,15 @@ return{
 
 		unitTest:assertEquals(result, 0.865, 0.01) -- 0.84 is the Total Fitness in Costanza Paper Example.
 
+		result = multiLevel{
+			target = {cs, cs2},
+			select = "costanza",
+			log = true,
+			discrete = true
+		}
+
+		unitTest:assertEquals(result, 0.85, 0.01)
+
 		local warningFunc = function()
 			result = multiLevel{
 				target = {sugar, sugar2},
@@ -86,6 +95,14 @@ return{
 		}
 
 		unitTest:assertEquals(result, 0.963, 0.01)
+
+		result = multiLevel{
+			target = {cs, cs2},
+			select = "costanza",
+			log = true
+		}
+
+		unitTest:assertEquals(result, 0.95, 0.01)
 
 		result = multiLevel{
 			target = {sugar, sugar2},

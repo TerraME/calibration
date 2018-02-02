@@ -237,6 +237,9 @@ end
 -- @arg data.discrete A boolean value indicating whether the values are discrete. The default value
 -- is false, meaning that the atributes are continuous.
 -- @arg data.k Value that determines the weigth for each square calibration. The default value is 0.1.
+-- @arg data.log Value indicating whether the levels should be computed using log scale: 1, 2, 4, ... until
+-- the maximum length in both directions. The default value (fales) means that all levels will be computed:
+-- 1, 2, 3, ... until the maximum length in both directions.
 -- @usage import("calibration")
 --
 -- cs1 = CellularSpace{
@@ -258,8 +261,9 @@ function multiLevel(data)
 	verifyBasicArguments(data)
 
 	defaultTableValue(data, "k", 0.1)
+	defaultTableValue(data, "log", false)
 
-	verifyUnnecessaryArguments(data, {"target", "select", "discrete", "k"})
+	verifyUnnecessaryArguments(data, {"target", "select", "discrete", "k", "log"})
 
 	local k = data.k
 	local cs1 = data.target[1]
@@ -285,7 +289,8 @@ function multiLevel(data)
 	local resolutionTable = {}
 	local expTable = {}
 	if data.discrete then
-		for i = 1, maxSquare do
+		local i = 1
+		while i <= maxSquare do
 			-- increase the square size and calculate fitness for each square.
 			local fitSquare = discreteSquareBySquare(i, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
 			if fitSquare ~= -1 then
@@ -296,9 +301,22 @@ function multiLevel(data)
 				fitnessSum = fitnessSum + (fitSquare * myexp)
 				exp = exp + myexp
 			end
+
+			if data.log then
+				if i == maxSquare then
+					i = i + 1
+				else
+					i = i * 2
+
+					if i > maxSquare then i = maxSquare end
+				end
+			else
+				i = i + 1
+			end
 		end
 	else
-		for i = 1, maxSquare do
+		local i = 1
+		while i <= maxSquare do
 			-- increase the square size and calculate fitness for each square.
 			local fitSquare = continuousSquareBySquare(i, cs1, cs2, attribute1, attribute2, minSquare, maxSquare)
 			if fitSquare ~= -1 then
@@ -308,6 +326,18 @@ function multiLevel(data)
 				table.insert(expTable, myexp)
 				fitnessSum = fitnessSum + (fitSquare * myexp)
 				exp = exp + myexp
+			end
+
+			if data.log then
+				if i == maxSquare then
+					i = i + 1
+				else
+					i = i * 2
+
+					if i > maxSquare then i = maxSquare end
+				end
+			else
+				i = i + 1
 			end
 		end
 	end
