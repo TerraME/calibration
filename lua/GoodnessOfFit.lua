@@ -240,12 +240,12 @@ end
 -- @usage import("calibration")
 --
 -- cs1 = CellularSpace{
---     file = filePath("Costanza.pgm", "calibration"),
+--     file = filePath("costanza.pgm", "calibration"),
 --     attrname = "costanza"
 -- }
 --
 -- cs2 = CellularSpace{
---     file = filePath("Costanza2.pgm", "calibration"),
+--     file = filePath("costanza2.pgm", "calibration"),
 --     attrname = "costanza"
 -- }
 --
