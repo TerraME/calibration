@@ -97,6 +97,14 @@ return{
 		unitTest:assertEquals(result, 0.963, 0.01)
 
 		result = multiLevel{
+			target = {cs, cs2},
+			select = "costanza",
+			log = true
+		}
+
+		unitTest:assertEquals(result, 0.95, 0.01)
+
+		result = multiLevel{
 			target = {sugar, sugar2},
 			select = "maxsugar"
 		}

@@ -21,7 +21,7 @@ return{
 			select = "fit"
 		}
 
-		unitTest:assertSnapshot(chart, "costanza-original.png")
+		unitTest:assertSnapshot(chart, "costanza-original.png", 0.05)
 
 		result, data = multiLevel{
 			target = {cs, cs2},
@@ -39,6 +39,6 @@ return{
 			yLabel = "Fit"
 		}
 
-		unitTest:assertSnapshot(chart, "costanza-log.png")
+		unitTest:assertSnapshot(chart, "costanza-log.png", 0.05)
 	end
 }
