@@ -195,7 +195,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Argument 'y' is mandatory.")
-			error_func = function()
+		error_func = function()
 			m = MultipleRuns{
 				model = MyModel2,
 				strategy = "factorial",
@@ -284,7 +284,7 @@ return{
 		end
 
 		unitTest:assertError(error_func, "Parameters used in strategy 'selected' must be in a table of scenarios.")
-				error_func = function()
+		error_func = function()
 			m = MultipleRuns{
 				model = MyModel4,
 				strategy = "selected",

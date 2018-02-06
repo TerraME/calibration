@@ -1,16 +1,9 @@
-data{
-	file = "Costanza.pgm",
-	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
-	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
-	attributes = {Costanza = "Attribute values that will be compared."},
-	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
-}
 
 data{
-	file = "Costanza2.pgm",
-	summary = "Examples Cellular Spaces for discreteCostanzaMultiLevel Tests.",
-	source = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure",
-	attributes = {Costanza = "Attribute values that will be compared."},
-	reference = "Costanza's Paper  Model Goodness of Fit: a multiple resolution procedure"
+	file = {"costanza.pgm", "costanza2.pgm"},
+	summary = "Example of a CellularSpaces for multi resolution goodness-of-fit metric.",
+	source = "TerraME team",
+	attributes = {costanza = "Values to be compared."},
+	reference = "Costanza, R., Model Goodness of Fit - a Multiple Resolution Procedure. Ecological Modelling, 1989. 47(3-4): p. 199-215"
 }
 
