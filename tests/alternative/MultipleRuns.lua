@@ -64,7 +64,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Directory name '!@#$$#$%??' cannot contain character '?'.")
+		unitTest:assertError(error_func, "Directory path '!@#$$#$%??' cannot contain character '?'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
