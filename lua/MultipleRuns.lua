@@ -285,7 +285,7 @@ end
 -- a: the parameter that the function is currently variating. In the Example: [a] = [1] => x, [a] = [2]=> y.
 -- Variables: The value that a parameter is being tested. Example: Variables = {x = -100, y = 1}
 -- resultTable Table returned by multipleRuns as result
-local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir)
+local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			-- Giving the variables table the current parameter and value being tested.
@@ -316,7 +316,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				for case = 1, data.repetition do
 					numSimulation = numSimulation + 1
-					local iterationTime = sessionInfo().time -- time to compute a single interation (bigger than simulation time)
+					Profiler():start("iteration") -- time to compute a single iteration (bigger than simulation time)
 					local mVariables = {} -- copy of the variables table to be used in the model.
 					forEachOrderedElement(variables, function(idx, attribute)
 						mVariables[idx] = attribute
@@ -341,7 +341,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local testDir = folderDir
 					firstDir:setCurrentDir()
-					local simulationTime = sessionInfo().time
+					Profiler():start("simulation")
 					local log = {}
 					local m
 					redirectPrint(log, function()
@@ -362,37 +362,24 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						redirectPrint(log, function()
-							if data.init then -- SKIP
-								data.init(m) -- SKIP
-							end
+					end
 
-							m:run() -- SKIP
-						end)
-
-						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
-						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
-						iterationTime = sessionInfo().time - iterationTime -- SKIP
-						table.insert(elapsedTimes, iterationTime) -- SKIP
-						local elapsedReal = 0
-						for _, t in pairs(elapsedTimes) do
-							elapsedReal = elapsedReal + t -- SKIP
+					redirectPrint(log, function()
+						if data.init then -- SKIP
+							data.init(m) -- SKIP
 						end
 
-						local elapsedMean = elapsedReal / #elapsedTimes
-						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
-						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
-						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
-					else
-						redirectPrint(log, function()
-							if data.init then
-								data.init(m)
-							end
+						m:run() -- SKIP
+					end)
 
-							m:run()
-						end)
-
+					local simulationTime = Profiler():stop("simulation").strTime
+					Profiler():stop("iteration")
+					if data.showProgress then
+						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
+						local timeLeft, estimatedTime = Profiler():eta("iteration")
+						local _, currentTime = Profiler():uptime("iteration")
+						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
 					end
 
 					local logfile = File("output.log")
@@ -420,7 +407,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					end)
 				end
 			else -- else, go to the next parameter to test it with it's range of values.
-				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir)
+				resultTable, numSimulation, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 			end
 		end
 	else -- if the parameter uses a table of multiple values
@@ -452,7 +439,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				for case = 1, data.repetition do
 					numSimulation = numSimulation + 1
-					local iterationTime = sessionInfo().time -- time to compute a single interation (bigger than simulation time)
+					Profiler():start("iteration") -- time to compute a single iteration (bigger than simulation time)
 					local mVariables = {} -- copy of the variables table to be used in the model.
 					forEachOrderedElement(variables, function(idx2, attribute2)
 						mVariables[idx2] = attribute2
@@ -477,7 +464,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 
 					local testDir = folderDir
 					firstDir:setCurrentDir()
-					local simulationTime = sessionInfo().time
+					Profiler():start("simulation")
 					local log = {}
 					local m
 					redirectPrint(log, function()
@@ -498,36 +485,24 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						redirectPrint(log, function()
-							if data.init then -- SKIP
-								data.init(m) -- SKIP
-							end
+					end
 
-							m:run() -- SKIP
-						end)
-
-						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
-						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
-						iterationTime = sessionInfo().time - iterationTime -- SKIP
-						table.insert(elapsedTimes, iterationTime) -- SKIP
-						local elapsedReal = 0
-						for _, t in pairs(elapsedTimes) do
-							elapsedReal = elapsedReal + t -- SKIP
+					redirectPrint(log, function()
+						if data.init then -- SKIP
+							data.init(m) -- SKIP
 						end
 
-						local elapsedMean = elapsedReal / #elapsedTimes
-						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
-						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
-						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
-					else
-						redirectPrint(log, function()
-							if data.init then
-								data.init(m)
-							end
+						m:run() -- SKIP
+					end)
 
-							m:run()
-						end)
+					local simulationTime = Profiler():stop("simulation").strTime
+					Profiler():stop("iteration")
+					if data.showProgress then
+						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
+						local timeLeft, estimatedTime = Profiler():eta("iteration")
+						local _, currentTime = Profiler():uptime("iteration")
+						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
 					end
 
 					local logfile = File("output.log")
@@ -555,11 +530,11 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					end)
 				end
 			else -- else, go to the next parameter to test it with each of it possible values.
-				resultTable, numSimulation, elapsedTimes, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, elapsedTimes, initialTime, summaryTable, firstDir, folderDir) -- SKIP
+				resultTable, numSimulation, summaryTable = factorialRecursive(data, params, a + 1, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir) -- SKIP
 			end
 		end)
 	end
-	return resultTable, numSimulation, elapsedTimes, summaryTable
+	return resultTable, numSimulation, summaryTable
 end
 
 MultipleRuns_ = {
@@ -849,7 +824,8 @@ function MultipleRuns(data)
 
 			local maxSimulations = countSimulations(params, 1) * data.repetition
 			local initialTime = os.time()
-			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated, 0, maxSimulations, {}, initialTime, summaryTable, firstDir, folderDir)
+			Profiler():steps("iteration", maxSimulations)
+			resultTable = factorialRecursive(data, params, 1, variables, resultTable, addFunctions, s, repeated, 0, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 			if data.folderName then
 				firstDir:setCurrentDir()
 			end
@@ -862,7 +838,7 @@ function MultipleRuns(data)
 			local maxSimulations = math.max(repetition, 1) * math.max(data.quantity, 1)
 			local numSimulation = 0
 			local initialTime = os.time()
-			local elapsedTimes = {}
+			Profiler():steps("iteration", maxSimulations)
 			for quantity = 1, data.quantity do
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
 				if data.summary then
@@ -880,13 +856,12 @@ function MultipleRuns(data)
 						stringSimulations = case.."_execution_"
 					end
 
-					local iterationTime = sessionInfo().time -- time to compute a single interation
+					Profiler():start("iteration")
 					numSimulation = numSimulation + 1
 					local sampleparams = {}
 					table.insert(resultTable.simulations, stringSimulations..quantity)
-
-					local simulationTime = sessionInfo().time
 					firstDir:setCurrentDir()
+					Profiler():start("simulation")
 					local log = {}
 					local m
 					redirectPrint(log, function()
@@ -907,36 +882,24 @@ function MultipleRuns(data)
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						redirectPrint(log, function()
-							if data.init then -- SKIP
-								data.init(m) -- SKIP
-							end
+					end
 
-							m:run() -- SKIP
-						end)
-
-						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
-						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
-						iterationTime = sessionInfo().time - iterationTime -- SKIP
-						table.insert(elapsedTimes, iterationTime) -- SKIP
-						local elapsedReal = 0
-						for _, t in pairs(elapsedTimes) do
-							elapsedReal = elapsedReal + t -- SKIP
+					redirectPrint(log, function()
+						if data.init then -- SKIP
+							data.init(m) -- SKIP
 						end
 
-						local elapsedMean = elapsedReal / #elapsedTimes
-						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
-						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
-						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
-					else
-						redirectPrint(log, function()
-							if data.init then
-								data.init(m)
-							end
+						m:run() -- SKIP
+					end)
 
-							m:run()
-						end)
+					local simulationTime = Profiler():stop("simulation").strTime
+					Profiler():stop("iteration")
+					if data.showProgress then
+						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
+						local timeLeft, estimatedTime = Profiler():eta("iteration")
+						local _, currentTime = Profiler():uptime("iteration")
+						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
 					end
 
 					local logfile = File("output.log")
@@ -998,8 +961,8 @@ function MultipleRuns(data)
 
 			maxSimulations = maxSimulations * math.max(data.repetition, 1)
 			local numSimulation = 0
-			local elapsedTimes = {}
 			local initialTime = os.time()
+			Profiler():steps("iteration", maxSimulations)
 			forEachOrderedElement(data.parameters, function(idx, att)
 				local summaryResult = {repetition = data.repetition} -- table to store the results of all output function
 				if data.summary then
@@ -1017,11 +980,11 @@ function MultipleRuns(data)
 						stringSimulations = case.."_execution_"
 					end
 
-					local iterationTime = sessionInfo().time -- time to compute a single interation
+					Profiler():start("iteration")
 					numSimulation = numSimulation + 1
 					table.insert(resultTable.simulations, stringSimulations..idx)
-					local simulationTime = sessionInfo().time
 					firstDir:setCurrentDir()
+					Profiler():start("simulation")
 					local log = {}
 					local m
 					redirectPrint(log, function()
@@ -1042,36 +1005,24 @@ function MultipleRuns(data)
 						end
 
 						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
-						redirectPrint(log, function()
-							if data.init then -- SKIP
-								data.init(m) -- SKIP
-							end
+					end
 
-							m:run() -- SKIP
-						end)
-
-						simulationTime = round(sessionInfo().time - simulationTime) -- SKIP
-						print(string.format("Simulation finished in %s", timeToString(simulationTime))) -- SKIP
-						iterationTime = sessionInfo().time - iterationTime -- SKIP
-						table.insert(elapsedTimes, iterationTime) -- SKIP
-						local elapsedReal = 0
-						for _, t in pairs(elapsedTimes) do
-							elapsedReal = elapsedReal + t -- SKIP
+					redirectPrint(log, function()
+						if data.init then -- SKIP
+							data.init(m) -- SKIP
 						end
 
-						local elapsedMean = elapsedReal / #elapsedTimes
-						local estimatedTime = elapsedReal + (maxSimulations - numSimulation) * elapsedMean
-						local timeLeft = math.max(round(initialTime + estimatedTime - os.time()), 0)
-						local timeString = os.date("%H:%M", round(initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeToString(timeLeft))) -- SKIP
-					else
-						redirectPrint(log, function()
-							if data.init then
-								data.init(m)
-							end
+						m:run() -- SKIP
+					end)
 
-							m:run()
-						end)
+					local simulationTime = Profiler():stop("simulation").strTime
+					Profiler():stop("iteration")
+					if data.showProgress then
+						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
+						local timeLeft, estimatedTime = Profiler():eta("iteration")
+						local _, currentTime = Profiler():uptime("iteration")
+						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
 					end
 
 					local logfile = File("output.log")
@@ -1142,4 +1093,3 @@ function MultipleRuns(data)
 	data.outputVariables = nil
 	return data
 end
-

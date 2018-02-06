@@ -64,7 +64,7 @@ return{
 			}
 		end
 
-		unitTest:assertError(error_func, "Directory name '!@#$$#$%??' cannot contain character '?'.")
+		unitTest:assertError(error_func, "Directory path '!@#$$#$%??' cannot contain character '?'.")
 		error_func = function()
 			m = MultipleRuns{
 				model = MyModel,
@@ -322,6 +322,7 @@ return{
 				init = 5
 			}
 		end
+
 		unitTest:assertError(error_func, "Incompatible types. Argument 'init' expected function, got number.")
 		error_func = function()
 			MultipleRuns{
@@ -334,6 +335,8 @@ return{
 				repetition = 3
 			}
 		end
+
 		unitTest:assertWarning(error_func, "Parameter 'repetition' is unnecessary for a non-random model.")
+		File(currentDir()..sessionInfo().separator.."output.log"):deleteIfExists()
 	end
 }
