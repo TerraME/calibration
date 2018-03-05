@@ -288,15 +288,19 @@ end
 local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
+			local mparameter = parameter
+
+			if mparameter > params[a].max then mparameter = params[a].max end
+
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = parameter
+				variables[params[a].id] = mparameter
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
 
-				variables[params[a].table][params[a].id] = parameter
+				variables[params[a].table][params[a].id] = mparameter
 			end
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
