@@ -389,8 +389,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
@@ -424,6 +424,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
+
 				variables[params[a].table][params[a].id] = attribute
 			end
 
@@ -512,8 +513,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
@@ -909,8 +910,8 @@ function MultipleRuns(data)
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 						if typ2 ~= "table" then
 							sampleparams[idx2] = m.idx2
@@ -1032,8 +1033,8 @@ function MultipleRuns(data)
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}
