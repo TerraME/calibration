@@ -8,9 +8,9 @@ import("calibration")
 
 local m = MultipleRuns{
 	model = Fire,
-	repetition = 30,
+	repetition = 5,
 	parameters = {
-		empty = Choice{min = 0.2, max = 1, step = 0.1},--0.4,
+		empty = Choice{min = 0.2, max = 1, step = 0.01},
 		dim = 30
 	},
 	forest = function(model)
@@ -50,14 +50,15 @@ average = sum / #m.output
 
 print("Average forest in the end of "..#m.output.." simulations: "..average)
 
-m.summary["expected"] = {}
+m.summary.beginning = {}
 forEachElement(m.summary, function(_, result)
-	table.insert(m.summary.expected, result.dim * result.dim * (1-result.empty))
+	table.insert(m.summary.beginning, result.dim * result.dim * (1-result.empty))
 end)
 
 Chart{
     target = m.summary,
-    select = {"average", "expected"},
+    select = {"average", "beginning", "max", "min"},
+	label = {"average in the end", "expected quantity in the beginning", "max", "min"},
     xAxis = "empty",
-	color = {"red", "green"}
+	color = {"red", "green", "blue", "purple"}
 }

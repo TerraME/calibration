@@ -1,811 +1,1216 @@
-Running simulation 1/270 (Dim = 30, Empty = 0.2, repetition 1/30)
+Running simulation 1/405 (Dim = 30, Empty = 0.2, repetition 1/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 33 seconds)
-Running simulation 2/270 (Dim = 30, Empty = 0.2, repetition 2/30)
+Estimated time to finish all simulations: 10:01 (less than one second)
+Running simulation 2/405 (Dim = 30, Empty = 0.2, repetition 2/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 33 seconds)
-Running simulation 3/270 (Dim = 30, Empty = 0.2, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 31 seconds)
-Running simulation 4/270 (Dim = 30, Empty = 0.2, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 29 seconds)
-Running simulation 5/270 (Dim = 30, Empty = 0.2, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 29 seconds)
-Running simulation 6/270 (Dim = 30, Empty = 0.2, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 31 seconds)
-Running simulation 7/270 (Dim = 30, Empty = 0.2, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 8/270 (Dim = 30, Empty = 0.2, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 32 seconds)
-Running simulation 9/270 (Dim = 30, Empty = 0.2, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 10/270 (Dim = 30, Empty = 0.2, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 11/270 (Dim = 30, Empty = 0.2, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 12/270 (Dim = 30, Empty = 0.2, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 29 seconds)
-Running simulation 13/270 (Dim = 30, Empty = 0.2, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 31 seconds)
-Running simulation 14/270 (Dim = 30, Empty = 0.2, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 15/270 (Dim = 30, Empty = 0.2, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 16/270 (Dim = 30, Empty = 0.2, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 30 seconds)
-Running simulation 17/270 (Dim = 30, Empty = 0.2, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 29 seconds)
-Running simulation 18/270 (Dim = 30, Empty = 0.2, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 28 seconds)
-Running simulation 19/270 (Dim = 30, Empty = 0.2, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 28 seconds)
-Running simulation 20/270 (Dim = 30, Empty = 0.2, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 27 seconds)
-Running simulation 21/270 (Dim = 30, Empty = 0.2, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 26 seconds)
-Running simulation 22/270 (Dim = 30, Empty = 0.2, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 26 seconds)
-Running simulation 23/270 (Dim = 30, Empty = 0.2, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 25 seconds)
-Running simulation 24/270 (Dim = 30, Empty = 0.2, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 25 seconds)
-Running simulation 25/270 (Dim = 30, Empty = 0.2, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 25 seconds)
-Running simulation 26/270 (Dim = 30, Empty = 0.2, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 27/270 (Dim = 30, Empty = 0.2, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 28/270 (Dim = 30, Empty = 0.2, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 29/270 (Dim = 30, Empty = 0.2, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 30/270 (Dim = 30, Empty = 0.2, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 31/270 (Dim = 30, Empty = 0.3, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 32/270 (Dim = 30, Empty = 0.3, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 33/270 (Dim = 30, Empty = 0.3, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 34/270 (Dim = 30, Empty = 0.3, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 35/270 (Dim = 30, Empty = 0.3, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 36/270 (Dim = 30, Empty = 0.3, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 24 seconds)
-Running simulation 37/270 (Dim = 30, Empty = 0.3, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 38/270 (Dim = 30, Empty = 0.3, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 39/270 (Dim = 30, Empty = 0.3, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 22 seconds)
-Running simulation 40/270 (Dim = 30, Empty = 0.3, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 22 seconds)
-Running simulation 41/270 (Dim = 30, Empty = 0.3, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 23 seconds)
-Running simulation 42/270 (Dim = 30, Empty = 0.3, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 22 seconds)
-Running simulation 43/270 (Dim = 30, Empty = 0.3, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 22 seconds)
-Running simulation 44/270 (Dim = 30, Empty = 0.3, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 21 seconds)
-Running simulation 45/270 (Dim = 30, Empty = 0.3, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 46/270 (Dim = 30, Empty = 0.3, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 47/270 (Dim = 30, Empty = 0.3, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 21 seconds)
-Running simulation 48/270 (Dim = 30, Empty = 0.3, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 49/270 (Dim = 30, Empty = 0.3, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 50/270 (Dim = 30, Empty = 0.3, repetition 20/30)
+Estimated time to finish all simulations: 10:01 (less than one second)
+Running simulation 3/405 (Dim = 30, Empty = 0.2, repetition 3/5)
 Simulation finished in 1 second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 51/270 (Dim = 30, Empty = 0.3, repetition 21/30)
+Estimated time to finish all simulations: 10:03 (2 minutes and 14 seconds)
+Running simulation 4/405 (Dim = 30, Empty = 0.2, repetition 4/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 52/270 (Dim = 30, Empty = 0.3, repetition 22/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 40 seconds)
+Running simulation 5/405 (Dim = 30, Empty = 0.2, repetition 5/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 53/270 (Dim = 30, Empty = 0.3, repetition 23/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 20 seconds)
+Running simulation 6/405 (Dim = 30, Empty = 0.21, repetition 1/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 54/270 (Dim = 30, Empty = 0.3, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 20 seconds)
-Running simulation 55/270 (Dim = 30, Empty = 0.3, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 19 seconds)
-Running simulation 56/270 (Dim = 30, Empty = 0.3, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 19 seconds)
-Running simulation 57/270 (Dim = 30, Empty = 0.3, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 18 seconds)
-Running simulation 58/270 (Dim = 30, Empty = 0.3, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 18 seconds)
-Running simulation 59/270 (Dim = 30, Empty = 0.3, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 18 seconds)
-Running simulation 60/270 (Dim = 30, Empty = 0.3, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 17 seconds)
-Running simulation 61/270 (Dim = 30, Empty = 0.4, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 17 seconds)
-Running simulation 62/270 (Dim = 30, Empty = 0.4, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 17 seconds)
-Running simulation 63/270 (Dim = 30, Empty = 0.4, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 16 seconds)
-Running simulation 64/270 (Dim = 30, Empty = 0.4, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 17 seconds)
-Running simulation 65/270 (Dim = 30, Empty = 0.4, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 16 seconds)
-Running simulation 66/270 (Dim = 30, Empty = 0.4, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 16 seconds)
-Running simulation 67/270 (Dim = 30, Empty = 0.4, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 15 seconds)
-Running simulation 68/270 (Dim = 30, Empty = 0.4, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 16 seconds)
-Running simulation 69/270 (Dim = 30, Empty = 0.4, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 16 seconds)
-Running simulation 70/270 (Dim = 30, Empty = 0.4, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 15 seconds)
-Running simulation 71/270 (Dim = 30, Empty = 0.4, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 15 seconds)
-Running simulation 72/270 (Dim = 30, Empty = 0.4, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 14 seconds)
-Running simulation 73/270 (Dim = 30, Empty = 0.4, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 15 seconds)
-Running simulation 74/270 (Dim = 30, Empty = 0.4, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 14 seconds)
-Running simulation 75/270 (Dim = 30, Empty = 0.4, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 14 seconds)
-Running simulation 76/270 (Dim = 30, Empty = 0.4, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 14 seconds)
-Running simulation 77/270 (Dim = 30, Empty = 0.4, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 13 seconds)
-Running simulation 78/270 (Dim = 30, Empty = 0.4, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 13 seconds)
-Running simulation 79/270 (Dim = 30, Empty = 0.4, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 13 seconds)
-Running simulation 80/270 (Dim = 30, Empty = 0.4, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 13 seconds)
-Running simulation 81/270 (Dim = 30, Empty = 0.4, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 12 seconds)
-Running simulation 82/270 (Dim = 30, Empty = 0.4, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 12 seconds)
-Running simulation 83/270 (Dim = 30, Empty = 0.4, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 12 seconds)
-Running simulation 84/270 (Dim = 30, Empty = 0.4, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 11 seconds)
-Running simulation 85/270 (Dim = 30, Empty = 0.4, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 11 seconds)
-Running simulation 86/270 (Dim = 30, Empty = 0.4, repetition 26/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 6 seconds)
+Running simulation 7/405 (Dim = 30, Empty = 0.21, repetition 2/5)
 Simulation finished in 1 second
-Estimated time to finish all simulations: 09:07 (1 minute and 10 seconds)
-Running simulation 87/270 (Dim = 30, Empty = 0.4, repetition 27/30)
+Estimated time to finish all simulations: 10:03 (1 minute and 53 seconds)
+Running simulation 8/405 (Dim = 30, Empty = 0.21, repetition 3/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 11 seconds)
-Running simulation 88/270 (Dim = 30, Empty = 0.4, repetition 28/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 39 seconds)
+Running simulation 9/405 (Dim = 30, Empty = 0.21, repetition 4/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 11 seconds)
-Running simulation 89/270 (Dim = 30, Empty = 0.4, repetition 29/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 28 seconds)
+Running simulation 10/405 (Dim = 30, Empty = 0.21, repetition 5/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 10 seconds)
-Running simulation 90/270 (Dim = 30, Empty = 0.4, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 10 seconds)
-Running simulation 91/270 (Dim = 30, Empty = 0.5, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 9 seconds)
-Running simulation 92/270 (Dim = 30, Empty = 0.5, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 9 seconds)
-Running simulation 93/270 (Dim = 30, Empty = 0.5, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 8 seconds)
-Running simulation 94/270 (Dim = 30, Empty = 0.5, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 9 seconds)
-Running simulation 95/270 (Dim = 30, Empty = 0.5, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 8 seconds)
-Running simulation 96/270 (Dim = 30, Empty = 0.5, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 8 seconds)
-Running simulation 97/270 (Dim = 30, Empty = 0.5, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 8 seconds)
-Running simulation 98/270 (Dim = 30, Empty = 0.5, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 7 seconds)
-Running simulation 99/270 (Dim = 30, Empty = 0.5, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 7 seconds)
-Running simulation 100/270 (Dim = 30, Empty = 0.5, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 6 seconds)
-Running simulation 101/270 (Dim = 30, Empty = 0.5, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 6 seconds)
-Running simulation 102/270 (Dim = 30, Empty = 0.5, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 6 seconds)
-Running simulation 103/270 (Dim = 30, Empty = 0.5, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 6 seconds)
-Running simulation 104/270 (Dim = 30, Empty = 0.5, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 6 seconds)
-Running simulation 105/270 (Dim = 30, Empty = 0.5, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 5 seconds)
-Running simulation 106/270 (Dim = 30, Empty = 0.5, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 5 seconds)
-Running simulation 107/270 (Dim = 30, Empty = 0.5, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 4 seconds)
-Running simulation 108/270 (Dim = 30, Empty = 0.5, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 4 seconds)
-Running simulation 109/270 (Dim = 30, Empty = 0.5, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 4 seconds)
-Running simulation 110/270 (Dim = 30, Empty = 0.5, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 4 seconds)
-Running simulation 111/270 (Dim = 30, Empty = 0.5, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 3 seconds)
-Running simulation 112/270 (Dim = 30, Empty = 0.5, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 3 seconds)
-Running simulation 113/270 (Dim = 30, Empty = 0.5, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 3 seconds)
-Running simulation 114/270 (Dim = 30, Empty = 0.5, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 2 seconds)
-Running simulation 115/270 (Dim = 30, Empty = 0.5, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 2 seconds)
-Running simulation 116/270 (Dim = 30, Empty = 0.5, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 1 second)
-Running simulation 117/270 (Dim = 30, Empty = 0.5, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 2 seconds)
-Running simulation 118/270 (Dim = 30, Empty = 0.5, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 1 second)
-Running simulation 119/270 (Dim = 30, Empty = 0.5, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute and 1 second)
-Running simulation 120/270 (Dim = 30, Empty = 0.5, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute)
-Running simulation 121/270 (Dim = 30, Empty = 0.6, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 minute)
-Running simulation 122/270 (Dim = 30, Empty = 0.6, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (59 seconds)
-Running simulation 123/270 (Dim = 30, Empty = 0.6, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (59 seconds)
-Running simulation 124/270 (Dim = 30, Empty = 0.6, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (59 seconds)
-Running simulation 125/270 (Dim = 30, Empty = 0.6, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (58 seconds)
-Running simulation 126/270 (Dim = 30, Empty = 0.6, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (58 seconds)
-Running simulation 127/270 (Dim = 30, Empty = 0.6, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (57 seconds)
-Running simulation 128/270 (Dim = 30, Empty = 0.6, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (57 seconds)
-Running simulation 129/270 (Dim = 30, Empty = 0.6, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (56 seconds)
-Running simulation 130/270 (Dim = 30, Empty = 0.6, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (56 seconds)
-Running simulation 131/270 (Dim = 30, Empty = 0.6, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (56 seconds)
-Running simulation 132/270 (Dim = 30, Empty = 0.6, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (56 seconds)
-Running simulation 133/270 (Dim = 30, Empty = 0.6, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (56 seconds)
-Running simulation 134/270 (Dim = 30, Empty = 0.6, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (55 seconds)
-Running simulation 135/270 (Dim = 30, Empty = 0.6, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (55 seconds)
-Running simulation 136/270 (Dim = 30, Empty = 0.6, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (55 seconds)
-Running simulation 137/270 (Dim = 30, Empty = 0.6, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (54 seconds)
-Running simulation 138/270 (Dim = 30, Empty = 0.6, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (54 seconds)
-Running simulation 139/270 (Dim = 30, Empty = 0.6, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (53 seconds)
-Running simulation 140/270 (Dim = 30, Empty = 0.6, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (53 seconds)
-Running simulation 141/270 (Dim = 30, Empty = 0.6, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (52 seconds)
-Running simulation 142/270 (Dim = 30, Empty = 0.6, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (52 seconds)
-Running simulation 143/270 (Dim = 30, Empty = 0.6, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (52 seconds)
-Running simulation 144/270 (Dim = 30, Empty = 0.6, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (51 seconds)
-Running simulation 145/270 (Dim = 30, Empty = 0.6, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (51 seconds)
-Running simulation 146/270 (Dim = 30, Empty = 0.6, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (50 seconds)
-Running simulation 147/270 (Dim = 30, Empty = 0.6, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (50 seconds)
-Running simulation 148/270 (Dim = 30, Empty = 0.6, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (50 seconds)
-Running simulation 149/270 (Dim = 30, Empty = 0.6, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (49 seconds)
-Running simulation 150/270 (Dim = 30, Empty = 0.6, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (49 seconds)
-Running simulation 151/270 (Dim = 30, Empty = 0.7, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (48 seconds)
-Running simulation 152/270 (Dim = 30, Empty = 0.7, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (48 seconds)
-Running simulation 153/270 (Dim = 30, Empty = 0.7, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (48 seconds)
-Running simulation 154/270 (Dim = 30, Empty = 0.7, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (47 seconds)
-Running simulation 155/270 (Dim = 30, Empty = 0.7, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (47 seconds)
-Running simulation 156/270 (Dim = 30, Empty = 0.7, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (46 seconds)
-Running simulation 157/270 (Dim = 30, Empty = 0.7, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (46 seconds)
-Running simulation 158/270 (Dim = 30, Empty = 0.7, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (46 seconds)
-Running simulation 159/270 (Dim = 30, Empty = 0.7, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (45 seconds)
-Running simulation 160/270 (Dim = 30, Empty = 0.7, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (45 seconds)
-Running simulation 161/270 (Dim = 30, Empty = 0.7, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (44 seconds)
-Running simulation 162/270 (Dim = 30, Empty = 0.7, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (44 seconds)
-Running simulation 163/270 (Dim = 30, Empty = 0.7, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (44 seconds)
-Running simulation 164/270 (Dim = 30, Empty = 0.7, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (43 seconds)
-Running simulation 165/270 (Dim = 30, Empty = 0.7, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (43 seconds)
-Running simulation 166/270 (Dim = 30, Empty = 0.7, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (42 seconds)
-Running simulation 167/270 (Dim = 30, Empty = 0.7, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (42 seconds)
-Running simulation 168/270 (Dim = 30, Empty = 0.7, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (42 seconds)
-Running simulation 169/270 (Dim = 30, Empty = 0.7, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (41 seconds)
-Running simulation 170/270 (Dim = 30, Empty = 0.7, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (41 seconds)
-Running simulation 171/270 (Dim = 30, Empty = 0.7, repetition 21/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 19 seconds)
+Running simulation 11/405 (Dim = 30, Empty = 0.22, repetition 1/5)
 Simulation finished in 1 second
-Estimated time to finish all simulations: 09:07 (40 seconds)
-Running simulation 172/270 (Dim = 30, Empty = 0.7, repetition 22/30)
+Estimated time to finish all simulations: 10:02 (1 minute and 47 seconds)
+Running simulation 12/405 (Dim = 30, Empty = 0.22, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 38 seconds)
+Running simulation 13/405 (Dim = 30, Empty = 0.22, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 30 seconds)
+Running simulation 14/405 (Dim = 30, Empty = 0.22, repetition 4/5)
 Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (40 seconds)
-Running simulation 173/270 (Dim = 30, Empty = 0.7, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (40 seconds)
-Running simulation 174/270 (Dim = 30, Empty = 0.7, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (39 seconds)
-Running simulation 175/270 (Dim = 30, Empty = 0.7, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (39 seconds)
-Running simulation 176/270 (Dim = 30, Empty = 0.7, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (38 seconds)
-Running simulation 177/270 (Dim = 30, Empty = 0.7, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (38 seconds)
-Running simulation 178/270 (Dim = 30, Empty = 0.7, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (38 seconds)
-Running simulation 179/270 (Dim = 30, Empty = 0.7, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (37 seconds)
-Running simulation 180/270 (Dim = 30, Empty = 0.7, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (37 seconds)
-Running simulation 181/270 (Dim = 30, Empty = 0.8, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (36 seconds)
-Running simulation 182/270 (Dim = 30, Empty = 0.8, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (35 seconds)
-Running simulation 183/270 (Dim = 30, Empty = 0.8, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (35 seconds)
-Running simulation 184/270 (Dim = 30, Empty = 0.8, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (34 seconds)
-Running simulation 185/270 (Dim = 30, Empty = 0.8, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (34 seconds)
-Running simulation 186/270 (Dim = 30, Empty = 0.8, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (34 seconds)
-Running simulation 187/270 (Dim = 30, Empty = 0.8, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (33 seconds)
-Running simulation 188/270 (Dim = 30, Empty = 0.8, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (33 seconds)
-Running simulation 189/270 (Dim = 30, Empty = 0.8, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (33 seconds)
-Running simulation 190/270 (Dim = 30, Empty = 0.8, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (32 seconds)
-Running simulation 191/270 (Dim = 30, Empty = 0.8, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (32 seconds)
-Running simulation 192/270 (Dim = 30, Empty = 0.8, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (32 seconds)
-Running simulation 193/270 (Dim = 30, Empty = 0.8, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (31 seconds)
-Running simulation 194/270 (Dim = 30, Empty = 0.8, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (31 seconds)
-Running simulation 195/270 (Dim = 30, Empty = 0.8, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (31 seconds)
-Running simulation 196/270 (Dim = 30, Empty = 0.8, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (30 seconds)
-Running simulation 197/270 (Dim = 30, Empty = 0.8, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (30 seconds)
-Running simulation 198/270 (Dim = 30, Empty = 0.8, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (29 seconds)
-Running simulation 199/270 (Dim = 30, Empty = 0.8, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (29 seconds)
-Running simulation 200/270 (Dim = 30, Empty = 0.8, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (29 seconds)
-Running simulation 201/270 (Dim = 30, Empty = 0.8, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (28 seconds)
-Running simulation 202/270 (Dim = 30, Empty = 0.8, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (28 seconds)
-Running simulation 203/270 (Dim = 30, Empty = 0.8, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (27 seconds)
-Running simulation 204/270 (Dim = 30, Empty = 0.8, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (27 seconds)
-Running simulation 205/270 (Dim = 30, Empty = 0.8, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (26 seconds)
-Running simulation 206/270 (Dim = 30, Empty = 0.8, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (26 seconds)
-Running simulation 207/270 (Dim = 30, Empty = 0.8, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (26 seconds)
-Running simulation 208/270 (Dim = 30, Empty = 0.8, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (25 seconds)
-Running simulation 209/270 (Dim = 30, Empty = 0.8, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (25 seconds)
-Running simulation 210/270 (Dim = 30, Empty = 0.8, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (25 seconds)
-Running simulation 211/270 (Dim = 30, Empty = 0.9, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (23 seconds)
-Running simulation 212/270 (Dim = 30, Empty = 0.9, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (23 seconds)
-Running simulation 213/270 (Dim = 30, Empty = 0.9, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (23 seconds)
-Running simulation 214/270 (Dim = 30, Empty = 0.9, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (22 seconds)
-Running simulation 215/270 (Dim = 30, Empty = 0.9, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (22 seconds)
-Running simulation 216/270 (Dim = 30, Empty = 0.9, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (22 seconds)
-Running simulation 217/270 (Dim = 30, Empty = 0.9, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (21 seconds)
-Running simulation 218/270 (Dim = 30, Empty = 0.9, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (21 seconds)
-Running simulation 219/270 (Dim = 30, Empty = 0.9, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (21 seconds)
-Running simulation 220/270 (Dim = 30, Empty = 0.9, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (20 seconds)
-Running simulation 221/270 (Dim = 30, Empty = 0.9, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (19 seconds)
-Running simulation 222/270 (Dim = 30, Empty = 0.9, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (19 seconds)
-Running simulation 223/270 (Dim = 30, Empty = 0.9, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (19 seconds)
-Running simulation 224/270 (Dim = 30, Empty = 0.9, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (18 seconds)
-Running simulation 225/270 (Dim = 30, Empty = 0.9, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (18 seconds)
-Running simulation 226/270 (Dim = 30, Empty = 0.9, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (18 seconds)
-Running simulation 227/270 (Dim = 30, Empty = 0.9, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (17 seconds)
-Running simulation 228/270 (Dim = 30, Empty = 0.9, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (16 seconds)
-Running simulation 229/270 (Dim = 30, Empty = 0.9, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (16 seconds)
-Running simulation 230/270 (Dim = 30, Empty = 0.9, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (16 seconds)
-Running simulation 231/270 (Dim = 30, Empty = 0.9, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (15 seconds)
-Running simulation 232/270 (Dim = 30, Empty = 0.9, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (15 seconds)
-Running simulation 233/270 (Dim = 30, Empty = 0.9, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (15 seconds)
-Running simulation 234/270 (Dim = 30, Empty = 0.9, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (15 seconds)
-Running simulation 235/270 (Dim = 30, Empty = 0.9, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (14 seconds)
-Running simulation 236/270 (Dim = 30, Empty = 0.9, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (14 seconds)
-Running simulation 237/270 (Dim = 30, Empty = 0.9, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (14 seconds)
-Running simulation 238/270 (Dim = 30, Empty = 0.9, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (13 seconds)
-Running simulation 239/270 (Dim = 30, Empty = 0.9, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (13 seconds)
-Running simulation 240/270 (Dim = 30, Empty = 0.9, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (12 seconds)
-Running simulation 241/270 (Dim = 30, Empty = 1.0, repetition 1/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (11 seconds)
-Running simulation 242/270 (Dim = 30, Empty = 1.0, repetition 2/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (11 seconds)
-Running simulation 243/270 (Dim = 30, Empty = 1.0, repetition 3/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (11 seconds)
-Running simulation 244/270 (Dim = 30, Empty = 1.0, repetition 4/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (10 seconds)
-Running simulation 245/270 (Dim = 30, Empty = 1.0, repetition 5/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (10 seconds)
-Running simulation 246/270 (Dim = 30, Empty = 1.0, repetition 6/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (10 seconds)
-Running simulation 247/270 (Dim = 30, Empty = 1.0, repetition 7/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (9 seconds)
-Running simulation 248/270 (Dim = 30, Empty = 1.0, repetition 8/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (9 seconds)
-Running simulation 249/270 (Dim = 30, Empty = 1.0, repetition 9/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (8 seconds)
-Running simulation 250/270 (Dim = 30, Empty = 1.0, repetition 10/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (8 seconds)
-Running simulation 251/270 (Dim = 30, Empty = 1.0, repetition 11/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (7 seconds)
-Running simulation 252/270 (Dim = 30, Empty = 1.0, repetition 12/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (7 seconds)
-Running simulation 253/270 (Dim = 30, Empty = 1.0, repetition 13/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (7 seconds)
-Running simulation 254/270 (Dim = 30, Empty = 1.0, repetition 14/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (6 seconds)
-Running simulation 255/270 (Dim = 30, Empty = 1.0, repetition 15/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (6 seconds)
-Running simulation 256/270 (Dim = 30, Empty = 1.0, repetition 16/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (6 seconds)
-Running simulation 257/270 (Dim = 30, Empty = 1.0, repetition 17/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (5 seconds)
-Running simulation 258/270 (Dim = 30, Empty = 1.0, repetition 18/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (5 seconds)
-Running simulation 259/270 (Dim = 30, Empty = 1.0, repetition 19/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (5 seconds)
-Running simulation 260/270 (Dim = 30, Empty = 1.0, repetition 20/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (4 seconds)
-Running simulation 261/270 (Dim = 30, Empty = 1.0, repetition 21/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (4 seconds)
-Running simulation 262/270 (Dim = 30, Empty = 1.0, repetition 22/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (3 seconds)
-Running simulation 263/270 (Dim = 30, Empty = 1.0, repetition 23/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (3 seconds)
-Running simulation 264/270 (Dim = 30, Empty = 1.0, repetition 24/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (2 seconds)
-Running simulation 265/270 (Dim = 30, Empty = 1.0, repetition 25/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (2 seconds)
-Running simulation 266/270 (Dim = 30, Empty = 1.0, repetition 26/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (2 seconds)
-Running simulation 267/270 (Dim = 30, Empty = 1.0, repetition 27/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 second)
-Running simulation 268/270 (Dim = 30, Empty = 1.0, repetition 28/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 second)
-Running simulation 269/270 (Dim = 30, Empty = 1.0, repetition 29/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (1 second)
-Running simulation 270/270 (Dim = 30, Empty = 1.0, repetition 30/30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:07 (less than one second)
-Average forest in the end of 270 simulations: 184.81111111111
+Estimated time to finish all simulations: 10:02 (1 minute and 23 seconds)
+Running simulation 15/405 (Dim = 30, Empty = 0.22, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 44 seconds)
+Running simulation 16/405 (Dim = 30, Empty = 0.23, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 37 seconds)
+Running simulation 17/405 (Dim = 30, Empty = 0.23, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 31 seconds)
+Running simulation 18/405 (Dim = 30, Empty = 0.23, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 26 seconds)
+Running simulation 19/405 (Dim = 30, Empty = 0.23, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 41 seconds)
+Running simulation 20/405 (Dim = 30, Empty = 0.23, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 36 seconds)
+Running simulation 21/405 (Dim = 30, Empty = 0.24, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 31 seconds)
+Running simulation 22/405 (Dim = 30, Empty = 0.24, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 44 seconds)
+Running simulation 23/405 (Dim = 30, Empty = 0.24, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 39 seconds)
+Running simulation 24/405 (Dim = 30, Empty = 0.24, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 35 seconds)
+Running simulation 25/405 (Dim = 30, Empty = 0.24, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 31 seconds)
+Running simulation 26/405 (Dim = 30, Empty = 0.25, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 42 seconds)
+Running simulation 27/405 (Dim = 30, Empty = 0.25, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 38 seconds)
+Running simulation 28/405 (Dim = 30, Empty = 0.25, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 34 seconds)
+Running simulation 29/405 (Dim = 30, Empty = 0.25, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 30 seconds)
+Running simulation 30/405 (Dim = 30, Empty = 0.25, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 40 seconds)
+Running simulation 31/405 (Dim = 30, Empty = 0.26, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 36 seconds)
+Running simulation 32/405 (Dim = 30, Empty = 0.26, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 33 seconds)
+Running simulation 33/405 (Dim = 30, Empty = 0.26, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 41 seconds)
+Running simulation 34/405 (Dim = 30, Empty = 0.26, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 38 seconds)
+Running simulation 35/405 (Dim = 30, Empty = 0.26, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 35 seconds)
+Running simulation 36/405 (Dim = 30, Empty = 0.27, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 37/405 (Dim = 30, Empty = 0.27, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 39 seconds)
+Running simulation 38/405 (Dim = 30, Empty = 0.27, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 36 seconds)
+Running simulation 39/405 (Dim = 30, Empty = 0.27, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 33 seconds)
+Running simulation 40/405 (Dim = 30, Empty = 0.27, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 31 seconds)
+Running simulation 41/405 (Dim = 30, Empty = 0.28, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 37 seconds)
+Running simulation 42/405 (Dim = 30, Empty = 0.28, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 35 seconds)
+Running simulation 43/405 (Dim = 30, Empty = 0.28, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 44/405 (Dim = 30, Empty = 0.28, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 38 seconds)
+Running simulation 45/405 (Dim = 30, Empty = 0.28, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 36 seconds)
+Running simulation 46/405 (Dim = 30, Empty = 0.29, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 33 seconds)
+Running simulation 47/405 (Dim = 30, Empty = 0.29, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 31 seconds)
+Running simulation 48/405 (Dim = 30, Empty = 0.29, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:02 (1 minute and 36 seconds)
+Running simulation 49/405 (Dim = 30, Empty = 0.29, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 34 seconds)
+Running simulation 50/405 (Dim = 30, Empty = 0.29, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 51/405 (Dim = 30, Empty = 0.3, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 37 seconds)
+Running simulation 52/405 (Dim = 30, Empty = 0.3, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 35 seconds)
+Running simulation 53/405 (Dim = 30, Empty = 0.3, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 54/405 (Dim = 30, Empty = 0.3, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 37 seconds)
+Running simulation 55/405 (Dim = 30, Empty = 0.3, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 35 seconds)
+Running simulation 56/405 (Dim = 30, Empty = 0.31, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 33 seconds)
+Running simulation 57/405 (Dim = 30, Empty = 0.31, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 37 seconds)
+Running simulation 58/405 (Dim = 30, Empty = 0.31, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 59/405 (Dim = 30, Empty = 0.31, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 33 seconds)
+Running simulation 60/405 (Dim = 30, Empty = 0.31, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 61/405 (Dim = 30, Empty = 0.32, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 62/405 (Dim = 30, Empty = 0.32, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 34 seconds)
+Running simulation 63/405 (Dim = 30, Empty = 0.32, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 64/405 (Dim = 30, Empty = 0.32, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 65/405 (Dim = 30, Empty = 0.32, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 34 seconds)
+Running simulation 66/405 (Dim = 30, Empty = 0.33, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:02 (1 minute and 32 seconds)
+Running simulation 67/405 (Dim = 30, Empty = 0.33, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 68/405 (Dim = 30, Empty = 0.33, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 34 seconds)
+Running simulation 69/405 (Dim = 30, Empty = 0.33, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 70/405 (Dim = 30, Empty = 0.33, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 71/405 (Dim = 30, Empty = 0.34, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 34 seconds)
+Running simulation 72/405 (Dim = 30, Empty = 0.34, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 73/405 (Dim = 30, Empty = 0.34, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 74/405 (Dim = 30, Empty = 0.34, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 75/405 (Dim = 30, Empty = 0.34, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 76/405 (Dim = 30, Empty = 0.35, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 35 seconds)
+Running simulation 77/405 (Dim = 30, Empty = 0.35, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 78/405 (Dim = 30, Empty = 0.35, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 79/405 (Dim = 30, Empty = 0.35, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 80/405 (Dim = 30, Empty = 0.35, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 81/405 (Dim = 30, Empty = 0.36, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 82/405 (Dim = 30, Empty = 0.36, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 83/405 (Dim = 30, Empty = 0.36, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 84/405 (Dim = 30, Empty = 0.36, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 31 seconds)
+Running simulation 85/405 (Dim = 30, Empty = 0.36, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 86/405 (Dim = 30, Empty = 0.37, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 87/405 (Dim = 30, Empty = 0.37, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 31 seconds)
+Running simulation 88/405 (Dim = 30, Empty = 0.37, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 89/405 (Dim = 30, Empty = 0.37, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 90/405 (Dim = 30, Empty = 0.37, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 91/405 (Dim = 30, Empty = 0.38, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 33 seconds)
+Running simulation 92/405 (Dim = 30, Empty = 0.38, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 31 seconds)
+Running simulation 93/405 (Dim = 30, Empty = 0.38, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 94/405 (Dim = 30, Empty = 0.38, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 95/405 (Dim = 30, Empty = 0.38, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 31 seconds)
+Running simulation 96/405 (Dim = 30, Empty = 0.39, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 97/405 (Dim = 30, Empty = 0.39, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 32 seconds)
+Running simulation 98/405 (Dim = 30, Empty = 0.39, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 99/405 (Dim = 30, Empty = 0.39, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 100/405 (Dim = 30, Empty = 0.39, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 31 seconds)
+Running simulation 101/405 (Dim = 30, Empty = 0.4, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 102/405 (Dim = 30, Empty = 0.4, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 103/405 (Dim = 30, Empty = 0.4, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 104/405 (Dim = 30, Empty = 0.4, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 105/405 (Dim = 30, Empty = 0.4, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 106/405 (Dim = 30, Empty = 0.41, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 30 seconds)
+Running simulation 107/405 (Dim = 30, Empty = 0.41, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 108/405 (Dim = 30, Empty = 0.41, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 109/405 (Dim = 30, Empty = 0.41, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 110/405 (Dim = 30, Empty = 0.41, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 111/405 (Dim = 30, Empty = 0.42, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 112/405 (Dim = 30, Empty = 0.42, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 113/405 (Dim = 30, Empty = 0.42, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 114/405 (Dim = 30, Empty = 0.42, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 29 seconds)
+Running simulation 115/405 (Dim = 30, Empty = 0.42, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 116/405 (Dim = 30, Empty = 0.43, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 117/405 (Dim = 30, Empty = 0.43, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 118/405 (Dim = 30, Empty = 0.43, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 119/405 (Dim = 30, Empty = 0.43, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 120/405 (Dim = 30, Empty = 0.43, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 121/405 (Dim = 30, Empty = 0.44, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 122/405 (Dim = 30, Empty = 0.44, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 28 seconds)
+Running simulation 123/405 (Dim = 30, Empty = 0.44, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 124/405 (Dim = 30, Empty = 0.44, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 125/405 (Dim = 30, Empty = 0.44, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 27 seconds)
+Running simulation 126/405 (Dim = 30, Empty = 0.45, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 127/405 (Dim = 30, Empty = 0.45, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 128/405 (Dim = 30, Empty = 0.45, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 129/405 (Dim = 30, Empty = 0.45, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 130/405 (Dim = 30, Empty = 0.45, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 131/405 (Dim = 30, Empty = 0.46, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 132/405 (Dim = 30, Empty = 0.46, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 24 seconds)
+Running simulation 133/405 (Dim = 30, Empty = 0.46, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 134/405 (Dim = 30, Empty = 0.46, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 24 seconds)
+Running simulation 135/405 (Dim = 30, Empty = 0.46, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 26 seconds)
+Running simulation 136/405 (Dim = 30, Empty = 0.47, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 137/405 (Dim = 30, Empty = 0.47, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 24 seconds)
+Running simulation 138/405 (Dim = 30, Empty = 0.47, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 25 seconds)
+Running simulation 139/405 (Dim = 30, Empty = 0.47, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 24 seconds)
+Running simulation 140/405 (Dim = 30, Empty = 0.47, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 23 seconds)
+Running simulation 141/405 (Dim = 30, Empty = 0.48, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 24 seconds)
+Running simulation 142/405 (Dim = 30, Empty = 0.48, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 23 seconds)
+Running simulation 143/405 (Dim = 30, Empty = 0.48, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 22 seconds)
+Running simulation 144/405 (Dim = 30, Empty = 0.48, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 23 seconds)
+Running simulation 145/405 (Dim = 30, Empty = 0.48, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 22 seconds)
+Running simulation 146/405 (Dim = 30, Empty = 0.49, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 23 seconds)
+Running simulation 147/405 (Dim = 30, Empty = 0.49, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 22 seconds)
+Running simulation 148/405 (Dim = 30, Empty = 0.49, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 21 seconds)
+Running simulation 149/405 (Dim = 30, Empty = 0.49, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 22 seconds)
+Running simulation 150/405 (Dim = 30, Empty = 0.49, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 21 seconds)
+Running simulation 151/405 (Dim = 30, Empty = 0.5, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 20 seconds)
+Running simulation 152/405 (Dim = 30, Empty = 0.5, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 21 seconds)
+Running simulation 153/405 (Dim = 30, Empty = 0.5, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 20 seconds)
+Running simulation 154/405 (Dim = 30, Empty = 0.5, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 21 seconds)
+Running simulation 155/405 (Dim = 30, Empty = 0.5, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 20 seconds)
+Running simulation 156/405 (Dim = 30, Empty = 0.51, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 19 seconds)
+Running simulation 157/405 (Dim = 30, Empty = 0.51, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 20 seconds)
+Running simulation 158/405 (Dim = 30, Empty = 0.51, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 19 seconds)
+Running simulation 159/405 (Dim = 30, Empty = 0.51, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 18 seconds)
+Running simulation 160/405 (Dim = 30, Empty = 0.51, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 18 seconds)
+Running simulation 161/405 (Dim = 30, Empty = 0.52, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 17 seconds)
+Running simulation 162/405 (Dim = 30, Empty = 0.52, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 18 seconds)
+Running simulation 163/405 (Dim = 30, Empty = 0.52, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 17 seconds)
+Running simulation 164/405 (Dim = 30, Empty = 0.52, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 16 seconds)
+Running simulation 165/405 (Dim = 30, Empty = 0.52, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 17 seconds)
+Running simulation 166/405 (Dim = 30, Empty = 0.53, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 16 seconds)
+Running simulation 167/405 (Dim = 30, Empty = 0.53, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 15 seconds)
+Running simulation 168/405 (Dim = 30, Empty = 0.53, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 16 seconds)
+Running simulation 169/405 (Dim = 30, Empty = 0.53, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 15 seconds)
+Running simulation 170/405 (Dim = 30, Empty = 0.53, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 16 seconds)
+Running simulation 171/405 (Dim = 30, Empty = 0.54, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 15 seconds)
+Running simulation 172/405 (Dim = 30, Empty = 0.54, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 14 seconds)
+Running simulation 173/405 (Dim = 30, Empty = 0.54, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 15 seconds)
+Running simulation 174/405 (Dim = 30, Empty = 0.54, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 14 seconds)
+Running simulation 175/405 (Dim = 30, Empty = 0.54, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 13 seconds)
+Running simulation 176/405 (Dim = 30, Empty = 0.55, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 14 seconds)
+Running simulation 177/405 (Dim = 30, Empty = 0.55, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 13 seconds)
+Running simulation 178/405 (Dim = 30, Empty = 0.55, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 13 seconds)
+Running simulation 179/405 (Dim = 30, Empty = 0.55, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 13 seconds)
+Running simulation 180/405 (Dim = 30, Empty = 0.55, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 12 seconds)
+Running simulation 181/405 (Dim = 30, Empty = 0.56, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 13 seconds)
+Running simulation 182/405 (Dim = 30, Empty = 0.56, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 12 seconds)
+Running simulation 183/405 (Dim = 30, Empty = 0.56, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 11 seconds)
+Running simulation 184/405 (Dim = 30, Empty = 0.56, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 12 seconds)
+Running simulation 185/405 (Dim = 30, Empty = 0.56, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 11 seconds)
+Running simulation 186/405 (Dim = 30, Empty = 0.57, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 10 seconds)
+Running simulation 187/405 (Dim = 30, Empty = 0.57, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 11 seconds)
+Running simulation 188/405 (Dim = 30, Empty = 0.57, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 10 seconds)
+Running simulation 189/405 (Dim = 30, Empty = 0.57, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 10 seconds)
+Running simulation 190/405 (Dim = 30, Empty = 0.57, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 10 seconds)
+Running simulation 191/405 (Dim = 30, Empty = 0.58, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 9 seconds)
+Running simulation 192/405 (Dim = 30, Empty = 0.58, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 9 seconds)
+Running simulation 193/405 (Dim = 30, Empty = 0.58, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 9 seconds)
+Running simulation 194/405 (Dim = 30, Empty = 0.58, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 8 seconds)
+Running simulation 195/405 (Dim = 30, Empty = 0.58, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 8 seconds)
+Running simulation 196/405 (Dim = 30, Empty = 0.59, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 8 seconds)
+Running simulation 197/405 (Dim = 30, Empty = 0.59, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 8 seconds)
+Running simulation 198/405 (Dim = 30, Empty = 0.59, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 7 seconds)
+Running simulation 199/405 (Dim = 30, Empty = 0.59, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 7 seconds)
+Running simulation 200/405 (Dim = 30, Empty = 0.59, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 7 seconds)
+Running simulation 201/405 (Dim = 30, Empty = 0.6, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 6 seconds)
+Running simulation 202/405 (Dim = 30, Empty = 0.6, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 6 seconds)
+Running simulation 203/405 (Dim = 30, Empty = 0.6, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 6 seconds)
+Running simulation 204/405 (Dim = 30, Empty = 0.6, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 6 seconds)
+Running simulation 205/405 (Dim = 30, Empty = 0.6, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 5 seconds)
+Running simulation 206/405 (Dim = 30, Empty = 0.61, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 5 seconds)
+Running simulation 207/405 (Dim = 30, Empty = 0.61, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 5 seconds)
+Running simulation 208/405 (Dim = 30, Empty = 0.61, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 5 seconds)
+Running simulation 209/405 (Dim = 30, Empty = 0.61, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 4 seconds)
+Running simulation 210/405 (Dim = 30, Empty = 0.61, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 4 seconds)
+Running simulation 211/405 (Dim = 30, Empty = 0.62, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 4 seconds)
+Running simulation 212/405 (Dim = 30, Empty = 0.62, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 3 seconds)
+Running simulation 213/405 (Dim = 30, Empty = 0.62, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 3 seconds)
+Running simulation 214/405 (Dim = 30, Empty = 0.62, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 3 seconds)
+Running simulation 215/405 (Dim = 30, Empty = 0.62, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 2 seconds)
+Running simulation 216/405 (Dim = 30, Empty = 0.63, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 2 seconds)
+Running simulation 217/405 (Dim = 30, Empty = 0.63, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 2 seconds)
+Running simulation 218/405 (Dim = 30, Empty = 0.63, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 1 second)
+Running simulation 219/405 (Dim = 30, Empty = 0.63, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute and 1 second)
+Running simulation 220/405 (Dim = 30, Empty = 0.63, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute and 1 second)
+Running simulation 221/405 (Dim = 30, Empty = 0.64, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute)
+Running simulation 222/405 (Dim = 30, Empty = 0.64, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 minute)
+Running simulation 223/405 (Dim = 30, Empty = 0.64, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 minute)
+Running simulation 224/405 (Dim = 30, Empty = 0.64, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (59 seconds)
+Running simulation 225/405 (Dim = 30, Empty = 0.64, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (59 seconds)
+Running simulation 226/405 (Dim = 30, Empty = 0.65, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (59 seconds)
+Running simulation 227/405 (Dim = 30, Empty = 0.65, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (58 seconds)
+Running simulation 228/405 (Dim = 30, Empty = 0.65, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (59 seconds)
+Running simulation 229/405 (Dim = 30, Empty = 0.65, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (58 seconds)
+Running simulation 230/405 (Dim = 30, Empty = 0.65, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (57 seconds)
+Running simulation 231/405 (Dim = 30, Empty = 0.66, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (58 seconds)
+Running simulation 232/405 (Dim = 30, Empty = 0.66, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (57 seconds)
+Running simulation 233/405 (Dim = 30, Empty = 0.66, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (56 seconds)
+Running simulation 234/405 (Dim = 30, Empty = 0.66, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (57 seconds)
+Running simulation 235/405 (Dim = 30, Empty = 0.66, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (56 seconds)
+Running simulation 236/405 (Dim = 30, Empty = 0.67, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (55 seconds)
+Running simulation 237/405 (Dim = 30, Empty = 0.67, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (56 seconds)
+Running simulation 238/405 (Dim = 30, Empty = 0.67, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (55 seconds)
+Running simulation 239/405 (Dim = 30, Empty = 0.67, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (54 seconds)
+Running simulation 240/405 (Dim = 30, Empty = 0.67, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (55 seconds)
+Running simulation 241/405 (Dim = 30, Empty = 0.68, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (54 seconds)
+Running simulation 242/405 (Dim = 30, Empty = 0.68, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (53 seconds)
+Running simulation 243/405 (Dim = 30, Empty = 0.68, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (54 seconds)
+Running simulation 244/405 (Dim = 30, Empty = 0.68, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (53 seconds)
+Running simulation 245/405 (Dim = 30, Empty = 0.68, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (52 seconds)
+Running simulation 246/405 (Dim = 30, Empty = 0.69, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (53 seconds)
+Running simulation 247/405 (Dim = 30, Empty = 0.69, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (52 seconds)
+Running simulation 248/405 (Dim = 30, Empty = 0.69, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (51 seconds)
+Running simulation 249/405 (Dim = 30, Empty = 0.69, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (52 seconds)
+Running simulation 250/405 (Dim = 30, Empty = 0.69, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (51 seconds)
+Running simulation 251/405 (Dim = 30, Empty = 0.7, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (50 seconds)
+Running simulation 252/405 (Dim = 30, Empty = 0.7, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (51 seconds)
+Running simulation 253/405 (Dim = 30, Empty = 0.7, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (50 seconds)
+Running simulation 254/405 (Dim = 30, Empty = 0.7, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (49 seconds)
+Running simulation 255/405 (Dim = 30, Empty = 0.7, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (50 seconds)
+Running simulation 256/405 (Dim = 30, Empty = 0.71, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (49 seconds)
+Running simulation 257/405 (Dim = 30, Empty = 0.71, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (49 seconds)
+Running simulation 258/405 (Dim = 30, Empty = 0.71, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (49 seconds)
+Running simulation 259/405 (Dim = 30, Empty = 0.71, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (48 seconds)
+Running simulation 260/405 (Dim = 30, Empty = 0.71, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (48 seconds)
+Running simulation 261/405 (Dim = 30, Empty = 0.72, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (48 seconds)
+Running simulation 262/405 (Dim = 30, Empty = 0.72, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (47 seconds)
+Running simulation 263/405 (Dim = 30, Empty = 0.72, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (47 seconds)
+Running simulation 264/405 (Dim = 30, Empty = 0.72, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (47 seconds)
+Running simulation 265/405 (Dim = 30, Empty = 0.72, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (46 seconds)
+Running simulation 266/405 (Dim = 30, Empty = 0.73, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (46 seconds)
+Running simulation 267/405 (Dim = 30, Empty = 0.73, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (46 seconds)
+Running simulation 268/405 (Dim = 30, Empty = 0.73, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (45 seconds)
+Running simulation 269/405 (Dim = 30, Empty = 0.73, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (45 seconds)
+Running simulation 270/405 (Dim = 30, Empty = 0.73, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (45 seconds)
+Running simulation 271/405 (Dim = 30, Empty = 0.74, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (44 seconds)
+Running simulation 272/405 (Dim = 30, Empty = 0.74, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (44 seconds)
+Running simulation 273/405 (Dim = 30, Empty = 0.74, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (44 seconds)
+Running simulation 274/405 (Dim = 30, Empty = 0.74, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (43 seconds)
+Running simulation 275/405 (Dim = 30, Empty = 0.74, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (43 seconds)
+Running simulation 276/405 (Dim = 30, Empty = 0.75, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (43 seconds)
+Running simulation 277/405 (Dim = 30, Empty = 0.75, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (42 seconds)
+Running simulation 278/405 (Dim = 30, Empty = 0.75, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (42 seconds)
+Running simulation 279/405 (Dim = 30, Empty = 0.75, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (42 seconds)
+Running simulation 280/405 (Dim = 30, Empty = 0.75, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (41 seconds)
+Running simulation 281/405 (Dim = 30, Empty = 0.76, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (41 seconds)
+Running simulation 282/405 (Dim = 30, Empty = 0.76, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (41 seconds)
+Running simulation 283/405 (Dim = 30, Empty = 0.76, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (40 seconds)
+Running simulation 284/405 (Dim = 30, Empty = 0.76, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (40 seconds)
+Running simulation 285/405 (Dim = 30, Empty = 0.76, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (40 seconds)
+Running simulation 286/405 (Dim = 30, Empty = 0.77, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (39 seconds)
+Running simulation 287/405 (Dim = 30, Empty = 0.77, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (39 seconds)
+Running simulation 288/405 (Dim = 30, Empty = 0.77, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (39 seconds)
+Running simulation 289/405 (Dim = 30, Empty = 0.77, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (38 seconds)
+Running simulation 290/405 (Dim = 30, Empty = 0.77, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (38 seconds)
+Running simulation 291/405 (Dim = 30, Empty = 0.78, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (38 seconds)
+Running simulation 292/405 (Dim = 30, Empty = 0.78, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (37 seconds)
+Running simulation 293/405 (Dim = 30, Empty = 0.78, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (37 seconds)
+Running simulation 294/405 (Dim = 30, Empty = 0.78, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (37 seconds)
+Running simulation 295/405 (Dim = 30, Empty = 0.78, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (36 seconds)
+Running simulation 296/405 (Dim = 30, Empty = 0.79, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (36 seconds)
+Running simulation 297/405 (Dim = 30, Empty = 0.79, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (36 seconds)
+Running simulation 298/405 (Dim = 30, Empty = 0.79, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (35 seconds)
+Running simulation 299/405 (Dim = 30, Empty = 0.79, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (35 seconds)
+Running simulation 300/405 (Dim = 30, Empty = 0.79, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (34 seconds)
+Running simulation 301/405 (Dim = 30, Empty = 0.8, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (34 seconds)
+Running simulation 302/405 (Dim = 30, Empty = 0.8, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (34 seconds)
+Running simulation 303/405 (Dim = 30, Empty = 0.8, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (33 seconds)
+Running simulation 304/405 (Dim = 30, Empty = 0.8, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (33 seconds)
+Running simulation 305/405 (Dim = 30, Empty = 0.8, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (33 seconds)
+Running simulation 306/405 (Dim = 30, Empty = 0.81, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (32 seconds)
+Running simulation 307/405 (Dim = 30, Empty = 0.81, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (32 seconds)
+Running simulation 308/405 (Dim = 30, Empty = 0.81, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (32 seconds)
+Running simulation 309/405 (Dim = 30, Empty = 0.81, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (31 seconds)
+Running simulation 310/405 (Dim = 30, Empty = 0.81, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (31 seconds)
+Running simulation 311/405 (Dim = 30, Empty = 0.82, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (31 seconds)
+Running simulation 312/405 (Dim = 30, Empty = 0.82, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (30 seconds)
+Running simulation 313/405 (Dim = 30, Empty = 0.82, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (30 seconds)
+Running simulation 314/405 (Dim = 30, Empty = 0.82, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (30 seconds)
+Running simulation 315/405 (Dim = 30, Empty = 0.82, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (29 seconds)
+Running simulation 316/405 (Dim = 30, Empty = 0.83, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (29 seconds)
+Running simulation 317/405 (Dim = 30, Empty = 0.83, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (29 seconds)
+Running simulation 318/405 (Dim = 30, Empty = 0.83, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (28 seconds)
+Running simulation 319/405 (Dim = 30, Empty = 0.83, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (28 seconds)
+Running simulation 320/405 (Dim = 30, Empty = 0.83, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (28 seconds)
+Running simulation 321/405 (Dim = 30, Empty = 0.84, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (27 seconds)
+Running simulation 322/405 (Dim = 30, Empty = 0.84, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (27 seconds)
+Running simulation 323/405 (Dim = 30, Empty = 0.84, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (27 seconds)
+Running simulation 324/405 (Dim = 30, Empty = 0.84, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (26 seconds)
+Running simulation 325/405 (Dim = 30, Empty = 0.84, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (26 seconds)
+Running simulation 326/405 (Dim = 30, Empty = 0.85, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (26 seconds)
+Running simulation 327/405 (Dim = 30, Empty = 0.85, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (25 seconds)
+Running simulation 328/405 (Dim = 30, Empty = 0.85, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (25 seconds)
+Running simulation 329/405 (Dim = 30, Empty = 0.85, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (25 seconds)
+Running simulation 330/405 (Dim = 30, Empty = 0.85, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (24 seconds)
+Running simulation 331/405 (Dim = 30, Empty = 0.86, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (24 seconds)
+Running simulation 332/405 (Dim = 30, Empty = 0.86, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (24 seconds)
+Running simulation 333/405 (Dim = 30, Empty = 0.86, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (23 seconds)
+Running simulation 334/405 (Dim = 30, Empty = 0.86, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (23 seconds)
+Running simulation 335/405 (Dim = 30, Empty = 0.86, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (23 seconds)
+Running simulation 336/405 (Dim = 30, Empty = 0.87, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (22 seconds)
+Running simulation 337/405 (Dim = 30, Empty = 0.87, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (22 seconds)
+Running simulation 338/405 (Dim = 30, Empty = 0.87, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (22 seconds)
+Running simulation 339/405 (Dim = 30, Empty = 0.87, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (21 seconds)
+Running simulation 340/405 (Dim = 30, Empty = 0.87, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (21 seconds)
+Running simulation 341/405 (Dim = 30, Empty = 0.88, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (21 seconds)
+Running simulation 342/405 (Dim = 30, Empty = 0.88, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (20 seconds)
+Running simulation 343/405 (Dim = 30, Empty = 0.88, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (20 seconds)
+Running simulation 344/405 (Dim = 30, Empty = 0.88, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (20 seconds)
+Running simulation 345/405 (Dim = 30, Empty = 0.88, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (19 seconds)
+Running simulation 346/405 (Dim = 30, Empty = 0.89, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (19 seconds)
+Running simulation 347/405 (Dim = 30, Empty = 0.89, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (19 seconds)
+Running simulation 348/405 (Dim = 30, Empty = 0.89, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (18 seconds)
+Running simulation 349/405 (Dim = 30, Empty = 0.89, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (18 seconds)
+Running simulation 350/405 (Dim = 30, Empty = 0.89, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (18 seconds)
+Running simulation 351/405 (Dim = 30, Empty = 0.9, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (17 seconds)
+Running simulation 352/405 (Dim = 30, Empty = 0.9, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (17 seconds)
+Running simulation 353/405 (Dim = 30, Empty = 0.9, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (17 seconds)
+Running simulation 354/405 (Dim = 30, Empty = 0.9, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (16 seconds)
+Running simulation 355/405 (Dim = 30, Empty = 0.9, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (16 seconds)
+Running simulation 356/405 (Dim = 30, Empty = 0.91, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (16 seconds)
+Running simulation 357/405 (Dim = 30, Empty = 0.91, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (15 seconds)
+Running simulation 358/405 (Dim = 30, Empty = 0.91, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (15 seconds)
+Running simulation 359/405 (Dim = 30, Empty = 0.91, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (15 seconds)
+Running simulation 360/405 (Dim = 30, Empty = 0.91, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (14 seconds)
+Running simulation 361/405 (Dim = 30, Empty = 0.92, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (14 seconds)
+Running simulation 362/405 (Dim = 30, Empty = 0.92, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (14 seconds)
+Running simulation 363/405 (Dim = 30, Empty = 0.92, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (13 seconds)
+Running simulation 364/405 (Dim = 30, Empty = 0.92, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (13 seconds)
+Running simulation 365/405 (Dim = 30, Empty = 0.92, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (13 seconds)
+Running simulation 366/405 (Dim = 30, Empty = 0.93, repetition 1/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (12 seconds)
+Running simulation 367/405 (Dim = 30, Empty = 0.93, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (12 seconds)
+Running simulation 368/405 (Dim = 30, Empty = 0.93, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (12 seconds)
+Running simulation 369/405 (Dim = 30, Empty = 0.93, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (11 seconds)
+Running simulation 370/405 (Dim = 30, Empty = 0.93, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (11 seconds)
+Running simulation 371/405 (Dim = 30, Empty = 0.94, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (11 seconds)
+Running simulation 372/405 (Dim = 30, Empty = 0.94, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (10 seconds)
+Running simulation 373/405 (Dim = 30, Empty = 0.94, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (10 seconds)
+Running simulation 374/405 (Dim = 30, Empty = 0.94, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (10 seconds)
+Running simulation 375/405 (Dim = 30, Empty = 0.94, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (9 seconds)
+Running simulation 376/405 (Dim = 30, Empty = 0.95, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (9 seconds)
+Running simulation 377/405 (Dim = 30, Empty = 0.95, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (9 seconds)
+Running simulation 378/405 (Dim = 30, Empty = 0.95, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (8 seconds)
+Running simulation 379/405 (Dim = 30, Empty = 0.95, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (8 seconds)
+Running simulation 380/405 (Dim = 30, Empty = 0.95, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (8 seconds)
+Running simulation 381/405 (Dim = 30, Empty = 0.96, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (7 seconds)
+Running simulation 382/405 (Dim = 30, Empty = 0.96, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (7 seconds)
+Running simulation 383/405 (Dim = 30, Empty = 0.96, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (7 seconds)
+Running simulation 384/405 (Dim = 30, Empty = 0.96, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (6 seconds)
+Running simulation 385/405 (Dim = 30, Empty = 0.96, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (6 seconds)
+Running simulation 386/405 (Dim = 30, Empty = 0.97, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (6 seconds)
+Running simulation 387/405 (Dim = 30, Empty = 0.97, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (5 seconds)
+Running simulation 388/405 (Dim = 30, Empty = 0.97, repetition 3/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (5 seconds)
+Running simulation 389/405 (Dim = 30, Empty = 0.97, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (5 seconds)
+Running simulation 390/405 (Dim = 30, Empty = 0.97, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (4 seconds)
+Running simulation 391/405 (Dim = 30, Empty = 0.98, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (4 seconds)
+Running simulation 392/405 (Dim = 30, Empty = 0.98, repetition 2/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (4 seconds)
+Running simulation 393/405 (Dim = 30, Empty = 0.98, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (3 seconds)
+Running simulation 394/405 (Dim = 30, Empty = 0.98, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (3 seconds)
+Running simulation 395/405 (Dim = 30, Empty = 0.98, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (3 seconds)
+Running simulation 396/405 (Dim = 30, Empty = 0.99, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (2 seconds)
+Running simulation 397/405 (Dim = 30, Empty = 0.99, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (2 seconds)
+Running simulation 398/405 (Dim = 30, Empty = 0.99, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (2 seconds)
+Running simulation 399/405 (Dim = 30, Empty = 0.99, repetition 4/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 second)
+Running simulation 400/405 (Dim = 30, Empty = 0.99, repetition 5/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (1 second)
+Running simulation 401/405 (Dim = 30, Empty = 1, repetition 1/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (1 second)
+Running simulation 402/405 (Dim = 30, Empty = 1, repetition 2/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (less than one second)
+Running simulation 403/405 (Dim = 30, Empty = 1, repetition 3/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (less than one second)
+Running simulation 404/405 (Dim = 30, Empty = 1, repetition 4/5)
+Simulation finished in 1 second
+Estimated time to finish all simulations: 10:03 (less than one second)
+Running simulation 405/405 (Dim = 30, Empty = 1, repetition 5/5)
+Simulation finished in less than one second
+Estimated time to finish all simulations: 10:03 (less than one second)
+Average forest in the end of 405 simulations: 214.45679012346

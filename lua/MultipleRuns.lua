@@ -141,6 +141,28 @@ local function checkParameters(origModel, origParameters)
 	end
 end
 
+local function computeStringSimulations(variables, repeated, case, resultTable)
+	local stringSimulations = ""
+
+	forEachOrderedElement(variables, function(idx2, att2, typ2)
+		if typ2 ~= "table" then
+			table.insert(resultTable[idx2], att2)
+			stringSimulations = stringSimulations.."_"..idx2.."_"..att2
+		else
+			forEachOrderedElement(att2, function(idx3, att3, _)
+				table.insert(resultTable[idx2][idx3], att3)
+				stringSimulations = stringSimulations.."_"..idx2.."_"..idx3.."_"..att3
+			end)
+		end
+	end)
+
+	if repeated then
+		stringSimulations = stringSimulations.."_execution_"..case
+	end
+
+	return string.sub(stringSimulations, 2, string.len(stringSimulations))
+end
+
 local function testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
 	forEachElement(m, function(attr, value, typ)
 		if addFunctions[attr] ~= nil then
@@ -288,15 +310,19 @@ end
 local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 	if params[a].ranged then -- if the parameter uses a range of values
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
+			local mparameter = parameter
+
+			if mparameter > params[a].max then mparameter = params[a].max end
+
 			-- Giving the variables table the current parameter and value being tested.
 			if params[a].table == nil then
-				variables[params[a].id] = parameter
+				variables[params[a].id] = mparameter
 			else
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
 
-				variables[params[a].table][params[a].id] = parameter
+				variables[params[a].table][params[a].id] = mparameter
 			end
 
 			if a == #params then -- if all parameters have already been given a value to be tested.
@@ -322,22 +348,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						mVariables[idx] = attribute
 					end)
 
-					local stringSimulations = ""
-					if repeated == true then
-						stringSimulations = case.."_execution_"
-					end
-
-					forEachOrderedElement(variables, function (idx2, att2, typ2)
-						if typ2 ~= "table" then
-							table.insert(resultTable[idx2], att2)
-							stringSimulations = stringSimulations..idx2.."_"..att2.."_"
-						else
-							forEachOrderedElement(att2, function(idx3, att3)
-								table.insert(resultTable[idx2][idx3], att3)
-								stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
-							end)
-						end
-					end)
+					local stringSimulations = computeStringSimulations(variables, repeated, case, resultTable)
 
 					local testDir = folderDir
 					firstDir:setCurrentDir()
@@ -385,8 +396,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
@@ -420,6 +431,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				if variables[params[a].table] == nil then
 					variables[params[a].table] = {}
 				end
+
 				variables[params[a].table][params[a].id] = attribute
 			end
 
@@ -445,22 +457,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						mVariables[idx2] = attribute2
 					end)
 
-					local stringSimulations = ""
-					if repeated == true then
-						stringSimulations = case.."_execution_"
-					end
-
-					forEachOrderedElement(variables, function(idx2, att2, typ2)
-						if typ2 ~= "table" then
-							table.insert(resultTable[idx2], att2)
-							stringSimulations = stringSimulations..idx2.."_"..att2.."_"
-						else
-							forEachOrderedElement(att2, function(idx3, att3, _)
-								table.insert(resultTable[idx2][idx3], att3)
-								stringSimulations = stringSimulations..idx2.."_"..idx3.."_"..att3.."_"
-							end)
-						end
-					end)
+					local stringSimulations = computeStringSimulations(variables, repeated, case, resultTable)
 
 					local testDir = folderDir
 					firstDir:setCurrentDir()
@@ -508,8 +505,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					testDir:setCurrentDir()
 					table.insert(resultTable.simulations, stringSimulations)
 					if data.free then
@@ -851,15 +848,15 @@ function MultipleRuns(data)
 				end
 
 				for case = 1, repetition do
-					local stringSimulations = ""
+					local stringSimulations = tostring(quantity)
 					if repetition > 1 then
-						stringSimulations = case.."_execution_"
+						stringSimulations = stringSimulations.."_execution_"..case
 					end
 
 					Profiler():start("iteration")
 					numSimulation = numSimulation + 1
 					local sampleparams = {}
-					table.insert(resultTable.simulations, stringSimulations..quantity)
+					table.insert(resultTable.simulations, stringSimulations)
 					firstDir:setCurrentDir()
 					Profiler():start("simulation")
 					local log = {}
@@ -870,9 +867,9 @@ function MultipleRuns(data)
 
 					if data.folderName then
 						folderDir:setCurrentDir()
-						local dir = Directory(stringSimulations..quantity)
+						local dir = Directory(stringSimulations)
 						dir:create()
-						Directory(folderDir..s..stringSimulations..quantity):setCurrentDir()
+						Directory(folderDir..s..stringSimulations):setCurrentDir()
 					end
 
 					if data.showProgress then
@@ -905,8 +902,8 @@ function MultipleRuns(data)
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					forEachOrderedElement(data.parameters, function(idx2, att2, typ2)
 						if typ2 ~= "table" then
 							sampleparams[idx2] = m.idx2
@@ -975,14 +972,14 @@ function MultipleRuns(data)
 				end
 
 				for case = 1, repetition do
-					local stringSimulations = ""
+					local stringSimulations = idx
 					if repetition > 1 then
-						stringSimulations = case.."_execution_"
+						stringSimulations = stringSimulations.."_execution_"..case
 					end
 
 					Profiler():start("iteration")
 					numSimulation = numSimulation + 1
-					table.insert(resultTable.simulations, stringSimulations..idx)
+					table.insert(resultTable.simulations, stringSimulations)
 					firstDir:setCurrentDir()
 					Profiler():start("simulation")
 					local log = {}
@@ -993,9 +990,9 @@ function MultipleRuns(data)
 
 					if data.folderName then
 						folderDir:setCurrentDir()
-						local dir = Directory(stringSimulations..idx)
+						local dir = Directory(stringSimulations)
 						dir:create()
-						Directory(folderDir..s..stringSimulations..idx):setCurrentDir()
+						Directory(folderDir..s..stringSimulations):setCurrentDir()
 					end
 
 					if data.showProgress then
@@ -1028,8 +1025,8 @@ function MultipleRuns(data)
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
 					logfile:close()
-					clean()
 					testAddFunctions(resultTable, addFunctions, data, m, summaryResult)
+					clean()
 					forEachOrderedElement(data.parameters[idx], function(idx2, att2)
 						if resultTable[idx2] == nil then
 							resultTable[idx2] = {}

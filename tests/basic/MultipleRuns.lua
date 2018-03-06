@@ -225,7 +225,7 @@ return{
 
 		unitTest:assertEquals(m.output.x[1], -100)
 		unitTest:assertEquals(m.output.y[1], 1)
-		unitTest:assertEquals(m.output.simulations[1], 'finalTime_1_x_-100_y_1_')
+		unitTest:assertEquals(m.output.simulations[1], "finalTime_1_x_-100_y_1")
 
 		local mPosition = MultipleRuns{
 			model = MyModelPosition,
@@ -244,7 +244,7 @@ return{
 
 		unitTest:assertEquals(mPosition.output[1].position_x, -100)
 		unitTest:assertEquals(mPosition.output[1].position_y, 1)
-		unitTest:assertEquals(mPosition.output[1].simulations, 'finalTime_1_position_x_-100_position_y_1_')
+		unitTest:assertEquals(mPosition.output[1].simulations, "finalTime_1_position_x_-100_position_y_1")
 
 		local mQuant = MultipleRuns{
 			model = MyModelRandom,
@@ -261,8 +261,8 @@ return{
 			end
 		}
 
-		unitTest:assertEquals(mQuant.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
-		unitTest:assertEquals(mQuant.output[2].simulations, '2_execution_finalTime_1_x_-100_y_1_')
+		unitTest:assertEquals(mQuant.output[1].simulations, "finalTime_1_x_-100_y_1_execution_1")
+		unitTest:assertEquals(mQuant.output[2].simulations, "finalTime_1_x_-100_y_1_execution_2")
 
 		local mQuant2 = MultipleRuns{
 			model = MyModelRandom,
@@ -279,7 +279,7 @@ return{
 			end
 		}
 
-		unitTest:assertEquals(mQuant2.output[1].simulations, '1_execution_finalTime_1_x_-100_y_1_')
+		unitTest:assertEquals(mQuant2.output[1].simulations, "finalTime_1_x_-100_y_1_execution_1")
 
 		local mMan = MultipleRuns{
 			model = MyModel2,
@@ -297,7 +297,7 @@ return{
 
 		unitTest:assertEquals(mMan.output[1].x, -100)
 		unitTest:assertEquals(mMan.output[1].y2, 1)
-		unitTest:assertEquals(mMan.output[1].simulations, 'finalTime_1_x_-100_y2_1_')
+		unitTest:assertEquals(mMan.output[1].simulations, "finalTime_1_x_-100_y2_1")
 
 		local mMandChoiceTable = MultipleRuns{
 			model = MyModel2,
@@ -335,7 +335,7 @@ return{
 
 		unitTest:assertEquals(mTab.output[1].parameters3_x, -100)
 		unitTest:assertEquals(mTab.output[1].parameters3_y, 1)
-		unitTest:assertEquals(mTab.output[1].simulations, 'finalTime_1_parameters3_x_-100_parameters3_y_1_parameters3_z_1_')
+		unitTest:assertEquals(mTab.output[1].simulations, "finalTime_1_parameters3_x_-100_parameters3_y_1_parameters3_z_1")
 
 		local mTab2 = MultipleRuns{
 			model = MyModel3Inv,
@@ -373,7 +373,7 @@ return{
 
 		unitTest:assertEquals(mSingle.output[1].x, -100)
 		unitTest:assertEquals(mSingle.output[1].y, 1)
-		unitTest:assertEquals(mSingle.output[1].simulations, 'finalTime_1_x_-100_y_1_z_1_')
+		unitTest:assertEquals(mSingle.output[1].simulations, "finalTime_1_x_-100_y_1_z_1")
 
 		local m2 = MultipleRuns{
 			model = MyModel,
@@ -425,7 +425,7 @@ return{
 		unitTest:assertEquals(m3.output[1].y, 5)
 		unitTest:assertEquals(m3.output[2].y, 5)
 		unitTest:assertEquals(m3.output[3].y, 5)
-		unitTest:assertEquals(m3.output[1].simulations, "1_execution_scenario1")
+		unitTest:assertEquals(m3.output[1].simulations, "scenario1_execution_1")
 
 		local m3Tab = MultipleRuns{
 			model = MyModel3,
@@ -442,7 +442,7 @@ return{
 		unitTest:assertEquals(m3Tab.output[1].parameters3.y, 5)
 		unitTest:assertEquals(m3Tab.output[2].parameters3.y, 5)
 		unitTest:assertEquals(m3Tab.output[3].parameters3.y, 5)
-		unitTest:assertEquals(m3Tab.output[1].simulations, "1_execution_scenario1")
+		unitTest:assertEquals(m3Tab.output[1].simulations, "scenario1_execution_1")
 
 		local m4 = MultipleRuns{
 			model = MyModel,
@@ -484,16 +484,16 @@ return{
 				parameters3 = {
 					x = Choice{-100, -1, 0, 1, 2, 100},
 					y = Choice{min = 1, max = 10, step = 1},
-				z = 1
+					z = 1
 				},
 			},
 			quantity = 5,
 			repetition = 2
 		}
 
-		unitTest:assertEquals(m4Tab.output[5].simulations, "1_execution_3")
-		unitTest:assertEquals(m4Tab.output[6].simulations, "2_execution_3")
 		unitTest:assertEquals(m4Tab.output[1].simulations, "1_execution_1")
+		unitTest:assertEquals(m4Tab.output[5].simulations, "3_execution_1")
+		unitTest:assertEquals(m4Tab.output[6].simulations, "3_execution_2")
 
 		local summaryM1 = MultipleRuns{
 			model = MyModelRandom,
@@ -627,15 +627,15 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(fileExists("x_0_y_1_"))
-		unitTest:assert(fileExists("x_1_y_1_"))
-		unitTest:assert(fileExists("x_-1_y_1_"))
-		unitTest:assert(fileExists("x_0_y_2_"))
-		unitTest:assert(fileExists("x_1_y_2_"))
-		unitTest:assert(fileExists("x_-1_y_2_"))
-		unitTest:assert(fileExists("x_0_y_3_"))
-		unitTest:assert(fileExists("x_1_y_3_"))
-		unitTest:assert(fileExists("x_-1_y_3_"))
+		unitTest:assert(fileExists("x_0_y_1"))
+		unitTest:assert(fileExists("x_1_y_1"))
+		unitTest:assert(fileExists("x_-1_y_1"))
+		unitTest:assert(fileExists("x_0_y_2"))
+		unitTest:assert(fileExists("x_1_y_2"))
+		unitTest:assert(fileExists("x_-1_y_2"))
+		unitTest:assert(fileExists("x_0_y_3"))
+		unitTest:assert(fileExists("x_1_y_3"))
+		unitTest:assert(fileExists("x_-1_y_3"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel5,
@@ -647,12 +647,12 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(fileExists("1_execution_x_0_"))
-		unitTest:assert(fileExists("1_execution_x_1_"))
-		unitTest:assert(fileExists("1_execution_x_-1_"))
-		unitTest:assert(fileExists("2_execution_x_0_"))
-		unitTest:assert(fileExists("2_execution_x_1_"))
-		unitTest:assert(fileExists("2_execution_x_-1_"))
+		unitTest:assert(fileExists("x_0_execution_1"))
+		unitTest:assert(fileExists("x_-1_execution_1"))
+		unitTest:assert(fileExists("x_1_execution_1"))
+		unitTest:assert(fileExists("x_0_execution_2"))
+		unitTest:assert(fileExists("x_-1_execution_2"))
+		unitTest:assert(fileExists("x_1_execution_2"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel5,
@@ -665,14 +665,14 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(fileExists("1_execution_x_0_y_1_"))
-		unitTest:assert(fileExists("1_execution_x_0_y_2_"))
-		unitTest:assert(fileExists("1_execution_x_1_y_1_"))
-		unitTest:assert(fileExists("1_execution_x_1_y_2_"))
-		unitTest:assert(fileExists("2_execution_x_0_y_1_"))
-		unitTest:assert(fileExists("2_execution_x_0_y_2_"))
-		unitTest:assert(fileExists("2_execution_x_1_y_1_"))
-		unitTest:assert(fileExists("2_execution_x_1_y_2_"))
+		unitTest:assert(fileExists("x_0_y_1_execution_1"))
+		unitTest:assert(fileExists("x_0_y_2_execution_1"))
+		unitTest:assert(fileExists("x_1_y_1_execution_1"))
+		unitTest:assert(fileExists("x_1_y_2_execution_1"))
+		unitTest:assert(fileExists("x_0_y_1_execution_2"))
+		unitTest:assert(fileExists("x_0_y_2_execution_2"))
+		unitTest:assert(fileExists("x_1_y_1_execution_2"))
+		unitTest:assert(fileExists("x_1_y_2_execution_2"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 		MultipleRuns{
 			model = MyModel6,
@@ -685,14 +685,14 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(fileExists("1_execution_position_x_0_position_y_1_"))
-		unitTest:assert(fileExists("1_execution_position_x_0_position_y_2_"))
-		unitTest:assert(fileExists("1_execution_position_x_1_position_y_1_"))
-		unitTest:assert(fileExists("1_execution_position_x_1_position_y_2_"))
-		unitTest:assert(fileExists("2_execution_position_x_0_position_y_1_"))
-		unitTest:assert(fileExists("2_execution_position_x_0_position_y_2_"))
-		unitTest:assert(fileExists("2_execution_position_x_1_position_y_1_"))
-		unitTest:assert(fileExists("2_execution_position_x_1_position_y_2_"))
+		unitTest:assert(fileExists("position_x_0_position_y_1_execution_1"))
+		unitTest:assert(fileExists("position_x_0_position_y_2_execution_1"))
+		unitTest:assert(fileExists("position_x_1_position_y_1_execution_1"))
+		unitTest:assert(fileExists("position_x_1_position_y_2_execution_1"))
+		unitTest:assert(fileExists("position_x_0_position_y_1_execution_2"))
+		unitTest:assert(fileExists("position_x_0_position_y_2_execution_2"))
+		unitTest:assert(fileExists("position_x_1_position_y_1_execution_2"))
+		unitTest:assert(fileExists("position_x_1_position_y_2_execution_2"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
 		MultipleRuns{
@@ -708,12 +708,12 @@ return{
 			folderName = "results"
 		}
 
-		unitTest:assert(fileExists("1_execution_scenario1"))
-		unitTest:assert(fileExists("1_execution_scenario2"))
-		unitTest:assert(fileExists("1_execution_scenario3"))
-		unitTest:assert(fileExists("2_execution_scenario1"))
-		unitTest:assert(fileExists("2_execution_scenario2"))
-		unitTest:assert(fileExists("2_execution_scenario3"))
+		unitTest:assert(fileExists("scenario1_execution_1"))
+		unitTest:assert(fileExists("scenario2_execution_1"))
+		unitTest:assert(fileExists("scenario3_execution_1"))
+		unitTest:assert(fileExists("scenario1_execution_2"))
+		unitTest:assert(fileExists("scenario2_execution_2"))
+		unitTest:assert(fileExists("scenario3_execution_2"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
 		MultipleRuns{
@@ -729,11 +729,11 @@ return{
 		}
 
 		unitTest:assert(fileExists("1_execution_1"))
-		unitTest:assert(fileExists("2_execution_1"))
 		unitTest:assert(fileExists("1_execution_2"))
+		unitTest:assert(fileExists("2_execution_1"))
 		unitTest:assert(fileExists("2_execution_2"))
-		unitTest:assert(fileExists("1_execution_3"))
-		unitTest:assert(fileExists("2_execution_3"))
+		unitTest:assert(fileExists("3_execution_1"))
+		unitTest:assert(fileExists("3_execution_2"))
 		unitTest:assert(Directory(currentDir().."results"):delete())
 
 		collectgarbage()
@@ -748,8 +748,8 @@ return{
 			}
 		}
 
-		unitTest:assertEquals(free1.output.iniMem[3], free1.output.iniMem[6], 1)
-		unitTest:assertEquals(free1.output.finMem[3], free1.output.finMem[6], 1)
+		unitTest:assertEquals(free1.output.iniMem[3], free1.output.iniMem[6], 2)
+		unitTest:assertEquals(free1.output.finMem[3], free1.output.finMem[6], 2)
 
 		local free2 = MultipleRuns{
 			model = MyModel7,

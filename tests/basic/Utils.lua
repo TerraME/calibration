@@ -89,7 +89,7 @@ return{
 
 		unitTest:assertEquals(mPosition.output.position_x[1], -100)
 		unitTest:assertEquals(mPosition.output[1].position_y, 1)
-		unitTest:assertEquals(mPosition.output[1].simulations, 'finalTime_1_position_x_-100_position_y_1_')
+		unitTest:assertEquals(mPosition.output[1].simulations, "finalTime_1_position_x_-100_position_y_1")
 
 		local mPosition2 = MultipleRuns{
 			model = MyModelPosition,
@@ -134,9 +134,9 @@ return{
 			repetition = 2
 		}
 
-		unitTest:assertEquals(m4Tab.output.simulations[5], "1_execution_3")
-		unitTest:assertEquals(m4Tab.output.simulations[6], "2_execution_3")
 		unitTest:assertEquals(m4Tab.output.simulations[1], "1_execution_1")
+		unitTest:assertEquals(m4Tab.output.simulations[5], "3_execution_1")
+		unitTest:assertEquals(m4Tab.output.simulations[6], "3_execution_2")
 	end,
 	checkParameterSingle = function(unitTest)
 		-- parameters = {x = Choice{-100, 2}}
@@ -204,3 +204,4 @@ return{
 		unitTest:assertEquals(timeToString(t26), "1000 days and 18 hours")
 	end
 }
+
