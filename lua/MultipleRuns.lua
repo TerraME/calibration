@@ -309,6 +309,7 @@ end
 -- resultTable Table returned by multipleRuns as result
 local function factorialRecursive(data, params, a, variables, resultTable, addFunctions, s, repeated, numSimulation, maxSimulations, initialTime, summaryTable, firstDir, folderDir)
 	if params[a].ranged then -- if the parameter uses a range of values
+		local simulationTime
 		for parameter = params[a].min, (params[a].max + sessionInfo().round), params[a].step do -- Testing the parameter with each value in it's range.
 			local mparameter = parameter
 
@@ -340,6 +341,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 				end
 
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
+
 				for case = 1, data.repetition do
 					numSimulation = numSimulation + 1
 					Profiler():start("iteration") -- time to compute a single iteration (bigger than simulation time)
@@ -372,7 +374,16 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
-						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						local str = string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title) -- SKIP
+
+						if simulationTime then -- SKIP
+							local timeLeft, estimatedTime = Profiler():eta("iteration")
+							local _, currentTime = Profiler():uptime("iteration")
+							local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+							str = str..string.format(" ETA: %s (%s)", timeString, timeLeft) -- SKIP
+						end
+
+						print(str)
 					end
 
 					redirectPrint(log, function()
@@ -383,15 +394,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation").strTime
+					simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
-					if data.showProgress then
-						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
-						local timeLeft, estimatedTime = Profiler():eta("iteration")
-						local _, currentTime = Profiler():uptime("iteration")
-						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
-					end
 
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
@@ -422,6 +426,7 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 			end
 		end
 	else -- if the parameter uses a table of multiple values
+		local simulationTime
 		forEachOrderedElement(params[a].elements, function (_, attribute)
 			-- Testing the parameter with each value in it's table.
 			-- Giving the variables table the current parameter and value being tested.
@@ -481,7 +486,16 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
-						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						local str = string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title) -- SKIP
+
+						if simulationTime then -- SKIP
+							local timeLeft, estimatedTime = Profiler():eta("iteration")
+							local _, currentTime = Profiler():uptime("iteration")
+							local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+							str = str..string.format(" ETA: %s (%s)", timeString, timeLeft) -- SKIP
+						end
+
+						print(str)
 					end
 
 					redirectPrint(log, function()
@@ -492,15 +506,8 @@ local function factorialRecursive(data, params, a, variables, resultTable, addFu
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation").strTime
+					simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
-					if data.showProgress then
-						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
-						local timeLeft, estimatedTime = Profiler():eta("iteration")
-						local _, currentTime = Profiler():uptime("iteration")
-						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
-					end
 
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
@@ -835,6 +842,7 @@ function MultipleRuns(data)
 			local maxSimulations = math.max(repetition, 1) * math.max(data.quantity, 1)
 			local numSimulation = 0
 			local initialTime = os.time()
+			local simulationTime
 			Profiler():steps("iteration", maxSimulations)
 			for quantity = 1, data.quantity do
 				local summaryResult = {repetition = data.repetition} -- table to store the results from each output function
@@ -874,11 +882,20 @@ function MultipleRuns(data)
 
 					if data.showProgress then
 						local title = m:title()
-						if repetition > 1 then -- SKIP
+						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
-						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						local str = string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title) -- SKIP
+
+						if simulationTime then -- SKIP
+							local timeLeft, estimatedTime = Profiler():eta("iteration")
+							local _, currentTime = Profiler():uptime("iteration")
+							local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+							str = str..string.format(" ETA: %s (%s)", timeString, timeLeft) -- SKIP
+						end
+
+						print(str)
 					end
 
 					redirectPrint(log, function()
@@ -889,15 +906,8 @@ function MultipleRuns(data)
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation").strTime
+					simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
-					if data.showProgress then
-						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
-						local timeLeft, estimatedTime = Profiler():eta("iteration")
-						local _, currentTime = Profiler():uptime("iteration")
-						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
-					end
 
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
@@ -959,6 +969,8 @@ function MultipleRuns(data)
 			maxSimulations = maxSimulations * math.max(data.repetition, 1)
 			local numSimulation = 0
 			local initialTime = os.time()
+			local simulationTime
+
 			Profiler():steps("iteration", maxSimulations)
 			forEachOrderedElement(data.parameters, function(idx, att)
 				local summaryResult = {repetition = data.repetition} -- table to store the results of all output function
@@ -997,11 +1009,20 @@ function MultipleRuns(data)
 
 					if data.showProgress then
 						local title = m:title()
-						if repetition > 1 then -- SKIP
+						if repeated then
 							title = table.concat({title, string.format("repetition %d/%d", case, data.repetition)}, ", ")
 						end
 
-						print(string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title)) -- SKIP
+						local str = string.format("Running simulation %d/%d (%s)", numSimulation, maxSimulations, title) -- SKIP
+
+						if simulationTime then -- SKIP
+							local timeLeft, estimatedTime = Profiler():eta("iteration")
+							local _, currentTime = Profiler():uptime("iteration")
+							local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
+							str = str..string.format(" ETA: %s (%s)", timeString, timeLeft) -- SKIP
+						end
+
+						print(str)
 					end
 
 					redirectPrint(log, function()
@@ -1012,15 +1033,8 @@ function MultipleRuns(data)
 						m:run() -- SKIP
 					end)
 
-					local simulationTime = Profiler():stop("simulation").strTime
+					simulationTime = Profiler():stop("simulation").strTime
 					Profiler():stop("iteration")
-					if data.showProgress then
-						print(string.format("Simulation finished in %s", simulationTime)) -- SKIP
-						local timeLeft, estimatedTime = Profiler():eta("iteration")
-						local _, currentTime = Profiler():uptime("iteration")
-						local timeString = os.date("%H:%M", round(currentTime + initialTime + estimatedTime))
-						print(string.format("Estimated time to finish all simulations: %s (%s)", timeString, timeLeft)) -- SKIP
-					end
 
 					local logfile = File("output.log")
 					logfile:writeLine(table.concat(log, "\n"))
