@@ -1,273 +1,91 @@
 Running simulation 1/91 (Quantity = 5)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (33 seconds)
-Running simulation 2/91 (Quantity = 10)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (34 seconds)
-Running simulation 3/91 (Quantity = 15)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (34 seconds)
-Running simulation 4/91 (Default)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (33 seconds)
-Running simulation 5/91 (Quantity = 25)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (33 seconds)
-Running simulation 6/91 (Quantity = 30)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (32 seconds)
-Running simulation 7/91 (Quantity = 35)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (32 seconds)
-Running simulation 8/91 (Quantity = 40)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (32 seconds)
-Running simulation 9/91 (Quantity = 45)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (32 seconds)
-Running simulation 10/91 (Quantity = 50)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (31 seconds)
-Running simulation 11/91 (Quantity = 55)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (31 seconds)
-Running simulation 12/91 (Quantity = 60)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (31 seconds)
-Running simulation 13/91 (Quantity = 65)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (31 seconds)
-Running simulation 14/91 (Quantity = 70)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (31 seconds)
-Running simulation 15/91 (Quantity = 75)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (30 seconds)
-Running simulation 16/91 (Quantity = 80)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (30 seconds)
-Running simulation 17/91 (Quantity = 85)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (29 seconds)
-Running simulation 18/91 (Quantity = 90)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (29 seconds)
-Running simulation 19/91 (Quantity = 95)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (29 seconds)
-Running simulation 20/91 (Quantity = 100)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (29 seconds)
-Running simulation 21/91 (Quantity = 105)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (29 seconds)
-Running simulation 22/91 (Quantity = 110)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (28 seconds)
-Running simulation 23/91 (Quantity = 115)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (28 seconds)
-Running simulation 24/91 (Quantity = 120)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (27 seconds)
-Running simulation 25/91 (Quantity = 125)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (28 seconds)
-Running simulation 26/91 (Quantity = 130)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (27 seconds)
-Running simulation 27/91 (Quantity = 135)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (27 seconds)
-Running simulation 28/91 (Quantity = 140)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (27 seconds)
-Running simulation 29/91 (Quantity = 145)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (27 seconds)
-Running simulation 30/91 (Quantity = 150)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (26 seconds)
-Running simulation 31/91 (Quantity = 155)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (26 seconds)
-Running simulation 32/91 (Quantity = 160)
-Simulation finished in less than one second
-Estimated time to finish all simulations: 09:08 (25 seconds)
-Running simulation 33/91 (Quantity = 165)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (26 seconds)
-Running simulation 34/91 (Quantity = 170)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (25 seconds)
-Running simulation 35/91 (Quantity = 175)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (25 seconds)
-Running simulation 36/91 (Quantity = 180)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (24 seconds)
-Running simulation 37/91 (Quantity = 185)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (25 seconds)
-Running simulation 38/91 (Quantity = 190)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (24 seconds)
-Running simulation 39/91 (Quantity = 195)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (24 seconds)
-Running simulation 40/91 (Quantity = 200)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (24 seconds)
-Running simulation 41/91 (Quantity = 205)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (23 seconds)
-Running simulation 42/91 (Quantity = 210)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (23 seconds)
-Running simulation 43/91 (Quantity = 215)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (22 seconds)
-Running simulation 44/91 (Quantity = 220)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (22 seconds)
-Running simulation 45/91 (Quantity = 225)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (21 seconds)
-Running simulation 46/91 (Quantity = 230)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (21 seconds)
-Running simulation 47/91 (Quantity = 235)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (21 seconds)
-Running simulation 48/91 (Quantity = 240)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (20 seconds)
-Running simulation 49/91 (Quantity = 245)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (20 seconds)
-Running simulation 50/91 (Quantity = 250)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (20 seconds)
-Running simulation 51/91 (Quantity = 255)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (19 seconds)
-Running simulation 52/91 (Quantity = 260)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (19 seconds)
-Running simulation 53/91 (Quantity = 265)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (19 seconds)
-Running simulation 54/91 (Quantity = 270)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (18 seconds)
-Running simulation 55/91 (Quantity = 275)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (18 seconds)
-Running simulation 56/91 (Quantity = 280)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (17 seconds)
-Running simulation 57/91 (Quantity = 285)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (17 seconds)
-Running simulation 58/91 (Quantity = 290)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (16 seconds)
-Running simulation 59/91 (Quantity = 295)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (16 seconds)
-Running simulation 60/91 (Quantity = 300)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (16 seconds)
-Running simulation 61/91 (Quantity = 305)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (15 seconds)
-Running simulation 62/91 (Quantity = 310)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (14 seconds)
-Running simulation 63/91 (Quantity = 315)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (15 seconds)
-Running simulation 64/91 (Quantity = 320)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (14 seconds)
-Running simulation 65/91 (Quantity = 325)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (13 seconds)
-Running simulation 66/91 (Quantity = 330)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (13 seconds)
-Running simulation 67/91 (Quantity = 335)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (13 seconds)
-Running simulation 68/91 (Quantity = 340)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (12 seconds)
-Running simulation 69/91 (Quantity = 345)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (11 seconds)
-Running simulation 70/91 (Quantity = 350)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (11 seconds)
-Running simulation 71/91 (Quantity = 355)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (11 seconds)
-Running simulation 72/91 (Quantity = 360)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (10 seconds)
-Running simulation 73/91 (Quantity = 365)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (10 seconds)
-Running simulation 74/91 (Quantity = 370)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (9 seconds)
-Running simulation 75/91 (Quantity = 375)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (8 seconds)
-Running simulation 76/91 (Quantity = 380)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (8 seconds)
-Running simulation 77/91 (Quantity = 385)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (8 seconds)
-Running simulation 78/91 (Quantity = 390)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (7 seconds)
-Running simulation 79/91 (Quantity = 395)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (7 seconds)
-Running simulation 80/91 (Quantity = 400)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (6 seconds)
-Running simulation 81/91 (Quantity = 405)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (6 seconds)
-Running simulation 82/91 (Quantity = 410)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (5 seconds)
-Running simulation 83/91 (Quantity = 415)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (4 seconds)
-Running simulation 84/91 (Quantity = 420)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (4 seconds)
-Running simulation 85/91 (Quantity = 425)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (4 seconds)
-Running simulation 86/91 (Quantity = 430)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (3 seconds)
-Running simulation 87/91 (Quantity = 435)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (2 seconds)
-Running simulation 88/91 (Quantity = 440)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (1 second)
-Running simulation 89/91 (Quantity = 445)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (1 second)
-Running simulation 90/91 (Quantity = 450)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (1 second)
-Running simulation 91/91 (Quantity = 455)
-Simulation finished in 1 second
-Estimated time to finish all simulations: 09:08 (less than one second)
+Running simulation 2/91 (Quantity = 10) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 3/91 (Quantity = 15) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 4/91 (Default) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 5/91 (Quantity = 25) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 6/91 (Quantity = 30) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 7/91 (Quantity = 35) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 8/91 (Quantity = 40) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 9/91 (Quantity = 45) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 10/91 (Quantity = 50) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 11/91 (Quantity = 55) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 12/91 (Quantity = 60) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 13/91 (Quantity = 65) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 14/91 (Quantity = 70) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 15/91 (Quantity = 75) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 16/91 (Quantity = 80) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 17/91 (Quantity = 85) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 18/91 (Quantity = 90) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 19/91 (Quantity = 95) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 20/91 (Quantity = 100) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 21/91 (Quantity = 105) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 22/91 (Quantity = 110) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 23/91 (Quantity = 115) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 24/91 (Quantity = 120) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 25/91 (Quantity = 125) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 26/91 (Quantity = 130) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 27/91 (Quantity = 135) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 28/91 (Quantity = 140) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 29/91 (Quantity = 145) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 30/91 (Quantity = 150) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 31/91 (Quantity = 155) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 32/91 (Quantity = 160) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 33/91 (Quantity = 165) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 34/91 (Quantity = 170) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 35/91 (Quantity = 175) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 36/91 (Quantity = 180) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 37/91 (Quantity = 185) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 38/91 (Quantity = 190) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 39/91 (Quantity = 195) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 40/91 (Quantity = 200) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 41/91 (Quantity = 205) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 42/91 (Quantity = 210) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 43/91 (Quantity = 215) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 44/91 (Quantity = 220) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 45/91 (Quantity = 225) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 46/91 (Quantity = 230) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 47/91 (Quantity = 235) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 48/91 (Quantity = 240) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 49/91 (Quantity = 245) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 50/91 (Quantity = 250) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 51/91 (Quantity = 255) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 52/91 (Quantity = 260) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 53/91 (Quantity = 265) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 54/91 (Quantity = 270) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 55/91 (Quantity = 275) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 56/91 (Quantity = 280) ETA: 09:50 (23 hours and 58 minutes)
+Running simulation 57/91 (Quantity = 285) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 58/91 (Quantity = 290) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 59/91 (Quantity = 295) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 60/91 (Quantity = 300) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 61/91 (Quantity = 305) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 62/91 (Quantity = 310) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 63/91 (Quantity = 315) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 64/91 (Quantity = 320) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 65/91 (Quantity = 325) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 66/91 (Quantity = 330) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 67/91 (Quantity = 335) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 68/91 (Quantity = 340) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 69/91 (Quantity = 345) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 70/91 (Quantity = 350) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 71/91 (Quantity = 355) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 72/91 (Quantity = 360) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 73/91 (Quantity = 365) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 74/91 (Quantity = 370) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 75/91 (Quantity = 375) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 76/91 (Quantity = 380) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 77/91 (Quantity = 385) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 78/91 (Quantity = 390) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 79/91 (Quantity = 395) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 80/91 (Quantity = 400) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 81/91 (Quantity = 405) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 82/91 (Quantity = 410) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 83/91 (Quantity = 415) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 84/91 (Quantity = 420) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 85/91 (Quantity = 425) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 86/91 (Quantity = 430) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 87/91 (Quantity = 435) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 88/91 (Quantity = 440) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 89/91 (Quantity = 445) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 90/91 (Quantity = 450) ETA: 09:50 (23 hours and 57 minutes)
+Running simulation 91/91 (Quantity = 455) ETA: 09:50 (23 hours and 57 minutes)
